@@ -4,5 +4,9 @@ spring:
     url: jdbc:mysql://192.168.1.79:3306/fyerp?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8
     username: root
     password: yfbdb123
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
 server:
   port: 8080
