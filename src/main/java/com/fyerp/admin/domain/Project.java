@@ -129,4 +129,18 @@ public class Project {
     public void setCreatetime(Date createtime) {
         this.createtime = createtime;
     }
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "id=" + id +
+                ", project_name='" + project_name + '\'' +
+                ", startdate=" + startdate +
+                ", enddate=" + enddate +
+                ", member='" + member + '\'' +
+                ", project_state=" + project_state +
+                ", project_desc='" + project_desc + '\'' +
+                ", createtime=" + createtime +
+                '}';
+    }
 }
