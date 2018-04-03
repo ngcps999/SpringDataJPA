@@ -10,6 +10,8 @@
 
 package com.fyerp.admin.domain;
 
+import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -22,6 +24,7 @@ import java.util.Date;
  * 项目实体
  */
 @Entity
+@DynamicUpdate
 public class Project {
 
     /**
@@ -65,6 +68,11 @@ public class Project {
      * 创建时间
      */
     private Date createtime;
+
+    /**
+     * 更新时间
+     */
+    private Date update_time;
 
     public Integer getId() {
         return id;
