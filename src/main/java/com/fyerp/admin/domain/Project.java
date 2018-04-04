@@ -30,6 +30,30 @@ import java.util.Date;
 public class Project {
 
     /**
+     * 无参构造
+     */
+    public Project() {
+    }
+
+    /**
+     * 有参构造
+     * @param project_name
+     * @param startdate
+     * @param enddate
+     * @param member
+     * @param project_state
+     * @param project_desc
+     */
+    public Project(String project_name, Date startdate, Date enddate, String member, Character project_state, String project_desc) {
+        this.project_name = project_name;
+        this.startdate = startdate;
+        this.enddate = enddate;
+        this.member = member;
+        this.project_state = project_state;
+        this.project_desc = project_desc;
+    }
+
+    /**
      * 项目id
      */
     @Id
@@ -65,15 +89,5 @@ public class Project {
      * 项目描述
      */
     private String project_desc;
-
-    /**
-     * 创建时间
-     */
-    private Date createtime;
-
-    /**
-     * 更新时间
-     */
-    private Date update_time;
 
 }

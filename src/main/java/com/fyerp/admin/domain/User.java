@@ -18,7 +18,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import java.util.Date;
 
-
 /**
  * @Author: xuda
  * @Date: 2018/4/3
@@ -29,6 +28,34 @@ import java.util.Date;
 @DynamicUpdate
 @Data
 public class User {
+
+    /**
+     * 无参构造
+     */
+    public User() {
+    }
+
+    /**
+     * 有参构造
+     * @param username
+     * @param password
+     * @param name
+     * @param sex
+     * @param age
+     * @param birthday
+     * @param telephone
+     * @param remark
+     */
+    public User(String username, String password, String name, Character sex, Integer age, Date birthday, String telephone, String remark) {
+        this.username = username;
+        this.password = password;
+        this.name = name;
+        this.sex = sex;
+        this.age = age;
+        this.birthday = birthday;
+        this.telephone = telephone;
+        this.remark = remark;
+    }
 
     /**
      * 用户id
@@ -76,11 +103,6 @@ public class User {
      * 备注
      */
     private String remark;
-
-    /**
-     * 创建时间
-     */
-    private Date createtime;
 
 
 }
