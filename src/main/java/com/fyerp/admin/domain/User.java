@@ -11,6 +11,7 @@
 package com.fyerp.admin.domain;
 
 import lombok.Data;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -25,6 +26,7 @@ import java.util.Date;
  * 用户表
  */
 @Entity
+@DynamicUpdate
 @Data
 public class User {
 
