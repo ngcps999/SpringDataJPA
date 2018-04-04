@@ -13,8 +13,12 @@ package com.fyerp.admin.respository;
 import com.fyerp.admin.domain.Project;
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 /**
- * 项目Dao层
+ * 项目持久层Dao
  */
 public interface ProjectRespository extends JpaRepository<Project,Integer> {
+
+//    List<Project> findProjectByIdIn(List<Integer> projectList);
 }
