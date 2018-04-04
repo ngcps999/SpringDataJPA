@@ -1,10 +1,12 @@
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://192.168.1.79:3306/fyerp?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8
+    url: jdbc:mysql://192.168.1.79:3306/fyerp?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&useSSL=false
     username: root
     password: yfbdb123
   jpa:
     show-sql: true
+    hibernate:
+      ddl-auto: update
 server:
   port: 8080
