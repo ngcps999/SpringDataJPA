@@ -10,6 +10,7 @@
 
 package com.fyerp.admin.domain;
 
+import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Entity;
@@ -25,6 +26,7 @@ import java.util.Date;
  */
 @Entity
 @DynamicUpdate
+@Data
 public class Project {
 
     /**
@@ -74,81 +76,4 @@ public class Project {
      */
     private Date update_time;
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getProject_name() {
-        return project_name;
-    }
-
-    public void setProject_name(String project_name) {
-        this.project_name = project_name;
-    }
-
-    public Date getStartdate() {
-        return startdate;
-    }
-
-    public void setStartdate(Date startdate) {
-        this.startdate = startdate;
-    }
-
-    public Date getEnddate() {
-        return enddate;
-    }
-
-    public void setEnddate(Date enddate) {
-        this.enddate = enddate;
-    }
-
-    public String getMember() {
-        return member;
-    }
-
-    public void setMember(String member) {
-        this.member = member;
-    }
-
-    public Character getProject_state() {
-        return project_state;
-    }
-
-    public void setProject_state(Character project_state) {
-        this.project_state = project_state;
-    }
-
-    public String getProject_desc() {
-        return project_desc;
-    }
-
-    public void setProject_desc(String project_desc) {
-        this.project_desc = project_desc;
-    }
-
-    public Date getCreatetime() {
-        return createtime;
-    }
-
-    public void setCreatetime(Date createtime) {
-        this.createtime = createtime;
-    }
-
-    @Override
-    public String toString() {
-        return "Project{" +
-                "id=" + id +
-                ", project_name='" + project_name + '\'' +
-                ", startdate=" + startdate +
-                ", enddate=" + enddate +
-                ", member='" + member + '\'' +
-                ", project_state=" + project_state +
-                ", project_desc='" + project_desc + '\'' +
-                ", createtime=" + createtime +
-                '}';
-    }
 }
