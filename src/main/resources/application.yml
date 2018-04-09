@@ -10,3 +10,6 @@ spring:
       ddl-auto: update
 server:
   port: 8080
+logging:
+  level: info
+debug: false
