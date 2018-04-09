@@ -44,7 +44,7 @@ public class Project {
      * @param project_state
      * @param project_desc
      */
-    public Project(String project_name, Date startdate, Date enddate, String member, Character project_state, String project_desc) {
+    public Project(String project_name, Date startdate, Date enddate, String member, Integer project_state, String project_desc) {
         this.project_name = project_name;
         this.startdate = startdate;
         this.enddate = enddate;
@@ -81,9 +81,9 @@ public class Project {
     private String member;
 
     /**
-     * 项目状态：0未进行，1正在进行，2遇到问题，3遇到问题
+     * 项目状态：0未进行，1正在进行，2遇到问题
      */
-    private Character project_state;
+    private Integer project_state;
 
     /**
      * 项目描述
