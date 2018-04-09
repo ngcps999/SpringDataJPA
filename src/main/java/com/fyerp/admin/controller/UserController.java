@@ -104,7 +104,7 @@ public class UserController {
      * @return
      */
     @ApiOperation(value="删除用户", notes="根据url的id来指定删除用户")
-    @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "Long", paramType = "path")
+    @ApiImplicitParam(name = "id", value = "用户ID", required = true, dataType = "Integer", paramType = "path")
     @RequestMapping(value = "user/{id}", method = RequestMethod.DELETE)
     public ResponseEntity<JsonResult> delete (@PathVariable(value = "id") Integer id){
         JsonResult r = new JsonResult();
@@ -156,6 +156,7 @@ public class UserController {
         return " hi you!";
     }
 
+    @ApiIgnore
     @RequestMapping(value = "/getUser")
     public User getUser(){
         user.setId(1);

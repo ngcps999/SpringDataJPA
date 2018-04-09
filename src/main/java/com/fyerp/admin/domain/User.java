@@ -50,7 +50,7 @@ public class User {
         this.username = username;
         this.password = password;
         this.name = name;
-        this.sex = sex;
+        this.gender = gender;
         this.age = age;
         this.birthday = birthday;
         this.telephone = telephone;
@@ -82,7 +82,7 @@ public class User {
     /**
      * 用户性别
      */
-    private Character sex;
+    private Character gender;
 
     /**
      * 用户年龄
