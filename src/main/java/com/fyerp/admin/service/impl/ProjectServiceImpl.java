@@ -14,6 +14,7 @@ import com.fyerp.admin.domain.Project;
 import com.fyerp.admin.respository.ProjectRespository;
 import com.fyerp.admin.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -39,6 +40,11 @@ public class ProjectServiceImpl implements ProjectService {
     public List<Project> findAll() {
         return respository.findAll();
     }
+
+//    @Override
+//    public List<Project> findProjectByProject_state(Integer projectState) {
+//        return respository.findProjectByProject_state(projectState);
+//    }
 
     @Override
     public Project save(Project project) {
