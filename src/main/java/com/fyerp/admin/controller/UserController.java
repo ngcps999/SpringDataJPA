@@ -15,6 +15,7 @@ import com.fyerp.admin.domain.User;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
@@ -26,6 +27,8 @@ import java.util.*;
  */
 @RestController
 public class UserController {
+
+    private User user =new User();
 
     // 创建线程安全的Map
     static Map<Integer, User> users = Collections.synchronizedMap(new HashMap<Integer, User>());
@@ -151,6 +154,15 @@ public class UserController {
     @RequestMapping(value = "/hi", method = RequestMethod.GET)
     public String  jsonTest() {
         return " hi you!";
+    }
+
+    @RequestMapping(value = "/getUser")
+    public User getUser(){
+        user.setId(1);
+        user.setUsername("xuda");
+        user.setAge(35);
+        user.setName("徐达");
+        return user;
     }
 
 }
