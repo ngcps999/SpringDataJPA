@@ -37,20 +37,20 @@ public class Project {
 
     /**
      * 有参构造
-     * @param project_name
+     * @param projectName
      * @param startdate
      * @param enddate
      * @param member
-     * @param project_state
-     * @param project_desc
+     * @param projectState
+     * @param projectDesc
      */
-    public Project(String project_name, Date startdate, Date enddate, String member, Integer project_state, String project_desc) {
-        this.project_name = project_name;
+    public Project(String projectName, Date startdate, Date enddate, String member, Integer projectState, String projectDesc) {
+        this.projectName = projectName;
         this.startdate = startdate;
         this.enddate = enddate;
         this.member = member;
-        this.project_state = project_state;
-        this.project_desc = project_desc;
+        this.projectState = projectState;
+        this.projectDesc = projectDesc;
     }
 
     /**
@@ -63,7 +63,7 @@ public class Project {
     /**
      * 项目名称
      */
-    private String project_name;
+    private String projectName;
 
     /**
      * 项目开始时间
@@ -83,11 +83,11 @@ public class Project {
     /**
      * 项目状态：0未进行，1正在进行，2遇到问题
      */
-    private Integer project_state;
+    private Integer projectState;
 
     /**
      * 项目描述
      */
-    private String project_desc;
+    private String projectDesc;
 
 }

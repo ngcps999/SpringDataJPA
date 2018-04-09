@@ -45,7 +45,7 @@ public interface ProjectService {
      * @param projectState
      * @return
      */
-//    List<Project> findProjectByProject_state(Integer projectState);
+    List<Project> findProjectsByProjectState(Integer projectState);
 
     /**
      * 新增/更新项目

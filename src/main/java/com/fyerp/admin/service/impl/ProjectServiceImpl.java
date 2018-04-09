@@ -41,10 +41,14 @@ public class ProjectServiceImpl implements ProjectService {
         return respository.findAll();
     }
 
-//    @Override
-//    public List<Project> findProjectByProject_state(Integer projectState) {
-//        return respository.findProjectByProject_state(projectState);
-//    }
+    @Override
+    public List<Project> findProjectsByProjectState(Integer projectState) {
+        List<Project> projectsByProjectState = respository.findProjectsByProjectState(projectState);
+        for (Project project : projectsByProjectState) {
+            System.out.println(project);
+        }
+        return projectsByProjectState;
+    }
 
     @Override
     public Project save(Project project) {
