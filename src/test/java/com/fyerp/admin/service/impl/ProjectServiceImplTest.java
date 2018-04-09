@@ -11,12 +11,16 @@
 package com.fyerp.admin.service.impl;
 
 import com.fyerp.admin.domain.Project;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
+
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -27,27 +31,45 @@ import static org.junit.Assert.*;
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
+@Slf4j
 public class ProjectServiceImplTest {
+
+    private Project project = new Project();
 
     @Autowired
     private ProjectServiceImpl projectService;
 
     @Test
     public void findOne() {
-        Project project = projectService.findOne(1);
+        project = projectService.findOne(1);
         Assert.assertEquals(new Integer(1),project.getId());
     }
 
+
     @Test
     public void findAll() {
+        List<Project> projects = projectService.findAll();
+//        Assert.assertNotEquals(0,projects.size());
 
     }
 
     @Test
     public void save() {
+        project.setProject_name("xuda");
+        project.setMember("cd");
+        Project project1 = projectService.save(this.project);
+        Assert.assertNotNull(project1);
+
     }
 
     @Test
     public void delete() {
+        projectService.delete(9);
     }
+
+//    @Test
+//    public void findProjectByProject_state() {
+//        projectService.findProjectByProject_state(1);
+//    }
+
 }

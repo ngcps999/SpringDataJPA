@@ -62,17 +62,18 @@ public class ProjectRespositoryTest {
     }
 
     @Test
-    public void findProjectByIdInTest(){
-        List<Integer> list = Arrays.asList(1,7,8);
-        List<Project> projects = projectRespository.findProjectByIdIn(list);
-        Assert.assertNotEquals(0,projects.size());
-    }
-
-    @Test
     public void delete(){
         Project project = new Project();
         project.setId(8);
         projectRespository.delete(project.getId());
     }
 
+//    @Test
+//    public void findByProjectState(){
+//        List<Project> state = projectRespository.findProjectByProject_state(1);
+//        Assert.assertNotEquals(0,state.size());
+////        for (Project project : state) {
+////            System.out.println(project);
+////        }
+//    }
 }
