@@ -26,13 +26,15 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 /**
+ * 组织架构API层
  * @Author: xuda
  * @Date: 2018/4/9
  * @Time: 下午4:26
  */
 @RestController
+@RequestMapping(value = "/org")
 public class OrgController {
-    private final static Logger logger = LoggerFactory.getLogger(ProjectController.class);
+    private final static Logger logger = LoggerFactory.getLogger(OrgController.class);
 
     @Autowired
     private OrgService orgService;
@@ -41,19 +43,17 @@ public class OrgController {
 
     /**
      * 查询项目列表
-     *
      * @return
      */
-    @ApiOperation(value = "查询项目列表", notes = "查询项目列表")
+    @ApiOperation(value = "查询组织列表", notes = "查询组织列表")
     @GetMapping(value = "/list")
-    public Result<Org> getProjects() {
+    public Result<Org> getOrgs() {
         logger.info("orgList");
         return ResultUtil.success(orgService.findAll());
     }
 
     /**
      * 添加项目
-     *
      * @param org
      * @param bindingResult
      * @return

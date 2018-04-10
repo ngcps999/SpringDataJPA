@@ -19,9 +19,10 @@ import lombok.Getter;
  */
 @Getter
 public enum ProjectStatusEnum {
-    NOT_STARTED(0,"未进行"),
-    DOING(1,"在进行中"),
-    WARNING(2,"遇到问题")
+
+    DOING(0,"正在进行"),
+    WARNING(1,"遇到问题"),
+    FINISH(2,"完成")
     ;
 
     private Integer code;

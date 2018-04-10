@@ -23,7 +23,7 @@ import springfox.documentation.annotations.ApiIgnore;
 import java.util.*;
 
 /**
- * 用户Controller
+ * 用户API
  */
 @RestController
 public class UserController {

@@ -13,10 +13,9 @@ package com.fyerp.admin.domain;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import java.util.Date;
+import javax.persistence.*;
+import java.sql.Timestamp;
+import java.util.*;
 
 /**
  * @Author: xuda
@@ -30,6 +29,52 @@ import java.util.Date;
 public class User {
 
     /**
+     * 用户id
+     */
+    @Id
+    @GeneratedValue
+    private Integer id;
+    /**
+     * 用户名
+     */
+    private String username;
+    /**
+     * 用户密码
+     */
+    private String password;
+    private String salt;// 加密密码的盐
+    /**
+     * 用户姓名
+     */
+    private String name;
+    /**
+     * 用户性别
+     */
+    private Character gender;
+    /**
+     * 用户年龄
+     */
+    private Integer age;
+    /**
+     * 用户生日
+     */
+    private Date birthday;
+    /**
+     * 用户电话
+     */
+    private String telephone;
+    /**
+     * 备注
+     */
+    private String remark;
+    /**
+     * 角色
+     */
+    @ManyToMany(fetch = FetchType.EAGER) // 立即从数据库中进行加载数据
+    @JoinTable(name = "UserRole", joinColumns = { @JoinColumn(name = "userId") }, inverseJoinColumns = {
+            @JoinColumn(name = "roleId") })
+    private List<Role> roles;
+    /**
      * 无参构造
      */
     public User() {
@@ -40,13 +85,12 @@ public class User {
      * @param username
      * @param password
      * @param name
-     * @param sex
      * @param age
      * @param birthday
      * @param telephone
      * @param remark
      */
-    public User(String username, String password, String name, Character sex, Integer age, Date birthday, String telephone, String remark) {
+    public User(String username, String password, String name, Character gender, Integer age, Date birthday, String telephone, String remark, List<Role> roles) {
         this.username = username;
         this.password = password;
         this.name = name;
@@ -55,54 +99,16 @@ public class User {
         this.birthday = birthday;
         this.telephone = telephone;
         this.remark = remark;
+        this.roles = roles;
     }
 
     /**
-     * 用户id
+     * 密码盐.
+     *
+     * @return
      */
-    @Id
-    @GeneratedValue
-    private Integer id;
-
-    /**
-     * 用户名
-     */
-    private String username;
-
-    /**
-     * 用户密码
-     */
-    private String password;
-
-    /**
-     * 用户姓名
-     */
-    private String name;
-
-    /**
-     * 用户性别
-     */
-    private Character gender;
-
-    /**
-     * 用户年龄
-     */
-    private Integer age;
-
-    /**
-     * 用户生日
-     */
-    private Date birthday;
-
-    /**
-     * 用户电话
-     */
-    private String telephone;
-
-    /**
-     * 备注
-     */
-    private String remark;
-
+    public String getCredentialsSalt() {
+        return this.username + this.salt;
+    }
 
 }

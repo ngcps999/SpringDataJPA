@@ -10,6 +10,7 @@
 
 package com.fyerp.admin.domain;
 
+import com.fyerp.admin.enums.ProjectStatusEnum;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 
@@ -83,7 +84,7 @@ public class Project {
     /**
      * 项目状态：0未进行，1正在进行，2遇到问题
      */
-    private Integer projectState;
+    private Integer projectState = ProjectStatusEnum.DOING.getCode();
 
     /**
      * 项目描述

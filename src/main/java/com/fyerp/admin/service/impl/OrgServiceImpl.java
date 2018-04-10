@@ -29,7 +29,6 @@ public class OrgServiceImpl implements OrgService {
     @Autowired
     private OrgRespository orgRespository;
 
-
     @Override
     public Org findOne(Integer orgId) {
         return orgRespository.findOne(orgId);

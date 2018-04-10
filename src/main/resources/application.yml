@@ -7,9 +7,16 @@ spring:
   jpa:
     show-sql: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
+      dialect: org.hibernate.dialect.MySQL5Dialect
+    database-platform: org.hibernate.dialect.MySQL5Dialect
+  thymeleaf:
+    cache: false
 server:
   port: 8080
 logging:
-  level: info
+  level:
+    org:
+      springframework:
+        security: info
 debug: false
