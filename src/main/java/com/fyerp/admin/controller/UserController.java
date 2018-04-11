@@ -15,8 +15,9 @@ import com.fyerp.admin.domain.User;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -25,13 +26,14 @@ import java.util.*;
 /**
  * 用户API
  */
-@RestController
+@Controller
+@RequestMapping("user")
 public class UserController {
 
     private User user =new User();
 
-    // 创建线程安全的Map
-    static Map<Integer, User> users = Collections.synchronizedMap(new HashMap<Integer, User>());
+//     创建线程安全的Map
+    static Map<String, User> users = Collections.synchronizedMap(new HashMap<String, User>());
 
     /**
      * 根据ID查询用户
@@ -86,8 +88,8 @@ public class UserController {
     public ResponseEntity<JsonResult> add (@RequestBody User user){
         JsonResult r = new JsonResult();
         try {
-            users.put(user.getId(), user);
-            r.setResult(user.getId());
+            users.put(String.valueOf(user.getUid()), user);
+            r.setResult(user.getUid());
             r.setStatus("ok");
         } catch (Exception e) {
             r.setResult(e.getClass().getName() + ":" + e.getMessage());
@@ -132,12 +134,11 @@ public class UserController {
             @ApiImplicitParam(name = "user", value = "用户实体user", required = true, dataType = "User")
     })
     @RequestMapping(value = "user/{id}", method = RequestMethod.PUT)
-    public ResponseEntity<JsonResult> update (@PathVariable("id") Integer id, @RequestBody User user){
+    public ResponseEntity<JsonResult> update (@PathVariable("id") String id, @RequestBody User user){
         JsonResult r = new JsonResult();
         try {
             User u = users.get(id);
             u.setUsername(user.getUsername());
-            u.setAge(user.getAge());
             users.put(id, u);
             r.setResult(u);
             r.setStatus("ok");
@@ -159,11 +160,37 @@ public class UserController {
     @ApiIgnore
     @RequestMapping(value = "/getUser")
     public User getUser(){
-        user.setId(1);
+        user.setUid((long) 1);
         user.setUsername("xuda");
-        user.setAge(35);
-        user.setName("徐达");
+        user.setUsername("徐达");
         return user;
     }
+    /**
+     * 用户查询.
+     * @return
+     */
+    @RequestMapping("/userList")
+    @RequiresPermissions("user:view")//权限管理;
+    public String userInfo(){
+        return "user";
+    }
 
+    /**
+     * 用户添加;
+     * @return
+     */
+    @RequestMapping("/userAdd")
+    @RequiresPermissions("user:add")//权限管理;
+    public String userInfoAdd(){
+        return "userAdd";
+    }
+    /**
+     * 用户删除;
+     * @return
+     */
+    @RequestMapping("/userDel")
+    @RequiresPermissions("user:del")//权限管理;
+    public String userDel(){
+        return "userDel";
+    }
 }

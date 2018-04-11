@@ -4,58 +4,61 @@
  * 模块名称：fyerp
  * 文件名称：Role.java
  * 作者：xuda
- * 时间：18-4-10 上午9:42
+ * 时间：18-4-11 下午2:15
  *
  */
 
 package com.fyerp.admin.domain;
 
 import lombok.Data;
-import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Objects;
-import java.util.Set;
 
 /**
  * @Author: xuda
- * @Date: 2018/4/10
- * @Time: 上午9:42
+ * @Date: 2018/4/11
+ * @Time: 下午2:15
  */
 @Entity
-@DynamicUpdate
 @Data
 public class Role {
 
+    /**
+     * 角色编号
+     */
     @Id
     @GeneratedValue
-    private int id;
-    private String name;
-    private String code;
+    private Long roleId;
+
+    /**
+     * 角色标识，程序中判断使用,如"admin",这个是唯一的:
+     */
+    private String role;
+
+    /**
+     * 角色描述
+     */
     private String description;
 
-    // 角色 -- 权限关系：多对多关系;
+    /**
+     * 角色是否可用，如果不可用将不会添加给用户
+     */
+    private Boolean available = Boolean.FALSE;
+
+    /**
+     * 角色-权限多对多关系
+     */
     @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "RoleFunc", joinColumns = { @JoinColumn(name = "roleId") }, inverseJoinColumns = {
-            @JoinColumn(name = "funcId") })
-    private List<Func> funcs;
+    @JoinTable(name = "RolePermission",joinColumns = {@JoinColumn(name = "roleId")},inverseJoinColumns = {@JoinColumn(name = "permissionId")})
+    private List<Permission> permissions;
 
-    // 用户 - 角色关系定义;
+    /**
+     * 用户-角色多对多关系,一个角色对应多个用户
+     */
     @ManyToMany
-    @JoinTable(name = "UserRole", joinColumns = { @JoinColumn(name = "roleId") }, inverseJoinColumns = {
-            @JoinColumn(name = "userId") })
-    private List<User> users;// 一个角色对应多个用户
+    @JoinTable(name = "UserRole",joinColumns = {@JoinColumn(name = "roleId")},inverseJoinColumns = {@JoinColumn(name = "uid")})
+    private List<User> users;
 
 
-    public Role() {
-    }
-
-    public Role(String name, String code, String description) {
-        this.name = name;
-        this.code = code;
-        this.description = description;
-    }
 }

@@ -2,113 +2,72 @@
  * Copyright (c) 2018.
  * 项目名称：fyerp.
  * 模块名称：fyerp
- * 文件名称：User.java
+ * 文件名称：UserInfo.java
  * 作者：xuda
- * 时间：18-4-3 下午3:27
+ * 时间：18-4-11 下午2:07
  *
  */
 
 package com.fyerp.admin.domain;
 
 import lombok.Data;
-import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
-import java.util.*;
+import java.util.List;
 
 /**
  * @Author: xuda
- * @Date: 2018/4/3
- * @Time: 下午3:51
- * 用户表
+ * @Date: 2018/4/11
+ * @Time: 下午2:07
  */
 @Entity
-@DynamicUpdate
 @Data
 public class User {
-
     /**
-     * 用户id
+     * 用户Id
      */
     @Id
     @GeneratedValue
-    private Integer id;
+    private Long uid;
+
     /**
-     * 用户名
+     * 用户账号
      */
+    @Column(unique = true)
     private String username;
+
     /**
-     * 用户密码
-     */
-    private String password;
-    private String salt;// 加密密码的盐
-    /**
-     * 用户姓名
+     * 姓名
      */
     private String name;
+
     /**
-     * 用户性别
+     * 密码
      */
-    private Character gender;
+    private String password;
+
     /**
-     * 用户年龄
+     * 加密密码的盐
      */
-    private Integer age;
+    private String salt;
+
     /**
-     * 用户生日
+     * 用户状态,0:用户未输入验证码, 1:正常状态,2：用户被锁定.
      */
-    private Date birthday;
+    private Byte state;
+
     /**
-     * 用户电话
+     * 一个用户具有多个角色
      */
-    private String telephone;
-    /**
-     * 备注
-     */
-    private String remark;
-    /**
-     * 角色
-     */
-    @ManyToMany(fetch = FetchType.EAGER) // 立即从数据库中进行加载数据
-    @JoinTable(name = "UserRole", joinColumns = { @JoinColumn(name = "userId") }, inverseJoinColumns = {
-            @JoinColumn(name = "roleId") })
+    @ManyToMany(fetch = FetchType.EAGER)//立即从数据库中加载数据；
+    @JoinTable(name = "UserRole",joinColumns = {@JoinColumn(name = "uid")},inverseJoinColumns = {@JoinColumn(name = "roleId")})
     private List<Role> roles;
-    /**
-     * 无参构造
-     */
-    public User() {
-    }
 
     /**
-     * 有参构造
-     * @param username
-     * @param password
-     * @param name
-     * @param age
-     * @param birthday
-     * @param telephone
-     * @param remark
-     */
-    public User(String username, String password, String name, Character gender, Integer age, Date birthday, String telephone, String remark, List<Role> roles) {
-        this.username = username;
-        this.password = password;
-        this.name = name;
-        this.gender = gender;
-        this.age = age;
-        this.birthday = birthday;
-        this.telephone = telephone;
-        this.remark = remark;
-        this.roles = roles;
-    }
-
-    /**
-     * 密码盐.
-     *
+     * 密码盐
      * @return
      */
     public String getCredentialsSalt() {
-        return this.username + this.salt;
+        return this.username+this.salt;
     }
-
 }
