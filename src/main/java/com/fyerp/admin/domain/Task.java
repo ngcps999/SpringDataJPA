@@ -10,7 +10,7 @@
 
 package com.fyerp.admin.domain;
 
-//import lombok.Data;
+import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
@@ -24,7 +24,7 @@ import java.util.Objects;
  */
 @Entity
 @DynamicUpdate
-//@Data
+@Data
 public class Task {
     @Id
     @GeneratedValue

@@ -10,7 +10,7 @@
 
 package com.fyerp.admin.domain;
 
-//import lombok.Data;
+import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
@@ -26,7 +26,7 @@ import java.util.Set;
  */
 @Entity
 @DynamicUpdate
-//@Data
+@Data
 public class Org {
 
     @Id
@@ -62,54 +62,4 @@ public class Org {
         this.order = order;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getDepName() {
-        return depName;
-    }
-
-    public void setDepName(String depName) {
-        this.depName = depName;
-    }
-
-    public Integer getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(Integer parentId) {
-        this.parentId = parentId;
-    }
-
-    public String getPath() {
-        return path;
-    }
-
-    public void setPath(String path) {
-        this.path = path;
-    }
-
-    public Integer getOrder() {
-        return order;
-    }
-
-    public void setOrder(Integer order) {
-        this.order = order;
-    }
-
-    @Override
-    public String toString() {
-        return "Org{" +
-                "id=" + id +
-                ", depName='" + depName + '\'' +
-                ", parentId=" + parentId +
-                ", path='" + path + '\'' +
-                ", order=" + order +
-                '}';
-    }
 }

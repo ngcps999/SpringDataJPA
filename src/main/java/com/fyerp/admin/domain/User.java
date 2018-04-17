@@ -10,7 +10,7 @@
 
 package com.fyerp.admin.domain;
 
-//import lombok.Data;
+import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -22,7 +22,7 @@ import java.util.List;
  * @Time: 下午2:07
  */
 @Entity
-//@Data
+@Data
 public class User implements Serializable {
     private static final long serialVersionUID = -8454698376979101464L;
     /**
@@ -73,72 +73,4 @@ public class User implements Serializable {
         return this.username+this.salt;
     }
 
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
-        this.userId = userId;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
-    }
-
-    public Byte getState() {
-        return state;
-    }
-
-    public void setState(Byte state) {
-        this.state = state;
-    }
-
-    public List<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", username='" + username + '\'' +
-                ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
-                ", salt='" + salt + '\'' +
-                ", state=" + state +
-                ", roles=" + roles +
-                '}';
-    }
 }

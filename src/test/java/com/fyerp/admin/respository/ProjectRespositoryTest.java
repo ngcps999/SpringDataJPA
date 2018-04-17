@@ -23,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * @Author: xuda
@@ -38,9 +39,13 @@ public class ProjectRespositoryTest {
 
     @Test
     public void findOne(){
-        Project one = projectRespository.findOne(4);
-
+        Project one = projectRespository.findOne(1);
         System.out.println(one.toString());
+    }
+
+    @Test
+    public void findAll(){
+        projectRespository.findAll();
     }
 
     @Test
@@ -48,8 +53,8 @@ public class ProjectRespositoryTest {
 //        Project project = projectRespository.findOne(4);
 
         Project project = new Project();
-        project.setProject_name("测5");
-        project.setProject_desc("test3");
+        project.setProjectName("测5");
+        project.setProjectDesc("test3");
 
         Date date = new Date("2018/09/21");
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
@@ -64,16 +69,16 @@ public class ProjectRespositoryTest {
     @Test
     public void delete(){
         Project project = new Project();
-        project.setId(8);
-        projectRespository.delete(project.getId());
+        project.setProjectId(8);
+        projectRespository.delete(project.getProjectId());
     }
 
-//    @Test
-//    public void findByProjectState(){
-//        List<Project> state = projectRespository.findProjectByProject_state(1);
+    @Test
+    public void findProjectsByProject_state(){
+        projectRespository.findProjectsByProjectState(1);
 //        Assert.assertNotEquals(0,state.size());
-////        for (Project project : state) {
-////            System.out.println(project);
-////        }
-//    }
+//        for (Project project : state) {
+//            System.out.println(project);
+//        }
+    }
 }

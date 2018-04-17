@@ -11,7 +11,7 @@
 package com.fyerp.admin.domain;
 
 import com.fyerp.admin.enums.ProjectStatusEnum;
-//import lombok.Data;
+import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.Entity;
@@ -27,7 +27,7 @@ import java.util.Date;
  */
 @Entity
 @DynamicUpdate
-//@Data
+@Data
 public class Project {
 
     /**
@@ -91,72 +91,4 @@ public class Project {
      */
     private String projectDesc;
 
-    public Integer getProjectId() {
-        return projectId;
-    }
-
-    public void setProjectId(Integer projectId) {
-        this.projectId = projectId;
-    }
-
-    public String getProjectName() {
-        return projectName;
-    }
-
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
-    }
-
-    public Date getStartdate() {
-        return startdate;
-    }
-
-    public void setStartdate(Date startdate) {
-        this.startdate = startdate;
-    }
-
-    public Date getEnddate() {
-        return enddate;
-    }
-
-    public void setEnddate(Date enddate) {
-        this.enddate = enddate;
-    }
-
-    public String getMember() {
-        return member;
-    }
-
-    public void setMember(String member) {
-        this.member = member;
-    }
-
-    public Integer getProjectState() {
-        return projectState;
-    }
-
-    public void setProjectState(Integer projectState) {
-        this.projectState = projectState;
-    }
-
-    public String getProjectDesc() {
-        return projectDesc;
-    }
-
-    public void setProjectDesc(String projectDesc) {
-        this.projectDesc = projectDesc;
-    }
-
-    @Override
-    public String toString() {
-        return "Project{" +
-                "projectId=" + projectId +
-                ", projectName='" + projectName + '\'' +
-                ", startdate=" + startdate +
-                ", enddate=" + enddate +
-                ", member='" + member + '\'' +
-                ", projectState=" + projectState +
-                ", projectDesc='" + projectDesc + '\'' +
-                '}';
-    }
 }

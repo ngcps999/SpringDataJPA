@@ -11,6 +11,7 @@
 package com.fyerp.admin.service.impl;
 
 import com.fyerp.admin.domain.Project;
+import com.fyerp.admin.service.ProjectService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Assert;
 import org.junit.Test;
@@ -37,12 +38,12 @@ public class ProjectServiceImplTest {
     private Project project = new Project();
 
     @Autowired
-    private ProjectServiceImpl projectService;
+    private ProjectService projectService;
 
     @Test
     public void findOne() {
         project = projectService.findOne(1);
-        Assert.assertEquals(new Integer(1),project.getId());
+        Assert.assertEquals(new Integer(1),project.getProjectId());
     }
 
 
@@ -55,7 +56,7 @@ public class ProjectServiceImplTest {
 
     @Test
     public void save() {
-        project.setProject_name("xuda");
+        project.setProjectName("xuda");
         project.setMember("cd");
         Project project1 = projectService.save(this.project);
         Assert.assertNotNull(project1);
@@ -67,9 +68,9 @@ public class ProjectServiceImplTest {
         projectService.delete(9);
     }
 
-//    @Test
-//    public void findProjectByProject_state() {
-//        projectService.findProjectByProject_state(1);
-//    }
+    @Test
+    public void findProjectsByProject_state() {
+        projectService.findProjectsByProjectState(2);
+    }
 
 }
