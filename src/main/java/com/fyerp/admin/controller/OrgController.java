@@ -46,7 +46,7 @@ public class OrgController {
      * @return
      */
     @ApiOperation(value = "查询组织列表", notes = "查询组织列表")
-    @GetMapping(value = "/list")
+    @RequestMapping(value = "/list",method = RequestMethod.GET)
     public Result<Org> getOrgs() {
         logger.info("orgList");
         return ResultUtil.success(orgService.findAll());
@@ -60,7 +60,7 @@ public class OrgController {
      */
     @ApiOperation(value = "创建岗位", notes = "根据Org对象创建角色")
     @ApiImplicitParam(name = "org", value = "岗位实体org", required = true, dataType = "Project")
-    @PostMapping(value = "/add")
+    @RequestMapping(value = "/add",method = RequestMethod.POST)
     public Result<Org> addOrg(@Valid Org org, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return null;
@@ -101,7 +101,7 @@ public class OrgController {
      */
     @ApiOperation(value = "删除岗位", notes = "根据组织结构的id来指定删除岗位")
     @ApiImplicitParam(name = "id", value = "岗位ID", required = true, dataType = "Integer", paramType = "path")
-    @DeleteMapping(value = "/delete/{id}")
+    @RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
     public void deleteOrg(@PathVariable("id") Integer id) {
         orgService.delete(id);
     }

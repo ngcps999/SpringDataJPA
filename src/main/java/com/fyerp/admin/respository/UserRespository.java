@@ -20,9 +20,16 @@ import org.springframework.data.jpa.repository.JpaRepository;
  * @Date: 2018/4/10
  * @Time: 下午3:49
  */
-public interface UserRespository extends JpaRepository<User, Long> {
+public interface UserRespository extends JpaRepository<User,Long> {
     /**
      * 通过username查找用户信息
      */
-    public User findByUsername(String username);
+//    @Query("select User.username from User ")
+//    public User findUserByUsername();
+
+
+    public User findUserByUsername(String username);
+
+    public String save(Long roleIds);
 }
+

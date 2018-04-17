@@ -10,14 +10,14 @@
 
 package com.fyerp.admin.enums;
 
-import lombok.Getter;
+//import lombok.Getter;
 
 /**
  * @Author: xuda
  * @Date: 2018/4/4
  * @Time: 下午2:45
  */
-@Getter
+//@Getter
 public enum ProjectStatusEnum {
 
     DOING(0,"正在进行"),
@@ -31,5 +31,13 @@ public enum ProjectStatusEnum {
     ProjectStatusEnum(Integer code, String message) {
         this.code = code;
         this.message = message;
+    }
+
+    public Integer getCode() {
+        return code;
+    }
+
+    public String getMessage() {
+        return message;
     }
 }

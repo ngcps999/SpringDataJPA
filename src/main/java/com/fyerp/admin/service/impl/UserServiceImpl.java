@@ -10,11 +10,15 @@
 
 package com.fyerp.admin.service.impl;
 
+import com.fyerp.admin.domain.Role;
 import com.fyerp.admin.domain.User;
 import com.fyerp.admin.respository.UserRespository;
 import com.fyerp.admin.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Author: xuda
@@ -30,6 +34,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByUsername(String username) {
         System.out.println("UserServiceImpl.findByUsername()");
-        return userRespository.findByUsername(username);
+        return userRespository.findUserByUsername(username);
     }
 }

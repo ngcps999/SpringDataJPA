@@ -10,9 +10,10 @@
 
 package com.fyerp.admin.domain;
 
-import lombok.Data;
+//import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -21,14 +22,15 @@ import java.util.List;
  * @Time: 下午2:07
  */
 @Entity
-@Data
-public class User {
+//@Data
+public class User implements Serializable {
+    private static final long serialVersionUID = -8454698376979101464L;
     /**
      * 用户Id
      */
     @Id
     @GeneratedValue
-    private Long uid;
+    private Long userId;
 
     /**
      * 用户账号
@@ -60,7 +62,7 @@ public class User {
      * 一个用户具有多个角色
      */
     @ManyToMany(fetch = FetchType.EAGER)//立即从数据库中加载数据；
-    @JoinTable(name = "UserRole",joinColumns = {@JoinColumn(name = "uid")},inverseJoinColumns = {@JoinColumn(name = "roleId")})
+    @JoinTable(name = "UserRole",joinColumns = {@JoinColumn(name = "userId")},inverseJoinColumns = {@JoinColumn(name = "roleId")})
     private List<Role> roles;
 
     /**
@@ -69,5 +71,74 @@ public class User {
      */
     public String getCredentialsSalt() {
         return this.username+this.salt;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getSalt() {
+        return salt;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
+    public Byte getState() {
+        return state;
+    }
+
+    public void setState(Byte state) {
+        this.state = state;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", username='" + username + '\'' +
+                ", name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", salt='" + salt + '\'' +
+                ", state=" + state +
+                ", roles=" + roles +
+                '}';
     }
 }

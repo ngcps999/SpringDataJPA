@@ -25,6 +25,6 @@ import java.util.List;
 public interface ProjectRespository extends JpaRepository<Project, Integer> {
 
     List<Project> findProjectsByProjectState(Integer projectState);
-
-
+    Project findProjectByProjectId(Integer projectId);
+    Project findByProjectName(String projectName);
 }
