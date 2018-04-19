@@ -15,6 +15,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -24,7 +25,7 @@ import java.util.Objects;
  */
 @Entity
 @DynamicUpdate
-@Data
+//@Data
 public class Task {
     @Id
     @GeneratedValue
@@ -32,7 +33,7 @@ public class Task {
     private String taskName;
     private String taskDesc;
     private String taskState;
-    private Timestamp taskEnddate;
+    private Date taskEnddate;
 
     public int getId() {
         return id;
@@ -66,11 +67,11 @@ public class Task {
         this.taskState = taskState;
     }
 
-    public Timestamp getTaskEnddate() {
+    public Date getTaskEnddate() {
         return taskEnddate;
     }
 
-    public void setTaskEnddate(Timestamp taskEnddate) {
+    public void setTaskEnddate(Date taskEnddate) {
         this.taskEnddate = taskEnddate;
     }
 

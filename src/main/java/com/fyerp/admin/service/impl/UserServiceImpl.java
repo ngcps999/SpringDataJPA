@@ -36,4 +36,24 @@ public class UserServiceImpl implements UserService {
         System.out.println("UserServiceImpl.findByUsername()");
         return userRespository.findUserByUsername(username);
     }
+
+    @Override
+    public User findOne(Long userId) {
+        return userRespository.findOne(userId);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userRespository.findAll();
+    }
+
+    @Override
+    public User save(User user) {
+        return userRespository.save(user);
+    }
+
+    @Override
+    public void delete(Long userId) {
+        userRespository.delete(userId);
+    }
 }

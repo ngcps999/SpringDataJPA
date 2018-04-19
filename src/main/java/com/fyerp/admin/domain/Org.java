@@ -10,7 +10,7 @@
 
 package com.fyerp.admin.domain;
 
-import lombok.Data;
+//import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
@@ -26,7 +26,7 @@ import java.util.Set;
  */
 @Entity
 @DynamicUpdate
-@Data
+//@Data
 public class Org {
 
     @Id
@@ -47,7 +47,7 @@ public class Org {
     /**
      * 排序
      */
-    private Integer order;
+    private Integer sort;
 
     /**
      * 无参构造
@@ -55,11 +55,61 @@ public class Org {
     public Org() {
     }
 
-    public Org(String depName, Integer parentId, String path, Integer order) {
+    public Org(String depName, Integer parentId, String path, Integer sort) {
         this.depName = depName;
         this.parentId = parentId;
         this.path = path;
-        this.order = order;
+        this.sort = sort;
     }
 
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getDepName() {
+        return depName;
+    }
+
+    public void setDepName(String depName) {
+        this.depName = depName;
+    }
+
+    public Integer getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(Integer parentId) {
+        this.parentId = parentId;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
+    }
+
+    @Override
+    public String toString() {
+        return "Org{" +
+                "id=" + id +
+                ", depName='" + depName + '\'' +
+                ", parentId=" + parentId +
+                ", path='" + path + '\'' +
+                ", sort=" + sort +
+                '}';
+    }
 }

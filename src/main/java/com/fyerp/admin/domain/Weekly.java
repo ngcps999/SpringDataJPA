@@ -24,7 +24,7 @@ import java.util.Objects;
  */
 @Entity
 @DynamicUpdate
-@Data
+//@Data
 public class Weekly {
     @Id
     @GeneratedValue
@@ -35,4 +35,63 @@ public class Weekly {
     private String completeness;
     private String postil;
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public Timestamp getStartdate() {
+        return startdate;
+    }
+
+    public void setStartdate(Timestamp startdate) {
+        this.startdate = startdate;
+    }
+
+    public Timestamp getEnddate() {
+        return enddate;
+    }
+
+    public void setEnddate(Timestamp enddate) {
+        this.enddate = enddate;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
+
+    public String getCompleteness() {
+        return completeness;
+    }
+
+    public void setCompleteness(String completeness) {
+        this.completeness = completeness;
+    }
+
+    public String getPostil() {
+        return postil;
+    }
+
+    public void setPostil(String postil) {
+        this.postil = postil;
+    }
+
+    @Override
+    public String toString() {
+        return "Weekly{" +
+                "id=" + id +
+                ", startdate=" + startdate +
+                ", enddate=" + enddate +
+                ", content='" + content + '\'' +
+                ", completeness='" + completeness + '\'' +
+                ", postil='" + postil + '\'' +
+                '}';
+    }
 }

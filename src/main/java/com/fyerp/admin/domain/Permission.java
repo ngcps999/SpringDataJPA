@@ -22,7 +22,7 @@ import java.util.List;
  * @Time: 下午2:33
  */
 @Entity
-@Data
+//@Data
 public class Permission implements Serializable {
     private static final long serialVersionUID = 8787425039423616077L;
     /**
@@ -76,4 +76,90 @@ public class Permission implements Serializable {
     private List<Role> roles;
 
 
+    public Long getPermissionId() {
+        return permissionId;
+    }
+
+    public void setPermissionId(Long permissionId) {
+        this.permissionId = permissionId;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getResourceType() {
+        return resourceType;
+    }
+
+    public void setResourceType(String resourceType) {
+        this.resourceType = resourceType;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public String getPermission() {
+        return permission;
+    }
+
+    public void setPermission(String permission) {
+        this.permission = permission;
+    }
+
+    public String getParentId() {
+        return parentId;
+    }
+
+    public void setParentId(String parentId) {
+        this.parentId = parentId;
+    }
+
+    public String getParentIds() {
+        return parentIds;
+    }
+
+    public void setParentIds(String parentIds) {
+        this.parentIds = parentIds;
+    }
+
+    public Boolean getAvailable() {
+        return available;
+    }
+
+    public void setAvailable(Boolean available) {
+        this.available = available;
+    }
+
+    public List<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Role> roles) {
+        this.roles = roles;
+    }
+
+    @Override
+    public String toString() {
+        return "Permission{" +
+                "permissionId=" + permissionId +
+                ", name='" + name + '\'' +
+                ", resourceType='" + resourceType + '\'' +
+                ", url='" + url + '\'' +
+                ", permission='" + permission + '\'' +
+                ", parentId='" + parentId + '\'' +
+                ", parentIds='" + parentIds + '\'' +
+                ", available=" + available +
+                ", roles=" + roles +
+                '}';
+    }
 }

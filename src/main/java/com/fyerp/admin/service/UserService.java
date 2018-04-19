@@ -10,12 +10,43 @@
 
 package com.fyerp.admin.service;
 
-
 import com.fyerp.admin.domain.User;
+
+import java.util.List;
 
 public interface UserService {
 	
 	/**通过username查找用户信息;*/
 	public User findByUsername(String username);
+
+	/**
+	 * 查询单个用户
+	 *
+	 * @param userId
+	 * @return
+	 */
+	User findOne(Long userId);
+
+	/**
+	 * 查询所有用户（带分页）
+	 *
+	 * @return
+	 */
+	List<User> findAll();
+
+	/**
+	 * 新增/更新用户
+	 *
+	 * @param user
+	 * @return
+	 */
+	User save(User user);
+
+	/**
+	 * 删除用户
+	 *
+	 * @param userId
+	 */
+	void delete(Long userId);
 
 }

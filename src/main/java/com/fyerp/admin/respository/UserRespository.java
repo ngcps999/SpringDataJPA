@@ -24,12 +24,7 @@ public interface UserRespository extends JpaRepository<User,Long> {
     /**
      * 通过username查找用户信息
      */
-//    @Query("select User.username from User ")
-//    public User findUserByUsername();
-
-
     public User findUserByUsername(String username);
 
-    public String save(Long roleIds);
 }
 

@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.xml.crypto.Data;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -34,7 +35,7 @@ import java.util.List;
  * @Date: 2018/4/3
  * @Time: 下午4:04
  */
-@RestController()
+@RestController
 @RequestMapping(value = "/project")
 public class ProjectController {
 
@@ -42,7 +43,6 @@ public class ProjectController {
 
     @Autowired
     private ProjectService projectService;
-
 
     private Project project = new Project();
 
@@ -63,48 +63,54 @@ public class ProjectController {
      *
      * @return
      */
-    @ApiOperation(value = "按状态查询项目", notes = "按状态查询项目")
+    @ApiOperation(value = "按状态查询项目,项目状态：0未进行，1正在进行，2遇到问题", notes = "按状态查询项目")
     @ApiImplicitParam(name = "projectState", value = "项目状态", required = true, dataType = "Integer", paramType = "path")
     @RequestMapping(value = "/findProjectStatusList/{projectState}",method = RequestMethod.GET)
     public Result<Project> getProjectByStatus(@PathVariable("projectState") Integer projectState) {
-        List<Project> projectsByProjectState = projectService.findProjectsByProjectState(project.getProjectState());
-        return ResultUtil.success(projectsByProjectState);
+
+        return ResultUtil.success(projectService.findProjectsByProjectState(projectState));
     }
 
     /**
      * 添加项目
-     *
-     * @param project
-     * @param bindingResult
+     * @param projectName
+     * @param startdate
+     * @param enddate
+     * @param member
+     * @param projectState
+     * @param projectDesc
      * @return
      */
     @ApiOperation(value = "创建项目", notes = "根据Project对象创建项目")
-    @ApiImplicitParam(name = "project", value = "项目实体project", required = true, dataType = "Project")
+//    @ApiImplicitParam(name = "project", value = "项目实体project", required = true, dataType = "path")
     @RequestMapping(value = "/add",method = RequestMethod.POST)
-    public Result<Project> addProject(@Valid Project project, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return null;
-        }
-        project.setProjectName(project.getProjectName());
-        project.setStartdate(project.getStartdate());
-        project.setEnddate(project.getEnddate());
-        project.setMember(project.getMember());
-        project.setProjectState(project.getProjectState());
-        project.setProjectDesc(project.getProjectDesc());
+    public Result<Project> addProject(@RequestParam("project_name") String projectName,
+                                      @RequestParam("startdate") Date startdate,
+                                      @RequestParam("enddate") Date enddate,
+                                      @RequestParam("member") String member,
+                                      @RequestParam("project_state") Integer projectState,
+                                      @RequestParam("project_desc") String projectDesc) {
+        project.setProjectName(projectName);
+        project.setStartdate(startdate);
+        project.setEnddate(enddate);
+        project.setMember(member);
+        project.setProjectState(projectState);
+        project.setProjectDesc(projectDesc);
         return ResultUtil.success(projectService.save(project));
     }
 
-
     /**
-     * 更新一个项目
-     *
+     * 更新项目
+     * @param id
+     * @param projectName
+     * @param startdate
+     * @param enddate
+     * @param member
+     * @param projectState
+     * @param projectDesc
      * @return
      */
     @ApiOperation(value = "更新项目", notes = "根据项目的id来更新项目信息")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "项目ID", required = true, dataType = "Integer", paramType = "path"),
-            @ApiImplicitParam(name = "project", value = "项目实体project", required = true, dataType = "Project")
-    })
     @RequestMapping(value = "/update/{id}",method = RequestMethod.PUT)
     public Result<Project> updateProject(@PathVariable("id") Integer id,
                                          @RequestParam("project_name") String projectName,
@@ -113,6 +119,7 @@ public class ProjectController {
                                          @RequestParam("member") String member,
                                          @RequestParam("project_state") Integer projectState,
                                          @RequestParam("project_desc") String projectDesc) {
+        project.setProjectId(id);
         project.setProjectName(projectName);
         project.setStartdate(startdate);
         project.setEnddate(enddate);
@@ -124,7 +131,6 @@ public class ProjectController {
 
     /**
      * 删除项目
-     *
      * @param id
      */
     @ApiOperation(value = "删除项目", notes = "根据url的id来指定删除项目")

@@ -42,10 +42,10 @@ public class OrgController {
     private Org org =new Org();
 
     /**
-     * 查询项目列表
+     * 查询组织架构列表
      * @return
      */
-    @ApiOperation(value = "查询组织列表", notes = "查询组织列表")
+    @ApiOperation(value = "查询组织架构列表", notes = "查询组织架构列表")
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     public Result<Org> getOrgs() {
         logger.info("orgList");
@@ -53,54 +53,57 @@ public class OrgController {
     }
 
     /**
-     * 添加项目
-     * @param org
-     * @param bindingResult
+     * 添加组织
+     * @param depName
+     * @param sort
+     * @param parentId
+     * @param path
      * @return
      */
-    @ApiOperation(value = "创建岗位", notes = "根据Org对象创建角色")
-    @ApiImplicitParam(name = "org", value = "岗位实体org", required = true, dataType = "Project")
+    @ApiOperation(value = "创建组织架构节点", notes = "根据Org对象创建组织架构节点")
     @RequestMapping(value = "/add",method = RequestMethod.POST)
-    public Result<Org> addOrg(@Valid Org org, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            return null;
-        }
-        org.setDepName(org.getDepName());
-        org.setParentId(org.getParentId());
-        org.setPath(org.getPath());
-        org.setOrder(org.getOrder());
+    public Result<Org> addOrg(@RequestParam("dep_name") String depName,
+                              @RequestParam("sort") Integer sort,
+                              @RequestParam("parent_id") Integer parentId,
+                              @RequestParam("path") String path) {
+        org.setDepName(depName);
+        org.setSort(sort);
+        org.setParentId(parentId);
+        org.setPath(path);
         return ResultUtil.success(orgService.save(org));
     }
 
-
-//    /**
-//     * 更新一个项目
-//     *
-//     * @return
-//     */
-//    @ApiOperation(value = "更新项目", notes = "根据项目的id来更新项目信息")
+    /**
+     * 更新组织架构
+     *
+     * @return
+     */
+    @ApiOperation(value = "更新组织架构", notes = "根据组织架构节点的id来更新组织架构")
 //    @ApiImplicitParams({
 //            @ApiImplicitParam(name = "id", value = "项目ID", required = true, dataType = "Integer", paramType = "path"),
 //            @ApiImplicitParam(name = "project", value = "项目实体project", required = true, dataType = "Project")
 //    })
-//    @PutMapping(value = "/update/{id}")
-//    public Result<Org> updateProject(@PathVariable("id") Integer id) {
-//        org.setProjectName(projectName);
-//        project.setStartdate(startdate);
-//        project.setEnddate(enddate);
-//        project.setMember(member);
-//        project.setProjectState(projectState);
-//        project.setProjectDesc(projectDesc);
-//        return ResultUtil.success(projectService.save(project));
-//    }
+    @PutMapping(value = "/update/{id}")
+    public Result<Org> updateOrg(@PathVariable("id") Integer id,
+                                 @RequestParam("dep_name") String depName,
+                                 @RequestParam("sort") Integer sort,
+                                 @RequestParam("parent_id") Integer parentId,
+                                 @RequestParam("path") String path
+                                     ) {
+        org.setId(id);
+        org.setDepName(depName);
+        org.setSort(sort);
+        org.setParentId(parentId);
+        org.setPath(path);
+        return ResultUtil.success(orgService.save(org));
+    }
 
     /**
      * 删除岗位
      *
      * @param id
      */
-    @ApiOperation(value = "删除岗位", notes = "根据组织结构的id来指定删除岗位")
-    @ApiImplicitParam(name = "id", value = "岗位ID", required = true, dataType = "Integer", paramType = "path")
+    @ApiOperation(value = "删除岗位", notes = "根据id删除岗位")
     @RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
     public void deleteOrg(@PathVariable("id") Integer id) {
         orgService.delete(id);

@@ -14,10 +14,9 @@ import com.fyerp.admin.enums.ProjectStatusEnum;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Author: xuda
@@ -27,7 +26,7 @@ import java.util.Date;
  */
 @Entity
 @DynamicUpdate
-@Data
+//@Data
 public class Project {
 
     /**
@@ -91,4 +90,87 @@ public class Project {
      */
     private String projectDesc;
 
+    /**
+     * 任务
+     */
+//    @OneToMany(fetch = FetchType.EAGER)
+//    private List<Task> tasks;
+
+    public Integer getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(Integer projectId) {
+        this.projectId = projectId;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public Date getStartdate() {
+        return startdate;
+    }
+
+    public void setStartdate(Date startdate) {
+        this.startdate = startdate;
+    }
+
+    public Date getEnddate() {
+        return enddate;
+    }
+
+    public void setEnddate(Date enddate) {
+        this.enddate = enddate;
+    }
+
+    public String getMember() {
+        return member;
+    }
+
+    public void setMember(String member) {
+        this.member = member;
+    }
+
+    public Integer getProjectState() {
+        return projectState;
+    }
+
+    public void setProjectState(Integer projectState) {
+        this.projectState = projectState;
+    }
+
+    public String getProjectDesc() {
+        return projectDesc;
+    }
+
+    public void setProjectDesc(String projectDesc) {
+        this.projectDesc = projectDesc;
+    }
+
+//    public List<Task> getTasks() {
+//        return tasks;
+//    }
+//
+//    public void setTasks(List<Task> tasks) {
+//        this.tasks = tasks;
+//    }
+
+
+    @Override
+    public String toString() {
+        return "Project{" +
+                "projectId=" + projectId +
+                ", projectName='" + projectName + '\'' +
+                ", startdate=" + startdate +
+                ", enddate=" + enddate +
+                ", member='" + member + '\'' +
+                ", projectState=" + projectState +
+                ", projectDesc='" + projectDesc + '\'' +
+                '}';
+    }
 }
