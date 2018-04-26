@@ -10,6 +10,7 @@
 
 package com.fyerp.admin.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -71,6 +72,7 @@ public class Permission implements Serializable {
     /**
      * 角色-权限多对多关系
      */
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "RolePermission",joinColumns={@JoinColumn(name = "permissionId")},inverseJoinColumns = {@JoinColumn(name = "roleId")})
     private List<Role> roles;
@@ -155,11 +157,9 @@ public class Permission implements Serializable {
                 ", name='" + name + '\'' +
                 ", resourceType='" + resourceType + '\'' +
                 ", url='" + url + '\'' +
-                ", permission='" + permission + '\'' +
                 ", parentId='" + parentId + '\'' +
                 ", parentIds='" + parentIds + '\'' +
                 ", available=" + available +
-                ", roles=" + roles +
                 '}';
     }
 }

@@ -15,6 +15,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -41,17 +42,17 @@ public class Contract {
     private String totalMoney;
     private String isChange;
     private String isDestroy;
-    private Timestamp effectTime;
-    private Timestamp lostEffectTime;
-    private Timestamp endTime;
-    private Timestamp auditTime;
+    private Date effectTime;
+    private Date lostEffectTime;
+    private Date endTime;
+    private Date auditTime;
     private String note;
 
-    public int getContractId() {
+    public Integer getContractId() {
         return contractId;
     }
 
-    public void setContractId(int contractId) {
+    public void setContractId(Integer contractId) {
         this.contractId = contractId;
     }
 
@@ -135,35 +136,35 @@ public class Contract {
         this.isDestroy = isDestroy;
     }
 
-    public Timestamp getEffectTime() {
+    public Date getEffectTime() {
         return effectTime;
     }
 
-    public void setEffectTime(Timestamp effectTime) {
+    public void setEffectTime(Date effectTime) {
         this.effectTime = effectTime;
     }
 
-    public Timestamp getLostEffectTime() {
+    public Date getLostEffectTime() {
         return lostEffectTime;
     }
 
-    public void setLostEffectTime(Timestamp lostEffectTime) {
+    public void setLostEffectTime(Date lostEffectTime) {
         this.lostEffectTime = lostEffectTime;
     }
 
-    public Timestamp getEndTime() {
+    public Date getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Timestamp endTime) {
+    public void setEndTime(Date endTime) {
         this.endTime = endTime;
     }
 
-    public Timestamp getAuditTime() {
+    public Date getAuditTime() {
         return auditTime;
     }
 
-    public void setAuditTime(Timestamp auditTime) {
+    public void setAuditTime(Date auditTime) {
         this.auditTime = auditTime;
     }
 

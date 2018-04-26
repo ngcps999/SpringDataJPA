@@ -1,21 +1,24 @@
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://192.168.1.79:3306/fyerp?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&useSSL=false
+    url: jdbc:mysql://localhost:3306/fyerp?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&useSSL=false
     username: root
-    password: yfbdb123
+    password: SDysjdsr1225
   jpa:
     show-sql: true
     hibernate:
       ddl-auto: update
       naming:
         strategy: org.hibernate.cfg.DefaultNamingStrategy
-#    database-platform: org.hibernate.dialect.MySQL5Dialect
+    database-platform: org.hibernate.dialect.MySQL5Dialect
     database: mysql
-#  thymeleaf:
-#    cache: false
+  thymeleaf:
+    cache: false
 server:
   port: 8080
 logging:
-  level: info
+  level:
+    org:
+      springframework:
+        security: info
 debug: false

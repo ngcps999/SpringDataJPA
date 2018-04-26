@@ -50,7 +50,6 @@ public class UserController {
 
     /**
      * 查询用户列表
-     *
      * @return
      */
     @ApiOperation(value = "查询用户列表", notes = "查询用户列表")
@@ -65,25 +64,15 @@ public class UserController {
      * @param name
      * @param username
      * @param password
-     * @param salt
      * @param state
      * @return
      */
     @ApiOperation(value = "创建用户", notes = "根据user对象创建用户")
     @RequestMapping(value = "/add",method = RequestMethod.POST)
-    public Result<User> addUser(@RequestParam("name") String name,
-                                @RequestParam("username") String username,
-                                @RequestParam("password") String password,
-                                @RequestParam("salt") String salt,
-                                @RequestParam("state") Integer state
-//                                @RequestParam("role") List<Role> roles
+    public Result<User> addUser(
+            @RequestBody User user
                                 ) {
-        user.setName(name);
-        user.setUsername(username);
-        user.setPassword(MD5Utils.md5(password));
-        user.setSalt(salt);
-        user.setState(state);
-//        user.setRoles(roles);
+
         return ResultUtil.success(userService.save(user));
     }
 
@@ -97,14 +86,12 @@ public class UserController {
                                    @RequestParam("name") String name,
                                    @RequestParam("username") String username,
                                    @RequestParam("password") String password,
-                                   @RequestParam("salt") String salt,
                                    @RequestParam("state") Integer state
                                    ) {
         user.setUserId(id);
         user.setName(name);
         user.setUsername(username);
-        user.setPassword(MD5Utils.md5(password));
-        user.setSalt(salt);
+        user.setPassword(password);
         user.setState(state);
         return ResultUtil.success(userService.save(user));
     }
@@ -118,6 +105,4 @@ public class UserController {
     public void deleteUser(@PathVariable("id") Long id) {
         userService.delete(id);
     }
-
-
 }

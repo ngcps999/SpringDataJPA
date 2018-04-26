@@ -57,7 +57,6 @@ public class ProjectServiceImplTest {
     @Test
     public void save() {
         project.setProjectName("xuda");
-        project.setMember("cd");
         Project project1 = projectService.save(this.project);
         Assert.assertNotNull(project1);
 

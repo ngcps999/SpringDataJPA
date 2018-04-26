@@ -15,6 +15,7 @@ import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Objects;
 
 /**
@@ -29,8 +30,8 @@ public class Weekly {
     @Id
     @GeneratedValue
     private int id;
-    private Timestamp startdate;
-    private Timestamp enddate;
+    private Date startDate;
+    private Date endDate;
     private String content;
     private String completeness;
     private String postil;
@@ -43,20 +44,20 @@ public class Weekly {
         this.id = id;
     }
 
-    public Timestamp getStartdate() {
-        return startdate;
+    public Date getStartDate() {
+        return startDate;
     }
 
-    public void setStartdate(Timestamp startdate) {
-        this.startdate = startdate;
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
     }
 
-    public Timestamp getEnddate() {
-        return enddate;
+    public Date getEndDate() {
+        return endDate;
     }
 
-    public void setEnddate(Timestamp enddate) {
-        this.enddate = enddate;
+    public void setEndDate(Date endDate) {
+        this.endDate = endDate;
     }
 
     public String getContent() {
@@ -83,15 +84,5 @@ public class Weekly {
         this.postil = postil;
     }
 
-    @Override
-    public String toString() {
-        return "Weekly{" +
-                "id=" + id +
-                ", startdate=" + startdate +
-                ", enddate=" + enddate +
-                ", content='" + content + '\'' +
-                ", completeness='" + completeness + '\'' +
-                ", postil='" + postil + '\'' +
-                '}';
-    }
+
 }

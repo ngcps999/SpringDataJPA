@@ -10,11 +10,16 @@
 
 package com.fyerp.admin.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+//import org.springframework.security.core.GrantedAuthority;
+//import org.springframework.security.core.authority.SimpleGrantedAuthority;
+//import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
+import java.util.*;
 
 /**
  * @Author: xuda
@@ -23,19 +28,19 @@ import java.util.List;
  */
 @Entity
 @Data
-public class User implements Serializable {
+public class User  {
     private static final long serialVersionUID = -8454698376979101464L;
     /**
      * 用户Id
      */
     @Id
     @GeneratedValue
+    @JsonProperty("id")
     private Long userId;
 
     /**
      * 用户账号
      */
-    @Column(unique = true)
     private String username;
 
     /**
@@ -49,29 +54,51 @@ public class User implements Serializable {
     private String password;
 
     /**
-     * 加密密码的盐
-     */
-    private String salt;
-
-    /**
      * 用户状态,0:用户未输入验证码, 1:正常状态,2：用户被锁定.
      */
+    @JsonProperty("status")
     private Integer state;
 
     /**
      * 一个用户具有多个角色
      */
-    @ManyToMany(fetch = FetchType.EAGER)//立即从数据库中加载数据；
+    @ManyToMany(cascade = {CascadeType.REFRESH},fetch = FetchType.EAGER)//立即从数据库中加载数据；
     @JoinTable(name = "UserRole",joinColumns = {@JoinColumn(name = "userId")},inverseJoinColumns = {@JoinColumn(name = "roleId")})
-    private List<Role> roles;
+    private Set<Role> roles = new HashSet<>();
 
-    /**
-     * 密码盐
-     * @return
-     */
-    public String getCredentialsSalt() {
-        return this.username+this.salt;
+    @JsonIgnore
+    @ManyToOne(targetEntity = Project.class,cascade = CascadeType.ALL)
+    @JoinColumn(name = "projectId")
+    private Project menber;
+
+
+    public User() {
     }
+
+    public User(String username, String name, String password, Integer state) {
+        this.username = username;
+        this.name = name;
+        this.password = password;
+        this.state = state;
+    }
+
+    public User(String username, String name, String password, Integer state, Set<Role> roles) {
+        this.username = username;
+        this.name = name;
+        this.password = password;
+        this.state = state;
+        this.roles = roles;
+    }
+
+    public User(String username, String name, String password, Integer state, Set<Role> roles, Project menber) {
+        this.username = username;
+        this.name = name;
+        this.password = password;
+        this.state = state;
+        this.roles = roles;
+        this.menber = menber;
+    }
+
 
     public Long getUserId() {
         return userId;
@@ -79,10 +106,6 @@ public class User implements Serializable {
 
     public void setUserId(Long userId) {
         this.userId = userId;
-    }
-
-    public String getUsername() {
-        return username;
     }
 
     public void setUsername(String username) {
@@ -97,20 +120,8 @@ public class User implements Serializable {
         this.name = name;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
     }
 
     public Integer getState() {
@@ -121,12 +132,28 @@ public class User implements Serializable {
         this.state = state;
     }
 
-    public List<Role> getRoles() {
+    public Set<Role> getRoles() {
         return roles;
     }
 
-    public void setRoles(List<Role> roles) {
+    public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public Project getMenber() {
+        return menber;
+    }
+
+    public void setMenber(Project menber) {
+        this.menber = menber;
     }
 
     @Override
@@ -136,9 +163,7 @@ public class User implements Serializable {
                 ", username='" + username + '\'' +
                 ", name='" + name + '\'' +
                 ", password='" + password + '\'' +
-                ", salt='" + salt + '\'' +
                 ", state=" + state +
-                ", roles=" + roles +
                 '}';
     }
 }

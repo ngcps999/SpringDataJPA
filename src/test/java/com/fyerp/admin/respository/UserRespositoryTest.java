@@ -54,7 +54,6 @@ public class UserRespositoryTest {
         user.setName("xd1");
         user.setUsername("xd2");
         user.setPassword("123");
-        user.setSalt("123");
 
         userRespository.save(user);
     }

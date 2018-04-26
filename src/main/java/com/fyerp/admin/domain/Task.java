@@ -10,9 +10,9 @@
 
 package com.fyerp.admin.domain;
 
-import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.DynamicUpdate;
-
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -27,20 +27,50 @@ import java.util.Objects;
 @DynamicUpdate
 //@Data
 public class Task {
+
     @Id
     @GeneratedValue
-    private int id;
+    @JsonProperty("id")
+    private Integer taskId;
+    @JsonProperty("name")
     private String taskName;
+    @JsonProperty("describe")
     private String taskDesc;
+    @JsonProperty("status")
     private String taskState;
-    private Date taskEnddate;
+    @JsonProperty("planStartDate")
+    private String taskPlanStartDate;
+    @JsonProperty("realStartDate")
+    private String taskRealStartDate;
+    @JsonProperty("realEndDate")
+    private String taskRealEndDate;
+    @JsonProperty("planEndDate")
+    private String taskPlanEndDate;
 
-    public int getId() {
-        return id;
+    @JsonIgnore
+    @ManyToOne(targetEntity = Project.class,cascade = CascadeType.ALL)
+    @JoinColumn(name = "projectId")
+    private Project task;
+
+    public Task() {
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public Task(String taskName, String taskDesc, String taskState, String taskPlanStartDate, String taskRealStartDate, String taskRealEndDate, String taskPlanEndDate) {
+        this.taskName = taskName;
+        this.taskDesc = taskDesc;
+        this.taskState = taskState;
+        this.taskPlanStartDate = taskPlanStartDate;
+        this.taskRealStartDate = taskRealStartDate;
+        this.taskRealEndDate = taskRealEndDate;
+        this.taskPlanEndDate = taskPlanEndDate;
+    }
+
+    public Integer getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(Integer taskId) {
+        this.taskId = taskId;
     }
 
     public String getTaskName() {
@@ -67,22 +97,43 @@ public class Task {
         this.taskState = taskState;
     }
 
-    public Date getTaskEnddate() {
-        return taskEnddate;
+    public String getTaskPlanStartDate() {
+        return taskPlanStartDate;
     }
 
-    public void setTaskEnddate(Date taskEnddate) {
-        this.taskEnddate = taskEnddate;
+    public void setTaskPlanStartDate(String taskPlanStartDate) {
+        this.taskPlanStartDate = taskPlanStartDate;
     }
 
-    @Override
-    public String toString() {
-        return "Task{" +
-                "id=" + id +
-                ", taskName='" + taskName + '\'' +
-                ", taskDesc='" + taskDesc + '\'' +
-                ", taskState='" + taskState + '\'' +
-                ", taskEnddate=" + taskEnddate +
-                '}';
+    public String getTaskRealStartDate() {
+        return taskRealStartDate;
+    }
+
+    public void setTaskRealStartDate(String taskRealStartDate) {
+        this.taskRealStartDate = taskRealStartDate;
+    }
+
+    public String getTaskRealEndDate() {
+        return taskRealEndDate;
+    }
+
+    public void setTaskRealEndDate(String taskRealEndDate) {
+        this.taskRealEndDate = taskRealEndDate;
+    }
+
+    public String getTaskPlanEndDate() {
+        return taskPlanEndDate;
+    }
+
+    public void setTaskPlanEndDate(String taskPlanEndDate) {
+        this.taskPlanEndDate = taskPlanEndDate;
+    }
+
+    public Project getTask() {
+        return task;
+    }
+
+    public void setTask(Project task) {
+        this.task = task;
     }
 }

@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @RestController
@@ -28,6 +29,8 @@ public class TaskController {
     private TaskService taskService;
 
     private Task task = new Task();
+
+    SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
 
     /**
      * 查询任务列表
@@ -43,7 +46,10 @@ public class TaskController {
     /**
      * 创建任务
      * @param taskDesc
-     * @param taskEnddate
+     * @param taskPlanStartDate
+     * @param taskPlanEndDate
+     * @param taskRealStartDate
+     * @param taskRealEndDate
      * @param taskName
      * @param taskState
      * @return
@@ -51,11 +57,17 @@ public class TaskController {
     @ApiOperation(value = "创建任务", notes = "根据Task对象创建任务")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public Result<Task> addTask(@RequestParam("task_desc") String taskDesc,
-                                @RequestParam("task_enddate") Date taskEnddate,
+                                @RequestParam("task_plan_start_date") String taskPlanStartDate,
+                                @RequestParam("task_plan_end_date") String taskPlanEndDate,
+                                @RequestParam("task_real_start_date") String taskRealStartDate,
+                                @RequestParam("task_real_end_date") String taskRealEndDate,
                                 @RequestParam("task_name") String taskName,
                                 @RequestParam("task_state") String taskState) {
         task.setTaskDesc(taskDesc);
-        task.setTaskEnddate(taskEnddate);
+        task.setTaskPlanStartDate(simpleDateFormat.format(new Date(taskPlanStartDate)));
+        task.setTaskPlanEndDate(simpleDateFormat.format(new Date(taskPlanEndDate)));
+        task.setTaskRealStartDate(simpleDateFormat.format(new Date(taskRealStartDate)));
+        task.setTaskRealEndDate(simpleDateFormat.format(new Date(taskRealEndDate)));
         task.setTaskName(taskName);
         task.setTaskState(taskState);
         return ResultUtil.success(taskService.save(task));
@@ -70,15 +82,21 @@ public class TaskController {
 //            @ApiImplicitParam(name = "id", value = "项目ID", required = true, dataType = "Integer", paramType = "path"),
 //            @ApiImplicitParam(name = "project", value = "项目实体project", required = true, dataType = "Project")
 //    })
-    @PutMapping(value = "/update/{id}")
-    public Result<Task> updateOrg(@PathVariable("id") Integer id,
+    @PutMapping(value = "/update/{task_id}")
+    public Result<Task> updateOrg(@PathVariable("task_id") Integer taskId,
                                   @RequestParam("task_desc") String taskDesc,
-                                  @RequestParam("task_enddate") Date taskEnddate,
+                                  @RequestParam("task_plan_start_date") String taskPlanStartDate,
+                                  @RequestParam("task_plan_end_date") String taskPlanEndDate,
+                                  @RequestParam("task_real_start_date") String taskRealStartDate,
+                                  @RequestParam("task_real_end_date") String taskRealEndDate,
                                   @RequestParam("task_name") String taskName,
                                   @RequestParam("task_state") String taskState) {
-        task.setId(id);
+        task.setTaskId(taskId);
         task.setTaskDesc(taskDesc);
-        task.setTaskEnddate(taskEnddate);
+        task.setTaskPlanStartDate(simpleDateFormat.format(new Date(taskPlanStartDate)));
+        task.setTaskPlanEndDate(simpleDateFormat.format(new Date(taskPlanEndDate)));
+        task.setTaskRealStartDate(simpleDateFormat.format(new Date(taskRealStartDate)));
+        task.setTaskRealEndDate(simpleDateFormat.format(new Date(taskRealEndDate)));
         task.setTaskName(taskName);
         task.setTaskState(taskState);
         return ResultUtil.success(taskService.save(task));

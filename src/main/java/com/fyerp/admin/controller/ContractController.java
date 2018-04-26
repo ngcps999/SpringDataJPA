@@ -6,7 +6,6 @@
 
 package com.fyerp.admin.controller;
 
-
 import com.fyerp.admin.domain.Contract;
 import com.fyerp.admin.domain.Result;
 import com.fyerp.admin.service.ContractService;
@@ -34,7 +33,6 @@ public class ContractController {
 
     private final static Logger logger = LoggerFactory.getLogger(ContractController.class);
 
-
     @Autowired
     private ContractService contractService;
 
@@ -42,7 +40,6 @@ public class ContractController {
 
     /**
      * 查询合同列表
-     *
      * @return
      */
     @ApiOperation(value = "查询合同列表", notes = "查询合同列表")
@@ -52,10 +49,7 @@ public class ContractController {
         return ResultUtil.success(contractService.findAll());
     }
 
-
     /**
-     *
-     * @param id
      * @param audit_time
      * @param contract_code
      * @param contract_name
@@ -73,10 +67,8 @@ public class ContractController {
      * @return
      */
     @ApiOperation(value = "创建合同", notes = "根据Contract对象创建合同")
-    @ApiImplicitParam(name = "contract", value = "合同实体contract", required = true, dataType = "Contract")
     @RequestMapping(value = "/add",method = RequestMethod.POST)
-    public Result<Contract> addContract(@PathVariable("id") Integer id,
-                                        @RequestParam("audit_time") Date audit_time,
+    public Result<Contract> addContract(@RequestParam("audit_time") Date audit_time,
                                         @RequestParam("contract_code") String contract_code,
                                         @RequestParam("contract_money") Double contract_money,
                                         @RequestParam("contract_name") String contract_name,
@@ -92,8 +84,7 @@ public class ContractController {
                                         @RequestParam("note") String note,
                                         @RequestParam("total_money") String total_money
                                         ) {
-        contract.setContractId(id);
-        contract.setAuditTime((Timestamp) audit_time);
+        contract.setAuditTime(audit_time);
         contract.setContractCode(contract_code);
         contract.setContractMoney(contract_money);
         contract.setContractName(contract_name);
@@ -101,14 +92,13 @@ public class ContractController {
         contract.setContractTax(contract_tax);
         contract.setContractTaxRate(contract_tax_rate);
         contract.setContractType(contract_type);
-        contract.setEffectTime((Timestamp) effect_time);
-        contract.setEndTime((Timestamp) end_time);
+        contract.setEffectTime(effect_time);
+        contract.setEndTime(end_time);
         contract.setIsChange(is_change);
         contract.setIsDestroy(is_destroy);
-        contract.setLostEffectTime((Timestamp) lost_effect_time);
+        contract.setLostEffectTime(lost_effect_time);
         contract.setNote(note);
         contract.setTotalMoney(total_money);
-
         return ResultUtil.success(contractService.save(contract));
     }
 
@@ -117,35 +107,50 @@ public class ContractController {
      * @return
      */
     @ApiOperation(value = "更新合同", notes = "根据合同的id来更新合同信息")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "id", value = "合同ID", required = true, dataType = "Integer", paramType = "path"),
-            @ApiImplicitParam(name = "contract", value = "合同实体contract", required = true, dataType = "Contract")
-    })
-    @RequestMapping(value = "/update/{id}",method = RequestMethod.PUT)
-    public Result<Contract> updateProject(@PathVariable("id") Integer id,
-                                         @RequestParam("audit_time") Date audit_time,
-                                         @RequestParam("startdate") Date startdate,
-                                         @RequestParam("enddate") Date enddate,
-                                         @RequestParam("member") String member,
-                                         @RequestParam("project_state") Integer projectState,
-                                         @RequestParam("project_desc") String projectDesc) {
-
+    @RequestMapping(value = "/update/{contract_id}",method = RequestMethod.PUT)
+    public Result<Contract> updateProject(@PathVariable("contract_id") Integer contract_id,
+                                          @RequestParam("audit_time") Date audit_time,
+                                          @RequestParam("contract_code") String contract_code,
+                                          @RequestParam("contract_money") Double contract_money,
+                                          @RequestParam("contract_name") String contract_name,
+                                          @RequestParam("contract_state") String contract_state,
+                                          @RequestParam("contract_tax") Double contract_tax,
+                                          @RequestParam("contract_tax_rate") Double contract_tax_rate,
+                                          @RequestParam("contract_type") String contract_type,
+                                          @RequestParam("effect_time") Date effect_time,
+                                          @RequestParam("end_time") Date end_time,
+                                          @RequestParam("is_change") String is_change,
+                                          @RequestParam("is_destroy") String is_destroy,
+                                          @RequestParam("lost_effect_time") Date lost_effect_time,
+                                          @RequestParam("note") String note,
+                                          @RequestParam("total_money") String total_money) {
+        contract.setContractId(contract_id);
+        contract.setAuditTime(audit_time);
+        contract.setContractCode(contract_code);
+        contract.setContractMoney(contract_money);
+        contract.setContractName(contract_name);
+        contract.setContractState(contract_state);
+        contract.setContractTax(contract_tax);
+        contract.setContractTaxRate(contract_tax_rate);
+        contract.setContractType(contract_type);
+        contract.setEffectTime(effect_time);
+        contract.setEndTime(end_time);
+        contract.setIsChange(is_change);
+        contract.setIsDestroy(is_destroy);
+        contract.setLostEffectTime(lost_effect_time);
+        contract.setNote(note);
+        contract.setTotalMoney(total_money);
         return ResultUtil.success(contractService.save(contract));
     }
 
     /**
      * 删除合同
-     *
-     * @param id
+     * @param contract_id
      */
     @ApiOperation(value = "删除合同", notes = "根据url的id来指定删除合同")
-    @ApiImplicitParam(name = "id", value = "合同ID", required = true, dataType = "Integer", paramType = "path")
-    @RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
-    public void deleteProject(@PathVariable("id") Integer id) {
-        contractService.delete(id);
+    @RequestMapping(value = "/delete/{contract_id}",method = RequestMethod.DELETE)
+    public void deleteProject(@PathVariable("contract_id") Integer contract_id) {
+        contractService.delete(contract_id);
     }
-
-
-
 
 }

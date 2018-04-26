@@ -10,6 +10,8 @@
 
 package com.fyerp.admin.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -31,6 +33,7 @@ public class Role implements Serializable {
      */
     @Id
     @GeneratedValue
+    @JsonProperty("id")
     private Long roleId;
 
     /**
@@ -48,6 +51,14 @@ public class Role implements Serializable {
      */
     private Boolean available = Boolean.FALSE;
 
+    public Role() {
+    }
+
+    public Role(String role, String description, Boolean available) {
+        this.role = role;
+        this.description = description;
+        this.available = available;
+    }
     /**
      * 角色-权限多对多关系
      */
@@ -58,6 +69,7 @@ public class Role implements Serializable {
     /**
      * 用户-角色多对多关系,一个角色对应多个用户
      */
+    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "UserRole",joinColumns = {@JoinColumn(name = "roleId")},inverseJoinColumns = {@JoinColumn(name = "userId")})
     private List<User> users;
@@ -117,8 +129,6 @@ public class Role implements Serializable {
                 ", role='" + role + '\'' +
                 ", description='" + description + '\'' +
                 ", available=" + available +
-                ", permissions=" + permissions +
-                ", users=" + users +
                 '}';
     }
 }

@@ -10,13 +10,18 @@
 
 package com.fyerp.admin.domain;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fyerp.admin.enums.ProjectStatusEnum;
-import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @Author: xuda
@@ -25,6 +30,7 @@ import java.util.List;
  * 项目实体
  */
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @DynamicUpdate
 //@Data
 public class Project {
@@ -35,20 +41,17 @@ public class Project {
     public Project() {
     }
 
-    /**
-     * 有参构造
-     * @param projectName
-     * @param startdate
-     * @param enddate
-     * @param member
-     * @param projectState
-     * @param projectDesc
-     */
-    public Project(String projectName, Date startdate, Date enddate, String member, Integer projectState, String projectDesc) {
+    public Project(String projectName, String planStartDate, String planEndDate, String realStartDate, String realEndDate, String equipment, String flyPlatform, String flyHeight, String aeroRatio, String areoArea, Integer projectState, String projectDesc) {
         this.projectName = projectName;
-        this.startdate = startdate;
-        this.enddate = enddate;
-        this.member = member;
+        this.planStartDate = planStartDate;
+        this.planEndDate = planEndDate;
+        this.realStartDate = realStartDate;
+        this.realEndDate = realEndDate;
+        this.equipment = equipment;
+        this.flyPlatform = flyPlatform;
+        this.flyHeight = flyHeight;
+        this.aeroRatio = aeroRatio;
+        this.areoArea = areoArea;
         this.projectState = projectState;
         this.projectDesc = projectDesc;
     }
@@ -58,43 +61,113 @@ public class Project {
      */
     @Id
     @GeneratedValue
+    @JsonProperty("id")
     private Integer projectId;
 
     /**
      * 项目名称
      */
+    @JsonProperty("name")
     private String projectName;
 
     /**
-     * 项目开始时间
+     * 项目计划开始时间
      */
-    private Date startdate;
+
+    private String planStartDate;
 
     /**
-     * 项目结束时间
+     * 项目计划完成时间
      */
-    private Date enddate;
+    private String planEndDate;
 
     /**
-     * 项目成员
+     * 项目实际开始时间
      */
-    private String member;
+    private String realStartDate;
+
+    /**
+     * 项目实际完成时间
+     */
+    private String realEndDate;
+
+    /**
+     * 使用设备
+     */
+    private String equipment;
+
+    /**
+     * 飞行平台
+     */
+    private String flyPlatform;
+
+    /**
+     * 飞行高度
+     */
+    private String flyHeight;
+
+    /**
+     * 航摄分辨率
+     */
+    private String aeroRatio;
+
+    /**
+     * 航摄面积
+     */
+    private String areoArea;
+
+    /**
+     * 地图
+     */
+    private String map;
 
     /**
      * 项目状态：0未进行，1正在进行，2遇到问题
      */
+    @JsonProperty("status")
     private Integer projectState = ProjectStatusEnum.DOING.getCode();
 
     /**
      * 项目描述
      */
+    @JsonProperty("describe")
     private String projectDesc;
+
+    /**
+     * 项目成员
+     */
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "projectId")
+    private Set<User> members = new HashSet<>();
 
     /**
      * 任务
      */
-//    @OneToMany(fetch = FetchType.EAGER)
-//    private List<Task> tasks;
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "projectId")
+    private Set<Task> tasks = new HashSet<>();
+
+    /**
+     * 创建时间
+     */
+    @CreatedDate
+    private Date createTime;
+
+    /**
+     * 更新时间
+     */
+    @LastModifiedDate
+    private Date updateTime;
+
+    public void addMenbers(User user){
+        user.setMenber(this);//用关系维护端来维护关系
+        this.members.add(user);
+    }
+
+    public void addTasks(Task task){
+        task.setTask(this);//用关系维护端来维护关系
+        this.tasks.add(task);
+    }
 
     public Integer getProjectId() {
         return projectId;
@@ -112,28 +185,44 @@ public class Project {
         this.projectName = projectName;
     }
 
-    public Date getStartdate() {
-        return startdate;
+    public String getPlanStartDate() {
+        return planStartDate;
     }
 
-    public void setStartdate(Date startdate) {
-        this.startdate = startdate;
+    public void setPlanStartDate(String planStartDate) {
+        this.planStartDate = planStartDate;
     }
 
-    public Date getEnddate() {
-        return enddate;
+    public String getPlanEndDate() {
+        return planEndDate;
     }
 
-    public void setEnddate(Date enddate) {
-        this.enddate = enddate;
+    public void setPlanEndDate(String planEndDate) {
+        this.planEndDate = planEndDate;
     }
 
-    public String getMember() {
-        return member;
+    public String getRealStartDate() {
+        return realStartDate;
     }
 
-    public void setMember(String member) {
-        this.member = member;
+    public void setRealStartDate(String realStartDate) {
+        this.realStartDate = realStartDate;
+    }
+
+    public String getRealEndDate() {
+        return realEndDate;
+    }
+
+    public void setRealEndDate(String realEndDate) {
+        this.realEndDate = realEndDate;
+    }
+
+    public Set<User> getMembers() {
+        return members;
+    }
+
+    public void setMembers(Set<User> members) {
+        this.members = members;
     }
 
     public Integer getProjectState() {
@@ -152,23 +241,93 @@ public class Project {
         this.projectDesc = projectDesc;
     }
 
-//    public List<Task> getTasks() {
-//        return tasks;
-//    }
-//
-//    public void setTasks(List<Task> tasks) {
-//        this.tasks = tasks;
-//    }
+    public Set<Task> getTasks() {
+        return tasks;
+    }
 
+    public void setTasks(Set<Task> tasks) {
+        this.tasks = tasks;
+    }
+
+    public String getEquipment() {
+        return equipment;
+    }
+
+    public void setEquipment(String equipment) {
+        this.equipment = equipment;
+    }
+
+    public String getFlyPlatform() {
+        return flyPlatform;
+    }
+
+    public void setFlyPlatform(String flyPlatform) {
+        this.flyPlatform = flyPlatform;
+    }
+
+    public String getFlyHeight() {
+        return flyHeight;
+    }
+
+    public void setFlyHeight(String flyHeight) {
+        this.flyHeight = flyHeight;
+    }
+
+    public String getAeroRatio() {
+        return aeroRatio;
+    }
+
+    public void setAeroRatio(String aeroRatio) {
+        this.aeroRatio = aeroRatio;
+    }
+
+    public String getAreoArea() {
+        return areoArea;
+    }
+
+    public void setAreoArea(String areoArea) {
+        this.areoArea = areoArea;
+    }
+
+    public String getMap() {
+        return map;
+    }
+
+    public void setMap(String map) {
+        this.map = map;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
 
     @Override
     public String toString() {
         return "Project{" +
                 "projectId=" + projectId +
                 ", projectName='" + projectName + '\'' +
-                ", startdate=" + startdate +
-                ", enddate=" + enddate +
-                ", member='" + member + '\'' +
+                ", planStartDate='" + planStartDate + '\'' +
+                ", planEndDate='" + planEndDate + '\'' +
+                ", realStartDate='" + realStartDate + '\'' +
+                ", realEndDate='" + realEndDate + '\'' +
+                ", equipment='" + equipment + '\'' +
+                ", flyPlatform='" + flyPlatform + '\'' +
+                ", flyHeight='" + flyHeight + '\'' +
+                ", aeroRatio='" + aeroRatio + '\'' +
+                ", areoArea='" + areoArea + '\'' +
+                ", map='" + map + '\'' +
                 ", projectState=" + projectState +
                 ", projectDesc='" + projectDesc + '\'' +
                 '}';

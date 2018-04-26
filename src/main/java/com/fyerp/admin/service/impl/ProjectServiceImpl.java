@@ -31,8 +31,8 @@ public class ProjectServiceImpl implements ProjectService {
     private ProjectRespository respository;
 
     @Override
-    public Project findOne(Integer projectId) {
-        return respository.findOne(projectId);
+    public Project findOne(Integer id) {
+        return respository.findOne(id);
     }
 
     @Override
@@ -41,21 +41,23 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<Project> findProjectsByProjectState(Integer projectState) {
-        List<Project> projectsByProjectState = respository.findProjectsByProjectState(projectState);
-        for (Project project : projectsByProjectState) {
+    public List<Project> findProjectsByProjectState(Integer state) {
+        List<Project> projectsByStatus = respository.findProjectsByProjectState(state);
+        for (Project project : projectsByStatus) {
             System.out.println(project);
         }
-        return projectsByProjectState;
+        return projectsByStatus;
     }
 
     @Override
     public Project save(Project project) {
+
+
         return respository.save(project);
     }
 
     @Override
-    public void delete(Integer projectId) {
-        respository.delete(projectId);
+    public void delete(Integer id) {
+        respository.delete(id);
     }
 }

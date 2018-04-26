@@ -28,7 +28,7 @@ public interface UserService {
 	User findOne(Long userId);
 
 	/**
-	 * 查询所有用户（带分页）
+	 * 查询所有用户
 	 *
 	 * @return
 	 */

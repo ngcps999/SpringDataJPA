@@ -25,11 +25,10 @@ public interface ProjectService {
 
     /**
      * 查询单个项目
-     *
-     * @param projectId
+     * @param id
      * @return
      */
-    Project findOne(Integer projectId);
+    Project findOne(Integer id);
 
     /**
      * 查询所有项目（带分页）
@@ -41,10 +40,10 @@ public interface ProjectService {
     /**
      * 根据项目状态查项目
      *
-     * @param projectState
+     * @param state
      * @return
      */
-    List<Project> findProjectsByProjectState(Integer projectState);
+    List<Project> findProjectsByProjectState(Integer state);
 
     /**
      * 新增/更新项目
@@ -57,7 +56,7 @@ public interface ProjectService {
     /**
      * 删除项目
      *
-     * @param projectId
+     * @param id
      */
-    void delete(Integer projectId);
+    void delete(Integer id);
 }
