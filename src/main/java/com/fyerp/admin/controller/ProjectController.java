@@ -56,7 +56,7 @@ public class ProjectController {
     private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     /**
-     * 查询项目列表
+     * 查询单个项目
      * @return
      */
     @ApiOperation(value = "查询单个项目", notes = "查询单个项目")
