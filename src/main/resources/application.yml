@@ -16,6 +16,8 @@ spring:
     cache: false
 server:
   port: 8080
+  tomcat:
+    uri-encoding: utf-8
 logging:
   level:
     org:

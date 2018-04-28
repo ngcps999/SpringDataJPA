@@ -41,8 +41,6 @@ import java.util.*;
 @RequestMapping("user")
 public class UserController {
 
-    private User user =new User();
-
     @Autowired
     private UserService userService;
 
@@ -61,17 +59,10 @@ public class UserController {
 
     /**
      * 添加用户
-     * @param name
-     * @param username
-     * @param password
-     * @param state
-     * @return
      */
     @ApiOperation(value = "创建用户", notes = "根据user对象创建用户")
     @RequestMapping(value = "/add",method = RequestMethod.POST)
-    public Result<User> addUser(
-            @RequestBody User user
-                                ) {
+    public Result<User> addUser(@RequestBody User user) {
 
         return ResultUtil.success(userService.save(user));
     }
@@ -81,18 +72,9 @@ public class UserController {
      * @return
      */
     @ApiOperation(value = "更新用户", notes = "根据用户的id来更新用户信息")
-    @RequestMapping(value = "/update/{id}",method = RequestMethod.PUT)
-    public Result<User> updateUser(@PathVariable("id") Long id,
-                                   @RequestParam("name") String name,
-                                   @RequestParam("username") String username,
-                                   @RequestParam("password") String password,
-                                   @RequestParam("state") Integer state
-                                   ) {
-        user.setUserId(id);
-        user.setName(name);
-        user.setUsername(username);
-        user.setPassword(password);
-        user.setState(state);
+    @RequestMapping(value = "/update",method = RequestMethod.PUT)
+    public Result<User> updateUser(@RequestBody User user) {
+
         return ResultUtil.success(userService.save(user));
     }
 

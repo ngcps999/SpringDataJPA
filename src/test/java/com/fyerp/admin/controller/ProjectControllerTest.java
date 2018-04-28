@@ -35,10 +35,10 @@ public class ProjectControllerTest {
     public void addProject() {
         Project project = new Project();
         project.setProjectName("cds");
-        project.setPlanStartDate(simpleDateFormat.format(new Date("2018/09/09")));
-        project.setPlanEndDate(simpleDateFormat.format(new Date("2019/08/08")));
-        project.setRealStartDate(simpleDateFormat.format(new Date("2019/10/10")));
-        project.setRealEndDate(simpleDateFormat.format(new Date("2019/11/11")));
+        project.setPlanStartDate(new Date("2018/09/09"));
+        project.setPlanEndDate(new Date("2018/09/09"));
+        project.setRealStartDate(new Date("2018/09/09"));
+        project.setRealEndDate(new Date("2018/09/09"));
         project.setProjectDesc("vasd");
         project.setProjectState(1);
         project.setEquipment("euq");
@@ -59,7 +59,7 @@ public class ProjectControllerTest {
         User user1= new User("xaz","da","123",1);
         project.addMenbers(user1);
 
-        Task task1 = new Task("xda","dasd","12",simpleDateFormat.format(new Date("2018/09/09")),simpleDateFormat.format(new Date("2019/09/09")),simpleDateFormat.format(new Date("2018/11/09")),simpleDateFormat.format(new Date("2018/09/09")));
+        Task task1 = new Task("xda","dasd","12",new Date("2018/09/09"),new Date("2018/09/09"),new Date("2018/09/09"),new Date("2018/09/09"));
 
         project.addTasks(task1);
         projectService.save(project);

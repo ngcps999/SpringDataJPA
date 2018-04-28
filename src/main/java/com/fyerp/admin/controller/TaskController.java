@@ -56,20 +56,8 @@ public class TaskController {
      */
     @ApiOperation(value = "创建任务", notes = "根据Task对象创建任务")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public Result<Task> addTask(@RequestParam("task_desc") String taskDesc,
-                                @RequestParam("task_plan_start_date") String taskPlanStartDate,
-                                @RequestParam("task_plan_end_date") String taskPlanEndDate,
-                                @RequestParam("task_real_start_date") String taskRealStartDate,
-                                @RequestParam("task_real_end_date") String taskRealEndDate,
-                                @RequestParam("task_name") String taskName,
-                                @RequestParam("task_state") String taskState) {
-        task.setTaskDesc(taskDesc);
-        task.setTaskPlanStartDate(simpleDateFormat.format(new Date(taskPlanStartDate)));
-        task.setTaskPlanEndDate(simpleDateFormat.format(new Date(taskPlanEndDate)));
-        task.setTaskRealStartDate(simpleDateFormat.format(new Date(taskRealStartDate)));
-        task.setTaskRealEndDate(simpleDateFormat.format(new Date(taskRealEndDate)));
-        task.setTaskName(taskName);
-        task.setTaskState(taskState);
+    public Result<Task> addTask(@RequestBody Task task) {
+
         return ResultUtil.success(taskService.save(task));
     }
 
@@ -82,23 +70,9 @@ public class TaskController {
 //            @ApiImplicitParam(name = "id", value = "项目ID", required = true, dataType = "Integer", paramType = "path"),
 //            @ApiImplicitParam(name = "project", value = "项目实体project", required = true, dataType = "Project")
 //    })
-    @PutMapping(value = "/update/{task_id}")
-    public Result<Task> updateOrg(@PathVariable("task_id") Integer taskId,
-                                  @RequestParam("task_desc") String taskDesc,
-                                  @RequestParam("task_plan_start_date") String taskPlanStartDate,
-                                  @RequestParam("task_plan_end_date") String taskPlanEndDate,
-                                  @RequestParam("task_real_start_date") String taskRealStartDate,
-                                  @RequestParam("task_real_end_date") String taskRealEndDate,
-                                  @RequestParam("task_name") String taskName,
-                                  @RequestParam("task_state") String taskState) {
-        task.setTaskId(taskId);
-        task.setTaskDesc(taskDesc);
-        task.setTaskPlanStartDate(simpleDateFormat.format(new Date(taskPlanStartDate)));
-        task.setTaskPlanEndDate(simpleDateFormat.format(new Date(taskPlanEndDate)));
-        task.setTaskRealStartDate(simpleDateFormat.format(new Date(taskRealStartDate)));
-        task.setTaskRealEndDate(simpleDateFormat.format(new Date(taskRealEndDate)));
-        task.setTaskName(taskName);
-        task.setTaskState(taskState);
+    @PutMapping(value = "/update")
+    public Result<Task> updateOrg(@RequestBody Task task) {
+
         return ResultUtil.success(taskService.save(task));
     }
 

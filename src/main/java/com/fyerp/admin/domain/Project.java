@@ -10,6 +10,7 @@
 
 package com.fyerp.admin.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fyerp.admin.enums.ProjectStatusEnum;
 import org.hibernate.annotations.DynamicUpdate;
@@ -41,7 +42,7 @@ public class Project {
     public Project() {
     }
 
-    public Project(String projectName, String planStartDate, String planEndDate, String realStartDate, String realEndDate, String equipment, String flyPlatform, String flyHeight, String aeroRatio, String areoArea, Integer projectState, String projectDesc) {
+    public Project(String projectName, Date planStartDate, Date planEndDate, Date realStartDate, Date realEndDate, String equipment, String flyPlatform, String flyHeight, String aeroRatio, String areoArea, String map, Integer projectState, String projectDesc, Date createTime, Date updateTime) {
         this.projectName = projectName;
         this.planStartDate = planStartDate;
         this.planEndDate = planEndDate;
@@ -52,8 +53,11 @@ public class Project {
         this.flyHeight = flyHeight;
         this.aeroRatio = aeroRatio;
         this.areoArea = areoArea;
+        this.map = map;
         this.projectState = projectState;
         this.projectDesc = projectDesc;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
     }
 
     /**
@@ -73,23 +77,26 @@ public class Project {
     /**
      * 项目计划开始时间
      */
-
-    private String planStartDate;
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+    private Date planStartDate;
 
     /**
      * 项目计划完成时间
      */
-    private String planEndDate;
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+    private Date planEndDate;
 
     /**
      * 项目实际开始时间
      */
-    private String realStartDate;
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+    private Date realStartDate;
 
     /**
      * 项目实际完成时间
      */
-    private String realEndDate;
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+    private Date realEndDate;
 
     /**
      * 使用设备
@@ -151,12 +158,14 @@ public class Project {
      * 创建时间
      */
     @CreatedDate
+//    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date createTime;
 
     /**
      * 更新时间
      */
     @LastModifiedDate
+//    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date updateTime;
 
     public void addMenbers(User user){
@@ -185,35 +194,35 @@ public class Project {
         this.projectName = projectName;
     }
 
-    public String getPlanStartDate() {
+    public Date getPlanStartDate() {
         return planStartDate;
     }
 
-    public void setPlanStartDate(String planStartDate) {
+    public void setPlanStartDate(Date planStartDate) {
         this.planStartDate = planStartDate;
     }
 
-    public String getPlanEndDate() {
+    public Date getPlanEndDate() {
         return planEndDate;
     }
 
-    public void setPlanEndDate(String planEndDate) {
+    public void setPlanEndDate(Date planEndDate) {
         this.planEndDate = planEndDate;
     }
 
-    public String getRealStartDate() {
+    public Date getRealStartDate() {
         return realStartDate;
     }
 
-    public void setRealStartDate(String realStartDate) {
+    public void setRealStartDate(Date realStartDate) {
         this.realStartDate = realStartDate;
     }
 
-    public String getRealEndDate() {
+    public Date getRealEndDate() {
         return realEndDate;
     }
 
-    public void setRealEndDate(String realEndDate) {
+    public void setRealEndDate(Date realEndDate) {
         this.realEndDate = realEndDate;
     }
 
@@ -332,4 +341,5 @@ public class Project {
                 ", projectDesc='" + projectDesc + '\'' +
                 '}';
     }
+
 }

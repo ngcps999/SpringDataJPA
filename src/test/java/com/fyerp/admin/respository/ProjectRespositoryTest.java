@@ -56,10 +56,8 @@ public class ProjectRespositoryTest {
         project.setProjectName("测5");
         project.setProjectDesc("test3");
 
-        Date date = new Date("2018/09/21");
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
-        simpleDateFormat.format(simpleDateFormat.format(date));
-        project.setPlanStartDate(simpleDateFormat.format(date));
+        String s = simpleDateFormat.format(new Date("20190909"));
 
         Project project1 = projectRespository.save(project);
         Assert.assertNotNull(project1);

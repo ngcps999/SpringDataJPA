@@ -60,10 +60,21 @@ public class ProjectController {
      * @return
      */
     @ApiOperation(value = "查询单个项目", notes = "查询单个项目")
-    @RequestMapping(value = "/findOne/{id}", method = RequestMethod.GET)
+    @GetMapping(value = "/findOne/{id}")
     public Result<Project> findOneProject(@PathVariable("id") Integer id) {
         logger.info("findOneProject");
         return ResultUtil.success(projectService.findOne(id));
+    }
+
+    /**
+     * 按计划进度查询
+     * @return
+     */
+    @ApiOperation(value = "按计划进度查询", notes = "按计划进度查询")
+    @GetMapping(value = "/findByPlanStartDateBetween/{planStartDate1}/{planStartDate2}")
+    public Result<Project> findByPlanStartDateBetween(@PathVariable("planStartDate1") String planStartDate1,
+                                                      @PathVariable("planStartDate2") String planStartDate2){
+        return ResultUtil.success(projectService.findByPlanStartDateBetween(planStartDate1,planStartDate2));
     }
 
     /**

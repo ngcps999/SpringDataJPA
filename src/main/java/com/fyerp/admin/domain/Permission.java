@@ -34,40 +34,24 @@ public class Permission implements Serializable {
     private Long permissionId;
 
     /**
-     * 名称
+     * 权限名称
      */
     private String name;
 
     /**
-     * 资源类型[menu|button]
-     */
-    @Column(columnDefinition = "enum('menu','button')")
-    private String resourceType;
-
-    /**
-     * 资源路径
+     * 授权链接
      */
     private String url;
 
     /**
-     * 权限字符串,menu例子：role:*，button例子：role:create,role:update,role:delete,role:view
+     * 权限描述
      */
     private String permission;
 
     /**
-     * 父级编号
+     * 父节点Id
      */
-    private String parentId;
-
-    /**
-     * 父编号列表
-     */
-    private String parentIds;
-
-    /**
-     * 是否可用
-     */
-    private Boolean available = Boolean.FALSE;
+    private Integer parentId;
 
     /**
      * 角色-权限多对多关系
@@ -77,6 +61,15 @@ public class Permission implements Serializable {
     @JoinTable(name = "RolePermission",joinColumns={@JoinColumn(name = "permissionId")},inverseJoinColumns = {@JoinColumn(name = "roleId")})
     private List<Role> roles;
 
+    public Permission() {
+    }
+
+    public Permission(String name, String url, String permission, Integer parentId) {
+        this.name = name;
+        this.url = url;
+        this.permission = permission;
+        this.parentId = parentId;
+    }
 
     public Long getPermissionId() {
         return permissionId;
@@ -92,14 +85,6 @@ public class Permission implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getResourceType() {
-        return resourceType;
-    }
-
-    public void setResourceType(String resourceType) {
-        this.resourceType = resourceType;
     }
 
     public String getUrl() {
@@ -118,28 +103,12 @@ public class Permission implements Serializable {
         this.permission = permission;
     }
 
-    public String getParentId() {
+    public Integer getParentId() {
         return parentId;
     }
 
-    public void setParentId(String parentId) {
+    public void setParentId(Integer parentId) {
         this.parentId = parentId;
-    }
-
-    public String getParentIds() {
-        return parentIds;
-    }
-
-    public void setParentIds(String parentIds) {
-        this.parentIds = parentIds;
-    }
-
-    public Boolean getAvailable() {
-        return available;
-    }
-
-    public void setAvailable(Boolean available) {
-        this.available = available;
     }
 
     public List<Role> getRoles() {
@@ -155,11 +124,9 @@ public class Permission implements Serializable {
         return "Permission{" +
                 "permissionId=" + permissionId +
                 ", name='" + name + '\'' +
-                ", resourceType='" + resourceType + '\'' +
                 ", url='" + url + '\'' +
-                ", parentId='" + parentId + '\'' +
-                ", parentIds='" + parentIds + '\'' +
-                ", available=" + available +
+                ", permission='" + permission + '\'' +
+                ", parentId=" + parentId +
                 '}';
     }
 }

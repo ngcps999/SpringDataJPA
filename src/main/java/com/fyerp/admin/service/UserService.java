@@ -21,7 +21,6 @@ public interface UserService {
 
 	/**
 	 * 查询单个用户
-	 *
 	 * @param userId
 	 * @return
 	 */

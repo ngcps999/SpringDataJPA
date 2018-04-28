@@ -29,6 +29,7 @@ import java.util.*;
 @Entity
 @Data
 public class User  {
+
     private static final long serialVersionUID = -8454698376979101464L;
     /**
      * 用户Id
@@ -47,6 +48,11 @@ public class User  {
      * 姓名
      */
     private String name;
+
+    /**
+     * 部门
+     */
+    private String department;
 
     /**
      * 密码
@@ -152,6 +158,14 @@ public class User  {
         return menber;
     }
 
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
+    }
+
     public void setMenber(Project menber) {
         this.menber = menber;
     }
@@ -162,6 +176,7 @@ public class User  {
                 "userId=" + userId +
                 ", username='" + username + '\'' +
                 ", name='" + name + '\'' +
+                ", department='" + department + '\'' +
                 ", password='" + password + '\'' +
                 ", state=" + state +
                 '}';

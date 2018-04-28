@@ -46,8 +46,15 @@ public interface ProjectService {
     List<Project> findProjectsByProjectState(Integer state);
 
     /**
+     * 按计划进度查询
+     * @param planStartDate1
+     * @param planStartDate2
+     * @return
+     */
+    List<Project> findByPlanStartDateBetween(String planStartDate1,String planStartDate2);
+
+    /**
      * 新增/更新项目
-     *
      * @param project
      * @return
      */

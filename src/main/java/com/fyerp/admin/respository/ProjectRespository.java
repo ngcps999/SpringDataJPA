@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,6 +26,11 @@ import java.util.List;
 public interface ProjectRespository extends JpaRepository<Project, Integer> {
 
     List<Project> findProjectsByProjectState(Integer projectState);
+
     Project findProjectByProjectId(Integer projectId);
+
     Project findByProjectName(String projectName);
+
+    List<Project> findByPlanStartDateBetween(String planStartDate1,String planStartDate2);
+
 }

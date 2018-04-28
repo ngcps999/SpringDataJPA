@@ -11,11 +11,14 @@
 package com.fyerp.admin.service.impl;
 
 import com.fyerp.admin.domain.Project;
+import com.fyerp.admin.domain.User;
 import com.fyerp.admin.respository.ProjectRespository;
+import com.fyerp.admin.respository.UserRespository;
 import com.fyerp.admin.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -29,6 +32,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Autowired
     private ProjectRespository respository;
+
+    @Autowired
+    private UserRespository userRespository;
 
     @Override
     public Project findOne(Integer id) {
@@ -50,8 +56,12 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public Project save(Project project) {
+    public List<Project> findByPlanStartDateBetween(String planStartDate1, String planStartDate2) {
+        return respository.findByPlanStartDateBetween(planStartDate1,planStartDate2);
+    }
 
+    @Override
+    public Project save(Project project) {
 
         return respository.save(project);
     }
@@ -60,4 +70,6 @@ public class ProjectServiceImpl implements ProjectService {
     public void delete(Integer id) {
         respository.delete(id);
     }
+
+
 }

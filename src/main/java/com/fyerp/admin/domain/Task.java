@@ -10,9 +10,11 @@
 
 package com.fyerp.admin.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.DynamicUpdate;
+
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -39,23 +41,27 @@ public class Task {
     @JsonProperty("status")
     private String taskState;
     @JsonProperty("planStartDate")
-    private String taskPlanStartDate;
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    private Date taskPlanStartDate;
     @JsonProperty("realStartDate")
-    private String taskRealStartDate;
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    private Date taskRealStartDate;
     @JsonProperty("realEndDate")
-    private String taskRealEndDate;
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    private Date taskRealEndDate;
     @JsonProperty("planEndDate")
-    private String taskPlanEndDate;
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    private Date taskPlanEndDate;
 
     @JsonIgnore
-    @ManyToOne(targetEntity = Project.class,cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = Project.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "projectId")
     private Project task;
 
     public Task() {
     }
 
-    public Task(String taskName, String taskDesc, String taskState, String taskPlanStartDate, String taskRealStartDate, String taskRealEndDate, String taskPlanEndDate) {
+    public Task(String taskName, String taskDesc, String taskState, Date taskPlanStartDate, Date taskRealStartDate, Date taskRealEndDate, Date taskPlanEndDate) {
         this.taskName = taskName;
         this.taskDesc = taskDesc;
         this.taskState = taskState;
@@ -97,35 +103,35 @@ public class Task {
         this.taskState = taskState;
     }
 
-    public String getTaskPlanStartDate() {
+    public Date getTaskPlanStartDate() {
         return taskPlanStartDate;
     }
 
-    public void setTaskPlanStartDate(String taskPlanStartDate) {
+    public void setTaskPlanStartDate(Date taskPlanStartDate) {
         this.taskPlanStartDate = taskPlanStartDate;
     }
 
-    public String getTaskRealStartDate() {
+    public Date getTaskRealStartDate() {
         return taskRealStartDate;
     }
 
-    public void setTaskRealStartDate(String taskRealStartDate) {
+    public void setTaskRealStartDate(Date taskRealStartDate) {
         this.taskRealStartDate = taskRealStartDate;
     }
 
-    public String getTaskRealEndDate() {
+    public Date getTaskRealEndDate() {
         return taskRealEndDate;
     }
 
-    public void setTaskRealEndDate(String taskRealEndDate) {
+    public void setTaskRealEndDate(Date taskRealEndDate) {
         this.taskRealEndDate = taskRealEndDate;
     }
 
-    public String getTaskPlanEndDate() {
+    public Date getTaskPlanEndDate() {
         return taskPlanEndDate;
     }
 
-    public void setTaskPlanEndDate(String taskPlanEndDate) {
+    public void setTaskPlanEndDate(Date taskPlanEndDate) {
         this.taskPlanEndDate = taskPlanEndDate;
     }
 
