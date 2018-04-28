@@ -51,10 +51,6 @@ public class ProjectController {
     @Autowired
     private ProjectService projectService;
 
-    private Project project = new Project();
-
-    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
     /**
      * 查询单个项目
      * @return
