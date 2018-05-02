@@ -18,6 +18,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit4.SpringRunner;
 
@@ -49,7 +51,14 @@ public class ProjectServiceImplTest {
 
     @Test
     public void findAll() {
-        List<Project> projects = projectService.findAll();
+        PageRequest request = new PageRequest(0,2);
+        Page<Project> projects = projectService.findAll(request);
+        for (Project project1 : projects) {
+            System.out.println(project1.toString());
+
+        }
+
+//        List<Project> projects = projectService.findAll();
 //        Assert.assertNotEquals(0,projects.size());
 
     }

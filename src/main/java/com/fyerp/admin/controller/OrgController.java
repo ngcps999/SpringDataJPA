@@ -20,6 +20,7 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -46,10 +47,13 @@ public class OrgController {
      * @return
      */
     @ApiOperation(value = "查询组织架构列表", notes = "查询组织架构列表")
-    @RequestMapping(value = "/list",method = RequestMethod.GET)
-    public Result<Org> getOrgs() {
+    @RequestMapping(value = "/list/{page}/{size}",method = RequestMethod.GET)
+    public Result<Org> getOrgs(@PathVariable("page") Integer page,
+                               @PathVariable("size") Integer size) {
         logger.info("orgList");
-        return ResultUtil.success(orgService.findAll());
+        PageRequest request = new PageRequest(page-1,size);
+
+        return ResultUtil.success(orgService.findAll(request));
     }
 
     /**

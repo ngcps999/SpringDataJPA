@@ -16,6 +16,8 @@ import com.fyerp.admin.respository.ProjectRespository;
 import com.fyerp.admin.respository.UserRespository;
 import com.fyerp.admin.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -42,9 +44,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<Project> findAll() {
-        return respository.findAll();
+    public Page<Project> findAll(Pageable pageable) {
+        return respository.findAll(pageable);
     }
+
+
 
     @Override
     public List<Project> findProjectsByProjectState(Integer state) {

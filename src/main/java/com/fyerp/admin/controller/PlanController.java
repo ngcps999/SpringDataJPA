@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,11 +36,13 @@ public class PlanController {
      * @return
      */
     @ApiOperation(value = "查询计划列表", notes = "查询计划列表")
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public Result<Plan> getPlans(HttpServletRequest request, HttpServletResponse response) {
+    @RequestMapping(value = "/list/{page}/{size}", method = RequestMethod.GET)
+    public Result<Plan> getPlans(@PathVariable("page") Integer page,
+                                 @PathVariable("size") Integer size) {
         logger.info("planList");
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        return ResultUtil.success(planService.findAll());
+        PageRequest request = new PageRequest(page-1,size);
+
+        return ResultUtil.success(planService.findAll(request));
     }
 
     /**

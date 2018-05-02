@@ -14,6 +14,8 @@ import com.fyerp.admin.domain.Org;
 import com.fyerp.admin.respository.OrgRespository;
 import com.fyerp.admin.service.OrgService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,8 +37,8 @@ public class OrgServiceImpl implements OrgService {
     }
 
     @Override
-    public List<Org> findAll() {
-        return orgRespository.findAll();
+    public Page<Org> findAll(Pageable pageable) {
+        return orgRespository.findAll(pageable);
     }
 
     @Override

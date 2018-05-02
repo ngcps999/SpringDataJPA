@@ -25,6 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -51,10 +52,12 @@ public class UserController {
      * @return
      */
     @ApiOperation(value = "查询用户列表", notes = "查询用户列表")
-    @RequestMapping(value = "/list",method = RequestMethod.GET)
-    public Result<User> getUsers() {
+    @RequestMapping(value = "/list/{page}/{size}",method = RequestMethod.GET)
+    public Result<User> getUsers(@PathVariable("page") Integer page,
+                                 @PathVariable("size") Integer size) {
         logger.info("userList");
-        return ResultUtil.success(userService.findAll());
+        PageRequest request = new PageRequest(page-1,size);
+        return ResultUtil.success(userService.findAll(request));
     }
 
     /**

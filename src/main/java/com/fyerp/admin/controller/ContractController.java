@@ -16,6 +16,7 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -43,10 +44,13 @@ public class ContractController {
      * @return
      */
     @ApiOperation(value = "查询合同列表", notes = "查询合同列表")
-    @RequestMapping(value = "/list",method = RequestMethod.GET)
-    public Result<Contract> getContracts() {
+    @RequestMapping(value = "/list/{page}/{size}",method = RequestMethod.GET)
+    public Result<Contract> getContracts(@PathVariable("page") Integer page,
+                                         @PathVariable("size") Integer size) {
         logger.info("ContractList");
-        return ResultUtil.success(contractService.findAll());
+        PageRequest request = new PageRequest(page-1,size);
+
+        return ResultUtil.success(contractService.findAll(request));
     }
 
     /**

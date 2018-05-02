@@ -10,6 +10,8 @@ import com.fyerp.admin.domain.Task;
 import com.fyerp.admin.respository.TaskRespository;
 import com.fyerp.admin.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,8 +23,8 @@ public class TaskServiceImpl implements TaskService {
     private TaskRespository taskRespository;
 
     @Override
-    public List<Task> findAll() {
-        return taskRespository.findAll();
+    public Page<Task> findAll(Pageable pageable) {
+        return taskRespository.findAll(pageable);
     }
 
     @Override

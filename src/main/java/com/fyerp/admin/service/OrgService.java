@@ -11,6 +11,8 @@
 package com.fyerp.admin.service;
 
 import com.fyerp.admin.domain.Org;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -34,7 +36,7 @@ public interface OrgService {
      *
      * @return
      */
-    List<Org> findAll();
+    Page<Org> findAll(Pageable pageable);
 
     /**
      * 新增/更新项目

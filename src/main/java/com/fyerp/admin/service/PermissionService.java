@@ -7,6 +7,8 @@
 package com.fyerp.admin.service;
 
 import com.fyerp.admin.domain.Permission;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -21,10 +23,9 @@ public interface PermissionService  {
 
     /**
      * 查询所有角色
-     *
      * @return
      */
-    List<Permission> findAll();
+    Page<Permission> findAll(Pageable pageable);
 
     /**
      * 新增/更新角色

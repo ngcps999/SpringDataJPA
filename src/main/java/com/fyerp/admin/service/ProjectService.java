@@ -11,6 +11,8 @@
 package com.fyerp.admin.service;
 
 import com.fyerp.admin.domain.Project;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -35,7 +37,7 @@ public interface ProjectService {
      *
      * @return
      */
-    List<Project> findAll();
+    Page<Project> findAll(Pageable pageable);
 
     /**
      * 根据项目状态查项目

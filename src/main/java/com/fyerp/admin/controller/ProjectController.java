@@ -22,6 +22,9 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -73,16 +76,20 @@ public class ProjectController {
         return ResultUtil.success(projectService.findByPlanStartDateBetween(planStartDate1,planStartDate2));
     }
 
+
+
     /**
      * 查询项目列表
      *
      * @return
      */
-    @ApiOperation(value = "查询项目列表", notes = "查询项目列表")
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public Result<Project> getProjects() {
+    @ApiOperation(value = "查询项目列表", notes = "查询项目列表(第几页，每页几条)")
+    @RequestMapping(value = "/list/{page}/{size}", method = RequestMethod.GET)
+    public Result<Project> getProjects(@PathVariable("page") Integer page,
+                                       @PathVariable("size") Integer size) {
         logger.info("projectList");
-        return ResultUtil.success(projectService.findAll());
+        PageRequest request = new PageRequest(page-1,size);
+        return ResultUtil.success(projectService.findAll(request));
     }
 
     /**

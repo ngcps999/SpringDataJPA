@@ -10,6 +10,8 @@ import com.fyerp.admin.domain.Role;
 import com.fyerp.admin.respository.RoleRespository;
 import com.fyerp.admin.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,8 +28,8 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<Role> findAll() {
-        return roleRespository.findAll();
+    public Page<Role> findAll(Pageable pageable) {
+        return roleRespository.findAll(pageable);
     }
 
     @Override

@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -37,27 +38,21 @@ public class TaskController {
      * @return
      */
     @ApiOperation(value = "查询任务列表", notes = "查询任务列表")
-    @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public Result<Task> getTasks() {
+    @RequestMapping(value = "/list/{page}/{size}", method = RequestMethod.GET)
+    public Result<Task> getTasks(@PathVariable("page") Integer page,
+                                 @PathVariable("size") Integer size) {
         logger.info("taskList");
-        return ResultUtil.success(taskService.findAll());
+        PageRequest request = new PageRequest(page-1,size);
+        return ResultUtil.success(taskService.findAll(request));
     }
 
     /**
      * 创建任务
-     * @param taskDesc
-     * @param taskPlanStartDate
-     * @param taskPlanEndDate
-     * @param taskRealStartDate
-     * @param taskRealEndDate
-     * @param taskName
-     * @param taskState
      * @return
      */
     @ApiOperation(value = "创建任务", notes = "根据Task对象创建任务")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public Result<Task> addTask(@RequestBody Task task) {
-
         return ResultUtil.success(taskService.save(task));
     }
 

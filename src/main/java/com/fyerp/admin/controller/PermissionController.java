@@ -14,6 +14,7 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -30,10 +31,12 @@ public class PermissionController {
      * @return
      */
     @ApiOperation(value = "查询权限列表", notes = "查询权限列表")
-    @RequestMapping(value = "/list",method = RequestMethod.GET)
-    public Result<Permission> getPermissions() {
+    @RequestMapping(value = "/list/{page}/{size}",method = RequestMethod.GET)
+    public Result<Permission> getPermissions(@PathVariable("page") Integer page,
+                                             @PathVariable("size") Integer size) {
         logger.info("roleList");
-        return ResultUtil.success(permissionService.findAll());
+        PageRequest request = new PageRequest(page-1,size);
+        return ResultUtil.success(permissionService.findAll(request));
     }
 
     /**

@@ -10,6 +10,8 @@ import com.fyerp.admin.domain.Permission;
 import com.fyerp.admin.respository.PermissionRespository;
 import com.fyerp.admin.service.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -26,8 +28,8 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
-    public List<Permission> findAll() {
-        return permissionRespository.findAll();
+    public Page<Permission> findAll(Pageable pageable) {
+        return permissionRespository.findAll(pageable);
     }
 
     @Override

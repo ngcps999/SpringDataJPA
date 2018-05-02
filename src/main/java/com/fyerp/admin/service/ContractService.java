@@ -7,6 +7,8 @@
 package com.fyerp.admin.service;
 
 import com.fyerp.admin.domain.Contract;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -17,7 +19,7 @@ public interface ContractService {
 
     public Contract findOne(Integer contractId);
 
-    public List<Contract> findAll();
+    public Page<Contract> findAll(Pageable pageable);
 
     public Contract save(Contract contract);
 

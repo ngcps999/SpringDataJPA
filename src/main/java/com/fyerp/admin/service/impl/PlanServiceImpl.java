@@ -10,6 +10,8 @@ import com.fyerp.admin.domain.Plan;
 import com.fyerp.admin.respository.PlanRespository;
 import com.fyerp.admin.service.PlanService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,8 +23,8 @@ public class PlanServiceImpl implements PlanService {
     private PlanRespository planRespository;
 
     @Override
-    public List<Plan> findAll() {
-        return planRespository.findAll();
+    public Page<Plan> findAll(Pageable pageable) {
+        return planRespository.findAll(pageable);
     }
 
     @Override
