@@ -68,4 +68,12 @@ public class ProjectControllerTest {
     @Test
     public void updateProject() {
     }
+
+    @Test
+    public void findByPlanStartDateAfterAndPlanEndDateBefore() {
+        List<Project> projects = projectService.findByPlanStartDateAfterAndPlanEndDateBefore(new Date("2017/01/09"), new Date("2019/10/10"));
+        for (Project project : projects) {
+            System.out.println(project.toString());
+        }
+    }
 }

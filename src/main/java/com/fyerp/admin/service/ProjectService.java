@@ -14,6 +14,7 @@ import com.fyerp.admin.domain.Project;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -53,7 +54,15 @@ public interface ProjectService {
      * @param planStartDate2
      * @return
      */
-    List<Project> findByPlanStartDateBetween(String planStartDate1,String planStartDate2);
+    List<Project> findByPlanStartDateBetween(Date planStartDate1,Date planStartDate2);
+
+    /**
+     * 按计划开始时间和计划结束时间查询
+     * @param planStartDate
+     * @param planEndDate
+     * @return
+     */
+    List<Project> findByPlanStartDateAfterAndPlanEndDateBefore(Date planStartDate, Date planEndDate);
 
     /**
      * 新增/更新项目

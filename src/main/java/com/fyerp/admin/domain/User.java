@@ -12,6 +12,7 @@ package com.fyerp.admin.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fyerp.admin.enums.DepartmentEnum;
 import lombok.Data;
 //import org.springframework.security.core.GrantedAuthority;
 //import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -52,7 +53,7 @@ public class User  {
     /**
      * 部门
      */
-    private String department;
+    private String department = DepartmentEnum.YFB.getName();
 
     /**
      * 密码

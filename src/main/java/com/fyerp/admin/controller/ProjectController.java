@@ -56,6 +56,7 @@ public class ProjectController {
 
     /**
      * 查询单个项目
+     *
      * @return
      */
     @ApiOperation(value = "查询单个项目", notes = "查询单个项目")
@@ -67,16 +68,26 @@ public class ProjectController {
 
     /**
      * 按计划进度查询
+     *
      * @return
      */
     @ApiOperation(value = "按计划进度查询", notes = "按计划进度查询")
     @GetMapping(value = "/findByPlanStartDateBetween/{planStartDate1}/{planStartDate2}")
-    public Result<Project> findByPlanStartDateBetween(@PathVariable("planStartDate1") String planStartDate1,
-                                                      @PathVariable("planStartDate2") String planStartDate2){
-        return ResultUtil.success(projectService.findByPlanStartDateBetween(planStartDate1,planStartDate2));
+    public Result<Project> findByPlanStartDateBetween(@PathVariable("planStartDate1") Date planStartDate1,
+                                                      @PathVariable("planStartDate2") Date planStartDate2) {
+        return ResultUtil.success(projectService.findByPlanStartDateBetween(planStartDate1, planStartDate2));
     }
 
-
+    /**
+     * 按计划开始时间和计划结束时间段查询
+     * @return
+     */
+    @ApiOperation(value = "按计划开始时间和计划结束时间段查询", notes = "按计划开始时间和计划结束时间段查询")
+    @GetMapping(value = "/findByPlanStartDateAfterAndPlanEndDateBefore/{planStartDate}/{planEndDate}")
+    public Result<Project> findByPlanStartDateAfterAndPlanEndDateBefore(@PathVariable("planStartDate") Date planStartDate,
+                                                                        @PathVariable("planEndDate") Date planEndDate) {
+        return ResultUtil.success(projectService.findByPlanStartDateAfterAndPlanEndDateBefore(planStartDate, planEndDate));
+    }
 
     /**
      * 查询项目列表
@@ -88,12 +99,13 @@ public class ProjectController {
     public Result<Project> getProjects(@PathVariable("page") Integer page,
                                        @PathVariable("size") Integer size) {
         logger.info("projectList");
-        PageRequest request = new PageRequest(page-1,size);
+        PageRequest request = new PageRequest(page - 1, size);
         return ResultUtil.success(projectService.findAll(request));
     }
 
     /**
      * 按状态查询项目
+     *
      * @return
      */
     @ApiOperation(value = "按状态查询项目,项目状态：0未进行，1正在进行，2遇到问题", notes = "按状态查询项目")
@@ -118,6 +130,7 @@ public class ProjectController {
 
     /**
      * 删除项目
+     *
      * @param id
      */
     @ApiOperation(value = "删除项目", notes = "根据url的id来指定删除项目")

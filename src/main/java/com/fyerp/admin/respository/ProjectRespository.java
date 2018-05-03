@@ -31,6 +31,8 @@ public interface ProjectRespository extends JpaRepository<Project, Integer> {
 
     Project findByProjectName(String projectName);
 
-    List<Project> findByPlanStartDateBetween(String planStartDate1,String planStartDate2);
+    List<Project> findByPlanStartDateBetween(Date planStartDate1,Date planStartDate2);
+
+    List<Project> findByPlanStartDateAfterAndPlanEndDateBefore(Date planStartDate,Date planEndDate);
 
 }

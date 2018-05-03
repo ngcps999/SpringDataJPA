@@ -21,6 +21,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -60,8 +61,13 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
-    public List<Project> findByPlanStartDateBetween(String planStartDate1, String planStartDate2) {
+    public List<Project> findByPlanStartDateBetween(Date planStartDate1, Date planStartDate2) {
         return respository.findByPlanStartDateBetween(planStartDate1,planStartDate2);
+    }
+
+    @Override
+    public List<Project> findByPlanStartDateAfterAndPlanEndDateBefore(Date planStartDate, Date planEndDate) {
+        return respository.findByPlanStartDateAfterAndPlanEndDateBefore(planStartDate,planEndDate);
     }
 
     @Override
