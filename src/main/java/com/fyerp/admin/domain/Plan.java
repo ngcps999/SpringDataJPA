@@ -6,6 +6,7 @@
 
 package com.fyerp.admin.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
@@ -26,13 +27,16 @@ public class Plan {
 
     @Id
     @GeneratedValue
+    @JsonIgnore
     private Integer planId;
     @JsonProperty("name")
     private String planName;
     @JsonProperty("content")
     private String planContent;
+    @JsonIgnore
     @CreatedDate
     private Date createTime;
+    @JsonIgnore
     @LastModifiedDate
     private Date updateTime;
 
