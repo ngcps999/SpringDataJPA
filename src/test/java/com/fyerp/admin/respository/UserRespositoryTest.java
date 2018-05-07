@@ -48,13 +48,13 @@ public class UserRespositoryTest {
         System.out.println(admin);
     }
 
-    @Test
-    public void addUser(){
-        user.setUserId(3l);
-        user.setName("xd1");
-        user.setUsername("xd2");
-        user.setPassword("123");
-
-        userRespository.save(user);
-    }
+//    @Test
+//    public void addUser(){
+//        user.setUserId(3l);
+//        user.setName("xd1");
+//        user.setUsername("xd2");
+//        user.setPassword("123");
+//
+//        userRespository.save(user);
+//    }
 }

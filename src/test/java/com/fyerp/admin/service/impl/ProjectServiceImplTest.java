@@ -71,14 +71,14 @@ public class ProjectServiceImplTest {
 
     }
 
-    @Test
-    public void delete() {
-        projectService.delete(9);
-    }
+//    @Test
+//    public void delete() {
+//        projectService.delete(9);
+//    }
 
     @Test
     public void findProjectsByProject_state() {
-        projectService.findProjectsByProjectState(2);
+        projectService.findProjectsByProjectState(1);
     }
 
 

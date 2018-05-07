@@ -48,28 +48,28 @@ public class ProjectRespositoryTest {
         projectRespository.findAll();
     }
 
-    @Test
-    public void saveTest() {
-//        Project project = projectRespository.findOne(4);
+//    @Test
+//    public void saveTest() {
+////        Project project = projectRespository.findOne(4);
+//
+//        Project project = new Project();
+//        project.setProjectName("测5");
+//        project.setProjectDesc("test3");
+//
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
+//        String s = simpleDateFormat.format(new Date("20190909"));
+//
+//        Project project1 = projectRespository.save(project);
+//        Assert.assertNotNull(project1);
+////        Assert.assertNotEquals(null,project1);
+//    }
 
-        Project project = new Project();
-        project.setProjectName("测5");
-        project.setProjectDesc("test3");
-
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyyMMdd");
-        String s = simpleDateFormat.format(new Date("20190909"));
-
-        Project project1 = projectRespository.save(project);
-        Assert.assertNotNull(project1);
-//        Assert.assertNotEquals(null,project1);
-    }
-
-    @Test
-    public void delete(){
-        Project project = new Project();
-        project.setProjectId(8);
-        projectRespository.delete(project.getProjectId());
-    }
+//    @Test
+//    public void delete(){
+//        Project project = new Project();
+//        project.setProjectId(8);
+//        projectRespository.delete(project.getProjectId());
+//    }
 
     @Test
     public void findProjectsByProject_state(){
