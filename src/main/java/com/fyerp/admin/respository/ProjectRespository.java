@@ -13,8 +13,8 @@ package com.fyerp.admin.respository;
 import com.fyerp.admin.domain.Project;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
 
 import java.util.Date;
 import java.util.List;
@@ -34,5 +34,10 @@ public interface ProjectRespository extends JpaRepository<Project, Integer> {
     List<Project> findByPlanStartDateBetween(Date planStartDate1,Date planStartDate2);
 
     List<Project> findByPlanStartDateAfterAndPlanEndDateBefore(Date planStartDate,Date planEndDate);
+
+    List<Project> findByRealStartDateAfterAndRealEndDateBefore(Date realStartDate,Date realEndDate);
+
+    Page<Project> findByPriority(Integer priority,Pageable pageable);
+
 
 }

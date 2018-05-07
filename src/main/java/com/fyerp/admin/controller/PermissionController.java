@@ -66,8 +66,9 @@ public class PermissionController {
      */
     @ApiOperation(value = "删除权限", notes = "根据id删除权限")
     @RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
-    public void deletePermission(@PathVariable("id") Long id) {
+    public Result<Permission> deletePermission(@PathVariable("id") Long id) {
         permissionService.delete(id);
+        return ResultUtil.success(id);
     }
 
 }

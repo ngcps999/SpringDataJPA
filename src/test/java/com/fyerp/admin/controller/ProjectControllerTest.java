@@ -15,6 +15,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.text.SimpleDateFormat;
@@ -76,4 +80,16 @@ public class ProjectControllerTest {
             System.out.println(project.toString());
         }
     }
+
+  @Test
+    public void findAllSort() {
+      Sort sort = new Sort(Sort.Direction.ASC, "priority");
+      PageRequest request = new PageRequest(0, 3, sort);
+      Page<Project> projects = projectService.findAll(request);
+      for (Project project : projects) {
+          System.out.println(project);
+      }
+  }
+
+
 }

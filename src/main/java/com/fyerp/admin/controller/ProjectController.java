@@ -10,6 +10,7 @@
 
 package com.fyerp.admin.controller;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fyerp.admin.domain.Project;
 import com.fyerp.admin.domain.Result;
 import com.fyerp.admin.domain.Task;
@@ -25,6 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -67,19 +69,8 @@ public class ProjectController {
     }
 
     /**
-     * 按计划进度查询
-     *
-     * @return
-     */
-    @ApiOperation(value = "按计划进度查询", notes = "按计划进度查询")
-    @GetMapping(value = "/findByPlanStartDateBetween/{planStartDate1}/{planStartDate2}")
-    public Result<Project> findByPlanStartDateBetween(@PathVariable("planStartDate1") Date planStartDate1,
-                                                      @PathVariable("planStartDate2") Date planStartDate2) {
-        return ResultUtil.success(projectService.findByPlanStartDateBetween(planStartDate1, planStartDate2));
-    }
-
-    /**
      * 按计划开始时间和计划结束时间段查询
+     *
      * @return
      */
     @ApiOperation(value = "按计划开始时间和计划结束时间段查询", notes = "按计划开始时间和计划结束时间段查询")
@@ -90,7 +81,34 @@ public class ProjectController {
     }
 
     /**
-     * 查询项目列表
+     * 按实际开始时间和实际结束时间段查询
+     *
+     * @return
+     */
+    @ApiOperation(value = "按实际开始时间和实际结束时间段查询", notes = "按实际开始时间和实际结束时间段查询")
+    @GetMapping(value = "/findByRealStartDateAfterAndRealEndDateBefore/{realStartDate}/{realEndDate}")
+    public Result<Project> findByRealStartDateAfterAndRealEndDateBefore(@PathVariable("realStartDate") Date realStartDate,
+                                                                        @PathVariable("realEndDate") Date realEndDate) {
+        return ResultUtil.success(projectService.findByPlanStartDateAfterAndPlanEndDateBefore(realStartDate, realEndDate));
+    }
+
+    /**
+     * 按优先级从高到低查询项目列表（带分页）
+     *
+     * @return
+     */
+    @ApiOperation(value = "按优先级排序查询项目列表（带分页）", notes = "按优先级从高到低查询项目列表(第几页，每页几条)")
+    @RequestMapping(value = "/listOrderByPriority/{page}/{size}", method = RequestMethod.GET)
+    public Result<Project> getProjectsOrderByParam(@PathVariable("page") Integer page,
+                                                   @PathVariable("size") Integer size) {
+        logger.info("projectList");
+        Sort sort = new Sort(Sort.Direction.ASC, "priority");
+        PageRequest request = new PageRequest(page - 1, size, sort);
+        return ResultUtil.success(projectService.findAll(request));
+    }
+
+    /**
+     * 查询项目列表（带分页）
      *
      * @return
      */
@@ -117,7 +135,7 @@ public class ProjectController {
 
     @ApiOperation(value = "创建项目", notes = "根据Project对象创建项目")
     @PostMapping(value = "/add")
-    public Result<Project> addProject1(@RequestBody Project project) {
+    public Result<Project> addProject(@RequestBody Project project) {
 
         return ResultUtil.success(projectService.save(project));
     }
@@ -136,7 +154,8 @@ public class ProjectController {
     @ApiOperation(value = "删除项目", notes = "根据url的id来指定删除项目")
     @ApiImplicitParam(name = "id", value = "项目ID", required = true, dataType = "Integer", paramType = "path")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public void deleteProject(@PathVariable("id") Integer id) {
+    public Result<Project> deleteProject(@PathVariable("id") Integer id) {
         projectService.delete(id);
+        return ResultUtil.success(id);
     }
 }

@@ -10,30 +10,17 @@
 
 package com.fyerp.admin.controller;
 
-import com.fyerp.admin.domain.JsonResult;
 import com.fyerp.admin.domain.Result;
-import com.fyerp.admin.domain.Role;
 import com.fyerp.admin.domain.User;
 import com.fyerp.admin.service.UserService;
-import com.fyerp.admin.utils.MD5Utils;
 import com.fyerp.admin.utils.ResultUtil;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 
-import javax.validation.Valid;
-import java.util.*;
 
 /**
  * 用户管理API
@@ -87,7 +74,8 @@ public class UserController {
      */
     @ApiOperation(value = "删除用户", notes = "根据url的id来指定删除用户")
     @RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
-    public void deleteUser(@PathVariable("id") Long id) {
+    public Result<User> deleteUser(@PathVariable("id") Long id) {
         userService.delete(id);
+        return ResultUtil.success(id);
     }
 }

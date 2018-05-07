@@ -27,7 +27,7 @@ public class Plan {
 
     @Id
     @GeneratedValue
-    @JsonIgnore
+    @JsonProperty("id")
     private Integer planId;
     @JsonProperty("name")
     private String planName;

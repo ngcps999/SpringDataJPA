@@ -11,18 +11,17 @@
 package com.fyerp.admin.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fyerp.admin.enums.ProjectStatusEnum;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+//import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import org.springframework.format.annotation.DateTimeFormat;
-
 import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -35,6 +34,7 @@ import java.util.Set;
 @EntityListeners(AuditingEntityListener.class)
 @DynamicUpdate
 //@Data
+//@Document(indexName="index_entity", type="tstype")
 public class Project {
 
     /**
@@ -134,6 +134,11 @@ public class Project {
     private String map;
 
     /**
+     * 优先级（1最大100最小）
+     */
+    private Integer priority;
+
+    /**
      * 项目状态：0未进行，1正在进行，2遇到问题
      */
     @JsonProperty("status")
@@ -162,6 +167,7 @@ public class Project {
     /**
      * 创建时间
      */
+    @JsonIgnore
     @CreatedDate
 //    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date createTime;
@@ -169,6 +175,7 @@ public class Project {
     /**
      * 更新时间
      */
+    @JsonIgnore
     @LastModifiedDate
 //    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date updateTime;
@@ -231,38 +238,6 @@ public class Project {
         this.realEndDate = realEndDate;
     }
 
-    public Set<User> getMembers() {
-        return members;
-    }
-
-    public void setMembers(Set<User> members) {
-        this.members = members;
-    }
-
-    public Integer getProjectState() {
-        return projectState;
-    }
-
-    public void setProjectState(Integer projectState) {
-        this.projectState = projectState;
-    }
-
-    public String getProjectDesc() {
-        return projectDesc;
-    }
-
-    public void setProjectDesc(String projectDesc) {
-        this.projectDesc = projectDesc;
-    }
-
-    public Set<Task> getTasks() {
-        return tasks;
-    }
-
-    public void setTasks(Set<Task> tasks) {
-        this.tasks = tasks;
-    }
-
     public String getEquipment() {
         return equipment;
     }
@@ -311,6 +286,46 @@ public class Project {
         this.map = map;
     }
 
+    public Integer getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Integer priority) {
+        this.priority = priority;
+    }
+
+    public Integer getProjectState() {
+        return projectState;
+    }
+
+    public void setProjectState(Integer projectState) {
+        this.projectState = projectState;
+    }
+
+    public String getProjectDesc() {
+        return projectDesc;
+    }
+
+    public void setProjectDesc(String projectDesc) {
+        this.projectDesc = projectDesc;
+    }
+
+    public Set<User> getMembers() {
+        return members;
+    }
+
+    public void setMembers(Set<User> members) {
+        this.members = members;
+    }
+
+    public Set<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(Set<Task> tasks) {
+        this.tasks = tasks;
+    }
+
     public Date getCreateTime() {
         return createTime;
     }
@@ -332,19 +347,21 @@ public class Project {
         return "Project{" +
                 "projectId=" + projectId +
                 ", projectName='" + projectName + '\'' +
-                ", planStartDate='" + planStartDate + '\'' +
-                ", planEndDate='" + planEndDate + '\'' +
-                ", realStartDate='" + realStartDate + '\'' +
-                ", realEndDate='" + realEndDate + '\'' +
+                ", planStartDate=" + planStartDate +
+                ", planEndDate=" + planEndDate +
+                ", realStartDate=" + realStartDate +
+                ", realEndDate=" + realEndDate +
                 ", equipment='" + equipment + '\'' +
                 ", flyPlatform='" + flyPlatform + '\'' +
                 ", flyHeight='" + flyHeight + '\'' +
                 ", aeroRatio='" + aeroRatio + '\'' +
                 ", areoArea='" + areoArea + '\'' +
                 ", map='" + map + '\'' +
+                ", priority=" + priority +
                 ", projectState=" + projectState +
                 ", projectDesc='" + projectDesc + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
                 '}';
     }
-
 }

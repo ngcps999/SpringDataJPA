@@ -8,12 +8,37 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+#      format_sql: true
       naming:
         strategy: org.hibernate.cfg.DefaultNamingStrategy
     database-platform: org.hibernate.dialect.MySQL5Dialect
     database: mysql
+    properties:
+      hibernate:
+        format_sql: true
   thymeleaf:
     cache: false
+  redis:
+    host: 127.0.0.1
+    port: 6379
+    password: xd123
+    database: 0
+    timeout: 0
+    pool:
+      max-active: 8
+      max-wait: -1
+      max-idle: 8
+      min-idle: 0
+  data:
+    elasticsearch:
+      cluster-nodes: localhost:9300
+      cluster-name: my-es
+      repositories:
+        enabled: true
+
+#  mvc:
+#    view:
+#      suffix: .html
 server:
   port: 8080
   tomcat:
@@ -24,3 +49,7 @@ logging:
       springframework:
         security: info
 debug: false
+
+
+
+

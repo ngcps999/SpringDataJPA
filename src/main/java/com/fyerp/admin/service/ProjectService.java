@@ -13,6 +13,7 @@ package com.fyerp.admin.service;
 import com.fyerp.admin.domain.Project;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.Date;
 import java.util.List;
@@ -40,6 +41,7 @@ public interface ProjectService {
      */
     Page<Project> findAll(Pageable pageable);
 
+
     /**
      * 根据项目状态查项目
      *
@@ -65,7 +67,21 @@ public interface ProjectService {
     List<Project> findByPlanStartDateAfterAndPlanEndDateBefore(Date planStartDate, Date planEndDate);
 
     /**
-     * 新增/更新项目
+     * 按实际开始时间和实际结束时间查询
+     * @param realStartDate
+     * @param realEndDate
+     * @return
+     */
+    List<Project> findByRealStartDateAfterAndRealEndDateBefore(Date realStartDate, Date realEndDate);
+
+    /**
+     * 按优先级查询
+     */
+    Page<Project> findByPriority(Integer priority,Pageable pageable);
+
+
+    /**
+     * 新增
      * @param project
      * @return
      */

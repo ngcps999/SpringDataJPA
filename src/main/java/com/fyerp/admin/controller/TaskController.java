@@ -76,8 +76,9 @@ public class TaskController {
      * @param id
      */
     @ApiOperation(value = "删除任务", notes = "根据id删除任务")
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public void deleteTask(@PathVariable("id") Integer id) {
+    @DeleteMapping(value = "/delete/{id}")
+    public Result<Task> deleteTask(@PathVariable("id") Integer id) {
         taskService.delete(id);
+        return ResultUtil.success(id);
     }
 }

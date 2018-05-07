@@ -18,6 +18,7 @@ import com.fyerp.admin.service.ProjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -49,8 +50,6 @@ public class ProjectServiceImpl implements ProjectService {
         return respository.findAll(pageable);
     }
 
-
-
     @Override
     public List<Project> findProjectsByProjectState(Integer state) {
         List<Project> projectsByStatus = respository.findProjectsByProjectState(state);
@@ -69,6 +68,18 @@ public class ProjectServiceImpl implements ProjectService {
     public List<Project> findByPlanStartDateAfterAndPlanEndDateBefore(Date planStartDate, Date planEndDate) {
         return respository.findByPlanStartDateAfterAndPlanEndDateBefore(planStartDate,planEndDate);
     }
+
+    @Override
+    public List<Project> findByRealStartDateAfterAndRealEndDateBefore(Date realStartDate, Date realEndDate) {
+        return respository.findByRealStartDateAfterAndRealEndDateBefore(realStartDate,realEndDate);
+    }
+
+    @Override
+    public Page<Project> findByPriority(Integer priority,Pageable pageable) {
+        return respository.findByPriority(priority,pageable);
+    }
+
+
 
     @Override
     public Project save(Project project) {

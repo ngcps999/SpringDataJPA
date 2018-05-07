@@ -14,6 +14,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fyerp.admin.enums.DepartmentEnum;
 import lombok.Data;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 //import org.springframework.security.core.GrantedAuthority;
 //import org.springframework.security.core.authority.SimpleGrantedAuthority;
 //import org.springframework.security.core.userdetails.UserDetails;
@@ -78,6 +80,12 @@ public class User  {
     @JoinColumn(name = "projectId")
     private Project menber;
 
+    @JsonIgnore
+    @CreatedDate
+    private Date createTime;
+    @JsonIgnore
+    @LastModifiedDate
+    private Date updateTime;
 
     public User() {
     }
@@ -169,6 +177,22 @@ public class User  {
 
     public void setMenber(Project menber) {
         this.menber = menber;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
     @Override

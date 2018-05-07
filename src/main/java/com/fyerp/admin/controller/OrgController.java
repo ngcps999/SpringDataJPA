@@ -87,30 +87,20 @@ public class OrgController {
 //            @ApiImplicitParam(name = "id", value = "项目ID", required = true, dataType = "Integer", paramType = "path"),
 //            @ApiImplicitParam(name = "project", value = "项目实体project", required = true, dataType = "Project")
 //    })
-    @PutMapping(value = "/update/{id}")
-    public Result<Org> updateOrg(@PathVariable("id") Integer id,
-                                 @RequestParam("dep_name") String depName,
-                                 @RequestParam("sort") Integer sort,
-                                 @RequestParam("parent_id") Integer parentId,
-                                 @RequestParam("path") String path
-                                     ) {
-        org.setId(id);
-        org.setDepName(depName);
-        org.setSort(sort);
-        org.setParentId(parentId);
-        org.setPath(path);
+    @PutMapping(value = "/update")
+    public Result<Org> updateOrg(@RequestBody Org org) {
         return ResultUtil.success(orgService.save(org));
     }
 
     /**
      * 删除岗位
-     *
      * @param id
      */
     @ApiOperation(value = "删除岗位", notes = "根据id删除岗位")
     @RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
-    public void deleteOrg(@PathVariable("id") Integer id) {
+    public Result<Org> deleteOrg(@PathVariable("id") Integer id) {
         orgService.delete(id);
+        return ResultUtil.success(id);
     }
 
 

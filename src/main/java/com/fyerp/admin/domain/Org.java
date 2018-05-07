@@ -11,10 +11,14 @@
 package com.fyerp.admin.domain;
 
 //import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -32,6 +36,7 @@ public class Org {
     @Id
     @GeneratedValue
     private Integer id;
+
     /**
      * 部门名称
      */
@@ -49,6 +54,12 @@ public class Org {
      */
     private Integer sort;
 
+    @JsonIgnore
+    @CreatedDate
+    private Date createTime;
+    @JsonIgnore
+    @LastModifiedDate
+    private Date updateTime;
     /**
      * 无参构造
      */
@@ -100,6 +111,22 @@ public class Org {
 
     public void setSort(Integer sort) {
         this.sort = sort;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
     @Override

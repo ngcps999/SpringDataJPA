@@ -31,7 +31,7 @@ public class RoleController {
      * @return
      */
     @ApiOperation(value = "查询角色列表", notes = "查询角色列表")
-    @RequestMapping(value = "/list/",method = RequestMethod.GET)
+    @RequestMapping(value = "/list/{page}/{size}",method = RequestMethod.GET)
     public Result<Role> getRoles(@PathVariable("page") Integer page,
                                  @PathVariable("size") Integer size) {
         logger.info("roleList");
@@ -66,8 +66,9 @@ public class RoleController {
      */
     @ApiOperation(value = "删除角色", notes = "根据id删除角色")
     @RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
-    public void deleteRole(@PathVariable("id") Long id) {
+    public Result<Role> deleteRole(@PathVariable("id") Long id) {
         roleService.delete(id);
+        return ResultUtil.success(id);
     }
 
 }

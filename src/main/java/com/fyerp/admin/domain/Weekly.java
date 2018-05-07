@@ -10,8 +10,11 @@
 
 package com.fyerp.admin.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -27,6 +30,7 @@ import java.util.Objects;
 @DynamicUpdate
 //@Data
 public class Weekly {
+
     @Id
     @GeneratedValue
     private int id;
@@ -35,6 +39,12 @@ public class Weekly {
     private String content;
     private String completeness;
     private String postil;
+    @JsonIgnore
+    @CreatedDate
+    private Date createTime;
+    @JsonIgnore
+    @LastModifiedDate
+    private Date updateTime;
 
     public int getId() {
         return id;
@@ -84,5 +94,19 @@ public class Weekly {
         this.postil = postil;
     }
 
+    public Date getCreateTime() {
+        return createTime;
+    }
 
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
 }

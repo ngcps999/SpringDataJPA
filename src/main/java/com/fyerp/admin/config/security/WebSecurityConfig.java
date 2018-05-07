@@ -1,49 +1,62 @@
-/*
- * 作者：xuda
- * 创建时间：18-4-20 上午10:04
- * 模块名称：admin
- */
-
-package com.fyerp.admin.config.security;
-
-import com.fyerp.admin.service.impl.CustomUserServiceImpl;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
-
-@Configuration
-@EnableWebSecurity
-public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-
-    @Bean
-    UserDetailsService customUserService() { //注册UserDetailsService 的bean
-        return new CustomUserServiceImpl();
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(customUserService()); //user Details Service验证
-
-    }
-
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/css/**", "/js/**","/images/**", "/webjars/**", "**/favicon.ico", "/index").permitAll()
-                .antMatchers("/user/**").hasRole("USER")
-                .anyRequest().authenticated() //任何请求,登录后可以访问
-                .and()
-                .formLogin()
-                .loginPage("/login")
-                .failureUrl("/login?error")
-                .permitAll() //登录页面用户任意访问
-                .and()
-                .csrf().disable()
-                .logout().permitAll(); //注销行为任意访问
-    }
-}
+///*
+// * 作者：xuda
+// * 创建时间：18-5-3 上午11:59
+// * 模块名称：admin
+// */
+//
+//package com.fyerp.admin.config.security;
+//
+///**
+// * Created by huangds on 2017/10/24.
+// */
+//
+//import org.springframework.context.annotation.Bean;
+//import org.springframework.context.annotation.Configuration;
+//import org.springframework.web.servlet.config.annotation.InterceptorRegistration;
+//import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+//import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+//import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+//
+//import javax.servlet.http.HttpServletRequest;
+//import javax.servlet.http.HttpServletResponse;
+//import javax.servlet.http.HttpSession;
+//import java.io.IOException;
+//
+///**
+// * 登录安全配置
+// */
+//@Configuration
+//public class WebSecurityConfig extends WebMvcConfigurerAdapter {
+//    public final static String SESSION_KEY="username";
+//
+//    @Bean
+//    public SecurityInterceptor getSecurityInterceptor(){
+//        return new SecurityInterceptor();
+//    }
+//
+//    public void  addInterceptors(InterceptorRegistry registry){
+//        InterceptorRegistration addInterceptor = registry.addInterceptor(getSecurityInterceptor());
+//
+//        addInterceptor.excludePathPatterns("/error");
+//        addInterceptor.excludePathPatterns("/login**");
+//
+//        addInterceptor.addPathPatterns("/**");
+//    }
+//
+//    private class SecurityInterceptor extends HandlerInterceptorAdapter {
+//        @Override
+//        public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
+//            HttpSession session = request.getSession();
+//
+////            判断是否已有该用户登录的session
+//            if(session.getAttribute(SESSION_KEY) != null){
+//                return true;
+//            }
+//
+////            跳转到登录页
+////            String url = "/loginPost";
+////            response.sendRedirect(url);
+//            return false;
+//        }
+//    }
+//}

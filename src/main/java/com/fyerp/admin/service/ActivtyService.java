@@ -17,7 +17,7 @@ import java.util.List;
 public interface ActivtyService {
 
     //开始流程，传入申请者的id以及公司的id
-    public void startProcess(Long personId, Long compId);
+    public void startProcess(Long userId, Long roleId);
 
     //获得某个人的任务别表
     public List<Task> getTasks(String assignee);

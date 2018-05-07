@@ -8,6 +8,7 @@ package com.fyerp.admin.controller;
 
 import com.fyerp.admin.domain.Plan;
 import com.fyerp.admin.domain.Result;
+import com.fyerp.admin.domain.Task;
 import com.fyerp.admin.service.PlanService;
 import com.fyerp.admin.utils.ResultUtil;
 import io.swagger.annotations.ApiOperation;
@@ -70,13 +71,8 @@ public class PlanController {
 //            @ApiImplicitParam(name = "id", value = "项目ID", required = true, dataType = "Integer", paramType = "path"),
 //            @ApiImplicitParam(name = "project", value = "项目实体project", required = true, dataType = "Project")
 //    })
-    @PutMapping(value = "/update/{id}")
-    public Result<Plan> updatePlan(@PathVariable("id") Integer id,
-                                   @RequestParam("plan_name") String planName,
-                                   @RequestParam("plan_content") String planContent) {
-        plan.setPlanId(id);
-        plan.setPlanName(planName);
-        plan.setPlanContent(planContent);
+    @PutMapping(value = "/update")
+    public Result<Plan> updatePlan(@RequestBody Plan plan) {
         return ResultUtil.success(planService.save(plan));
     }
 
@@ -86,8 +82,9 @@ public class PlanController {
      */
     @ApiOperation(value = "删除计划", notes = "根据id删除计划")
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public void deleteTask(@PathVariable("id") Integer planId) {
+    public Result<Task> deleteTask(@PathVariable("id") Integer planId) {
         planService.delete(planId);
+        return ResultUtil.success(planId);
     }
 
 }

@@ -36,14 +36,14 @@ public interface UserService {
 	Page<User> findAll(Pageable pageable);
 
 	/**
-	 * 新增/更新用户
+	 * 新增用户
 	 *
 	 * @param user
 	 * @return
 	 */
 	User save(User user);
 
-	/**
+    /**
 	 * 删除用户
 	 *
 	 * @param userId
