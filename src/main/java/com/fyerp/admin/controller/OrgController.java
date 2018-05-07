@@ -58,22 +58,12 @@ public class OrgController {
 
     /**
      * 添加组织
-     * @param depName
-     * @param sort
-     * @param parentId
-     * @param path
      * @return
      */
     @ApiOperation(value = "创建组织架构节点", notes = "根据Org对象创建组织架构节点")
     @RequestMapping(value = "/add",method = RequestMethod.POST)
-    public Result<Org> addOrg(@RequestParam("dep_name") String depName,
-                              @RequestParam("sort") Integer sort,
-                              @RequestParam("parent_id") Integer parentId,
-                              @RequestParam("path") String path) {
-        org.setDepName(depName);
-        org.setSort(sort);
-        org.setParentId(parentId);
-        org.setPath(path);
+    public Result<Org> addOrg(@RequestBody Org org) {
+
         return ResultUtil.success(orgService.save(org));
     }
 
