@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/fyerp?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&useSSL=false
+    url: jdbc:mysql://192.168.1.79:3306/fyerp?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&useSSL=false
     username: root
-    password: SDysjdsr1225
+    password: yfbdb123
   jpa:
     show-sql: true
     hibernate:
@@ -19,9 +19,9 @@ spring:
   thymeleaf:
     cache: false
   redis:
-    host: 127.0.0.1
+    host: 192.168.1.79
     port: 6379
-    password: xd123
+    password: yfb123
     database: 0
     timeout: 0
     pool:
@@ -40,7 +40,7 @@ spring:
 #    view:
 #      suffix: .html
 server:
-  port: 8080
+  port: 8081
   tomcat:
     uri-encoding: utf-8
 logging:
