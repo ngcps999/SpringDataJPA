@@ -35,4 +35,9 @@ public class Department {
     @JoinTable(name = "ProjectDepartment",joinColumns = {@JoinColumn(name = "departmentId")},inverseJoinColumns = {@JoinColumn(name = "projectId")})
     private List<Project> projects;
 
+    @JsonIgnore
+    @ManyToOne(targetEntity = Org.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "orgId")
+    private Org org;
+
 }
