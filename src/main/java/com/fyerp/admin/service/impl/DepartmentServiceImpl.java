@@ -14,6 +14,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
 
@@ -21,8 +23,8 @@ public class DepartmentServiceImpl implements DepartmentService {
     private DepartmentRespository departmentRespository;
 
     @Override
-    public Page<Department> findAll(Pageable pageable) {
-        return departmentRespository.findAll(pageable);
+    public List<Department> findAll() {
+        return departmentRespository.findAll();
     }
 
     @Override

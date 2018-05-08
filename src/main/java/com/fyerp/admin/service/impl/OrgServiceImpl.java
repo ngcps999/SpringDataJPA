@@ -37,8 +37,8 @@ public class OrgServiceImpl implements OrgService {
     }
 
     @Override
-    public Page<Org> findAll(Pageable pageable) {
-        return orgRespository.findAll(pageable);
+    public List<Org> findAll() {
+        return orgRespository.findAll();
     }
 
     @Override

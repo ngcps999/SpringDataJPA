@@ -18,6 +18,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping(value = "/department")
 public class DepartmentController {
 
     private final static Logger logger = LoggerFactory.getLogger(OrgController.class);
@@ -30,12 +31,10 @@ public class DepartmentController {
      * @return
      */
     @ApiOperation(value = "查询部门列表", notes = "查询部门列表")
-    @RequestMapping(value = "/list/{page}/{size}", method = RequestMethod.GET)
-    public Result<Department> getDepartments(@PathVariable("page") Integer page,
-                                       @PathVariable("size") Integer size) {
-        logger.info("taskList");
-        PageRequest request = new PageRequest(page-1,size);
-        return ResultUtil.success(departmentService.findAll(request));
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public Result<Department> getDepartments() {
+        logger.info("departmentList");
+        return ResultUtil.success(departmentService.findAll());
     }
 
     /**

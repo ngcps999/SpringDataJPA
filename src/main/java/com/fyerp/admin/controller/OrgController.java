@@ -48,12 +48,10 @@ public class OrgController {
      */
     @ApiOperation(value = "查询组织架构列表", notes = "查询组织架构列表")
     @RequestMapping(value = "/list/{page}/{size}",method = RequestMethod.GET)
-    public Result<Org> getOrgs(@PathVariable("page") Integer page,
-                               @PathVariable("size") Integer size) {
+    public Result<Org> getOrgs() {
         logger.info("orgList");
-        PageRequest request = new PageRequest(page-1,size);
 
-        return ResultUtil.success(orgService.findAll(request));
+        return ResultUtil.success(orgService.findAll());
     }
 
     /**

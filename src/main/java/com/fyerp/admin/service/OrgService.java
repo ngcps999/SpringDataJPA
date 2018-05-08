@@ -36,7 +36,7 @@ public interface OrgService {
      *
      * @return
      */
-    Page<Org> findAll(Pageable pageable);
+    List<Org> findAll();
 
     /**
      * 新增/更新项目
