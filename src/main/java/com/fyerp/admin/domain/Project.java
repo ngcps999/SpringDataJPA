@@ -181,4 +181,26 @@ public class Project {
 //    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date updateTime;
 
+    @Override
+    public String toString() {
+        return "Project{" +
+                "projectId=" + projectId +
+                ", projectName='" + projectName + '\'' +
+                ", planStartDate=" + planStartDate +
+                ", planEndDate=" + planEndDate +
+                ", realStartDate=" + realStartDate +
+                ", realEndDate=" + realEndDate +
+                ", equipment='" + equipment + '\'' +
+                ", flyPlatform='" + flyPlatform + '\'' +
+                ", flyHeight='" + flyHeight + '\'' +
+                ", aeroRatio='" + aeroRatio + '\'' +
+                ", areoArea='" + areoArea + '\'' +
+                ", map='" + map + '\'' +
+                ", priority=" + priority +
+                ", projectState=" + projectState +
+                ", projectDesc='" + projectDesc + '\'' +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
+    }
 }

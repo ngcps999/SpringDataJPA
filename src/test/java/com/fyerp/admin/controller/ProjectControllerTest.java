@@ -33,8 +33,6 @@ public class ProjectControllerTest {
     @Autowired
     private ProjectService projectService;
 
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
 //    @Test
 //    public void addProject() {
 //        Project project = new Project();
