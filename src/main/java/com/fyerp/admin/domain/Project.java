@@ -150,12 +150,19 @@ public class Project {
     @JsonProperty("describe")
     private String projectDesc;
 
+//    /**
+//     * 项目成员
+//     */
+//    @OneToMany(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "projectId")
+//    private Set<User> users = new HashSet<>();
+
     /**
-     * 项目成员
+     * 一个项目具有多个部门参与
      */
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "projectId")
-    private Set<User> members = new HashSet<>();
+    @ManyToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)//立即从数据库中加载数据；
+    @JoinTable(name = "ProjectDepartment", joinColumns = {@JoinColumn(name = "projectId")}, inverseJoinColumns = {@JoinColumn(name = "departmentId")})
+    private Set<Department> departments = new HashSet<>();
 
     /**
      * 任务
@@ -180,15 +187,15 @@ public class Project {
 //    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date updateTime;
 
-    public void addMenbers(User user){
-        user.setMenber(this);//用关系维护端来维护关系
-        this.members.add(user);
-    }
-
-    public void addTasks(Task task){
-        task.setTask(this);//用关系维护端来维护关系
-        this.tasks.add(task);
-    }
+//    public void addMenbers(User user){
+//        user.setMenber(this);//用关系维护端来维护关系
+//        this.members.add(user);
+//    }
+//
+//    public void addTasks(Task task){
+//        task.setTask(this);//用关系维护端来维护关系
+//        this.tasks.add(task);
+//    }
 
     public Integer getProjectId() {
         return projectId;
@@ -310,13 +317,13 @@ public class Project {
         this.projectDesc = projectDesc;
     }
 
-    public Set<User> getMembers() {
-        return members;
-    }
-
-    public void setMembers(Set<User> members) {
-        this.members = members;
-    }
+//    public Set<User> getUsers() {
+//        return users;
+//    }
+//
+//    public void setUsers(Set<User> users) {
+//        this.users = users;
+//    }
 
     public Set<Task> getTasks() {
         return tasks;
@@ -340,6 +347,14 @@ public class Project {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Set<Department> getDepartments() {
+        return departments;
+    }
+
+    public void setDepartments(Set<Department> departments) {
+        this.departments = departments;
     }
 
     @Override

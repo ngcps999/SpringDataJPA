@@ -9,6 +9,6 @@ package com.fyerp.admin.respository;
 import com.fyerp.admin.domain.Task;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface TaskRespository extends JpaRepository<Task,Integer> {
+public interface TaskRespository extends JpaRepository<Task,Long> {
 
 }

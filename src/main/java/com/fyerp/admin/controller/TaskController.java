@@ -66,19 +66,18 @@ public class TaskController {
 //            @ApiImplicitParam(name = "project", value = "项目实体project", required = true, dataType = "Project")
 //    })
     @PutMapping(value = "/update")
-    public Result<Task> updateOrg(@RequestBody Task task) {
+    public Result<Task> updateTask(@RequestBody Task task) {
 
         return ResultUtil.success(taskService.save(task));
     }
 
     /**
      * 删除任务
-     * @param id
      */
     @ApiOperation(value = "删除任务", notes = "根据id删除任务")
     @DeleteMapping(value = "/delete/{id}")
-    public Result<Task> deleteTask(@PathVariable("id") Integer id) {
-        taskService.delete(id);
-        return ResultUtil.success(id);
+    public Result<Task> deleteTask(@PathVariable("id") Long taskId) {
+        taskService.delete(taskId);
+        return ResultUtil.success(taskId);
     }
 }

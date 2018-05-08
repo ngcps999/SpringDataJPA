@@ -19,8 +19,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Date;
-import java.util.Objects;
+import java.util.*;
 
 /**
  * @Author: xuda
@@ -35,7 +34,7 @@ public class Task {
     @Id
     @GeneratedValue
     @JsonProperty("id")
-    private Integer taskId;
+    private Long taskId;
     @JsonProperty("name")
     private String taskName;
     @JsonProperty("describe")
@@ -60,6 +59,10 @@ public class Task {
     @JoinColumn(name = "projectId")
     private Project task;
 
+    @ManyToMany(fetch = FetchType.EAGER)//立即从数据库中加载数据；
+    @JoinTable(name = "TaskUser", joinColumns = {@JoinColumn(name = "taskId")}, inverseJoinColumns = {@JoinColumn(name = "userId")})
+    private List<User> users;
+
     @JsonIgnore
     @CreatedDate
     private Date createTime;
@@ -80,11 +83,11 @@ public class Task {
         this.taskPlanEndDate = taskPlanEndDate;
     }
 
-    public Integer getTaskId() {
+    public Long getTaskId() {
         return taskId;
     }
 
-    public void setTaskId(Integer taskId) {
+    public void setTaskId(Long taskId) {
         this.taskId = taskId;
     }
 
@@ -166,5 +169,13 @@ public class Task {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public List<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 }

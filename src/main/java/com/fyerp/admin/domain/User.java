@@ -31,7 +31,7 @@ import java.util.*;
  */
 @Entity
 @Data
-public class User  {
+public class User {
 
     private static final long serialVersionUID = -8454698376979101464L;
     /**
@@ -53,11 +53,6 @@ public class User  {
     private String name;
 
     /**
-     * 部门
-     */
-    private String department = DepartmentEnum.YFB.getName();
-
-    /**
      * 密码
      */
     private String password;
@@ -71,14 +66,24 @@ public class User  {
     /**
      * 一个用户具有多个角色
      */
-    @ManyToMany(cascade = {CascadeType.REFRESH},fetch = FetchType.EAGER)//立即从数据库中加载数据；
-    @JoinTable(name = "UserRole",joinColumns = {@JoinColumn(name = "userId")},inverseJoinColumns = {@JoinColumn(name = "roleId")})
+    @ManyToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)//立即从数据库中加载数据；
+    @JoinTable(name = "UserRole", joinColumns = {@JoinColumn(name = "userId")}, inverseJoinColumns = {@JoinColumn(name = "roleId")})
     private Set<Role> roles = new HashSet<>();
 
+//    @JsonIgnore
+//    @ManyToOne(targetEntity = Project.class, cascade = CascadeType.ALL)
+//    @JoinColumn(name = "projectId")
+//    private Project menber;
+
     @JsonIgnore
-    @ManyToOne(targetEntity = Project.class,cascade = CascadeType.ALL)
-    @JoinColumn(name = "projectId")
-    private Project menber;
+    @ManyToOne(targetEntity = Department.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "departmentId")
+    private Department department;
+
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(name = "TaskUser",joinColumns = {@JoinColumn(name = "userId")},inverseJoinColumns = {@JoinColumn(name = "taskId")})
+    private List<Task> tasks;
 
     @JsonIgnore
     @CreatedDate
@@ -90,30 +95,15 @@ public class User  {
     public User() {
     }
 
-    public User(String username, String name, String password, Integer state) {
+    public User(String username, String name, String password, Integer state, Department department, Date createTime, Date updateTime) {
         this.username = username;
         this.name = name;
         this.password = password;
         this.state = state;
+        this.department = department;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
     }
-
-    public User(String username, String name, String password, Integer state, Set<Role> roles) {
-        this.username = username;
-        this.name = name;
-        this.password = password;
-        this.state = state;
-        this.roles = roles;
-    }
-
-    public User(String username, String name, String password, Integer state, Set<Role> roles, Project menber) {
-        this.username = username;
-        this.name = name;
-        this.password = password;
-        this.state = state;
-        this.roles = roles;
-        this.menber = menber;
-    }
-
 
     public Long getUserId() {
         return userId;
@@ -163,21 +153,13 @@ public class User  {
         return password;
     }
 
-    public Project getMenber() {
-        return menber;
-    }
-
-    public String getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(String department) {
-        this.department = department;
-    }
-
-    public void setMenber(Project menber) {
-        this.menber = menber;
-    }
+//    public Project getMenber() {
+//        return menber;
+//    }
+//
+//    public void setMenber(Project menber) {
+//        this.menber = menber;
+//    }
 
     public Date getCreateTime() {
         return createTime;
@@ -193,6 +175,22 @@ public class User  {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
     }
 
     @Override

@@ -18,6 +18,6 @@ public interface TaskService {
 
     Task save(Task task);
 
-    void delete(Integer id);
+    void delete(Long taskId);
 
 }
