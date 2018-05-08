@@ -47,7 +47,7 @@ public class OrgController {
      * @return
      */
     @ApiOperation(value = "查询组织架构列表", notes = "查询组织架构列表")
-    @RequestMapping(value = "/list/{page}/{size}",method = RequestMethod.GET)
+    @RequestMapping(value = "/list",method = RequestMethod.GET)
     public Result<Org> getOrgs() {
         logger.info("orgList");
 
