@@ -41,12 +41,12 @@ public class UserRespositoryTest {
 
 
 
-    @Test
-    public void findByUsername() {
-        User admin = userRespository.findUserByUsername("admin");
-        Assert.assertNotNull(admin);
-        System.out.println(admin);
-    }
+//    @Test
+//    public void findByUsername() {
+//        User admin = userRespository.findUserByUsername("admin");
+//        Assert.assertNotNull(admin);
+//        System.out.println(admin);
+//    }
 
 //    @Test
 //    public void addUser(){
