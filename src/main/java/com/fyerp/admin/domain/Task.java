@@ -59,6 +59,14 @@ public class Task {
     @JoinColumn(name = "projectId")
     private Project task;
 
+    /**
+     * 一个任务具有多个部门参与
+     */
+    @ManyToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)//立即从数据库中加载数据；
+    @JoinTable(name = "TaskDepartment", joinColumns = {@JoinColumn(name = "taskId")}, inverseJoinColumns = {@JoinColumn(name = "departmentId")})
+    private Set<Department> departments = new HashSet<>();
+
+
     @ManyToMany(fetch = FetchType.EAGER)//立即从数据库中加载数据；
     @JoinTable(name = "TaskUser", joinColumns = {@JoinColumn(name = "taskId")}, inverseJoinColumns = {@JoinColumn(name = "userId")})
     private List<User> users;
@@ -177,5 +185,13 @@ public class Task {
 
     public void setUsers(List<User> users) {
         this.users = users;
+    }
+
+    public Set<Department> getDepartments() {
+        return departments;
+    }
+
+    public void setDepartments(Set<Department> departments) {
+        this.departments = departments;
     }
 }

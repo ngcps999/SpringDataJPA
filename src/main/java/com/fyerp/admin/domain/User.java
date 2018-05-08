@@ -70,10 +70,10 @@ public class User {
     @JoinTable(name = "UserRole", joinColumns = {@JoinColumn(name = "userId")}, inverseJoinColumns = {@JoinColumn(name = "roleId")})
     private Set<Role> roles = new HashSet<>();
 
-//    @JsonIgnore
-//    @ManyToOne(targetEntity = Project.class, cascade = CascadeType.ALL)
-//    @JoinColumn(name = "projectId")
-//    private Project menber;
+    @JsonIgnore
+    @ManyToOne(targetEntity = Project.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "projectId")
+    private Project menber;
 
     @JsonIgnore
     @ManyToOne(targetEntity = Department.class, cascade = CascadeType.ALL)
