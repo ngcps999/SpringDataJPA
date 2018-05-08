@@ -52,7 +52,16 @@ public class ContractController {
 
         return ResultUtil.success(contractService.findAll(request));
     }
-
+    /**
+     * 查询单个合同
+     * @return
+     */
+    @ApiOperation(value = "查询单个合同", notes = "查询单个合同")
+    @GetMapping(value = "/findOne/{id}")
+    public Result<Contract> findOneContract(@PathVariable("id") Integer contractId) {
+        logger.info("findOneDepartment");
+        return ResultUtil.success(contractService.findOne(contractId));
+    }
     /**
      * 创建合同
      * @return

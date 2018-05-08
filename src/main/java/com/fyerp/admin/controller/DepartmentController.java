@@ -41,7 +41,7 @@ public class DepartmentController {
      * 查询单个部门
      * @return
      */
-    @ApiOperation(value = "查询单个项目", notes = "查询单个项目")
+    @ApiOperation(value = "查询单个部门", notes = "查询单个部门")
     @GetMapping(value = "/findOne/{id}")
     public Result<Department> findOneDepartment(@PathVariable("id") Long departmentId) {
         logger.info("findOneDepartment");
