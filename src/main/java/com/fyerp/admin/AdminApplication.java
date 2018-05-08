@@ -17,11 +17,4 @@ public class AdminApplication {
         SpringApplication.run(AdminApplication.class, args);
     }
 
-    @Component
-    public class InStart implements CommandLineRunner {
-        @Override
-        public void run(String... args) throws Exception {
-            // TODO
-        }
-    }
 }
