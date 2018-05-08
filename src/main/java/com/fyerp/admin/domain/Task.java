@@ -13,6 +13,7 @@ package com.fyerp.admin.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -28,7 +29,7 @@ import java.util.*;
  */
 @Entity
 @DynamicUpdate
-//@Data
+@Data
 public class Task {
 
     @Id
@@ -55,7 +56,7 @@ public class Task {
     private Date taskPlanEndDate;
 
     @JsonIgnore
-    @ManyToOne(targetEntity = Project.class, cascade = CascadeType.ALL)
+    @ManyToOne(targetEntity = Project.class, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "projectId")
     private Project task;
 
@@ -65,11 +66,6 @@ public class Task {
     @ManyToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)//立即从数据库中加载数据；
     @JoinTable(name = "TaskDepartment", joinColumns = {@JoinColumn(name = "taskId")}, inverseJoinColumns = {@JoinColumn(name = "departmentId")})
     private Set<Department> departments = new HashSet<>();
-
-
-    @ManyToMany(fetch = FetchType.EAGER)//立即从数据库中加载数据；
-    @JoinTable(name = "TaskUser", joinColumns = {@JoinColumn(name = "taskId")}, inverseJoinColumns = {@JoinColumn(name = "userId")})
-    private List<User> users;
 
     @JsonIgnore
     @CreatedDate
@@ -91,107 +87,19 @@ public class Task {
         this.taskPlanEndDate = taskPlanEndDate;
     }
 
-    public Long getTaskId() {
-        return taskId;
-    }
-
-    public void setTaskId(Long taskId) {
-        this.taskId = taskId;
-    }
-
-    public String getTaskName() {
-        return taskName;
-    }
-
-    public void setTaskName(String taskName) {
-        this.taskName = taskName;
-    }
-
-    public String getTaskDesc() {
-        return taskDesc;
-    }
-
-    public void setTaskDesc(String taskDesc) {
-        this.taskDesc = taskDesc;
-    }
-
-    public String getTaskState() {
-        return taskState;
-    }
-
-    public void setTaskState(String taskState) {
-        this.taskState = taskState;
-    }
-
-    public Date getTaskPlanStartDate() {
-        return taskPlanStartDate;
-    }
-
-    public void setTaskPlanStartDate(Date taskPlanStartDate) {
-        this.taskPlanStartDate = taskPlanStartDate;
-    }
-
-    public Date getTaskRealStartDate() {
-        return taskRealStartDate;
-    }
-
-    public void setTaskRealStartDate(Date taskRealStartDate) {
-        this.taskRealStartDate = taskRealStartDate;
-    }
-
-    public Date getTaskRealEndDate() {
-        return taskRealEndDate;
-    }
-
-    public void setTaskRealEndDate(Date taskRealEndDate) {
-        this.taskRealEndDate = taskRealEndDate;
-    }
-
-    public Date getTaskPlanEndDate() {
-        return taskPlanEndDate;
-    }
-
-    public void setTaskPlanEndDate(Date taskPlanEndDate) {
-        this.taskPlanEndDate = taskPlanEndDate;
-    }
-
-    public Project getTask() {
-        return task;
-    }
-
-    public void setTask(Project task) {
-        this.task = task;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
-
-    public Set<Department> getDepartments() {
-        return departments;
-    }
-
-    public void setDepartments(Set<Department> departments) {
-        this.departments = departments;
+    @Override
+    public String toString() {
+        return "Task{" +
+                "taskId=" + taskId +
+                ", taskName='" + taskName + '\'' +
+                ", taskDesc='" + taskDesc + '\'' +
+                ", taskState='" + taskState + '\'' +
+                ", taskPlanStartDate=" + taskPlanStartDate +
+                ", taskRealStartDate=" + taskRealStartDate +
+                ", taskRealEndDate=" + taskRealEndDate +
+                ", taskPlanEndDate=" + taskPlanEndDate +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
     }
 }

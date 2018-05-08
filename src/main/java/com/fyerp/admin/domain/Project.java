@@ -14,7 +14,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fyerp.admin.enums.ProjectStatusEnum;
-import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -34,7 +33,7 @@ import java.util.Set;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @DynamicUpdate
-@Data
+//@Data
 //@Document(indexName="index_entity", type="tstype")
 public class Project {
 
@@ -151,17 +150,18 @@ public class Project {
     @JsonProperty("describe")
     private String projectDesc;
 
-    /**
-     * 项目成员
-     */
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "projectId")
-    private Set<User> users = new HashSet<>();
+//    /**
+//     * 项目成员
+//     */
+//    @JsonIgnore
+//    @OneToMany(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "projectId")
+//    private Set<User> users = new HashSet<>();
 
     /**
      * 任务
      */
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "projectId")
     private Set<Task> tasks = new HashSet<>();
 
@@ -180,6 +180,150 @@ public class Project {
     @LastModifiedDate
 //    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date updateTime;
+
+    public Integer getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(Integer projectId) {
+        this.projectId = projectId;
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public Date getPlanStartDate() {
+        return planStartDate;
+    }
+
+    public void setPlanStartDate(Date planStartDate) {
+        this.planStartDate = planStartDate;
+    }
+
+    public Date getPlanEndDate() {
+        return planEndDate;
+    }
+
+    public void setPlanEndDate(Date planEndDate) {
+        this.planEndDate = planEndDate;
+    }
+
+    public Date getRealStartDate() {
+        return realStartDate;
+    }
+
+    public void setRealStartDate(Date realStartDate) {
+        this.realStartDate = realStartDate;
+    }
+
+    public Date getRealEndDate() {
+        return realEndDate;
+    }
+
+    public void setRealEndDate(Date realEndDate) {
+        this.realEndDate = realEndDate;
+    }
+
+    public String getEquipment() {
+        return equipment;
+    }
+
+    public void setEquipment(String equipment) {
+        this.equipment = equipment;
+    }
+
+    public String getFlyPlatform() {
+        return flyPlatform;
+    }
+
+    public void setFlyPlatform(String flyPlatform) {
+        this.flyPlatform = flyPlatform;
+    }
+
+    public String getFlyHeight() {
+        return flyHeight;
+    }
+
+    public void setFlyHeight(String flyHeight) {
+        this.flyHeight = flyHeight;
+    }
+
+    public String getAeroRatio() {
+        return aeroRatio;
+    }
+
+    public void setAeroRatio(String aeroRatio) {
+        this.aeroRatio = aeroRatio;
+    }
+
+    public String getAreoArea() {
+        return areoArea;
+    }
+
+    public void setAreoArea(String areoArea) {
+        this.areoArea = areoArea;
+    }
+
+    public String getMap() {
+        return map;
+    }
+
+    public void setMap(String map) {
+        this.map = map;
+    }
+
+    public Integer getPriority() {
+        return priority;
+    }
+
+    public void setPriority(Integer priority) {
+        this.priority = priority;
+    }
+
+    public Integer getProjectState() {
+        return projectState;
+    }
+
+    public void setProjectState(Integer projectState) {
+        this.projectState = projectState;
+    }
+
+    public String getProjectDesc() {
+        return projectDesc;
+    }
+
+    public void setProjectDesc(String projectDesc) {
+        this.projectDesc = projectDesc;
+    }
+
+    public Set<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(Set<Task> tasks) {
+        this.tasks = tasks;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
 
     @Override
     public String toString() {

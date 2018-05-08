@@ -37,9 +37,6 @@ public class ProjectServiceImpl implements ProjectService {
     @Autowired
     private ProjectRespository respository;
 
-    @Autowired
-    private UserRespository userRespository;
-
     @Override
     public Project findOne(Integer id) {
         return respository.findOne(id);

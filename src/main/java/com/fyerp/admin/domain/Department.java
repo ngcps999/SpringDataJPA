@@ -40,4 +40,11 @@ public class Department {
     @JoinColumn(name = "orgId")
     private Org org;
 
+    @Override
+    public String toString() {
+        return "Department{" +
+                "departmentId=" + departmentId +
+                ", depName='" + depName + '\'' +
+                '}';
+    }
 }

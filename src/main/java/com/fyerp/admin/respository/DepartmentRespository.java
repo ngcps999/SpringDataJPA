@@ -10,4 +10,5 @@ import com.fyerp.admin.domain.Department;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface DepartmentRespository extends JpaRepository<Department,Long> {
+
 }
