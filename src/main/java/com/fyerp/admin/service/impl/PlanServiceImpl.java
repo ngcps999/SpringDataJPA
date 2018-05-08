@@ -23,6 +23,11 @@ public class PlanServiceImpl implements PlanService {
     private PlanRespository planRespository;
 
     @Override
+    public Plan findOne(Integer planId) {
+        return planRespository.findOne(planId);
+    }
+
+    @Override
     public Page<Plan> findAll(Pageable pageable) {
         return planRespository.findAll(pageable);
     }

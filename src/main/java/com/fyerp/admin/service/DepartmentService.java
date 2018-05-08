@@ -14,6 +14,8 @@ import java.util.List;
 
 public interface DepartmentService {
 
+    Department findOne(Long departmentId);
+
     List<Department> findAll();
 
     Department save(Department department);

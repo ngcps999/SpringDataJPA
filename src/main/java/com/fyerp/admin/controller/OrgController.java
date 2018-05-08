@@ -40,8 +40,6 @@ public class OrgController {
     @Autowired
     private OrgService orgService;
 
-    private Org org =new Org();
-
     /**
      * 查询组织架构列表
      * @return

@@ -40,6 +40,17 @@ public class RoleController {
     }
 
     /**
+     * 查询单个角色
+     *
+     * @return
+     */
+    @ApiOperation(value = "查询单个角色", notes = "查询单个角色")
+    @GetMapping(value = "/findOne/{id}")
+    public Result<Role> findOneRole(@PathVariable("id") Long id) {
+        logger.info("findOneProject");
+        return ResultUtil.success(roleService.findOne(id));
+    }
+    /**
      * 添加角色
      */
     @ApiOperation(value = "创建角色", notes = "根据user对象创建角色")

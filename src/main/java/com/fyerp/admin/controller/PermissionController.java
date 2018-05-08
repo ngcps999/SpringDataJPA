@@ -40,6 +40,18 @@ public class PermissionController {
     }
 
     /**
+     * 查询单个权限
+     *
+     * @return
+     */
+    @ApiOperation(value = "查询单个权限", notes = "查询单个权限")
+    @GetMapping(value = "/findOne/{id}")
+    public Result<Permission> findOnePermission(@PathVariable("id") Long id) {
+        logger.info("findOneProject");
+        return ResultUtil.success(permissionService.findOne(id));
+    }
+
+    /**
      * 添加权限
      */
     @ApiOperation(value = "创建权限", notes = "根据permission对象创建权限")

@@ -14,6 +14,8 @@ import java.util.List;
 
 public interface TaskService {
 
+    Task findOne(Long taskId);
+
     Page<Task> findAll(Pageable pageable);
 
     Task save(Task task);

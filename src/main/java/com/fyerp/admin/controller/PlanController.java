@@ -30,8 +30,6 @@ public class PlanController {
     @Autowired
     private PlanService planService;
 
-    private Plan plan = new Plan();
-
     /**
      * 查询计划列表
      * @return
@@ -44,6 +42,18 @@ public class PlanController {
         PageRequest request = new PageRequest(page-1,size);
 
         return ResultUtil.success(planService.findAll(request));
+    }
+
+    /**
+     * 查询单个计划
+     *
+     * @return
+     */
+    @ApiOperation(value = "查询单个计划", notes = "查询单个计划")
+    @GetMapping(value = "/findOne/{id}")
+    public Result<Plan> findOnePlan(@PathVariable("id") Integer id) {
+        logger.info("findOnePlan");
+        return ResultUtil.success(planService.findOne(id));
     }
 
     /**

@@ -48,6 +48,16 @@ public class UserController {
     }
 
     /**
+     * 查询单个用户
+     * @return
+     */
+    @ApiOperation(value = "查询单个用户", notes = "查询单个用户")
+    @GetMapping(value = "/findOne/{id}")
+    public Result<User> findOneUser(@PathVariable("id") Long id) {
+        logger.info("findOneUser");
+        return ResultUtil.success(userService.findOne(id));
+    }
+    /**
      * 添加用户
      */
     @ApiOperation(value = "创建用户", notes = "根据user对象创建用户")

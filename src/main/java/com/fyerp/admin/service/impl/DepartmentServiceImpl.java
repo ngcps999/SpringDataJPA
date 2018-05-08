@@ -23,6 +23,11 @@ public class DepartmentServiceImpl implements DepartmentService {
     private DepartmentRespository departmentRespository;
 
     @Override
+    public Department findOne(Long departmentId) {
+        return departmentRespository.findOne(departmentId);
+    }
+
+    @Override
     public List<Department> findAll() {
         return departmentRespository.findAll();
     }

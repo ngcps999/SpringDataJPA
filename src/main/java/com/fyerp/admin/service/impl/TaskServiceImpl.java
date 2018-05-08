@@ -22,6 +22,12 @@ public class TaskServiceImpl implements TaskService {
     @Autowired
     private TaskRespository taskRespository;
 
+
+    @Override
+    public Task findOne(Long taskId) {
+        return taskRespository.findOne(taskId);
+    }
+
     @Override
     public Page<Task> findAll(Pageable pageable) {
         return taskRespository.findAll(pageable);

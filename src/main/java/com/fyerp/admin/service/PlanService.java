@@ -14,6 +14,8 @@ import java.util.List;
 
 public interface PlanService {
 
+    Plan findOne(Integer planId);
+
     Page<Plan> findAll(Pageable pageable);
 
     Plan save(Plan plan);

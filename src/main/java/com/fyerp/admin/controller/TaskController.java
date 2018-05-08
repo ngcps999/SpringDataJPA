@@ -29,10 +29,6 @@ public class TaskController {
     @Autowired
     private TaskService taskService;
 
-    private Task task = new Task();
-
-    SimpleDateFormat simpleDateFormat = new SimpleDateFormat();
-
     /**
      * 查询任务列表
      * @return
@@ -45,7 +41,16 @@ public class TaskController {
         PageRequest request = new PageRequest(page-1,size);
         return ResultUtil.success(taskService.findAll(request));
     }
-
+    /**
+     * 查询单个任务
+     * @return
+     */
+    @ApiOperation(value = "查询单个任务", notes = "查询单个任务")
+    @GetMapping(value = "/findOne/{id}")
+    public Result<Task> findOneTask(@PathVariable("id") Long id) {
+        logger.info("findOneTask");
+        return ResultUtil.success(taskService.findOne(id));
+    }
     /**
      * 创建任务
      * @return
