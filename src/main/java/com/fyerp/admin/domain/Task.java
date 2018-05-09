@@ -63,7 +63,7 @@ public class Task {
     /**
      * 一个任务具有多个部门参与
      */
-    @ManyToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)//立即从数据库中加载数据；
+    @ManyToMany(fetch = FetchType.EAGER)//立即从数据库中加载数据；
     @JoinTable(name = "TaskDepartment", joinColumns = {@JoinColumn(name = "taskId")}, inverseJoinColumns = {@JoinColumn(name = "departmentId")})
     private Set<Department> departments = new HashSet<>();
 

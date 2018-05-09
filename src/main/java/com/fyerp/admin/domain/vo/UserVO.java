@@ -1,45 +1,31 @@
 /*
- * Copyright (c) 2018.
- * 项目名称：fyerp.
- * 模块名称：fyerp
- * 文件名称：UserInfo.java
  * 作者：xuda
- * 时间：18-4-11 下午2:07
- *
+ * 创建时间：18-5-8 下午3:07
+ * 模块名称：admin
  */
 
-package com.fyerp.admin.domain;
+package com.fyerp.admin.domain.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fyerp.admin.enums.DepartmentEnum;
-import lombok.Data;
+import com.fyerp.admin.domain.Department;
+import com.fyerp.admin.domain.Project;
+import com.fyerp.admin.domain.Role;
+import com.fyerp.admin.domain.Task;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-//import org.springframework.security.core.GrantedAuthority;
-//import org.springframework.security.core.authority.SimpleGrantedAuthority;
-//import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
-/**
- * @Author: xuda
- * @Date: 2018/4/11
- * @Time: 下午2:07
- */
-@Entity
-@Data
-public class User {
-
+public class UserVO implements Serializable {
     private static final long serialVersionUID = -8454698376979101464L;
-    /**
-     * 用户Id
-     */
+
     @Id
-    @GeneratedValue
-    @JsonProperty("id")
     private Long userId;
 
     /**
@@ -92,10 +78,10 @@ public class User {
     @LastModifiedDate
     private Date updateTime;
 
-    public User() {
+    public UserVO() {
     }
 
-    public User(String username, String name, String password, Integer state, Department department, Date createTime, Date updateTime) {
+    public UserVO(String username, String name, String password, Integer state, Department department, Date createTime, Date updateTime) {
         this.username = username;
         this.name = name;
         this.password = password;
@@ -105,12 +91,69 @@ public class User {
         this.updateTime = updateTime;
     }
 
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
     @Override
     public String toString() {
         return "User{" +
                 "userId=" + userId +
                 ", username='" + username + '\'' +
                 ", name='" + name + '\'' +
+                ", department='" + department + '\'' +
                 ", password='" + password + '\'' +
                 ", state=" + state +
                 '}';

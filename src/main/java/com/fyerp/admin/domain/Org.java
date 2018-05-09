@@ -38,7 +38,7 @@ public class Org {
     /**
      * 部门名称
      */
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "orgId")
     private List<Department> departments;
 
@@ -74,5 +74,17 @@ public class Org {
         this.sort = sort;
         this.createTime = createTime;
         this.updateTime = updateTime;
+    }
+
+    @Override
+    public String toString() {
+        return "Org{" +
+                "orgId=" + orgId +
+                ", parentId=" + parentId +
+                ", path='" + path + '\'' +
+                ", sort=" + sort +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
     }
 }
