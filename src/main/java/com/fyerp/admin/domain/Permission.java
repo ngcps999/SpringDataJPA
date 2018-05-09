@@ -12,6 +12,7 @@ package com.fyerp.admin.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -29,6 +30,7 @@ import java.util.List;
 @Entity
 //@Data
 @EntityListeners(AuditingEntityListener.class)
+@DynamicUpdate
 public class Permission implements Serializable {
     private static final long serialVersionUID = 8787425039423616077L;
     /**
