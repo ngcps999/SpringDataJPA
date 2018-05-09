@@ -75,7 +75,6 @@ public class User {
     @JoinColumn(name = "projectId")
     private Project menber;
 
-    @JsonIgnore
     @ManyToOne(targetEntity = Department.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "departmentId")
     private Department department;

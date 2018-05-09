@@ -55,35 +55,8 @@ public class DepartmentController {
     @GetMapping(value = "/findOne/{id}")
     public Result<Department> findOneDepartment(@PathVariable("id") Long departmentId) {
         logger.info("findOneDepartment");
-        Department department = departmentService.findOne(departmentId);
-        List<User> users = department.getUsers();
-        List<UserVO> userVOS = new ArrayList<>();
-        for (UserVO userVO : userVOS) {
-            for (User user : users) {
-                String name = user.getName();
-                String password = user.getPassword();
-                String username = user.getUsername();
-                Integer state = user.getState();
-                userVO.setName(name);
-                userVO.setPassword(password);
-                userVO.setUsername(username);
-                userVO.setState(state);
-            }
-            userVOS.add(userVO);
-            System.out.println(userVO);
-        }
 
-//        BeanUtils.copyProperties(users,userVOS);
-
-
-
-        Department department1 = new Department();
-        department1.setDepartmentId(department.getDepartmentId());
-        department1.setDepName(department.getDepName());
-        department1.setUsers(users);
-        department1.setOrg(department.getOrg());
-
-        return ResultUtil.success(department1);
+        return ResultUtil.success(departmentService.findOne(departmentId));
     }
 
     /**
