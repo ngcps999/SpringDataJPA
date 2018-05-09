@@ -10,7 +10,6 @@ import com.fyerp.admin.domain.Department;
 import com.fyerp.admin.domain.Org;
 import com.fyerp.admin.domain.Result;
 import com.fyerp.admin.domain.User;
-import com.fyerp.admin.domain.vo.UserVO;
 import com.fyerp.admin.service.DepartmentService;
 import com.fyerp.admin.utils.ResultUtil;
 import io.swagger.annotations.ApiOperation;
