@@ -168,7 +168,6 @@ public class Project {
     /**
      * 创建时间
      */
-    @JsonIgnore
     @CreatedDate
 //    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date createTime;
@@ -176,7 +175,6 @@ public class Project {
     /**
      * 更新时间
      */
-    @JsonIgnore
     @LastModifiedDate
 //    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     private Date updateTime;

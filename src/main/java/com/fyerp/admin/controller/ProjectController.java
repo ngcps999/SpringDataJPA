@@ -58,14 +58,17 @@ public class ProjectController {
 
     /**
      * 查询单个项目
-     *
      * @return
      */
     @ApiOperation(value = "查询单个项目", notes = "查询单个项目")
     @GetMapping(value = "/findOne/{id}")
     public Result<Project> findOneProject(@PathVariable("id") Integer id) {
         logger.info("findOneProject");
-        return ResultUtil.success(projectService.findOne(id));
+        if(id!= null) {
+            return ResultUtil.success(projectService.findOne(id));
+        } else {
+            throw new RuntimeException("项目为空");
+        }
     }
 
     /**

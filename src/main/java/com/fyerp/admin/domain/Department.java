@@ -9,12 +9,14 @@ package com.fyerp.admin.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
 @DynamicUpdate
+@EntityListeners(AuditingEntityListener.class)
 public class Department {
 
     @JsonProperty("id")

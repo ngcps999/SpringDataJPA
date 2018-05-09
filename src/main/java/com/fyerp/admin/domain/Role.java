@@ -13,8 +13,10 @@ package com.fyerp.admin.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -28,6 +30,8 @@ import java.util.List;
  */
 @Entity
 //@Data
+@EntityListeners(AuditingEntityListener.class)
+@DynamicUpdate
 public class Role implements Serializable {
 
     private static final long serialVersionUID = -58106289614839772L;

@@ -16,6 +16,7 @@ import com.fyerp.admin.enums.DepartmentEnum;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 //import org.springframework.security.core.GrantedAuthority;
 //import org.springframework.security.core.authority.SimpleGrantedAuthority;
 //import org.springframework.security.core.userdetails.UserDetails;
@@ -31,6 +32,7 @@ import java.util.*;
  */
 @Entity
 @Data
+@EntityListeners(AuditingEntityListener.class)
 public class User {
 
     private static final long serialVersionUID = -8454698376979101464L;
@@ -75,6 +77,7 @@ public class User {
     @JoinColumn(name = "projectId")
     private Project menber;
 
+    @JsonIgnore
     @ManyToOne(targetEntity = Department.class, cascade = CascadeType.ALL)
     @JoinColumn(name = "departmentId")
     private Department department;
