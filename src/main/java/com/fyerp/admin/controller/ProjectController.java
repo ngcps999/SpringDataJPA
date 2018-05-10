@@ -111,6 +111,20 @@ public class ProjectController {
     }
 
     /**
+     * 按优先级从高到低查询项目列表（带分页）
+     *
+     * @return
+     */
+    @ApiOperation(value = "按优先级排序查询项目列表（带分页）", notes = "按优先级从高到低查询项目列表(第几页，每页几条)")
+    @RequestMapping(value = "/listOrderByCreateTime/{page}/{size}", method = RequestMethod.GET)
+    public Result<Project> getProjectsOrderByCreateTime(@PathVariable("page") Integer page,
+                                                   @PathVariable("size") Integer size) {
+        Sort sort = new Sort(Sort.Direction.DESC, "createTime");
+        PageRequest request = new PageRequest(page - 1, size, sort);
+        return ResultUtil.success(projectService.findAll(request));
+    }
+
+    /**
      * 查询项目列表（带分页）
      *
      * @return
