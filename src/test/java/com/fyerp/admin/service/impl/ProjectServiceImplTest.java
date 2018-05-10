@@ -63,13 +63,13 @@ public class ProjectServiceImplTest {
 
     }
 
-    @Test
-    public void save() {
-        project.setProjectName("xuda");
-        Project project1 = projectService.save(this.project);
-        Assert.assertNotNull(project1);
-
-    }
+//    @Test
+//    public void save() {
+//        project.setProjectName("xuda");
+//        Project project1 = projectService.save(this.project);
+//        Assert.assertNotNull(project1);
+//
+//    }
 
 //    @Test
 //    public void delete() {
