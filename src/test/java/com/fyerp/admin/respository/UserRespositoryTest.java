@@ -37,12 +37,12 @@ public class UserRespositoryTest {
     @Autowired
     private UserRespository userRespository;
 
-    @Test
-    public void adad() {
-        User user = new User();
-        UserDTO userDTO = new UserDTO();
-        userRespository.findOne(user.getUserId());
-    }
+//    @Test
+//    public void adad() {
+//        User user = new User();
+//        UserDTO userDTO = new UserDTO();
+//        userRespository.findOne(user.getUserId());
+//    }
 
 
 
