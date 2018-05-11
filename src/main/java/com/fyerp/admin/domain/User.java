@@ -14,6 +14,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fyerp.admin.enums.DepartmentEnum;
 import lombok.Data;
+import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -31,9 +33,10 @@ import java.util.*;
  * @Time: 下午2:07
  */
 @Entity
-@Data
+//@Data
+@DynamicUpdate
 @EntityListeners(AuditingEntityListener.class)
-public class User {
+public class User implements Serializable{
 
     private static final long serialVersionUID = -8454698376979101464L;
     /**
@@ -73,13 +76,9 @@ public class User {
     private Set<Role> roles = new HashSet<>();
 
     @JsonIgnore
-    @ManyToOne(targetEntity = Project.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "projectId")
-    private Project menber;
-
-    @ManyToOne(targetEntity = Department.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "departmentId")
-    private Department department;
+    @ManyToMany
+    @JoinTable(name = "DepartmentUser",joinColumns = {@JoinColumn(name = "departmentId")},inverseJoinColumns = {@JoinColumn(name = "userId")})
+    private List<Department> departments;
 
     @JsonIgnore
     @ManyToMany
@@ -93,27 +92,87 @@ public class User {
     @LastModifiedDate
     private Date updateTime;
 
-    public User() {
+    public Long getUserId() {
+        return userId;
     }
 
-    public User(String username, String name, String password, Integer state, Department department, Date createTime, Date updateTime) {
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    @Required
+    public void setUsername(String username) {
         this.username = username;
-        this.name = name;
-        this.password = password;
-        this.state = state;
-        this.department = department;
-        this.createTime = createTime;
-        this.updateTime = updateTime;
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", username='" + username + '\'' +
-                ", name='" + name + '\'' +
-                ", password='" + password + '\'' +
-                ", state=" + state +
-                '}';
+    public String getName() {
+        return name;
+    }
+
+    @Required
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    @Required
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Integer getState() {
+        return state;
+    }
+
+    public void setState(Integer state) {
+        this.state = state;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
+
+    public List<Department> getDepartments() {
+        return departments;
+    }
+
+    public void setDepartments(List<Department> departments) {
+        this.departments = departments;
+    }
+
+    public List<Task> getTasks() {
+        return tasks;
+    }
+
+    public void setTasks(List<Task> tasks) {
+        this.tasks = tasks;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 }

@@ -27,30 +27,13 @@ public class Department {
     @JsonProperty("name")
     private String depName;
 
-    @JsonIgnore
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    @JoinColumn(name = "departmentId")
+    @ManyToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)//立即从数据库中加载数据；
+    @JoinTable(name = "DepartmentUser", joinColumns = {@JoinColumn(name = "departmentId")}, inverseJoinColumns = {@JoinColumn(name = "userId")})
     private List<User> users;
 
-    @JsonIgnore
     @ManyToMany
     @JoinTable(name = "TaskDepartment",joinColumns = {@JoinColumn(name = "departmentId")},inverseJoinColumns = {@JoinColumn(name = "taskId")})
     private List<Task> tasks;
-
-    @JsonIgnore
-    @ManyToOne(targetEntity = Org.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "orgId")
-    private Org org;
-
-    @Override
-    public String toString() {
-        return "Department{" +
-                "departmentId=" + departmentId +
-                ", depName='" + depName + '\'' +
-                ", users=" + users +
-                ", org=" + org +
-                '}';
-    }
 
     public Long getDepartmentId() {
         return departmentId;
@@ -85,12 +68,5 @@ public class Department {
         this.tasks = tasks;
     }
 
-    public Org getOrg() {
-        return org;
-    }
-
-    public void setOrg(Org org) {
-        this.org = org;
-    }
 
 }

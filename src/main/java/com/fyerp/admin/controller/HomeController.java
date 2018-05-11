@@ -21,7 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Controller
 public class HomeController {
 
-	@RequestMapping(value = "/",method = RequestMethod.GET)
+	@RequestMapping(value = "/msg",method = RequestMethod.GET)
 	public String index(Model model){
 		Msg msg =  new Msg("测试标题","测试内容","额外信息，只对管理员显示");
 		model.addAttribute("msg", msg);
@@ -34,7 +34,7 @@ public class HomeController {
 	    return "file";
     }
 
-    @GetMapping(value = "/swagger")
+    @GetMapping(value = "/")
     public String index() {
         return "redirect:swagger-ui.html";
     }
