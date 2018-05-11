@@ -9,6 +9,7 @@ package com.fyerp.admin.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -26,6 +27,7 @@ public class Department {
     @JsonProperty("name")
     private String depName;
 
+    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "departmentId")
     private List<User> users;
@@ -62,6 +64,7 @@ public class Department {
         return depName;
     }
 
+    @Required
     public void setDepName(String depName) {
         this.depName = depName;
     }
