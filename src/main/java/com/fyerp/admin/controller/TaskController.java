@@ -25,7 +25,7 @@ import java.util.Date;
 @CrossOrigin
 public class TaskController {
 
-    private final static Logger logger = LoggerFactory.getLogger(OrgController.class);
+    private final static Logger logger = LoggerFactory.getLogger(TaskController.class);
 
     @Autowired
     private TaskService taskService;

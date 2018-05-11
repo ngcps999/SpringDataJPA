@@ -28,7 +28,7 @@ import java.util.List;
 @RequestMapping(value = "/department")
 public class DepartmentController {
 
-    private final static Logger logger = LoggerFactory.getLogger(OrgController.class);
+    private final static Logger logger = LoggerFactory.getLogger(DepartmentController.class);
 
     @Autowired
     private DepartmentService departmentService;

@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 @CrossOrigin
 public class PlanController {
 
-    private final static Logger logger = LoggerFactory.getLogger(OrgController.class);
+    private final static Logger logger = LoggerFactory.getLogger(PlanController.class);
 
     @Autowired
     private PlanService planService;
