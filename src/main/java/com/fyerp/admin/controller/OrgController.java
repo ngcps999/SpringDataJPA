@@ -34,6 +34,7 @@ import javax.validation.Valid;
  */
 @RestController
 @RequestMapping(value = "/org")
+@CrossOrigin
 public class OrgController {
     private final static Logger logger = LoggerFactory.getLogger(OrgController.class);
 

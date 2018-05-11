@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @RestController
 @RequestMapping(value = "/plan")
+@CrossOrigin
 public class PlanController {
 
     private final static Logger logger = LoggerFactory.getLogger(OrgController.class);

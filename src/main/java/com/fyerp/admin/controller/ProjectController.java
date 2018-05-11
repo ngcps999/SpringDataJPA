@@ -49,6 +49,7 @@ import java.util.Set;
  */
 @RestController
 @RequestMapping(value = "/project")
+@CrossOrigin
 public class ProjectController {
 
     private final static Logger logger = LoggerFactory.getLogger(ProjectController.class);

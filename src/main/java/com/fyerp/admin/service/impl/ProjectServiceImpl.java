@@ -76,8 +76,6 @@ public class ProjectServiceImpl implements ProjectService {
         return respository.findByPriority(priority,pageable);
     }
 
-
-
     @Override
     public Project save(Project project) {
 

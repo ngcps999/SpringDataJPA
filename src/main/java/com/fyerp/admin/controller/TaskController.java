@@ -22,6 +22,7 @@ import java.util.Date;
 
 @RestController
 @RequestMapping(value = "/task")
+@CrossOrigin
 public class TaskController {
 
     private final static Logger logger = LoggerFactory.getLogger(OrgController.class);

@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/role")
+@CrossOrigin
 public class RoleController {
 
     @Autowired
