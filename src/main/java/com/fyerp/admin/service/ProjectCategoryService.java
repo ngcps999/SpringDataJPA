@@ -16,13 +16,22 @@ public interface ProjectCategoryService {
 
     /**
      * 查询单个角色
+     *
      * @param categoryId
      * @return
      */
     ProjectCategory findOne(Integer categoryId);
 
     /**
+     * 按类目编号查询类目
+     * @param categoryType
+     * @return
+     */
+    ProjectCategory findByCategoryType(Integer categoryType);
+
+    /**
      * 查询所有角色
+     *
      * @return
      */
     List<ProjectCategory> findAll();

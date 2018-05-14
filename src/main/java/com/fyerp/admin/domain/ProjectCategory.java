@@ -23,14 +23,23 @@ import java.util.Date;
 @DynamicUpdate
 public class ProjectCategory {
 
+    /**
+     * 类目id
+     */
     @Id
     @GeneratedValue
     @JsonProperty("id")
     private Integer categoryId;
 
+    /**
+     * 类目名称
+     */
     @JsonProperty("name")
     private String categoryName;
 
+    /**
+     * 类目编号
+     */
     @JsonProperty("type")
     private Integer categoryType;
 
@@ -77,5 +86,16 @@ public class ProjectCategory {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    @Override
+    public String toString() {
+        return "ProjectCategory{" +
+                "categoryId=" + categoryId +
+                ", categoryName='" + categoryName + '\'' +
+                ", categoryType=" + categoryType +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
     }
 }

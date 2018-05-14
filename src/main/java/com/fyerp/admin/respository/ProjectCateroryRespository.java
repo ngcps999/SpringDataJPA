@@ -10,4 +10,5 @@ import com.fyerp.admin.domain.ProjectCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface ProjectCateroryRespository extends JpaRepository<ProjectCategory,Integer> {
+    ProjectCategory findByCategoryType(Integer categoryType);
 }

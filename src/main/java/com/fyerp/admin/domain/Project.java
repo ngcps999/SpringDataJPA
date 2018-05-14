@@ -104,6 +104,10 @@ public class Project {
     private Date realEndDate;
 
     /**
+     * 项目类型编号
+     */
+    private Integer categoryType;
+    /**
      * 使用设备
      */
     private String equipment;
@@ -321,6 +325,14 @@ public class Project {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Integer getCategoryType() {
+        return categoryType;
+    }
+
+    public void setCategoryType(Integer categoryType) {
+        this.categoryType = categoryType;
     }
 
     @Override

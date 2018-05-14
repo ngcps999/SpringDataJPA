@@ -28,6 +28,11 @@ public class ProjectCategoryServiceImpl implements ProjectCategoryService {
     }
 
     @Override
+    public ProjectCategory findByCategoryType(Integer categoryType) {
+        return cateroryRespository.findByCategoryType(categoryType);
+    }
+
+    @Override
     public List<ProjectCategory> findAll() {
         return cateroryRespository.findAll();
     }

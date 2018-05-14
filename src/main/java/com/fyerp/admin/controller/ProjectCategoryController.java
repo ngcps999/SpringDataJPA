@@ -17,6 +17,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("projectCategory")
 public class ProjectCategoryController {
@@ -52,6 +54,17 @@ public class ProjectCategoryController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public Result<ProjectCategory> getProjectCategorys() {
         return ResultUtil.success(categoryService.findAll());
+    }
+
+    /**
+     * 按项目类目编号查询
+     *
+     * @return
+     */
+    @ApiOperation(value = "按项目类目编号查询", notes = "按项目类目编号查询")
+    @GetMapping(value = "/findByCategoryType/{categoryType}")
+    public Result<ProjectCategory> findByCategoryType(@PathVariable("categoryType") Integer categoryType) {
+        return ResultUtil.success(categoryService.findByCategoryType(categoryType));
     }
 
     @ApiOperation(value = "创建项目分类", notes = "根据Project对象创建项目分类")
