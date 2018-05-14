@@ -147,7 +147,7 @@ public class ProjectController {
      * @return
      */
     @ApiOperation(value = "查询项目列表", notes = "查询项目列表(第几页，每页几条)")
-    @RequestMapping(value = "/list1", method = RequestMethod.GET)
+//    @RequestMapping(value = "/list1", method = RequestMethod.GET)
     public Result getProjects1(@RequestParam(value = "page",required = false,defaultValue = "1") Integer page,
                                        @RequestParam(value = "size",required = false,defaultValue = "10") Integer size) {
         logger.info("projectList");
