@@ -35,9 +35,9 @@ public class TaskController {
      * @return
      */
     @ApiOperation(value = "查询任务列表", notes = "查询任务列表")
-    @RequestMapping(value = "/list/{page}/{size}", method = RequestMethod.GET)
-    public Result<Task> getTasks(@PathVariable("page") Integer page,
-                                 @PathVariable("size") Integer size) {
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public Result<Task> getTasks(@RequestParam(value = "page",required = false,defaultValue = "1") Integer page,
+                                 @RequestParam(value = "size",required = false,defaultValue = "10") Integer size) {
         logger.info("taskList");
         PageRequest request = new PageRequest(page-1,size);
         return ResultUtil.success(taskService.findAll(request));

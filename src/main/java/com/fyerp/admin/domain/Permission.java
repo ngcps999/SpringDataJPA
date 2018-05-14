@@ -11,6 +11,7 @@
 package com.fyerp.admin.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
@@ -38,6 +39,7 @@ public class Permission implements Serializable {
      */
     @Id
     @GeneratedValue
+    @JsonProperty("id")
     private Long permissionId;
 
     /**

@@ -36,9 +36,9 @@ public class PlanController {
      * @return
      */
     @ApiOperation(value = "查询计划列表", notes = "查询计划列表")
-    @RequestMapping(value = "/list/{page}/{size}", method = RequestMethod.GET)
-    public Result<Plan> getPlans(@PathVariable("page") Integer page,
-                                 @PathVariable("size") Integer size) {
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
+    public Result<Plan> getPlans(@RequestParam(value = "page",required = false,defaultValue = "1") Integer page,
+                                 @RequestParam(value = "size",required = false,defaultValue = "10") Integer size) {
         logger.info("planList");
         PageRequest request = new PageRequest(page-1,size);
 
