@@ -18,6 +18,8 @@ public interface TaskService {
 
     Page<Task> findAll(Pageable pageable);
 
+    List<Task> findAll();
+
     Task save(Task task);
 
     void delete(Long taskId);

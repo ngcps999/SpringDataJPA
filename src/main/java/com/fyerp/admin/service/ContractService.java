@@ -20,6 +20,7 @@ public interface ContractService {
     public Contract findOne(Integer contractId);
 
     public Page<Contract> findAll(Pageable pageable);
+    public List<Contract> findAll();
 
     public Contract save(Contract contract);
 

@@ -35,7 +35,6 @@ public class RoleController {
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     public Result<Role> getRoles() {
         logger.info("roleList");
-//        PageRequest request = new PageRequest(page-1,size);
         return ResultUtil.success(roleService.findAll());
     }
 

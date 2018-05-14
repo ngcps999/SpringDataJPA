@@ -130,11 +130,15 @@ public class ProjectController {
      */
     @ApiOperation(value = "查询项目列表", notes = "查询项目列表(第几页，每页几条)")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public Result<Project> getProjects(@RequestParam(value = "page",required = false,defaultValue = "1") Integer page,
-                                       @RequestParam(value = "size",required = false,defaultValue = "10") Integer size) {
+    public Result<Project> getProjects(@RequestParam(value = "page",required = false) Integer page,
+                                       @RequestParam(value = "size",required = false) Integer size) {
         logger.info("projectList");
-        PageRequest request = new PageRequest(page - 1, size);
-        return ResultUtil.success(projectService.findAll(request));
+        if (page == null && size == null) {
+            return ResultUtil.success(projectService.findAll());
+        } else {
+            PageRequest request = new PageRequest(page - 1, size);
+            return ResultUtil.success(projectService.findAll(request));
+        }
     }
 
     /**

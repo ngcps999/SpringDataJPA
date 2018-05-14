@@ -49,11 +49,15 @@ public class ContractController {
      */
     @ApiOperation(value = "查询合同列表", notes = "查询合同列表")
     @RequestMapping(value = "/list",method = RequestMethod.GET)
-    public Result<Contract> getContracts(@RequestParam(value = "page",required = false,defaultValue = "1") Integer page,
-                                         @RequestParam(value = "size",required = false,defaultValue = "10") Integer size) {
+    public Result<Contract> getContracts(@RequestParam(value = "page",required = false) Integer page,
+                                         @RequestParam(value = "size",required = false) Integer size) {
         logger.info("ContractList");
-        PageRequest request = new PageRequest(page-1,size);
-        return ResultUtil.success(contractService.findAll(request));
+        if (page == null && size == null) {
+            return ResultUtil.success(contractService.findAll());
+        } else {
+            PageRequest request = new PageRequest(page - 1, size);
+            return ResultUtil.success(contractService.findAll(request));
+        }
     }
 
     /**

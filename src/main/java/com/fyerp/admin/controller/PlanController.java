@@ -37,12 +37,15 @@ public class PlanController {
      */
     @ApiOperation(value = "查询计划列表", notes = "查询计划列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public Result<Plan> getPlans(@RequestParam(value = "page",required = false,defaultValue = "1") Integer page,
-                                 @RequestParam(value = "size",required = false,defaultValue = "10") Integer size) {
+    public Result<Plan> getPlans(@RequestParam(value = "page",required = false) Integer page,
+                                 @RequestParam(value = "size",required = false) Integer size) {
         logger.info("planList");
-        PageRequest request = new PageRequest(page-1,size);
-
-        return ResultUtil.success(planService.findAll(request));
+        if (page == null && size == null) {
+            return ResultUtil.success(planService.findAll());
+        } else {
+            PageRequest request = new PageRequest(page - 1, size);
+            return ResultUtil.success(planService.findAll(request));
+        }
     }
 
     /**

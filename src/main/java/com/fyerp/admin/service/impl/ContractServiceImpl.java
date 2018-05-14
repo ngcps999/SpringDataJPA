@@ -34,6 +34,11 @@ public class ContractServiceImpl implements ContractService {
     }
 
     @Override
+    public List<Contract> findAll() {
+        return contractRespository.findAll();
+    }
+
+    @Override
     public Contract save(Contract contract) {
         return contractRespository.save(contract);
     }

@@ -18,6 +18,8 @@ public interface PlanService {
 
     Page<Plan> findAll(Pageable pageable);
 
+    List<Plan> findAll();
+
     Plan save(Plan plan);
 
     void delete(Integer planId);

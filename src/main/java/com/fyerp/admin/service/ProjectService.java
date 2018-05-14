@@ -29,6 +29,7 @@ public interface ProjectService {
 
     /**
      * 查询单个项目
+     *
      * @param id
      * @return
      */
@@ -41,6 +42,12 @@ public interface ProjectService {
      */
     Page<Project> findAll(Pageable pageable);
 
+    /**
+     * 查询所有项目（带分页）
+     *
+     * @return
+     */
+    List<Project> findAll();
 
     /**
      * 根据项目状态查项目
@@ -52,14 +59,16 @@ public interface ProjectService {
 
     /**
      * 按计划进度查询
+     *
      * @param planStartDate1
      * @param planStartDate2
      * @return
      */
-    List<Project> findByPlanStartDateBetween(Date planStartDate1,Date planStartDate2);
+    List<Project> findByPlanStartDateBetween(Date planStartDate1, Date planStartDate2);
 
     /**
      * 按计划开始时间和计划结束时间查询
+     *
      * @param planStartDate
      * @param planEndDate
      * @return
@@ -68,6 +77,7 @@ public interface ProjectService {
 
     /**
      * 按实际开始时间和实际结束时间查询
+     *
      * @param realStartDate
      * @param realEndDate
      * @return
@@ -77,11 +87,12 @@ public interface ProjectService {
     /**
      * 按优先级查询
      */
-    Page<Project> findByPriority(Integer priority,Pageable pageable);
+    Page<Project> findByPriority(Integer priority, Pageable pageable);
 
 
     /**
      * 新增
+     *
      * @param project
      * @return
      */

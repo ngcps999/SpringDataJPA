@@ -33,6 +33,11 @@ public class PlanServiceImpl implements PlanService {
     }
 
     @Override
+    public List<Plan> findAll() {
+        return planRespository.findAll();
+    }
+
+    @Override
     public Plan save(Plan plan) {
         return planRespository.save(plan);
     }
