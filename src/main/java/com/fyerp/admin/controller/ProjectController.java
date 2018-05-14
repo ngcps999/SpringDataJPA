@@ -15,6 +15,7 @@ import com.fyerp.admin.domain.Project;
 import com.fyerp.admin.domain.Result;
 import com.fyerp.admin.domain.Task;
 import com.fyerp.admin.domain.User;
+import com.fyerp.admin.domain.vo.ProjectInfoVO;
 import com.fyerp.admin.domain.vo.ProjectVO;
 import com.fyerp.admin.service.ProjectService;
 import com.fyerp.admin.utils.ResultUtil;
@@ -36,10 +37,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.xml.crypto.Data;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 项目API层
@@ -146,11 +144,18 @@ public class ProjectController {
      */
     @ApiOperation(value = "查询项目列表", notes = "查询项目列表(第几页，每页几条)")
     @RequestMapping(value = "/list1", method = RequestMethod.GET)
-    public Result<Project> getProjects1(@RequestParam(value = "page",required = false,defaultValue = "1") Integer page,
+    public Result getProjects1(@RequestParam(value = "page",required = false,defaultValue = "1") Integer page,
                                        @RequestParam(value = "size",required = false,defaultValue = "10") Integer size) {
         logger.info("projectList");
-        PageRequest request = new PageRequest(page - 1, size);
-        return ResultUtil.success(projectService.findAll(request));
+        Result result = new Result();
+
+        ProjectVO projectVO = new ProjectVO();
+        ProjectInfoVO projectInfoVO = new ProjectInfoVO();
+        projectVO.setProjectInfoVOList(Arrays.asList(projectInfoVO));
+        result.setData(Arrays.asList(projectVO));
+        result.setCode(0);
+        result.setMsg("成功了");
+        return result;
     }
 
     /**

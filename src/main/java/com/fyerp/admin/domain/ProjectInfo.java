@@ -2,21 +2,21 @@ package com.fyerp.admin.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
+import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import java.util.Date;
 
 @Data
-public class ProjectInfo {
-
-    /**
-     * 项目id
-     */
-    @Id
-    @GeneratedValue
-    @JsonProperty("id")
-    private Integer projectInfoId;
+@EntityListeners(AuditingEntityListener.class)
+@DynamicUpdate
+public class ProjectInfo extends Project{
 
     /**
      * 使用设备
@@ -48,8 +48,11 @@ public class ProjectInfo {
      */
     private String map;
 
-    /**
-     * 优先级（1最大100最小）
-     */
-    private Integer priority;
+    @CreatedDate
+    private Date createTime;
+
+    @LastModifiedDate
+    private Date updateTime;
+
+
 }

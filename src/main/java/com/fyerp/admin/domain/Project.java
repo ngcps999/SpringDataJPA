@@ -340,14 +340,6 @@ public class Project {
         this.categoryType = categoryType;
     }
 
-    public ProjectCategory getProjectCategory() {
-        return projectCategory;
-    }
-
-    public void setProjectCategory(ProjectCategory projectCategory) {
-        this.projectCategory = projectCategory;
-    }
-
     @Override
     public String toString() {
         return "Project{" +
