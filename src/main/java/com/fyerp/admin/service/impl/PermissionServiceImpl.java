@@ -33,6 +33,11 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
+    public List<Permission> findAll() {
+        return permissionRespository.findAll();
+    }
+
+    @Override
     public Permission save(Permission permission) {
         return permissionRespository.save(permission);
     }

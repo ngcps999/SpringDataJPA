@@ -153,7 +153,6 @@ public class ProjectController {
     @ApiOperation(value = "创建项目", notes = "根据Project对象创建项目")
     @PostMapping(value = "/add")
     public Result<Project> addProject(@RequestBody Project project) {
-
         return ResultUtil.success(projectService.save(project));
     }
 
@@ -165,7 +164,6 @@ public class ProjectController {
 
     /**
      * 删除项目
-     *
      * @param id
      */
     @ApiOperation(value = "删除项目", notes = "根据url的id来指定删除项目")

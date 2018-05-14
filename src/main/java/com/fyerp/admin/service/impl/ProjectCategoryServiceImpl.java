@@ -1,0 +1,44 @@
+/*
+ * 作者：xuda
+ * 创建时间：18-5-14 上午9:09
+ * 模块名称：admin
+ */
+
+package com.fyerp.admin.service.impl;
+
+import com.fyerp.admin.domain.ProjectCategory;
+import com.fyerp.admin.respository.ProjectCateroryRespository;
+import com.fyerp.admin.service.ProjectCategoryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+public class ProjectCategoryServiceImpl implements ProjectCategoryService {
+
+    @Autowired
+    private ProjectCateroryRespository cateroryRespository;
+
+    @Override
+    public ProjectCategory findOne(Integer categoryId) {
+        return cateroryRespository.findOne(categoryId);
+    }
+
+    @Override
+    public List<ProjectCategory> findAll() {
+        return cateroryRespository.findAll();
+    }
+
+    @Override
+    public ProjectCategory save(ProjectCategory projectCatogory) {
+        return cateroryRespository.save(projectCatogory);
+    }
+
+    @Override
+    public void delete(Integer categoryId) {
+        cateroryRespository.delete(categoryId);
+    }
+}

@@ -28,6 +28,12 @@ public interface PermissionService  {
     Page<Permission> findAll(Pageable pageable);
 
     /**
+     * 查询所有角色
+     * @return
+     */
+    List<Permission> findAll();
+
+    /**
      * 新增/更新角色
      *
      * @param permission

@@ -32,17 +32,14 @@ public class PermissionController {
      * @return
      */
     @ApiOperation(value = "查询权限列表", notes = "查询权限列表")
-    @RequestMapping(value = "/list/{page}/{size}",method = RequestMethod.GET)
-    public Result<Permission> getPermissions(@PathVariable("page") Integer page,
-                                             @PathVariable("size") Integer size) {
-        logger.info("roleList");
-        PageRequest request = new PageRequest(page-1,size);
-        return ResultUtil.success(permissionService.findAll(request));
+    @RequestMapping(value = "/list",method = RequestMethod.GET)
+    public Result<Permission> getPermissions() {
+//        PageRequest request = new PageRequest(page-1,size);
+        return ResultUtil.success(permissionService.findAll());
     }
 
     /**
      * 查询单个权限
-     *
      * @return
      */
     @ApiOperation(value = "查询单个权限", notes = "查询单个权限")
