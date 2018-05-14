@@ -8,6 +8,7 @@ package com.fyerp.admin.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -62,6 +63,7 @@ public class ProjectCategory {
         return categoryName;
     }
 
+    @Required
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
     }
@@ -70,6 +72,7 @@ public class ProjectCategory {
         return categoryType;
     }
 
+    @Required
     public void setCategoryType(Integer categoryType) {
         this.categoryType = categoryType;
     }

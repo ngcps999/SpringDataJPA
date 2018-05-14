@@ -14,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -99,6 +100,7 @@ public class Permission implements Serializable {
         return name;
     }
 
+    @Required
     public void setName(String name) {
         this.name = name;
     }
@@ -107,6 +109,7 @@ public class Permission implements Serializable {
         return url;
     }
 
+    @Required
     public void setUrl(String url) {
         this.url = url;
     }

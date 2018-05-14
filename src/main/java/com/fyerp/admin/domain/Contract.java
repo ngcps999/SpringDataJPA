@@ -12,6 +12,7 @@ package com.fyerp.admin.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -70,6 +71,7 @@ public class Contract {
         return contractName;
     }
 
+    @Required
     public void setContractName(String contractName) {
         this.contractName = contractName;
     }
@@ -78,6 +80,7 @@ public class Contract {
         return contractType;
     }
 
+    @Required
     public void setContractType(String contractType) {
         this.contractType = contractType;
     }
@@ -86,6 +89,7 @@ public class Contract {
         return contractCode;
     }
 
+    @Required
     public void setContractCode(String contractCode) {
         this.contractCode = contractCode;
     }
@@ -94,6 +98,7 @@ public class Contract {
         return contractState;
     }
 
+    @Required
     public void setContractState(String contractState) {
         this.contractState = contractState;
     }
@@ -102,6 +107,7 @@ public class Contract {
         return contractMoney;
     }
 
+    @Required
     public void setContractMoney(Double contractMoney) {
         this.contractMoney = contractMoney;
     }
@@ -126,6 +132,7 @@ public class Contract {
         return totalMoney;
     }
 
+    @Required
     public void setTotalMoney(String totalMoney) {
         this.totalMoney = totalMoney;
     }
@@ -141,6 +148,7 @@ public class Contract {
     public String getIsDestroy() {
         return isDestroy;
     }
+
 
     public void setIsDestroy(String isDestroy) {
         this.isDestroy = isDestroy;

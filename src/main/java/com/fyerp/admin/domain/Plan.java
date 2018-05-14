@@ -9,6 +9,7 @@ package com.fyerp.admin.domain;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -52,6 +53,7 @@ public class Plan {
         return planName;
     }
 
+    @Required
     public void setPlanName(String planName) {
         this.planName = planName;
     }
@@ -59,6 +61,7 @@ public class Plan {
     public String getPlanContent() {
         return planContent;
     }
+
 
     public void setPlanContent(String planContent) {
         this.planContent = planContent;

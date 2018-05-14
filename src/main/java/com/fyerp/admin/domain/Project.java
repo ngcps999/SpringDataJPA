@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fyerp.admin.enums.ProjectStatusEnum;
 import org.hibernate.annotations.DynamicUpdate;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 //import org.springframework.data.elasticsearch.annotations.Document;
@@ -200,6 +201,7 @@ public class Project {
         return projectName;
     }
 
+    @Required
     public void setProjectName(String projectName) {
         this.projectName = projectName;
     }
@@ -208,6 +210,7 @@ public class Project {
         return planStartDate;
     }
 
+    @Required
     public void setPlanStartDate(Date planStartDate) {
         this.planStartDate = planStartDate;
     }
@@ -216,6 +219,7 @@ public class Project {
         return planEndDate;
     }
 
+    @Required
     public void setPlanEndDate(Date planEndDate) {
         this.planEndDate = planEndDate;
     }
@@ -296,6 +300,7 @@ public class Project {
         return projectState;
     }
 
+    @Required
     public void setProjectState(Integer projectState) {
         this.projectState = projectState;
     }
