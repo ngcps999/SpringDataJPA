@@ -15,6 +15,7 @@ import com.fyerp.admin.domain.Project;
 import com.fyerp.admin.domain.Result;
 import com.fyerp.admin.domain.Task;
 import com.fyerp.admin.domain.User;
+import com.fyerp.admin.domain.vo.ProjectVO;
 import com.fyerp.admin.service.ProjectService;
 import com.fyerp.admin.utils.ResultUtil;
 import io.swagger.annotations.ApiImplicitParam;
@@ -132,6 +133,20 @@ public class ProjectController {
     @ApiOperation(value = "查询项目列表", notes = "查询项目列表(第几页，每页几条)")
     @RequestMapping(value = "/list/{page}/{size}", method = RequestMethod.GET)
     public Result<Project> getProjects(@PathVariable("page") Integer page,
+                                       @PathVariable("size") Integer size) {
+        logger.info("projectList");
+        PageRequest request = new PageRequest(page - 1, size);
+        return ResultUtil.success(projectService.findAll(request));
+    }
+
+    /**
+     * 查询项目列表（带分页）
+     *
+     * @return
+     */
+    @ApiOperation(value = "查询项目列表", notes = "查询项目列表(第几页，每页几条)")
+    @RequestMapping(value = "/list1/{page}/{size}", method = RequestMethod.GET)
+    public Result<Project> getProjects1(@PathVariable("page") Integer page,
                                        @PathVariable("size") Integer size) {
         logger.info("projectList");
         PageRequest request = new PageRequest(page - 1, size);

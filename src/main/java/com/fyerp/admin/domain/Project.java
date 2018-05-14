@@ -169,6 +169,11 @@ public class Project {
     @JoinColumn(name = "projectId")
     private Set<Task> tasks = new HashSet<>();
 
+    @JsonIgnore
+    @ManyToOne(targetEntity = ProjectCategory.class, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinColumn(name = "categoryId")
+    private ProjectCategory projectCategory;
+
     /**
      * 创建时间
      */
@@ -333,6 +338,14 @@ public class Project {
 
     public void setCategoryType(Integer categoryType) {
         this.categoryType = categoryType;
+    }
+
+    public ProjectCategory getProjectCategory() {
+        return projectCategory;
+    }
+
+    public void setProjectCategory(ProjectCategory projectCategory) {
+        this.projectCategory = projectCategory;
     }
 
     @Override

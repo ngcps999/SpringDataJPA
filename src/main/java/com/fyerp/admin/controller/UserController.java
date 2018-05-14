@@ -40,9 +40,9 @@ public class UserController {
      * @return
      */
     @ApiOperation(value = "查询用户列表", notes = "查询用户列表")
-    @RequestMapping(value = "/list/{page}/{size}",method = RequestMethod.GET)
-    public Result<User> getUsers(@PathVariable("page") Integer page,
-                                 @PathVariable("size") Integer size) {
+    @RequestMapping(value = "/list",method = RequestMethod.GET)
+    public Result<User> getUsers(@RequestParam(value = "page",required = false,defaultValue = "1") Integer page,
+                                 @RequestParam(value = "size",required = false,defaultValue = "10") Integer size) {
         logger.info("userList");
         PageRequest request = new PageRequest(page-1,size);
         return ResultUtil.success(userService.findAll(request));
