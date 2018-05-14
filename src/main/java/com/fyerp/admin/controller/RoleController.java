@@ -32,12 +32,11 @@ public class RoleController {
      * @return
      */
     @ApiOperation(value = "查询角色列表", notes = "查询角色列表")
-    @RequestMapping(value = "/list/{page}/{size}",method = RequestMethod.GET)
-    public Result<Role> getRoles(@PathVariable("page") Integer page,
-                                 @PathVariable("size") Integer size) {
+    @RequestMapping(value = "/list",method = RequestMethod.GET)
+    public Result<Role> getRoles() {
         logger.info("roleList");
-        PageRequest request = new PageRequest(page-1,size);
-        return ResultUtil.success(roleService.findAll(request));
+//        PageRequest request = new PageRequest(page-1,size);
+        return ResultUtil.success(roleService.findAll());
     }
 
     /**

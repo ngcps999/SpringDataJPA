@@ -46,6 +46,7 @@ public class Role implements Serializable {
     /**
      * 角色标识，程序中判断使用,如"admin",这个是唯一的:
      */
+//    @JsonProperty("name")
     private String role;
 
     /**

@@ -33,6 +33,11 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
+    public List<Role> findAll() {
+        return roleRespository.findAll();
+    }
+
+    @Override
     public Role save(Role role) {
         return roleRespository.save(role);
     }
