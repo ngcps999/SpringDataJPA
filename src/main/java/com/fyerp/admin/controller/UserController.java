@@ -33,7 +33,30 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    private Integer page;
+
+    private Integer size;
+
     private final static Logger logger = LoggerFactory.getLogger(UserController.class);
+
+    /**
+     * 查询用户列表（带分页）
+     * @return
+     */
+    @ApiOperation(value = "查询用户列表（带分页）", notes = "查询用户列表（带分页）")
+    @RequestMapping(value = "/list/{page}/{size}",method = RequestMethod.GET)
+    public Result<User> getUsers(@PathVariable(value = "page",required = false) Integer page,
+                                 @PathVariable(value = "size",required = false) Integer size) {
+        logger.info("userList");
+        PageRequest request = new PageRequest(page - 1, size);
+        if (page == null && size == null) {
+            return ResultUtil.success(userService.findAll());
+        } else {
+            return ResultUtil.success(userService.findAll(request));
+        }
+
+    }
+
 
     /**
      * 查询用户列表
@@ -41,11 +64,13 @@ public class UserController {
      */
     @ApiOperation(value = "查询用户列表", notes = "查询用户列表")
     @RequestMapping(value = "/list",method = RequestMethod.GET)
-    public Result<User> getUsers(@RequestParam(value = "page",required = false,defaultValue = "1") Integer page,
-                                 @RequestParam(value = "size",required = false,defaultValue = "10") Integer size) {
+    public Result<User> getUsers() {
         logger.info("userList");
-        PageRequest request = new PageRequest(page-1,size);
-        return ResultUtil.success(userService.findAll(request));
+        if (page == null && size == null) {
+            return ResultUtil.success(userService.findAll());
+        } else {
+            return getUsers(page,size);
+        }
     }
 
     /**
