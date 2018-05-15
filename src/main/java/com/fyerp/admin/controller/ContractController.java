@@ -10,28 +10,13 @@ import com.fyerp.admin.domain.Contract;
 import com.fyerp.admin.domain.Result;
 import com.fyerp.admin.service.ContractService;
 import com.fyerp.admin.utils.ResultUtil;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-import java.io.*;
-import java.sql.Timestamp;
-import java.util.Date;
-import java.util.List;
-
-import static com.fyerp.admin.utils.Constant.SORT_CREATE_TIME;
 
 /**
  * 合同API层
@@ -52,10 +37,13 @@ public class ContractController {
     @ApiOperation(value = "查询合同列表", notes = "查询合同列表")
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     public Result<Contract> getContracts(@RequestParam(value = "page",required = false) Integer page,
-                                         @RequestParam(value = "size",required = false) Integer size) {
+                                         @RequestParam(value = "size",required = false) Integer size,
+                                         @RequestParam(value = "sort_param", required = false, defaultValue = "createTime") String sortParam,
+                                         @RequestParam(value = "sort_desc|asc", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) {
         logger.info("ContractList");
+        Sort sort = new Sort(descOrAsc, sortParam);
         if (page == null && size == null) {
-            return ResultUtil.success(contractService.findAll(SORT_CREATE_TIME));
+            return ResultUtil.success(contractService.findAll(sort));
         } else {
             PageRequest request = new PageRequest(page - 1, size);
             return ResultUtil.success(contractService.findAll(request));

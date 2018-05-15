@@ -15,9 +15,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
-import static com.fyerp.admin.utils.Constant.SORT_CREATE_TIME;
 
 @RestController
 @RequestMapping(value = "/role")
@@ -34,9 +34,18 @@ public class RoleController {
      */
     @ApiOperation(value = "查询角色列表", notes = "查询角色列表")
     @RequestMapping(value = "/list",method = RequestMethod.GET)
-    public Result<Role> getRoles() {
+    public Result<Role> getRoles(@RequestParam(value = "page",required = false) Integer page,
+                                 @RequestParam(value = "size",required = false) Integer size,
+                                 @RequestParam(value = "sort_param", required = false, defaultValue = "createTime") String sortParam,
+                                 @RequestParam(value = "sort_desc|asc", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) {
         logger.info("roleList");
-        return ResultUtil.success(roleService.findAll(SORT_CREATE_TIME));
+        Sort sort = new Sort(descOrAsc, sortParam);
+        if (page == null && size == null) {
+            return ResultUtil.success(roleService.findAll(sort));
+        } else {
+            PageRequest request = new PageRequest(page - 1, size);
+            return ResultUtil.success(roleService.findAll(request));
+        }
     }
 
     /**

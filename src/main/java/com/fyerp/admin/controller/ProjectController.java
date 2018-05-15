@@ -10,7 +10,6 @@
 
 package com.fyerp.admin.controller;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fyerp.admin.domain.*;
 import com.fyerp.admin.domain.vo.ProjectInfoVO;
 import com.fyerp.admin.domain.vo.ProjectVO;
@@ -18,28 +17,14 @@ import com.fyerp.admin.service.ProjectCategoryService;
 import com.fyerp.admin.service.ProjectService;
 import com.fyerp.admin.utils.ResultUtil;
 import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Valid;
-import javax.xml.crypto.Data;
-import java.text.SimpleDateFormat;
 import java.util.*;
-
-import static com.fyerp.admin.utils.Constant.CREATE_TIME;
-import static com.fyerp.admin.utils.Constant.PRIORITY;
-import static com.fyerp.admin.utils.Constant.SORT_CREATE_TIME;
 
 /**
  * 项目API层
@@ -97,35 +82,22 @@ public class ProjectController {
                                                                         @PathVariable("realEndDate") Date realEndDate) {
         return ResultUtil.success(projectService.findByPlanStartDateAfterAndPlanEndDateBefore(realStartDate, realEndDate));
     }
-
-    /**
-     * 按优先级从高到低查询项目列表（带分页）
-     *
-     * @return
-     */
-    @ApiOperation(value = "按优先级排序查询项目列表（带分页）", notes = "按优先级从高到低查询项目列表(第几页，每页几条)")
-    @RequestMapping(value = "/listOrderByPriority/{page}/{size}", method = RequestMethod.GET)
-    public Result<Project> getProjectsOrderByParam(@PathVariable("page") Integer page,
-                                                   @PathVariable("size") Integer size) {
-        logger.info("projectList");
-        Sort sort = new Sort(Sort.Direction.ASC, PRIORITY);
-        PageRequest request = new PageRequest(page - 1, size, sort);
-        return ResultUtil.success(projectService.findAll(request));
-    }
-
-    /**
-     * 按创建时间从近到远查询项目列表（带分页）
-     *
-     * @return
-     */
-    @ApiOperation(value = "按创建时间从近到远查询项目列表（带分页）", notes = "按创建时间从近到远查询项目列表(第几页，每页几条)")
-    @RequestMapping(value = "/listOrderByCreateTime/{page}/{size}", method = RequestMethod.GET)
-    public Result<Project> getProjectsOrderByCreateTime(@PathVariable("page") Integer page,
-                                                   @PathVariable("size") Integer size) {
-        PageRequest request = new PageRequest(page - 1, size, SORT_CREATE_TIME);
-        return ResultUtil.success(projectService.findAll(request));
-    }
-
+//
+//    /**
+//     * 按优先级从高到低查询项目列表（带分页）
+//     *
+//     * @return
+//     */
+//    @ApiOperation(value = "按优先级排序查询项目列表（带分页）", notes = "按优先级从高到低查询项目列表(第几页，每页几条)")
+//    @RequestMapping(value = "/listOrderByPriority/{page}/{size}", method = RequestMethod.GET)
+//    public Result<Project> getProjectsOrderByParam(@PathVariable("page") Integer page,
+//                                                   @PathVariable("size") Integer size) {
+//        logger.info("projectList");
+//        Sort sort = new Sort(Sort.Direction.ASC, PRIORITY);
+//        PageRequest request = new PageRequest(page - 1, size, sort);
+//        return ResultUtil.success(projectService.findAll(request));
+//    }
+//
     /**
      * 查询项目列表（带分页）
      *
@@ -134,10 +106,13 @@ public class ProjectController {
     @ApiOperation(value = "查询项目列表", notes = "查询项目列表(第几页，每页几条)")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public Result<Project> getProjects(@RequestParam(value = "page",required = false) Integer page,
-                                       @RequestParam(value = "size",required = false) Integer size) {
+                                       @RequestParam(value = "size",required = false) Integer size,
+                                       @RequestParam(value = "sort_param", required = false, defaultValue = "createTime") String sortParam,
+                                       @RequestParam(value = "sort_desc|asc", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) {
         logger.info("projectList");
+        Sort sort = new Sort(descOrAsc, sortParam);
         if (page == null && size == null) {
-            return ResultUtil.success(projectService.findAll(SORT_CREATE_TIME));
+            return ResultUtil.success(projectService.findAll(sort));
         } else {
             PageRequest request = new PageRequest(page - 1, size);
             return ResultUtil.success(projectService.findAll(request));

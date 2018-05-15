@@ -18,6 +18,7 @@ public interface DepartmentService {
     Department findOne(Long departmentId);
 
     List<Department> findAll();
+    Page<Department> findAll(Pageable pageable);
     List<Department> findAll(Sort sort);
 
     Department save(Department department);

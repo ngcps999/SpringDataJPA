@@ -15,11 +15,11 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
-import static com.fyerp.admin.utils.Constant.SORT_CREATE_TIME;
+import static com.fyerp.admin.utils.Constant.*;
 
 @RestController
 @RequestMapping("projectCategory")
@@ -27,9 +27,9 @@ public class ProjectCategoryController {
 
     private final static Logger logger = LoggerFactory.getLogger(ProjectController.class);
 
-
     @Autowired
     private ProjectCategoryService categoryService;
+
 
     /**
      * 查询单个项目分类
@@ -37,7 +37,7 @@ public class ProjectCategoryController {
      * @return
      */
     @ApiOperation(value = "查询单个项目分类", notes = "查询单个项目分类")
-    @GetMapping(value = "/findOneCategory/{id}")
+//    @GetMapping(value = "/findOneCategory/{id}")
     public Result<ProjectCategory> findOneProjectCategory(@PathVariable("id") Integer categoryid) {
         logger.info("findOneProject项目分类");
         if (categoryid != null) {
@@ -48,14 +48,23 @@ public class ProjectCategoryController {
     }
 
     /**
-     * 查询项目列表（带分页）
+     * 查询项目列表
      *
      * @return
      */
     @ApiOperation(value = "查询项目分类列表", notes = "查询项目分类列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public Result<ProjectCategory> getProjectCategorys() {
-        return ResultUtil.success(categoryService.findAll(SORT_CREATE_TIME));
+    public Result<ProjectCategory> getProjectCategorys(@RequestParam(value = "page", required = false) Integer page,
+                                                       @RequestParam(value = "size", required = false) Integer size,
+                                                       @RequestParam(value = "sort_param", required = false, defaultValue = "createTime") String sortParam,
+                                                       @RequestParam(value = "sort_desc|asc", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) {
+        Sort sort = new Sort(descOrAsc, sortParam);
+        if (page == null && size == null) {
+            return ResultUtil.success(categoryService.findAll(sort));
+        } else {
+            PageRequest request = new PageRequest(page - 1, size);
+            return ResultUtil.success(categoryService.findAll(request));
+        }
     }
 
     /**

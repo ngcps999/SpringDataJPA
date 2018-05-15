@@ -7,24 +7,16 @@
 package com.fyerp.admin.controller;
 
 import com.fyerp.admin.domain.Department;
-import com.fyerp.admin.domain.Org;
 import com.fyerp.admin.domain.Result;
-import com.fyerp.admin.domain.User;
 import com.fyerp.admin.service.DepartmentService;
 import com.fyerp.admin.utils.ResultUtil;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
-
-import javax.xml.crypto.Data;
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.fyerp.admin.utils.Constant.SORT_CREATE_TIME;
 
 @RestController
 @RequestMapping(value = "/department")
@@ -42,9 +34,18 @@ public class DepartmentController {
      */
     @ApiOperation(value = "查询部门列表", notes = "查询部门列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public Result<Department> getDepartments() {
+    public Result<Department> getDepartments(@RequestParam(value = "page",required = false) Integer page,
+                                             @RequestParam(value = "size",required = false) Integer size,
+                                             @RequestParam(value = "sort_param", required = false, defaultValue = "createTime") String sortParam,
+                                             @RequestParam(value = "sort_desc|asc", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) {
         logger.info("departmentList");
-        return ResultUtil.success(departmentService.findAll(SORT_CREATE_TIME));
+        Sort sort = new Sort(descOrAsc, sortParam);
+        if (page == null && size == null) {
+            return ResultUtil.success(departmentService.findAll(sort));
+        } else {
+            PageRequest request = new PageRequest(page - 1, size);
+            return ResultUtil.success(departmentService.findAll(request));
+        }
     }
 
     /**

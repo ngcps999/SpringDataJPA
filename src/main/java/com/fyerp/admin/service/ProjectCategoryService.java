@@ -25,6 +25,7 @@ public interface ProjectCategoryService {
 
     /**
      * 按类目编号查询类目
+     *
      * @param categoryType
      * @return
      */
@@ -32,6 +33,7 @@ public interface ProjectCategoryService {
 
     /**
      * 按类目编号查询类目
+     *
      * @param categoryTypeList
      * @return
      */
@@ -39,15 +41,16 @@ public interface ProjectCategoryService {
 
     /**
      * 查询所有角色
-     *
      * @return
      */
     List<ProjectCategory> findAll();
+
+    Page<ProjectCategory> findAll(Pageable pageable);
+
     List<ProjectCategory> findAll(Sort sort);
 
     /**
      * 新增/更新角色
-     *
      * @param projectCatogory
      * @return
      */

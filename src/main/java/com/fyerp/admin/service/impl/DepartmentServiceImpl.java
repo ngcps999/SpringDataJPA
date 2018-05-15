@@ -34,6 +34,11 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
+    public Page<Department> findAll(Pageable pageable) {
+        return departmentRespository.findAll(pageable);
+    }
+
+    @Override
     public List<Department> findAll(Sort sort) {
         return departmentRespository.findAll(sort);
     }

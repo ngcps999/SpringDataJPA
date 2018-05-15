@@ -15,9 +15,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
-
-import static com.fyerp.admin.utils.Constant.SORT_CREATE_TIME;
 
 @RestController
 @RequestMapping(value = "/permission")
@@ -34,9 +33,17 @@ public class PermissionController {
      */
     @ApiOperation(value = "查询权限列表", notes = "查询权限列表")
     @RequestMapping(value = "/list",method = RequestMethod.GET)
-    public Result<Permission> getPermissions() {
-//        PageRequest request = new PageRequest(page-1,size);
-        return ResultUtil.success(permissionService.findAll(SORT_CREATE_TIME));
+    public Result<Permission> getPermissions(@RequestParam(value = "page",required = false) Integer page,
+                                             @RequestParam(value = "size",required = false) Integer size,
+                                             @RequestParam(value = "sort_param", required = false, defaultValue = "createTime") String sortParam,
+                                             @RequestParam(value = "sort_desc|asc", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) {
+        Sort sort = new Sort(descOrAsc, sortParam);
+        if (page == null && size == null) {
+            return ResultUtil.success(permissionService.findAll(sort));
+        } else {
+            PageRequest request = new PageRequest(page - 1, size);
+            return ResultUtil.success(permissionService.findAll(request));
+        }
     }
 
     /**
