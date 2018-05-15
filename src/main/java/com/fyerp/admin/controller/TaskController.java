@@ -24,7 +24,6 @@ import static com.fyerp.admin.utils.Constant.SORT_CREATE_TIME;
 
 @RestController
 @RequestMapping(value = "/task")
-@CrossOrigin
 public class TaskController {
 
     private final static Logger logger = LoggerFactory.getLogger(TaskController.class);

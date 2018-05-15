@@ -26,7 +26,6 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping("/upload")
-@CrossOrigin
 public class FileController {
     private static final Logger logger = LoggerFactory.getLogger(FileController.class);
 

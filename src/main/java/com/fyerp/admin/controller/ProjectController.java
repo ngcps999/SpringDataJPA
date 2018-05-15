@@ -49,7 +49,6 @@ import static com.fyerp.admin.utils.Constant.SORT_CREATE_TIME;
  */
 @RestController
 @RequestMapping(value = "/project")
-@CrossOrigin
 public class ProjectController {
 
     private final static Logger logger = LoggerFactory.getLogger(ProjectController.class);
@@ -59,7 +58,6 @@ public class ProjectController {
 
     @Autowired
     private ProjectCategoryService categoryService;
-
 
     /**
      * 查询单个项目

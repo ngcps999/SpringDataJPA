@@ -28,7 +28,6 @@ import static com.fyerp.admin.utils.Constant.SORT_CREATE_TIME;
  */
 @RestController
 @RequestMapping("user")
-@CrossOrigin
 public class UserController {
 
     @Autowired

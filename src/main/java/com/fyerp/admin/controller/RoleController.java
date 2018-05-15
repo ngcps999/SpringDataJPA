@@ -21,7 +21,6 @@ import static com.fyerp.admin.utils.Constant.SORT_CREATE_TIME;
 
 @RestController
 @RequestMapping(value = "/role")
-@CrossOrigin
 public class RoleController {
 
     @Autowired
