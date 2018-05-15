@@ -19,8 +19,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
-import static com.fyerp.admin.utils.Constant.*;
-
 @RestController
 @RequestMapping("projectCategory")
 public class ProjectCategoryController {
