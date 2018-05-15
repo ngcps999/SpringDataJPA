@@ -47,10 +47,10 @@ server:
   tomcat:
     uri-encoding: utf-8
 logging:
-  level:
-    org:
-      springframework:
-        security: info
+  level: info
+#    org:
+#      springframework:
+#        security: info
 debug: false
 #文件存储路径
 prop:
