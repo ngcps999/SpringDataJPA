@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static com.fyerp.admin.utils.Constant.SORT_CREATE_TIME;
+
 @RestController
 @RequestMapping("projectCategory")
 public class ProjectCategoryController {
@@ -53,7 +55,7 @@ public class ProjectCategoryController {
     @ApiOperation(value = "查询项目分类列表", notes = "查询项目分类列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public Result<ProjectCategory> getProjectCategorys() {
-        return ResultUtil.success(categoryService.findAll());
+        return ResultUtil.success(categoryService.findAll(SORT_CREATE_TIME));
     }
 
     /**

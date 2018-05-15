@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
+import static com.fyerp.admin.utils.Constant.SORT_CREATE_TIME;
+
 @RestController
 @RequestMapping(value = "/role")
 @CrossOrigin
@@ -35,7 +37,7 @@ public class RoleController {
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     public Result<Role> getRoles() {
         logger.info("roleList");
-        return ResultUtil.success(roleService.findAll());
+        return ResultUtil.success(roleService.findAll(SORT_CREATE_TIME));
     }
 
     /**

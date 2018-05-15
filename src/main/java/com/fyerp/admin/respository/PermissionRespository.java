@@ -20,6 +20,5 @@ public interface PermissionRespository extends JpaRepository<Permission,Long> {
 //            "left join role_permission rp on r.role_id = rp.role_id" +
 //            "left join permission p on rp.permission_id = p.permission_id" +
 //            "where u.user_id =?1")
-    public List<Permission> findPermissionsByRoles(Integer userId);
 
 }

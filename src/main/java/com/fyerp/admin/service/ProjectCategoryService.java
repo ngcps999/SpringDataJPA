@@ -9,6 +9,7 @@ package com.fyerp.admin.service;
 import com.fyerp.admin.domain.ProjectCategory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -30,11 +31,19 @@ public interface ProjectCategoryService {
     ProjectCategory findByCategoryType(Integer categoryType);
 
     /**
+     * 按类目编号查询类目
+     * @param categoryTypeList
+     * @return
+     */
+    List<ProjectCategory> findByCategoryTypeIn(List<Integer> categoryTypeList);
+
+    /**
      * 查询所有角色
      *
      * @return
      */
     List<ProjectCategory> findAll();
+    List<ProjectCategory> findAll(Sort sort);
 
     /**
      * 新增/更新角色

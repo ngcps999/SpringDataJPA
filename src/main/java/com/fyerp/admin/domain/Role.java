@@ -60,6 +60,30 @@ public class Role implements Serializable {
      */
     private Boolean available = Boolean.FALSE;
 
+
+    /**
+     * 角色-权限多对多关系
+     */
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "RolePermission", joinColumns = {@JoinColumn(name = "roleId")}, inverseJoinColumns = {@JoinColumn(name = "permissionId")})
+    private List<Permission> permissions;
+
+    /**
+     * 用户-角色多对多关系,一个角色对应多个用户
+     */
+    @JsonIgnore
+    @ManyToMany
+    @JoinTable(name = "UserRole", joinColumns = {@JoinColumn(name = "roleId")}, inverseJoinColumns = {@JoinColumn(name = "userId")})
+    private List<User> users;
+
+    @CreatedDate
+    @JsonIgnore
+    private Date createTime;
+
+    @LastModifiedDate
+    @JsonIgnore
+    private Date updateTime;
+
     public Role() {
     }
 
@@ -68,27 +92,6 @@ public class Role implements Serializable {
         this.description = description;
         this.available = available;
     }
-    /**
-     * 角色-权限多对多关系
-     */
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(name = "RolePermission",joinColumns = {@JoinColumn(name = "roleId")},inverseJoinColumns = {@JoinColumn(name = "permissionId")})
-    private List<Permission> permissions;
-
-    /**
-     * 用户-角色多对多关系,一个角色对应多个用户
-     */
-    @JsonIgnore
-    @ManyToMany
-    @JoinTable(name = "UserRole",joinColumns = {@JoinColumn(name = "roleId")},inverseJoinColumns = {@JoinColumn(name = "userId")})
-    private List<User> users;
-
-    @JsonIgnore
-    @CreatedDate
-    private Date createTime;
-    @JsonIgnore
-    @LastModifiedDate
-    private Date updateTime;
 
     public Long getRoleId() {
         return roleId;

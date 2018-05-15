@@ -31,6 +31,8 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
+import static com.fyerp.admin.utils.Constant.SORT_CREATE_TIME;
+
 /**
  * 合同API层
  */
@@ -53,7 +55,7 @@ public class ContractController {
                                          @RequestParam(value = "size",required = false) Integer size) {
         logger.info("ContractList");
         if (page == null && size == null) {
-            return ResultUtil.success(contractService.findAll());
+            return ResultUtil.success(contractService.findAll(SORT_CREATE_TIME));
         } else {
             PageRequest request = new PageRequest(page - 1, size);
             return ResultUtil.success(contractService.findAll(request));

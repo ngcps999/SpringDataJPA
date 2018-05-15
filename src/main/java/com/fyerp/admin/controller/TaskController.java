@@ -20,6 +20,8 @@ import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import static com.fyerp.admin.utils.Constant.SORT_CREATE_TIME;
+
 @RestController
 @RequestMapping(value = "/task")
 @CrossOrigin
@@ -39,8 +41,9 @@ public class TaskController {
     public Result<Task> getTasks(@RequestParam(value = "page",required = false) Integer page,
                                  @RequestParam(value = "size",required = false) Integer size) {
         logger.info("taskList");
+
         if (page == null && size == null) {
-            return ResultUtil.success(taskService.findAll());
+            return ResultUtil.success(taskService.findAll(SORT_CREATE_TIME));
         } else {
             PageRequest request = new PageRequest(page - 1, size);
             return ResultUtil.success(taskService.findAll(request));

@@ -9,6 +9,7 @@ package com.fyerp.admin.service;
 import com.fyerp.admin.domain.Task;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -19,6 +20,8 @@ public interface TaskService {
     Page<Task> findAll(Pageable pageable);
 
     List<Task> findAll();
+
+    List<Task> findAll(Sort sort);
 
     Task save(Task task);
 

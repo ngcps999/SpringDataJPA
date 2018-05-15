@@ -10,8 +10,7 @@ import com.fyerp.admin.domain.ProjectCategory;
 import com.fyerp.admin.respository.ProjectCateroryRespository;
 import com.fyerp.admin.service.ProjectCategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,8 +32,18 @@ public class ProjectCategoryServiceImpl implements ProjectCategoryService {
     }
 
     @Override
+    public List<ProjectCategory> findByCategoryTypeIn(List<Integer> categoryTypeList) {
+        return cateroryRespository.findByCategoryTypeIn(categoryTypeList);
+    }
+
+    @Override
     public List<ProjectCategory> findAll() {
         return cateroryRespository.findAll();
+    }
+
+    @Override
+    public List<ProjectCategory> findAll(Sort sort) {
+        return cateroryRespository.findAll(sort);
     }
 
     @Override

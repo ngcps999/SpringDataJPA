@@ -13,6 +13,7 @@ package com.fyerp.admin.service;
 import com.fyerp.admin.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -34,6 +35,9 @@ public interface UserService {
 	 * @return
 	 */
 	List<User> findAll();
+	List<User> findAll(Sort sort);
+
+
 
 	/**
 	 * 查询所有用户(带分页)

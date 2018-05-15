@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import static com.fyerp.admin.utils.Constant.SORT_CREATE_TIME;
+
 @RestController
 @RequestMapping(value = "/plan")
 @CrossOrigin
@@ -41,7 +43,7 @@ public class PlanController {
                                  @RequestParam(value = "size",required = false) Integer size) {
         logger.info("planList");
         if (page == null && size == null) {
-            return ResultUtil.success(planService.findAll());
+            return ResultUtil.success(planService.findAll(SORT_CREATE_TIME));
         } else {
             PageRequest request = new PageRequest(page - 1, size);
             return ResultUtil.success(planService.findAll(request));

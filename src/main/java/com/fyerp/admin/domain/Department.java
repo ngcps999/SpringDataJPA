@@ -10,9 +10,12 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -34,6 +37,14 @@ public class Department {
     @ManyToMany
     @JoinTable(name = "TaskDepartment",joinColumns = {@JoinColumn(name = "departmentId")},inverseJoinColumns = {@JoinColumn(name = "taskId")})
     private List<Task> tasks;
+
+    @CreatedDate
+    @JsonIgnore
+    private Date createTime;
+
+    @LastModifiedDate
+    @JsonIgnore
+    private Date updateTime;
 
     public Long getDepartmentId() {
         return departmentId;
@@ -68,5 +79,19 @@ public class Department {
         this.tasks = tasks;
     }
 
+    public Date getCreateTime() {
+        return createTime;
+    }
 
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
 }

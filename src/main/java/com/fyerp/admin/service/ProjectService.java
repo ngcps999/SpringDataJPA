@@ -49,6 +49,8 @@ public interface ProjectService {
      */
     List<Project> findAll();
 
+    List<Project> findAll(Sort sort);
+
     /**
      * 根据项目状态查项目
      *

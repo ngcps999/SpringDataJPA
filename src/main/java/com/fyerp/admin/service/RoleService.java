@@ -9,6 +9,7 @@ package com.fyerp.admin.service;
 import com.fyerp.admin.domain.Role;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -34,6 +35,8 @@ public interface RoleService {
      * @return
      */
     List<Role> findAll();
+
+    List<Role> findAll(Sort sort);
     /**
      * 新增/更新角色
      *

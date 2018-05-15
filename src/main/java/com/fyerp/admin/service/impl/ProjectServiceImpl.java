@@ -53,6 +53,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public List<Project> findAll(Sort sort) {
+        return respository.findAll(sort);
+    }
+
+    @Override
     public List<Project> findProjectsByProjectState(Integer state) {
         List<Project> projectsByStatus = respository.findProjectsByProjectState(state);
         for (Project project : projectsByStatus) {

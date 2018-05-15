@@ -14,14 +14,13 @@ import com.fyerp.admin.domain.Result;
 import com.fyerp.admin.domain.User;
 import com.fyerp.admin.service.UserService;
 import com.fyerp.admin.utils.ResultUtil;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
+import static com.fyerp.admin.utils.Constant.SORT_CREATE_TIME;
 
 
 /**
@@ -34,10 +33,6 @@ public class UserController {
 
     @Autowired
     private UserService userService;
-
-    private Integer page;
-
-    private Integer size;
 
     private final static Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -52,14 +47,12 @@ public class UserController {
                                  @RequestParam(value = "size", required = false) Integer size) {
         logger.info("userList");
         if (page == null && size == null) {
-            return ResultUtil.success(userService.findAll());
+            return ResultUtil.success(userService.findAll(SORT_CREATE_TIME));
         } else {
             PageRequest request = new PageRequest(page - 1, size);
             return ResultUtil.success(userService.findAll(request));
         }
-
     }
-
 
 //    /**
 //     * 查询用户列表

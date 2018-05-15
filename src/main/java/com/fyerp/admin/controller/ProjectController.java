@@ -11,12 +11,10 @@
 package com.fyerp.admin.controller;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fyerp.admin.domain.Project;
-import com.fyerp.admin.domain.Result;
-import com.fyerp.admin.domain.Task;
-import com.fyerp.admin.domain.User;
+import com.fyerp.admin.domain.*;
 import com.fyerp.admin.domain.vo.ProjectInfoVO;
 import com.fyerp.admin.domain.vo.ProjectVO;
+import com.fyerp.admin.service.ProjectCategoryService;
 import com.fyerp.admin.service.ProjectService;
 import com.fyerp.admin.utils.ResultUtil;
 import io.swagger.annotations.ApiImplicitParam;
@@ -39,6 +37,10 @@ import javax.xml.crypto.Data;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static com.fyerp.admin.utils.Constant.CREATE_TIME;
+import static com.fyerp.admin.utils.Constant.PRIORITY;
+import static com.fyerp.admin.utils.Constant.SORT_CREATE_TIME;
+
 /**
  * 项目API层
  * @Author: xuda
@@ -54,6 +56,10 @@ public class ProjectController {
 
     @Autowired
     private ProjectService projectService;
+
+    @Autowired
+    private ProjectCategoryService categoryService;
+
 
     /**
      * 查询单个项目
@@ -104,7 +110,7 @@ public class ProjectController {
     public Result<Project> getProjectsOrderByParam(@PathVariable("page") Integer page,
                                                    @PathVariable("size") Integer size) {
         logger.info("projectList");
-        Sort sort = new Sort(Sort.Direction.ASC, "priority");
+        Sort sort = new Sort(Sort.Direction.ASC, PRIORITY);
         PageRequest request = new PageRequest(page - 1, size, sort);
         return ResultUtil.success(projectService.findAll(request));
     }
@@ -118,8 +124,7 @@ public class ProjectController {
     @RequestMapping(value = "/listOrderByCreateTime/{page}/{size}", method = RequestMethod.GET)
     public Result<Project> getProjectsOrderByCreateTime(@PathVariable("page") Integer page,
                                                    @PathVariable("size") Integer size) {
-        Sort sort = new Sort(Sort.Direction.DESC, "createTime");
-        PageRequest request = new PageRequest(page - 1, size, sort);
+        PageRequest request = new PageRequest(page - 1, size, SORT_CREATE_TIME);
         return ResultUtil.success(projectService.findAll(request));
     }
 
@@ -134,7 +139,7 @@ public class ProjectController {
                                        @RequestParam(value = "size",required = false) Integer size) {
         logger.info("projectList");
         if (page == null && size == null) {
-            return ResultUtil.success(projectService.findAll());
+            return ResultUtil.success(projectService.findAll(SORT_CREATE_TIME));
         } else {
             PageRequest request = new PageRequest(page - 1, size);
             return ResultUtil.success(projectService.findAll(request));
@@ -151,8 +156,16 @@ public class ProjectController {
     public Result getProjects1(@RequestParam(value = "page",required = false,defaultValue = "1") Integer page,
                                        @RequestParam(value = "size",required = false,defaultValue = "10") Integer size) {
         logger.info("projectList");
-        Result result = new Result();
+        List<Project> projects = projectService.findAll();
+        List<Integer> categoryTypeList = new ArrayList<>();
+        for (Project project : projects) {
+            categoryTypeList.add(project.getCategoryType());
+        }
 
+        categoryService.findByCategoryTypeIn(categoryTypeList);
+
+
+        Result result = new Result();
         ProjectVO projectVO = new ProjectVO();
         ProjectInfoVO projectInfoVO = new ProjectInfoVO();
         projectVO.setProjectInfoVOList(Arrays.asList(projectInfoVO));

@@ -9,6 +9,7 @@ package com.fyerp.admin.service;
 import com.fyerp.admin.domain.Permission;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -32,6 +33,7 @@ public interface PermissionService  {
      * @return
      */
     List<Permission> findAll();
+    List<Permission> findAll(Sort sort);
 
     /**
      * 新增/更新角色

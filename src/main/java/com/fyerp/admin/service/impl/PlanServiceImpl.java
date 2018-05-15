@@ -12,6 +12,7 @@ import com.fyerp.admin.service.PlanService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -35,6 +36,11 @@ public class PlanServiceImpl implements PlanService {
     @Override
     public List<Plan> findAll() {
         return planRespository.findAll();
+    }
+
+    @Override
+    public List<Plan> findAll(Sort sort) {
+        return planRespository.findAll(sort);
     }
 
     @Override

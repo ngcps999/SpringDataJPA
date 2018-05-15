@@ -9,6 +9,7 @@ package com.fyerp.admin.service;
 import com.fyerp.admin.domain.Plan;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 
@@ -19,6 +20,7 @@ public interface PlanService {
     Page<Plan> findAll(Pageable pageable);
 
     List<Plan> findAll();
+    List<Plan> findAll(Sort sort);
 
     Plan save(Plan plan);
 

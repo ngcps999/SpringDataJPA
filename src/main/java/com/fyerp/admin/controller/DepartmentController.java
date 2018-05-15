@@ -24,6 +24,8 @@ import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.fyerp.admin.utils.Constant.SORT_CREATE_TIME;
+
 @RestController
 @RequestMapping(value = "/department")
 public class DepartmentController {
@@ -42,7 +44,7 @@ public class DepartmentController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public Result<Department> getDepartments() {
         logger.info("departmentList");
-        return ResultUtil.success(departmentService.findAll());
+        return ResultUtil.success(departmentService.findAll(SORT_CREATE_TIME));
     }
 
     /**

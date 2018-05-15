@@ -6,6 +6,7 @@
 
 package com.fyerp.admin.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.beans.factory.annotation.Required;
@@ -46,8 +47,10 @@ public class ProjectCategory {
     @JoinColumn(name = "categoryId")
     private List<Project> projects;
 
+    @JsonIgnore
     @CreatedDate
     private Date createTime;
+    @JsonIgnore
     @LastModifiedDate
     private Date updateTime;
 

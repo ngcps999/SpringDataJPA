@@ -17,6 +17,7 @@ import com.fyerp.admin.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -47,6 +48,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findAll() {
         return userRespository.findAll();
+    }
+
+    @Override
+    public List<User> findAll(Sort sort) {
+        return userRespository.findAll(sort);
     }
 
     @Override
