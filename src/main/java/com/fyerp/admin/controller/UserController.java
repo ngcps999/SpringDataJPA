@@ -84,9 +84,9 @@ public class UserController {
      */
     @ApiOperation(value = "创建用户", notes = "根据user对象创建用户")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public Result<User> addUser(@RequestBody User user) {
+    public User addUser(@RequestBody User user) {
 
-        return ResultUtil.success(userService.save(user));
+        return userService.save(user);
     }
 
     /**
