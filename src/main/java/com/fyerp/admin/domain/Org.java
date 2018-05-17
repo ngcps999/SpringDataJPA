@@ -11,6 +11,7 @@
 package com.fyerp.admin.domain;
 
 //import lombok.Data;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
@@ -59,9 +60,11 @@ public class Org {
 
     @JsonIgnore
     @CreatedDate
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date createTime;
     @JsonIgnore
     @LastModifiedDate
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date updateTime;
     /**
      * 无参构造

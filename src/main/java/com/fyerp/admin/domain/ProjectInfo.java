@@ -1,5 +1,6 @@
 package com.fyerp.admin.domain;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
@@ -49,9 +50,11 @@ public class ProjectInfo extends Project{
     private String map;
 
     @CreatedDate
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date createTime;
 
     @LastModifiedDate
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date updateTime;
 
 

@@ -60,7 +60,15 @@ public class Task {
     @JsonIgnore
     @ManyToOne(targetEntity = Project.class, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "projectId")
-    private Project task;
+    private Project project;
+
+    /**
+     * 计划
+     */
+    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @JoinColumn(name = "taskId")
+    private Set<Plan> plans = new HashSet<>();
+
 
     /**
      * 一个任务具有多个部门参与
@@ -72,9 +80,11 @@ public class Task {
 
     @JsonIgnore
     @CreatedDate
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date createTime;
     @JsonIgnore
     @LastModifiedDate
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date updateTime;
 
     public Task() {
@@ -172,12 +182,12 @@ public class Task {
         this.taskPlanEndDate = taskPlanEndDate;
     }
 
-    public Project getTask() {
-        return task;
+    public Project getProject() {
+        return project;
     }
 
-    public void setTask(Project task) {
-        this.task = task;
+    public void setProject(Project project) {
+        this.project = project;
     }
 
     public Set<Department> getDepartments() {
@@ -203,5 +213,13 @@ public class Task {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Set<Plan> getPlans() {
+        return plans;
+    }
+
+    public void setPlans(Set<Plan> plans) {
+        this.plans = plans;
     }
 }

@@ -114,6 +114,36 @@ public class Project {
     private String equipment;
 
     /**
+     * 项目内容
+     */
+    private String projectContent;
+
+    /**
+     * 项目范围
+     */
+    private String projectScope;
+
+    /**
+     * 技术要求
+     */
+    private String techReqs;
+
+    /**
+     * 成果要求
+     */
+    private String resultsReqs;
+
+    /**
+     * 工期要求
+     */
+    private Integer workDay;
+
+    /**
+     * 阶段
+     */
+    private String projectPhase;
+
+    /**
      * 飞行平台
      */
     private String flyPlatform;
@@ -179,14 +209,14 @@ public class Project {
      * 创建时间
      */
     @CreatedDate
-//    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date createTime;
 
     /**
      * 更新时间
      */
     @LastModifiedDate
-//    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date updateTime;
 
     public Integer getProjectId() {
@@ -345,26 +375,60 @@ public class Project {
         this.categoryType = categoryType;
     }
 
-    @Override
-    public String toString() {
-        return "Project{" +
-                "projectId=" + projectId +
-                ", projectName='" + projectName + '\'' +
-                ", planStartDate=" + planStartDate +
-                ", planEndDate=" + planEndDate +
-                ", realStartDate=" + realStartDate +
-                ", realEndDate=" + realEndDate +
-                ", equipment='" + equipment + '\'' +
-                ", flyPlatform='" + flyPlatform + '\'' +
-                ", flyHeight='" + flyHeight + '\'' +
-                ", aeroRatio='" + aeroRatio + '\'' +
-                ", areoArea='" + areoArea + '\'' +
-                ", map='" + map + '\'' +
-                ", priority=" + priority +
-                ", projectState=" + projectState +
-                ", projectDesc='" + projectDesc + '\'' +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
-                '}';
+    public String getProjectContent() {
+        return projectContent;
     }
+
+    public void setProjectContent(String projectContent) {
+        this.projectContent = projectContent;
+    }
+
+    public String getProjectScope() {
+        return projectScope;
+    }
+
+    public void setProjectScope(String projectScope) {
+        this.projectScope = projectScope;
+    }
+
+    public String getTechReqs() {
+        return techReqs;
+    }
+
+    public void setTechReqs(String techReqs) {
+        this.techReqs = techReqs;
+    }
+
+    public String getResultsReqs() {
+        return resultsReqs;
+    }
+
+    public void setResultsReqs(String resultsReqs) {
+        this.resultsReqs = resultsReqs;
+    }
+
+    public Integer getWorkDay() {
+        return workDay;
+    }
+
+    public void setWorkDay(Integer workDay) {
+        this.workDay = workDay;
+    }
+
+    public String getProjectPhase() {
+        return projectPhase;
+    }
+
+    public void setProjectPhase(String projectPhase) {
+        this.projectPhase = projectPhase;
+    }
+
+    public ProjectCategory getProjectCategory() {
+        return projectCategory;
+    }
+
+    public void setProjectCategory(ProjectCategory projectCategory) {
+        this.projectCategory = projectCategory;
+    }
+
 }
