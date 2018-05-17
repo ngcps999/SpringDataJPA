@@ -48,24 +48,36 @@ public class Contract {
     private String contractCode;
     @JsonProperty("state")
     private String contractState;
-    @JsonProperty("money")
+    @JsonProperty("amount")
     private Double contractMoney;
     @JsonProperty("tax_rate")
     private Double contractTaxRate;
     @JsonProperty("tax")
     private Double contractTax;
+    @JsonProperty("totalAmount")
     private String totalMoney;
-    private String isChange;
-    private String isDestroy;
+
+    @JsonProperty("isChanged")
+    private Boolean isChange;
+    @JsonProperty("isObsoleted")
+    private Boolean isDestroy;
+    @JsonProperty("effectiveDate")
     private Date effectTime;
+    @JsonProperty("obsoletedDate")
     private Date lostEffectTime;
+    @JsonProperty("endDate")
     private Date endTime;
+    @JsonProperty("approvalDate")
     private Date auditTime;
     private String note;
+
     @JsonIgnore
     @CreatedDate
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+    @JsonProperty("creationDate")
     private Date createTime;
+
+    @JsonProperty("updatedDate")
     @JsonIgnore
     @LastModifiedDate
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
@@ -149,21 +161,20 @@ public class Contract {
         this.totalMoney = totalMoney;
     }
 
-    public String getIsChange() {
+    public Boolean getChange() {
         return isChange;
     }
 
-    public void setIsChange(String isChange) {
-        this.isChange = isChange;
+    public void setChange(Boolean change) {
+        isChange = change;
     }
 
-    public String getIsDestroy() {
+    public Boolean getDestroy() {
         return isDestroy;
     }
 
-
-    public void setIsDestroy(String isDestroy) {
-        this.isDestroy = isDestroy;
+    public void setDestroy(Boolean destroy) {
+        isDestroy = destroy;
     }
 
     public Date getEffectTime() {

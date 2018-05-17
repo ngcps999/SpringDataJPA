@@ -73,9 +73,9 @@ public class Task {
     /**
      * 一个任务具有多个部门参与
      */
-    @ManyToMany(fetch = FetchType.EAGER)//立即从数据库中加载数据；
-    @JoinTable(name = "TaskDepartment", joinColumns = {@JoinColumn(name = "taskId")}, inverseJoinColumns = {@JoinColumn(name = "departmentId")})
-    private Set<Department> departments = new HashSet<>();
+//    @ManyToMany(fetch = FetchType.EAGER)//立即从数据库中加载数据；
+//    @JoinTable(name = "TaskDepartment", joinColumns = {@JoinColumn(name = "taskId")}, inverseJoinColumns = {@JoinColumn(name = "departmentId")})
+//    private Set<Department> departments = new HashSet<>();
 
     @JsonIgnore
     @CreatedDate
@@ -189,14 +189,14 @@ public class Task {
         this.project = project;
     }
 
-    public Set<Department> getDepartments() {
-        return departments;
-    }
-
-    @Required
-    public void setDepartments(Set<Department> departments) {
-        this.departments = departments;
-    }
+//    public Set<Department> getDepartments() {
+//        return departments;
+//    }
+//
+//    @Required
+//    public void setDepartments(Set<Department> departments) {
+//        this.departments = departments;
+//    }
 
     public Date getCreateTime() {
         return createTime;
