@@ -95,8 +95,8 @@ public class PlanController {
      * @param planId
      */
     @ApiOperation(value = "删除计划", notes = "根据id删除计划")
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public Result<Task> deleteTask(@PathVariable("id") Integer planId) {
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    public Result<Task> deleteTask(@RequestParam("id") Integer planId) {
         planService.delete(planId);
         return ResultUtil.success(planId);
     }

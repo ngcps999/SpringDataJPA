@@ -12,6 +12,4 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ProjectCateroryRespository extends JpaRepository<ProjectCategory,Integer> {
-    ProjectCategory findByCategoryType(Integer categoryType);
-    List<ProjectCategory> findByCategoryTypeIn(List<Integer> categoryTypeList);
 }

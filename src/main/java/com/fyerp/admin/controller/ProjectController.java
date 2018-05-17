@@ -134,10 +134,10 @@ public class ProjectController {
         List<Project> projects = projectService.findAll();
         List<Integer> categoryTypeList = new ArrayList<>();
         for (Project project : projects) {
-            categoryTypeList.add(project.getCategoryType());
+            categoryTypeList.add(project.getProjectCategory().getCategoryId());
         }
 
-        categoryService.findByCategoryTypeIn(categoryTypeList);
+//        categoryService.findOne(categoryTypeList);
 
         Result result = new Result();
         ProjectVO projectVO = new ProjectVO();
@@ -163,14 +163,14 @@ public class ProjectController {
 
     @ApiOperation(value = "创建项目", notes = "根据Project对象创建项目")
     @PostMapping(value = "/add")
-    public Result<Project> addProject(@RequestBody Project project) {
-        return ResultUtil.success(projectService.save(project));
+    public Project addProject(@RequestBody Project project) {
+        return projectService.save(project);
     }
 
     @ApiOperation(value = "更新项目", notes = "根据项目的id来更新项目信息")
     @PutMapping(value = "/update")
-    public Result<Project> updateProject(@RequestBody Project project) {
-        return ResultUtil.success(projectService.save(project));
+    public Project updateProject(@RequestBody Project project) {
+        return projectService.save(project);
     }
 
     /**
@@ -179,8 +179,8 @@ public class ProjectController {
      */
     @ApiOperation(value = "删除项目", notes = "根据url的id来指定删除项目")
     @ApiImplicitParam(name = "id", value = "项目ID", required = true, dataType = "Integer", paramType = "path")
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public Result<Project> deleteProject(@PathVariable("id") Integer id) {
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    public Result<Project> deleteProject(@RequestParam("id") Integer id) {
         projectService.delete(id);
         return ResultUtil.success(id);
     }

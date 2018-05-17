@@ -35,9 +35,14 @@ public class Department {
     @JoinTable(name = "DepartmentUser", joinColumns = {@JoinColumn(name = "departmentId")}, inverseJoinColumns = {@JoinColumn(name = "userId")})
     private List<User> users;
 
-    @ManyToMany
-    @JoinTable(name = "TaskDepartment",joinColumns = {@JoinColumn(name = "departmentId")},inverseJoinColumns = {@JoinColumn(name = "taskId")})
-    private List<Task> tasks;
+//    @JsonIgnore
+//    @ManyToMany
+//    @JoinTable(name = "TaskDepartment",joinColumns = {@JoinColumn(name = "departmentId")},inverseJoinColumns = {@JoinColumn(name = "taskId")})
+//    private List<Task> tasks;
+
+    @OneToOne
+    @JoinColumn(name = "departmentId")
+    private Plan plan;
 
     @CreatedDate
     @JsonIgnore
@@ -74,12 +79,20 @@ public class Department {
         this.users = users;
     }
 
-    public List<Task> getTasks() {
-        return tasks;
+//    public List<Task> getTasks() {
+//        return tasks;
+//    }
+//
+//    public void setTasks(List<Task> tasks) {
+//        this.tasks = tasks;
+//    }
+
+    public Plan getPlan() {
+        return plan;
     }
 
-    public void setTasks(List<Task> tasks) {
-        this.tasks = tasks;
+    public void setPlan(Plan plan) {
+        this.plan = plan;
     }
 
     public Date getCreateTime() {

@@ -38,11 +38,6 @@ public class ProjectCategory {
     @JsonProperty("name")
     private String categoryName;
 
-    /**
-     * 类目编号
-     */
-    @JsonProperty("type")
-    private Integer categoryType;
 
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "categoryId")
@@ -69,18 +64,8 @@ public class ProjectCategory {
         return categoryName;
     }
 
-    @Required
     public void setCategoryName(String categoryName) {
         this.categoryName = categoryName;
-    }
-
-    public Integer getCategoryType() {
-        return categoryType;
-    }
-
-    @Required
-    public void setCategoryType(Integer categoryType) {
-        this.categoryType = categoryType;
     }
 
     public Date getCreateTime() {
@@ -112,7 +97,6 @@ public class ProjectCategory {
         return "ProjectCategory{" +
                 "categoryId=" + categoryId +
                 ", categoryName='" + categoryName + '\'' +
-                ", categoryType=" + categoryType +
                 ", createTime=" + createTime +
                 ", updateTime=" + updateTime +
                 '}';

@@ -104,10 +104,10 @@ public class Project {
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date realEndDate;
 
-    /**
-     * 项目类型编号
-     */
-    private Integer categoryType;
+//    /**
+//     * 项目类型编号
+//     */
+//    private Integer categoryType;
     /**
      * 使用设备
      */
@@ -185,13 +185,13 @@ public class Project {
     @JsonProperty("describe")
     private String projectDesc;
 
-//    /**
-//     * 项目成员
-//     */
+    /**
+     * 项目对应多个部门
+     */
 //    @JsonIgnore
 //    @OneToMany(cascade = CascadeType.ALL)
 //    @JoinColumn(name = "projectId")
-//    private Set<User> users = new HashSet<>();
+//    private Set<Department> departments = new HashSet<>();
 
     /**
      * 任务
@@ -218,6 +218,8 @@ public class Project {
     @LastModifiedDate
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date updateTime;
+
+
 
     public Integer getProjectId() {
         return projectId;
@@ -367,14 +369,6 @@ public class Project {
         this.updateTime = updateTime;
     }
 
-    public Integer getCategoryType() {
-        return categoryType;
-    }
-
-    public void setCategoryType(Integer categoryType) {
-        this.categoryType = categoryType;
-    }
-
     public String getProjectContent() {
         return projectContent;
     }
@@ -431,4 +425,11 @@ public class Project {
         this.projectCategory = projectCategory;
     }
 
+//    public Set<Department> getDepartments() {
+//        return departments;
+//    }
+//
+//    public void setDepartments(Set<Department> departments) {
+//        this.departments = departments;
+//    }
 }

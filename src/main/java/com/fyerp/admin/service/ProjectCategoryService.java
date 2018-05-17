@@ -24,22 +24,6 @@ public interface ProjectCategoryService {
     ProjectCategory findOne(Integer categoryId);
 
     /**
-     * 按类目编号查询类目
-     *
-     * @param categoryType
-     * @return
-     */
-    ProjectCategory findByCategoryType(Integer categoryType);
-
-    /**
-     * 按类目编号查询类目
-     *
-     * @param categoryTypeList
-     * @return
-     */
-    List<ProjectCategory> findByCategoryTypeIn(List<Integer> categoryTypeList);
-
-    /**
      * 查询所有角色
      * @return
      */

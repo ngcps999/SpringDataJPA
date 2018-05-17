@@ -85,8 +85,8 @@ public class RoleController {
      * @param id
      */
     @ApiOperation(value = "删除角色", notes = "根据id删除角色")
-    @RequestMapping(value = "/delete/{id}",method = RequestMethod.DELETE)
-    public Result<Role> deleteRole(@PathVariable("id") Long id) {
+    @RequestMapping(value = "/delete",method = RequestMethod.DELETE)
+    public Result<Role> deleteRole(@RequestParam("id") Long id) {
         roleService.delete(id);
         return ResultUtil.success(id);
     }

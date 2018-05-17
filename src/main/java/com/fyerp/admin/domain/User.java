@@ -72,7 +72,6 @@ public class User implements Serializable{
     /**
      * 一个用户具有多个角色
      */
-    @JsonIgnore
     @ManyToMany(cascade = {CascadeType.REFRESH}, fetch = FetchType.EAGER)//立即从数据库中加载数据；
     @JoinTable(name = "UserRole", joinColumns = {@JoinColumn(name = "userId")}, inverseJoinColumns = {@JoinColumn(name = "roleId")})
     private Set<Role> roles = new HashSet<>();

@@ -85,8 +85,8 @@ public class ContractController {
      * @param contract_id
      */
     @ApiOperation(value = "删除合同", notes = "根据url的id来指定删除合同")
-    @RequestMapping(value = "/delete/{contract_id}",method = RequestMethod.DELETE)
-    public Result<Contract> deleteProject(@PathVariable("contract_id") Integer contract_id) {
+    @RequestMapping(value = "/delete",method = RequestMethod.DELETE)
+    public Result<Contract> deleteProject(@RequestParam("contract_id") Integer contract_id) {
         contractService.delete(contract_id);
         return ResultUtil.success(contract_id);
     }

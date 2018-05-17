@@ -19,6 +19,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("projectCategory")
 public class ProjectCategoryController {
@@ -52,16 +54,16 @@ public class ProjectCategoryController {
      */
     @ApiOperation(value = "查询项目分类列表", notes = "查询项目分类列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public Result<ProjectCategory> getProjectCategorys(@RequestParam(value = "page", required = false) Integer page,
-                                                       @RequestParam(value = "size", required = false) Integer size,
-                                                       @RequestParam(value = "sort_param", required = false, defaultValue = "createTime") String sortParam,
-                                                       @RequestParam(value = "sort_desc|asc", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) {
+    public List<ProjectCategory> getProjectCategorys(@RequestParam(value = "page", required = false) Integer page,
+                                                     @RequestParam(value = "size", required = false) Integer size,
+                                                     @RequestParam(value = "sort_param", required = false, defaultValue = "createTime") String sortParam,
+                                                     @RequestParam(value = "sort_desc|asc", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) {
         Sort sort = new Sort(descOrAsc, sortParam);
         if (page == null && size == null) {
-            return ResultUtil.success(categoryService.findAll(sort));
+            return categoryService.findAll(sort);
         } else {
             PageRequest request = new PageRequest(page - 1, size);
-            return ResultUtil.success(categoryService.findAll(request));
+            return (List<ProjectCategory>) categoryService.findAll(request);
         }
     }
 
@@ -71,21 +73,21 @@ public class ProjectCategoryController {
      * @return
      */
     @ApiOperation(value = "按项目类目编号查询", notes = "按项目类目编号查询")
-    @GetMapping(value = "/findByCategoryType/{categoryType}")
-    public Result<ProjectCategory> findByCategoryType(@PathVariable("categoryType") Integer categoryType) {
-        return ResultUtil.success(categoryService.findByCategoryType(categoryType));
+    @GetMapping(value = "/findOne/{id}")
+    public Result<ProjectCategory> findByCategoryType(@PathVariable("id") Integer categoryId) {
+        return ResultUtil.success(categoryService.findOne(categoryId));
     }
 
     @ApiOperation(value = "创建项目分类", notes = "根据Project对象创建项目分类")
     @PostMapping(value = "/add")
-    public Result<ProjectCategory> addProjectCategory(@RequestBody ProjectCategory projectCategory) {
-        return ResultUtil.success(categoryService.save(projectCategory));
+    public ProjectCategory addProjectCategory(@RequestBody ProjectCategory projectCategory) {
+        return categoryService.save(projectCategory);
     }
 
     @ApiOperation(value = "更新项目分类", notes = "根据项目分类的id来更新项目分类信息")
     @PutMapping(value = "/update")
-    public Result<ProjectCategory> updateProjectCategory(@RequestBody ProjectCategory projectCategory) {
-        return ResultUtil.success(categoryService.save(projectCategory));
+    public ProjectCategory updateProjectCategory(@RequestBody ProjectCategory projectCategory) {
+        return categoryService.save(projectCategory);
     }
 
     /**
@@ -95,8 +97,8 @@ public class ProjectCategoryController {
      */
     @ApiOperation(value = "删除项目分类", notes = "根据url的id来指定删除项目分类")
     @ApiImplicitParam(name = "id", value = "项目分类ID", required = true, dataType = "Integer", paramType = "path")
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public Result<ProjectCategory> deleteProjectCategory(@PathVariable("id") Integer categoryId) {
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    public Result<ProjectCategory> deleteProjectCategory(@RequestParam("id") Integer categoryId) {
         categoryService.delete(categoryId);
         return ResultUtil.success(categoryId);
     }

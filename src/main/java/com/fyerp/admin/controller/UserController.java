@@ -107,8 +107,8 @@ public class UserController {
      * @param id
      */
     @ApiOperation(value = "删除用户", notes = "根据url的id来指定删除用户")
-    @RequestMapping(value = "/delete/{id}", method = RequestMethod.DELETE)
-    public Result<User> deleteUser(@PathVariable("id") Long id) {
+    @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
+    public Result<User> deleteUser(@RequestParam("id") Long id) {
         userService.delete(id);
         return ResultUtil.success(id);
     }

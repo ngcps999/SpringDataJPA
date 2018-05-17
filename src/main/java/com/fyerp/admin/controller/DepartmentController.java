@@ -92,8 +92,8 @@ public class DepartmentController {
      * 删除部门
      */
     @ApiOperation(value = "删除部门", notes = "根据id删除部门")
-    @DeleteMapping(value = "/delete/{id}")
-    public Result<Department> deleteDepartment(@PathVariable("id") Long departmentId) {
+    @DeleteMapping(value = "/delete")
+    public Result<Department> deleteDepartment(@RequestParam("id") Long departmentId) {
         departmentService.delete(departmentId);
         return ResultUtil.success(departmentId);
     }

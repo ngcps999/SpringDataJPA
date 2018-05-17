@@ -12,6 +12,7 @@ package com.fyerp.admin.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.data.annotation.CreatedDate;
@@ -37,13 +38,21 @@ public class Contract {
 
     @Id
     @GeneratedValue
+    @JsonProperty("id")
     private Integer contractId;
+    @JsonProperty("name")
     private String contractName;
+    @JsonProperty("type")
     private String contractType;
+    @JsonProperty("code")
     private String contractCode;
+    @JsonProperty("state")
     private String contractState;
+    @JsonProperty("money")
     private Double contractMoney;
+    @JsonProperty("tax_rate")
     private Double contractTaxRate;
+    @JsonProperty("tax")
     private Double contractTax;
     private String totalMoney;
     private String isChange;

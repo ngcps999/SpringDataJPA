@@ -66,6 +66,11 @@ public class Plan {
     @JoinColumn(name = "taskId")
     private Task task;
 
+    @JsonIgnore
+    @OneToOne
+    @JoinColumn(name = "departmentId")
+    private Department department;
+
 
     @JsonIgnore
     @CreatedDate
@@ -158,4 +163,11 @@ public class Plan {
         this.task = task;
     }
 
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
 }
