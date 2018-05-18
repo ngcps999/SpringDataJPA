@@ -72,12 +72,12 @@ public class User{
      * 一个用户具有多个角色
      */
     @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)//立即从数据库中加载数据；
-    @JoinTable(name = "user_role", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "role_id")})
+    @JoinTable(name = "UserRole", joinColumns = {@JoinColumn(name = "userId")}, inverseJoinColumns = {@JoinColumn(name = "roleId")})
     private Set<Role> roles = new HashSet<>();
 
     @JsonIgnore
     @ManyToMany
-    @JoinTable(name = "department_user",joinColumns = {@JoinColumn(name = "user_id")},inverseJoinColumns = {@JoinColumn(name = "department_id")})
+    @JoinTable(name = "DepartmentUser",joinColumns = {@JoinColumn(name = "userId")},inverseJoinColumns = {@JoinColumn(name = "departmentId")})
     private List<Department> departments;
 
     @JsonIgnore

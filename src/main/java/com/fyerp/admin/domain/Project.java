@@ -182,7 +182,7 @@ public class Project {
     /**
      * 项目描述
      */
-    @JsonProperty("describe")
+    @JsonProperty("description")
     private String projectDesc;
 
     /**

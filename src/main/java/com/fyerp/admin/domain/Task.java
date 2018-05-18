@@ -40,7 +40,7 @@ public class Task {
     private Long taskId;
     @JsonProperty("name")
     private String taskName;
-    @JsonProperty("describe")
+    @JsonProperty("description")
     private String taskDesc;
     @JsonProperty("status")
     private String taskState;
