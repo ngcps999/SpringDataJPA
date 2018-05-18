@@ -22,6 +22,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * 用户管理API
  */
@@ -41,17 +43,17 @@ public class UserController {
      */
     @ApiOperation(value = "查询用户列表（带分页）", notes = "查询用户列表（带分页）")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public Result<User> getUsers(@RequestParam(value = "page", required = false) Integer page,
-                                 @RequestParam(value = "size", required = false) Integer size,
-                                 @RequestParam(value = "sort_param", required = false, defaultValue = "createTime") String sortParam,
-                                 @RequestParam(value = "sort_desc|asc", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) {
+    public List<User> getUsers(@RequestParam(value = "page", required = false) Integer page,
+                               @RequestParam(value = "size", required = false) Integer size,
+                               @RequestParam(value = "sort_param", required = false, defaultValue = "createTime") String sortParam,
+                               @RequestParam(value = "sort_desc|asc", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) {
         logger.info("userList");
         Sort sort = new Sort(descOrAsc, sortParam);
         if (page == null && size == null) {
-            return ResultUtil.success(userService.findAll(sort));
+            return userService.findAll(sort);
         } else {
             PageRequest request = new PageRequest(page - 1, size);
-            return ResultUtil.success(userService.findAll(request));
+            return (List<User>) userService.findAll(request);
         }
     }
 

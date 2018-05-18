@@ -53,6 +53,8 @@ public interface UserService {
 	 */
 	User save(User user);
 
+	List<User> save(List<User> users);
+
     /**
 	 * 删除用户
 	 *

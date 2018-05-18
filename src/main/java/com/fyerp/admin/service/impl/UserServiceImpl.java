@@ -10,7 +10,6 @@
 
 package com.fyerp.admin.service.impl;
 
-import com.fyerp.admin.domain.Role;
 import com.fyerp.admin.domain.User;
 import com.fyerp.admin.respository.UserRespository;
 import com.fyerp.admin.service.UserService;
@@ -20,7 +19,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -63,6 +61,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public User save(User user) {
         return userRespository.save(user);
+    }
+
+    @Override
+    public List<User> save(List<User> users) {
+        return userRespository.save(users);
     }
 
     @Override

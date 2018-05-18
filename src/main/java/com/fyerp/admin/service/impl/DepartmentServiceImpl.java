@@ -45,7 +45,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public Department save(Department department) {
-        return departmentRespository.saveAndFlush(department);
+        return departmentRespository.save(department);
     }
 
     @Override
