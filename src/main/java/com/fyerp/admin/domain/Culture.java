@@ -12,6 +12,7 @@ package com.fyerp.admin.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
@@ -44,10 +45,12 @@ public class Culture {
     @JsonIgnore
     @CreatedDate
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+    @JsonProperty("creationDate")
     private Date createTime;
     @JsonIgnore
     @LastModifiedDate
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+    @JsonProperty("updatedDate")
     private Date updateTime;
 
 

@@ -31,7 +31,7 @@ public class Department {
     @JsonProperty("name")
     private String depName;
 
-    @ManyToMany(fetch = FetchType.EAGER)//立即从数据库中加载数据；
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)//立即从数据库中加载数据；
     @JoinTable(name = "department_user", joinColumns = {@JoinColumn(name = "department_id")}, inverseJoinColumns = {@JoinColumn(name = "user_id")})
     private List<User> users;
 
@@ -47,11 +47,13 @@ public class Department {
     @CreatedDate
     @JsonIgnore
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+    @JsonProperty("creationDate")
     private Date createTime;
 
     @LastModifiedDate
     @JsonIgnore
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+    @JsonProperty("updatedDate")
     private Date updateTime;
 
     public Long getDepartmentId() {

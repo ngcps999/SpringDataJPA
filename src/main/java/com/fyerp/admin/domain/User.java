@@ -71,8 +71,8 @@ public class User{
     /**
      * 一个用户具有多个角色
      */
-    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)//立即从数据库中加载数据；
-    @JoinTable(name = "UserRole", joinColumns = {@JoinColumn(name = "userId")}, inverseJoinColumns = {@JoinColumn(name = "roleId")})
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)//立即从数据库中加载数据；
+    @JoinTable(name = "user_role", joinColumns = {@JoinColumn(name = "user_id")}, inverseJoinColumns = {@JoinColumn(name = "role_id")})
     private Set<Role> roles = new HashSet<>();
 
     @JsonIgnore
@@ -88,10 +88,12 @@ public class User{
     @JsonIgnore
     @CreatedDate
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+    @JsonProperty("creationDate")
     private Date createTime;
     @JsonIgnore
     @LastModifiedDate
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+    @JsonProperty("updatedDate")
     private Date updateTime;
 
     public Long getUserId() {
@@ -107,7 +109,6 @@ public class User{
         return username;
     }
 
-    @Required
     public void setUsername(String username) {
         this.username = username;
     }
@@ -116,7 +117,6 @@ public class User{
         return name;
     }
 
-    @Required
     public void setName(String name) {
         this.name = name;
     }
@@ -125,7 +125,6 @@ public class User{
         return password;
     }
 
-    @Required
     public void setPassword(String password) {
         this.password = password;
     }

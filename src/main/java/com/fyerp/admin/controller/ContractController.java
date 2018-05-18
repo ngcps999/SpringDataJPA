@@ -82,7 +82,7 @@ public class ContractController {
 
     /**
      * 删除合同
-     * @param contract_id
+     * @param contractId
      */
     @ApiOperation(value = "删除合同", notes = "根据url的id来指定删除合同")
     @RequestMapping(value = "/delete",method = RequestMethod.DELETE)

@@ -210,6 +210,7 @@ public class Project {
      */
     @CreatedDate
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+    @JsonProperty("creationDate")
     private Date createTime;
 
     /**
@@ -217,6 +218,7 @@ public class Project {
      */
     @LastModifiedDate
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+    @JsonProperty("updatedDate")
     private Date updateTime;
 
 

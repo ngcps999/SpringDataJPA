@@ -75,10 +75,12 @@ public class Permission implements Serializable {
     @JsonIgnore
     @CreatedDate
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+    @JsonProperty("creationDate")
     private Date createTime;
     @JsonIgnore
     @LastModifiedDate
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+    @JsonProperty("updatedDate")
     private Date updateTime;
 
     public Permission() {
@@ -103,7 +105,6 @@ public class Permission implements Serializable {
         return name;
     }
 
-    @Required
     public void setName(String name) {
         this.name = name;
     }
@@ -112,7 +113,6 @@ public class Permission implements Serializable {
         return url;
     }
 
-    @Required
     public void setUrl(String url) {
         this.url = url;
     }

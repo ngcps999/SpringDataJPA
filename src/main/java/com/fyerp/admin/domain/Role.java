@@ -80,11 +80,13 @@ public class Role implements Serializable {
     @CreatedDate
     @JsonIgnore
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+    @JsonProperty("creationDate")
     private Date createTime;
 
     @LastModifiedDate
     @JsonIgnore
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+    @JsonProperty("updatedDate")
     private Date updateTime;
 
     public Role() {
@@ -108,7 +110,6 @@ public class Role implements Serializable {
         return role;
     }
 
-    @Required
     public void setRole(String role) {
         this.role = role;
     }
