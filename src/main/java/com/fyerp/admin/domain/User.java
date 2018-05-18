@@ -17,6 +17,8 @@ import com.fyerp.admin.enums.DepartmentEnum;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -38,6 +40,7 @@ import java.util.*;
 //@Data
 @DynamicUpdate
 @EntityListeners(AuditingEntityListener.class)
+@Table(name = "user")
 public class User{
 
     /**
@@ -52,16 +55,25 @@ public class User{
     /**
      * 用户账号
      */
+    @NotBlank
     private String username;
 
     /**
      * 姓名
      */
+    @NotBlank
     private String name;
+
+    /**
+     * 性别
+     */
+    @NotBlank
+    private String gender;
 
     /**
      * 密码
      */
+    @NotBlank
     private String password;
 
     /**
@@ -73,13 +85,14 @@ public class User{
     /**
      * 一个用户具有多个角色
      */
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.PERSIST}, fetch = FetchType.EAGER)//立即从数据库中加载数据；
+    @NotEmpty
+    @ManyToMany(cascade = {CascadeType.PERSIST}, fetch = FetchType.EAGER)//立即从数据库中加载数据；
     @JoinTable(name = "UserRole", joinColumns = {@JoinColumn(name = "userId")}, inverseJoinColumns = {@JoinColumn(name = "roleId")})
     private Set<Role> roles = new HashSet<>();
 
     @JsonIgnore
-    @ManyToMany(cascade = {CascadeType.REFRESH,CascadeType.PERSIST},fetch = FetchType.EAGER)
-    @JoinTable(name = "DepartmentUser",joinColumns = {@JoinColumn(name = "userId")},inverseJoinColumns = {@JoinColumn(name = "departmentId")})
+    @ManyToMany(cascade = {CascadeType.PERSIST},mappedBy = "users")
+//    @JoinTable(name = "DepartmentUser",joinColumns = {@JoinColumn(name = "userId")},inverseJoinColumns = {@JoinColumn(name = "departmentId")})
     private List<Department> departments;
 
     @JsonIgnore
@@ -176,5 +189,13 @@ public class User{
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }

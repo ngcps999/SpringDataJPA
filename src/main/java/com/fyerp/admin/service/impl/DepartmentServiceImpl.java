@@ -49,6 +49,11 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
+    public List<Department> save(List<Department> departments) {
+        return departmentRespository.save(departments);
+    }
+
+    @Override
     public void delete(Long departmentId) {
         departmentRespository.delete(departmentId);
     }

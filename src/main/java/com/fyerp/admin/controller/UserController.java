@@ -82,7 +82,7 @@ public class UserController {
     }
 
     /**
-     * 添加用户
+     * 添加一个用户
      */
     @ApiOperation(value = "创建用户", notes = "根据user对象创建用户")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
@@ -92,15 +92,37 @@ public class UserController {
     }
 
     /**
+     * 添加多个用户
+     */
+    @ApiOperation(value = "创建用户", notes = "根据user对象创建用户")
+    @RequestMapping(value = "/adds", method = RequestMethod.POST)
+    public List<User> addUsers(@RequestBody List<User> users) {
+
+        return userService.save(users);
+    }
+
+    /**
      * 更新一个用户
      *
      * @return
      */
     @ApiOperation(value = "更新用户", notes = "根据用户的id来更新用户信息")
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
-    public Result<User> updateUser(@RequestBody User user) {
+    public User updateUser(@RequestBody User user) {
 
-        return ResultUtil.success(userService.save(user));
+        return userService.save(user);
+    }
+
+    /**
+     * 更新多个用户
+     *
+     * @return
+     */
+    @ApiOperation(value = "更新多个用户", notes = "根据用户的id来更新用户信息")
+    @RequestMapping(value = "/updates", method = RequestMethod.PUT)
+    public List<User> updateUsers(@RequestBody List<User> users) {
+
+        return userService.save(users);
     }
 
     /**

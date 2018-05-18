@@ -18,6 +18,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/department")
 public class DepartmentController {
@@ -83,9 +85,9 @@ public class DepartmentController {
 //            @ApiImplicitParam(name = "project", value = "项目实体project", required = true, dataType = "Project")
 //    })
     @PutMapping(value = "/update")
-    public Result<Department> updateDepartment(@RequestBody Department department) {
+    public Department updateDepartment(@RequestBody Department department) {
 
-        return ResultUtil.success(departmentService.save(department));
+        return departmentService.save(department);
     }
 
     /**

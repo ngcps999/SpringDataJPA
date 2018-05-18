@@ -23,6 +23,7 @@ import java.util.List;
 @Entity
 @DynamicUpdate
 @EntityListeners(AuditingEntityListener.class)
+@Table(name = "department")
 public class Department {
 
     @JsonProperty("id")
@@ -33,7 +34,7 @@ public class Department {
     @JsonProperty("name")
     private String depName;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.REFRESH},fetch = FetchType.EAGER)//立即从数据库中加载数据；
+    @ManyToMany(cascade = {CascadeType.PERSIST})//立即从数据库中加载数据；
     @JoinTable(name = "DepartmentUser", joinColumns = {@JoinColumn(name = "departmentId")}, inverseJoinColumns = {@JoinColumn(name = "userId")})
     private List<User> users;
 

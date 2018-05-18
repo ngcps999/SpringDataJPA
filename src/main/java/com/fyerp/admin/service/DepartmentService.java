@@ -22,6 +22,7 @@ public interface DepartmentService {
     List<Department> findAll(Sort sort);
 
     Department save(Department department);
+    List<Department> save(List<Department> departments);
 
     void delete(Long departmentId);
 }
