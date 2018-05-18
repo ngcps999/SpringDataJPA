@@ -11,6 +11,7 @@
 package com.fyerp.admin.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.annotation.CreatedDate;
@@ -41,11 +42,13 @@ public class Weekly {
     private String content;
     private String completeness;
     private String postil;
-    @JsonIgnore
+
     @CreatedDate
+    @JsonProperty("creationDate")
     private Date createTime;
-    @JsonIgnore
+
     @LastModifiedDate
+    @JsonProperty("updatedDate")
     private Date updateTime;
 
     public int getId() {

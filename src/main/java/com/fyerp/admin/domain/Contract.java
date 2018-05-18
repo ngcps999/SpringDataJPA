@@ -71,14 +71,12 @@ public class Contract {
     private Date auditTime;
     private String note;
 
-    @JsonIgnore
     @CreatedDate
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     @JsonProperty("creationDate")
     private Date createTime;
 
     @JsonProperty("updatedDate")
-    @JsonIgnore
     @LastModifiedDate
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date updateTime;

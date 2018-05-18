@@ -85,12 +85,10 @@ public class User{
     @JoinTable(name = "TaskUser",joinColumns = {@JoinColumn(name = "userId")},inverseJoinColumns = {@JoinColumn(name = "taskId")})
     private List<Task> tasks;
 
-    @JsonIgnore
     @CreatedDate
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     @JsonProperty("creationDate")
     private Date createTime;
-    @JsonIgnore
     @LastModifiedDate
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     @JsonProperty("updatedDate")

@@ -77,12 +77,10 @@ public class Task {
 //    @JoinTable(name = "TaskDepartment", joinColumns = {@JoinColumn(name = "taskId")}, inverseJoinColumns = {@JoinColumn(name = "departmentId")})
 //    private Set<Department> departments = new HashSet<>();
 
-    @JsonIgnore
     @CreatedDate
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     @JsonProperty("creationDate")
     private Date createTime;
-    @JsonIgnore
     @LastModifiedDate
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     @JsonProperty("updatedDate")

@@ -72,12 +72,10 @@ public class Permission implements Serializable {
     @JoinTable(name = "RolePermission",joinColumns={@JoinColumn(name = "permissionId")},inverseJoinColumns = {@JoinColumn(name = "roleId")})
     private List<Role> roles;
 
-    @JsonIgnore
     @CreatedDate
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     @JsonProperty("creationDate")
     private Date createTime;
-    @JsonIgnore
     @LastModifiedDate
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     @JsonProperty("updatedDate")

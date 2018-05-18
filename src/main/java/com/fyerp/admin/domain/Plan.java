@@ -71,13 +71,10 @@ public class Plan {
     @JoinColumn(name = "departmentId")
     private Department department;
 
-
-    @JsonIgnore
     @CreatedDate
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     @JsonProperty("creationDate")
     private Date createTime;
-    @JsonIgnore
     @LastModifiedDate
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     @JsonProperty("updatedDate")

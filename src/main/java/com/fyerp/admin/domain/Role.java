@@ -78,13 +78,11 @@ public class Role implements Serializable {
     private List<User> users;
 
     @CreatedDate
-    @JsonIgnore
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     @JsonProperty("creationDate")
     private Date createTime;
 
     @LastModifiedDate
-    @JsonIgnore
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     @JsonProperty("updatedDate")
     private Date updateTime;
