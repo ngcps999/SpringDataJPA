@@ -32,7 +32,7 @@ public class Department {
     private String depName;
 
     @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)//立即从数据库中加载数据；
-    @JoinTable(name = "department_user", joinColumns = {@JoinColumn(name = "department_id")}, inverseJoinColumns = {@JoinColumn(name = "user_id")})
+    @JoinTable(name = "DepartmentUser", joinColumns = {@JoinColumn(name = "departmentId")}, inverseJoinColumns = {@JoinColumn(name = "userId")})
     private List<User> users;
 
 //    @JsonIgnore
