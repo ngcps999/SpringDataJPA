@@ -10,6 +10,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -26,12 +27,13 @@ public class Department {
 
     @JsonProperty("id")
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "generator",strategy = GenerationType.IDENTITY)
+    @GenericGenerator(name = "generator",strategy = "native")
     private Long departmentId;
     @JsonProperty("name")
     private String depName;
 
-    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.LAZY)//立即从数据库中加载数据；
+    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.REFRESH},fetch = FetchType.EAGER)//立即从数据库中加载数据；
     @JoinTable(name = "DepartmentUser", joinColumns = {@JoinColumn(name = "departmentId")}, inverseJoinColumns = {@JoinColumn(name = "userId")})
     private List<User> users;
 

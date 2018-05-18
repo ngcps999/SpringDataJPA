@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -41,7 +42,8 @@ public class Role implements Serializable {
      * 角色编号
      */
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "generator",strategy = GenerationType.IDENTITY)
+    @GenericGenerator(name = "generator",strategy = "native")
     @JsonProperty("id")
     private Long roleId;
 
@@ -56,16 +58,16 @@ public class Role implements Serializable {
      */
     private String description;
 
-    /**
-     * 角色是否可用，如果不可用将不会添加给用户
-     */
-    private Boolean available = Boolean.FALSE;
+//    /**
+//     * 角色是否可用，如果不可用将不会添加给用户
+//     */
+//    private Boolean available = Boolean.FALSE;
 
 
     /**
      * 角色-权限多对多关系
      */
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.REFRESH},fetch = FetchType.EAGER)
     @JoinTable(name = "RolePermission", joinColumns = {@JoinColumn(name = "roleId")}, inverseJoinColumns = {@JoinColumn(name = "permissionId")})
     private List<Permission> permissions;
 
@@ -73,7 +75,7 @@ public class Role implements Serializable {
      * 用户-角色多对多关系,一个角色对应多个用户
      */
     @JsonIgnore
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.REFRESH})
     @JoinTable(name = "UserRole", joinColumns = {@JoinColumn(name = "roleId")}, inverseJoinColumns = {@JoinColumn(name = "userId")})
     private List<User> users;
 
@@ -90,11 +92,11 @@ public class Role implements Serializable {
     public Role() {
     }
 
-    public Role(String role, String description, Boolean available) {
-        this.role = role;
-        this.description = description;
-        this.available = available;
-    }
+//    public Role(String role, String description, Boolean available) {
+//        this.role = role;
+//        this.description = description;
+//        this.available = available;
+//    }
 
     public Long getRoleId() {
         return roleId;
@@ -119,14 +121,14 @@ public class Role implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
-
-    public Boolean getAvailable() {
-        return available;
-    }
-
-    public void setAvailable(Boolean available) {
-        this.available = available;
-    }
+//
+//    public Boolean getAvailable() {
+//        return available;
+//    }
+//
+//    public void setAvailable(Boolean available) {
+//        this.available = available;
+//    }
 
     public List<Permission> getPermissions() {
         return permissions;
@@ -166,7 +168,6 @@ public class Role implements Serializable {
                 "roleId=" + roleId +
                 ", role='" + role + '\'' +
                 ", description='" + description + '\'' +
-                ", available=" + available +
                 '}';
     }
 }

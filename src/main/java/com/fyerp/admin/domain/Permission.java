@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
+import org.hibernate.annotations.GenericGenerator;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -40,7 +41,8 @@ public class Permission implements Serializable {
      * 主键Id
      */
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "generator",strategy = GenerationType.IDENTITY)
+    @GenericGenerator(name = "generator",strategy = "native")
     @JsonProperty("id")
     private Long permissionId;
 
@@ -68,7 +70,7 @@ public class Permission implements Serializable {
      * 角色-权限多对多关系
      */
     @JsonIgnore
-    @ManyToMany
+    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.REFRESH})
     @JoinTable(name = "RolePermission",joinColumns={@JoinColumn(name = "permissionId")},inverseJoinColumns = {@JoinColumn(name = "roleId")})
     private List<Role> roles;
 
