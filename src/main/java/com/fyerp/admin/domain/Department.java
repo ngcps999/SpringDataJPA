@@ -31,8 +31,8 @@ public class Department {
     @JsonProperty("name")
     private String depName;
 
-    @ManyToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)//立即从数据库中加载数据；
-    @JoinTable(name = "DepartmentUser", joinColumns = {@JoinColumn(name = "departmentId")}, inverseJoinColumns = {@JoinColumn(name = "userId")})
+    @ManyToMany(fetch = FetchType.EAGER)//立即从数据库中加载数据；
+    @JoinTable(name = "department_user", joinColumns = {@JoinColumn(name = "department_id")}, inverseJoinColumns = {@JoinColumn(name = "user_id")})
     private List<User> users;
 
 //    @JsonIgnore
@@ -66,7 +66,6 @@ public class Department {
         return depName;
     }
 
-    @Required
     public void setDepName(String depName) {
         this.depName = depName;
     }
@@ -110,4 +109,5 @@ public class Department {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+
 }

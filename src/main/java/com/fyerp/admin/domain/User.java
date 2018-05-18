@@ -37,9 +37,8 @@ import java.util.*;
 //@Data
 @DynamicUpdate
 @EntityListeners(AuditingEntityListener.class)
-public class User implements Serializable{
+public class User{
 
-    private static final long serialVersionUID = -8454698376979101464L;
     /**
      * 用户Id
      */
@@ -78,7 +77,7 @@ public class User implements Serializable{
 
     @JsonIgnore
     @ManyToMany
-    @JoinTable(name = "DepartmentUser",joinColumns = {@JoinColumn(name = "userId")},inverseJoinColumns = {@JoinColumn(name = "departmentId")})
+    @JoinTable(name = "department_user",joinColumns = {@JoinColumn(name = "user_id")},inverseJoinColumns = {@JoinColumn(name = "department_id")})
     private List<Department> departments;
 
     @JsonIgnore

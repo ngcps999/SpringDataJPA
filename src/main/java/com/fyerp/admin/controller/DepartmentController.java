@@ -68,8 +68,8 @@ public class DepartmentController {
      */
     @ApiOperation(value = "创建部门", notes = "根据Task对象创建部门")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public Result<Department> addDepartment(@RequestBody Department department) {
-        return ResultUtil.success(departmentService.save(department));
+    public Department addDepartment(@RequestBody Department department) {
+        return departmentService.save(department);
     }
 
     /**
