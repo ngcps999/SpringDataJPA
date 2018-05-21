@@ -7,6 +7,7 @@
 package com.fyerp.admin.controller;
 
 import com.alibaba.fastjson.JSON;
+import io.swagger.annotations.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,6 +27,7 @@ import java.util.Objects;
 
 @RestController
 @RequestMapping("/upload")
+@Api(value = "FileController",description = "文件上传下载Api")
 public class FileController {
     private static final Logger logger = LoggerFactory.getLogger(FileController.class);
 
