@@ -11,6 +11,7 @@
 package com.fyerp.admin.controller;
 
 import com.fyerp.admin.domain.Msg;
+import io.swagger.annotations.Api;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @Controller
+@Api(value = "HomeController",description = "/")
 public class HomeController {
 
 	@RequestMapping(value = "/msg",method = RequestMethod.GET)
