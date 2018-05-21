@@ -11,6 +11,7 @@ import com.fyerp.admin.domain.Result;
 import com.fyerp.admin.domain.Task;
 import com.fyerp.admin.service.PlanService;
 import com.fyerp.admin.utils.ResultUtil;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/plan")
+@Api(value = "PlanController",description = "计划Api")
 public class PlanController {
 
     private final static Logger logger = LoggerFactory.getLogger(PlanController.class);

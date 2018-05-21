@@ -10,6 +10,7 @@ import com.fyerp.admin.domain.Permission;
 import com.fyerp.admin.domain.Result;
 import com.fyerp.admin.service.PermissionService;
 import com.fyerp.admin.utils.ResultUtil;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(value = "/permission")
+@Api(value = "PermissionController",description = "权限Api")
 public class PermissionController {
 
     @Autowired

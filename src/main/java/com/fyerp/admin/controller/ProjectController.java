@@ -16,6 +16,7 @@ import com.fyerp.admin.domain.vo.ProjectVO;
 import com.fyerp.admin.service.ProjectCategoryService;
 import com.fyerp.admin.service.ProjectService;
 import com.fyerp.admin.utils.ResultUtil;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -35,6 +36,7 @@ import java.util.*;
  */
 @RestController
 @RequestMapping(value = "/project")
+@Api(value = "ProjectController",description = "项目Api")
 public class ProjectController {
 
     private final static Logger logger = LoggerFactory.getLogger(ProjectController.class);

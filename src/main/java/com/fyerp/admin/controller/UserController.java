@@ -14,6 +14,7 @@ import com.fyerp.admin.domain.Result;
 import com.fyerp.admin.domain.User;
 import com.fyerp.admin.service.UserService;
 import com.fyerp.admin.utils.ResultUtil;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -29,6 +30,7 @@ import java.util.List;
  */
 @RestController
 @RequestMapping("user")
+@Api(value = "UserController",description = "用户Api")
 public class UserController {
 
     @Autowired

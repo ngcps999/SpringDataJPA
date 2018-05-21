@@ -10,6 +10,7 @@ import com.fyerp.admin.domain.Department;
 import com.fyerp.admin.domain.Result;
 import com.fyerp.admin.service.DepartmentService;
 import com.fyerp.admin.utils.ResultUtil;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +23,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/department")
+@Api(value = "DepartmentController",description = "部门Api")
 public class DepartmentController {
 
     private final static Logger logger = LoggerFactory.getLogger(DepartmentController.class);

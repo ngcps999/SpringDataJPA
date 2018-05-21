@@ -10,6 +10,7 @@ import com.fyerp.admin.domain.Contract;
 import com.fyerp.admin.domain.Result;
 import com.fyerp.admin.service.ContractService;
 import com.fyerp.admin.utils.ResultUtil;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping(value = "/contract")
+@Api(value = "ContractController",description = "合同Api")
 public class ContractController {
 
     private final static Logger logger = LoggerFactory.getLogger(ContractController.class);

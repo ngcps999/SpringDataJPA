@@ -55,25 +55,25 @@ public class User{
     /**
      * 用户账号
      */
-    @NotBlank
+//    @NotBlank
     private String username;
 
     /**
      * 姓名
      */
-    @NotBlank
+//    @NotBlank
     private String name;
 
     /**
      * 性别
      */
-    @NotBlank
+//    @NotBlank
     private String gender;
 
     /**
      * 密码
      */
-    @NotBlank
+//    @NotBlank
     private String password;
 
     /**
@@ -85,7 +85,7 @@ public class User{
     /**
      * 一个用户具有多个角色
      */
-    @NotEmpty
+//    @NotEmpty
     @ManyToMany(cascade = {CascadeType.PERSIST}, fetch = FetchType.EAGER)//立即从数据库中加载数据；
     @JoinTable(name = "UserRole", joinColumns = {@JoinColumn(name = "userId")}, inverseJoinColumns = {@JoinColumn(name = "roleId")})
     private Set<Role> roles = new HashSet<>();
