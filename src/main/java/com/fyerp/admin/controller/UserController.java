@@ -11,26 +11,30 @@
 package com.fyerp.admin.controller;
 
 import com.fyerp.admin.domain.Result;
+import com.fyerp.admin.domain.Role;
 import com.fyerp.admin.domain.User;
+import com.fyerp.admin.domain.dto.UserDTO;
 import com.fyerp.admin.service.UserService;
 import com.fyerp.admin.utils.ResultUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 用户管理API
  */
 @RestController
 @RequestMapping("user")
-@Api(value = "UserController",description = "用户Api")
+@Api(value = "UserController", description = "用户Api")
 public class UserController {
 
     @Autowired
@@ -89,7 +93,6 @@ public class UserController {
     @ApiOperation(value = "创建用户", notes = "根据user对象创建用户")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public User addUser(@RequestBody User user) {
-
         return userService.save(user);
     }
 
@@ -134,8 +137,8 @@ public class UserController {
      */
     @ApiOperation(value = "删除用户", notes = "根据url的id来指定删除用户")
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    public Result<User> deleteUser(@RequestParam("id") Long id) {
+    public void deleteUser(@RequestParam("id") Long id) {
         userService.delete(id);
-        return ResultUtil.success(id);
+        System.out.println("删除了id为"+id+"的用户");
     }
 }
