@@ -75,7 +75,7 @@ public class Task {
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "taskId")
     @JsonProperty("children")
-    private Set<Plan> plans = new HashSet<>();
+    private List<Plan> plans;
 
 
     /**
@@ -94,4 +94,6 @@ public class Task {
     @JsonProperty("updatedDate")
     private Date updateTime;
 
+    public Task() {
+    }
 }

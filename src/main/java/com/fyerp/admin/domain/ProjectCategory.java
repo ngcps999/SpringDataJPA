@@ -43,9 +43,9 @@ public class ProjectCategory {
     private String categoryName;
 
     @Transient
-    @JsonProperty(value = "type",index = 0, defaultValue = "ProjectCategory")
-    @ApiModelProperty(allowableValues = "ProjectCategory",value = "ProjectCategory",dataType = "String",required = true,name = "ProjectCategory")
-    private String type = "ProjectCategory";
+    @JsonProperty(defaultValue = "projectCategory")
+    @ApiModelProperty(allowableValues = "projectCategory")
+    private String type = "projectCategory";
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "categoryId")

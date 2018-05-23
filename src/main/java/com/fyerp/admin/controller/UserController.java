@@ -38,9 +38,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private DepartmentService departmentService;
-
     private final static Logger logger = LoggerFactory.getLogger(UserController.class);
 
     /**
@@ -142,10 +139,4 @@ public class UserController {
             System.out.println("删除了id为"+id+"的用户");
     }
 
-    @ApiOperation(value = "根据部门查询用户", notes = "根据部门查询用户")
-    @RequestMapping(value = "/findByDepartment", method = RequestMethod.GET)
-    public DepartmentDTO findByDepartment(@RequestParam Long departmentId){
-        return  departmentService.findOneDTO(departmentId);
-
-    }
 }

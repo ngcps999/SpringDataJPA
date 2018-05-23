@@ -30,8 +30,8 @@ public class DepartmentDTO {
     private String depName;
 
     @Transient
-    @JsonProperty(value = "type",index = 0, defaultValue = "Department")
-    @ApiModelProperty(allowableValues = "Department",value = "Department",dataType = "String",required = true,name = "Department")
+    @JsonProperty(defaultValue = "Department")
+    @ApiModelProperty(allowableValues = "Department")
     private String type;
 
     @JsonProperty("children")

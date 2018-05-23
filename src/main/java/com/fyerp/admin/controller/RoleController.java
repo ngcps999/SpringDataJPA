@@ -68,9 +68,9 @@ public class RoleController {
      */
     @ApiOperation(value = "创建角色", notes = "根据user对象创建角色")
     @RequestMapping(value = "/add",method = RequestMethod.POST)
-    public Result<Role> addRole(@RequestBody Role role) {
+    public Role addRole(@RequestBody Role role) {
 
-        return ResultUtil.success(roleService.save(role));
+        return roleService.save(role);
     }
 
     /**
@@ -79,9 +79,9 @@ public class RoleController {
      */
     @ApiOperation(value = "更新角色", notes = "根据角色的id来更新角色信息")
     @RequestMapping(value = "/update",method = RequestMethod.PUT)
-    public Result<Role> updateRole(@RequestBody Role role) {
+    public Role updateRole(@RequestBody Role role) {
 
-        return ResultUtil.success(roleService.save(role));
+        return roleService.save(role);
     }
 
     /**
@@ -90,9 +90,8 @@ public class RoleController {
      */
     @ApiOperation(value = "删除角色", notes = "根据id删除角色")
     @RequestMapping(value = "/delete",method = RequestMethod.DELETE)
-    public Result<Role> deleteRole(@RequestParam("id") Long id) {
+    public void deleteRole(@RequestParam("id") Long id) {
         roleService.delete(id);
-        return ResultUtil.success(id);
     }
 
 }

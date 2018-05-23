@@ -35,8 +35,8 @@ public class Plan {
     @JsonProperty("name")
     private String planName;
     @Transient
-    @JsonProperty(value = "type",index = 0, defaultValue = "Plan")
-    @ApiModelProperty(allowableValues = "Plan",value = "Plan",dataType = "String",required = true,name = "Plan")
+    @JsonProperty(defaultValue = "Plan")
+    @ApiModelProperty(allowableValues = "Plan")
     private String type = "Plan";
     @JsonProperty("content")
     private String planContent;

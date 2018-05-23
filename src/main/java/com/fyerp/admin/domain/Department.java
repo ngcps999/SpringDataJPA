@@ -25,7 +25,6 @@ import java.util.List;
 @Entity
 @DynamicUpdate
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "department")
 @Data
 public class Department {
 
@@ -38,12 +37,12 @@ public class Department {
     private String depName;
 
     @Transient
-    @JsonProperty(value = "type",index = 0, defaultValue = "Department")
-    @ApiModelProperty(allowableValues = "Department",value = "Department",dataType = "String",required = true,name = "Department")
-    private String type = "Department";
+    @JsonProperty(defaultValue = "department")
+    @ApiModelProperty(allowableValues = "department")
+    private String type = "department";
 
     @JsonIgnore
-    @JsonProperty("children")
+//    @JsonProperty(value = "children")
     @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.DETACH})//立即从数据库中加载数据；
     @JoinTable(name = "DepartmentUser", joinColumns = {@JoinColumn(name = "departmentId")}, inverseJoinColumns = {@JoinColumn(name = "userId")})
     private List<User> users;
@@ -67,5 +66,6 @@ public class Department {
     @JsonProperty("updatedDate")
     private Date updateTime;
 
-   
+    public Department() {
+    }
 }

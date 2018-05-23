@@ -27,6 +27,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -57,8 +58,8 @@ public class Project {
     private String projectName;
 
     @Transient
-    @JsonProperty(required = true,value = "type",index = 0, defaultValue = "ProjectCategory")
-    @ApiModelProperty(allowableValues = "Project",value = "Project",dataType = "String",required = true,name = "Project")
+    @JsonProperty(defaultValue = "ProjectCategory")
+    @ApiModelProperty(allowableValues = "Project")
     private String type = "Project";
 
 
@@ -185,7 +186,7 @@ public class Project {
     @JsonProperty("children")
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "projectId")
-    private Set<Task> tasks = new HashSet<>();
+    private List<Task> tasks;
 
     @JsonIgnore
     @ManyToOne(targetEntity = ProjectCategory.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
@@ -208,5 +209,6 @@ public class Project {
     @JsonProperty("updatedDate")
     private Date updateTime;
 
-
+    public Project() {
+    }
 }
