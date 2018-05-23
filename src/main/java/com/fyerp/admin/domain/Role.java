@@ -13,6 +13,7 @@ package com.fyerp.admin.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
@@ -53,6 +54,11 @@ public class Role implements Serializable {
     @JsonProperty("name")
     private String role;
 
+    @Transient
+    @JsonProperty(value = "type",index = 0, defaultValue = "Role")
+    @ApiModelProperty(allowableValues = "Role",value = "Role",dataType = "String",required = true,name = "Role")
+    private String type;
+
     /**
      * 角色描述
      */
@@ -67,6 +73,7 @@ public class Role implements Serializable {
     /**
      * 角色-权限多对多关系
      */
+    @JsonProperty("children")
     @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.REFRESH},fetch = FetchType.EAGER)
     @JoinTable(name = "RolePermission", joinColumns = {@JoinColumn(name = "roleId")}, inverseJoinColumns = {@JoinColumn(name = "permissionId")})
     private List<Permission> permissions;

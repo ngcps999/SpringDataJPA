@@ -9,6 +9,7 @@ package com.fyerp.admin.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
@@ -36,7 +37,13 @@ public class Department {
     @JsonProperty("name")
     private String depName;
 
+    @Transient
+    @JsonProperty(value = "type",index = 0, defaultValue = "Department")
+    @ApiModelProperty(allowableValues = "Department",value = "Department",dataType = "String",required = true,name = "Department")
+    private String type;
+
     @JsonIgnore
+    @JsonProperty("children")
     @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.DETACH})//立即从数据库中加载数据；
     @JoinTable(name = "DepartmentUser", joinColumns = {@JoinColumn(name = "departmentId")}, inverseJoinColumns = {@JoinColumn(name = "userId")})
     private List<User> users;

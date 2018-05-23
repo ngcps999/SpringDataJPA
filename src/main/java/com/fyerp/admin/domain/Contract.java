@@ -13,6 +13,7 @@ package com.fyerp.admin.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.beans.factory.annotation.Required;
@@ -44,7 +45,10 @@ public class Contract {
     private Integer contractId;
     @JsonProperty("name")
     private String contractName;
-    @JsonProperty("type")
+    @Transient
+    @JsonProperty(value = "type",index = 0, defaultValue = "Contract")
+    @ApiModelProperty(allowableValues = "Contract",value = "Contract",dataType = "String",required = true,name = "Contract")
+    private String type;
     private String contractType;
     @JsonProperty("code")
     private String contractCode;

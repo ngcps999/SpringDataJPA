@@ -13,6 +13,7 @@ package com.fyerp.admin.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
@@ -50,6 +51,12 @@ public class Permission implements Serializable {
      * 权限名称
      */
     private String name;
+
+
+    @Transient
+    @JsonProperty(value = "type",index = 0, defaultValue = "Permission")
+    @ApiModelProperty(allowableValues = "Permission",value = "Permission",dataType = "String",required = true,name = "Permission")
+    private String type;
 
     /**
      * 授权链接
