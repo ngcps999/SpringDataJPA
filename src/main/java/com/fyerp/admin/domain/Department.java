@@ -40,7 +40,7 @@ public class Department {
     @Transient
     @JsonProperty(value = "type",index = 0, defaultValue = "Department")
     @ApiModelProperty(allowableValues = "Department",value = "Department",dataType = "String",required = true,name = "Department")
-    private String type;
+    private String type = "Department";
 
     @JsonIgnore
     @JsonProperty("children")

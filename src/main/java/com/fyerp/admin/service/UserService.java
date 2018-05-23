@@ -10,8 +10,8 @@
 
 package com.fyerp.admin.service;
 
-import com.fyerp.admin.domain.Department;
 import com.fyerp.admin.domain.User;
+import com.fyerp.admin.domain.dto.UserDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -28,7 +28,7 @@ public interface UserService {
 	 * @param userId
 	 * @return
 	 */
-	User findOne(Long userId);
+	UserDTO findOne(Long userId);
 
 	/**
 	 * 查询所有用户

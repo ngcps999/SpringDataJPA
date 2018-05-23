@@ -13,6 +13,7 @@ package com.fyerp.admin.controller;
 import com.fyerp.admin.domain.Department;
 import com.fyerp.admin.domain.User;
 import com.fyerp.admin.domain.dto.DepartmentDTO;
+import com.fyerp.admin.domain.dto.UserDTO;
 import com.fyerp.admin.service.DepartmentService;
 import com.fyerp.admin.service.UserService;
 import io.swagger.annotations.Api;
@@ -82,7 +83,7 @@ public class UserController {
      */
     @ApiOperation(value = "查询单个用户", notes = "查询单个用户")
     @GetMapping(value = "/findOne/{id}")
-    public User findOneUser(@PathVariable("id") Long id) {
+    public UserDTO findOneUser(@PathVariable("id") Long id) {
         logger.info("findOneUser");
         return userService.findOne(id);
     }

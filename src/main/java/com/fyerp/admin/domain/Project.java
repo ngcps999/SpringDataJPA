@@ -57,9 +57,9 @@ public class Project {
     private String projectName;
 
     @Transient
-    @JsonProperty(value = "type",index = 0, defaultValue = "ProjectCategory")
+    @JsonProperty(required = true,value = "type",index = 0, defaultValue = "ProjectCategory")
     @ApiModelProperty(allowableValues = "Project",value = "Project",dataType = "String",required = true,name = "Project")
-    private String type;
+    private String type = "Project";
 
 
     /**

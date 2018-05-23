@@ -48,7 +48,7 @@ public class Contract {
     @Transient
     @JsonProperty(value = "type",index = 0, defaultValue = "Contract")
     @ApiModelProperty(allowableValues = "Contract",value = "Contract",dataType = "String",required = true,name = "Contract")
-    private String type;
+    private String type = "Contract";
     private String contractType;
     @JsonProperty("code")
     private String contractCode;

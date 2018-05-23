@@ -46,7 +46,7 @@ public class Task {
     @Transient
     @JsonProperty(value = "type",index = 0, defaultValue = "Task")
     @ApiModelProperty(allowableValues = "Task",value = "Task",dataType = "String",required = true,name = "Task")
-    private String type;
+    private String type = "Task";
     @JsonProperty("description")
     private String taskDesc;
     @JsonProperty("status")

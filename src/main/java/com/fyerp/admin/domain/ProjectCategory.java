@@ -45,11 +45,10 @@ public class ProjectCategory {
     @Transient
     @JsonProperty(value = "type",index = 0, defaultValue = "ProjectCategory")
     @ApiModelProperty(allowableValues = "ProjectCategory",value = "ProjectCategory",dataType = "String",required = true,name = "ProjectCategory")
-    private String type;
+    private String type = "ProjectCategory";
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "categoryId")
-
     @JsonProperty("children")
     private List<Project> projects;
 

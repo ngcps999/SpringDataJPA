@@ -56,7 +56,7 @@ public class Permission implements Serializable {
     @Transient
     @JsonProperty(value = "type",index = 0, defaultValue = "Permission")
     @ApiModelProperty(allowableValues = "Permission",value = "Permission",dataType = "String",required = true,name = "Permission")
-    private String type;
+    private String type = "Permission";
 
     /**
      * 授权链接

@@ -10,10 +10,11 @@
 
 package com.fyerp.admin.service.impl;
 
-import com.fyerp.admin.domain.Department;
 import com.fyerp.admin.domain.User;
+import com.fyerp.admin.domain.dto.UserDTO;
 import com.fyerp.admin.respository.UserRespository;
 import com.fyerp.admin.service.UserService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -40,8 +41,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findOne(Long userId) {
-        return userRespository.findOne(userId);
+    public UserDTO findOne(Long userId) {
+        User user = userRespository.findOne(userId);
+        UserDTO userDTO = new UserDTO();
+        BeanUtils.copyProperties(user,userDTO);
+        return userDTO;
     }
 
     @Override

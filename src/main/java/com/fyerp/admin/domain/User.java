@@ -68,7 +68,7 @@ public class User{
     @Transient
     @JsonProperty(value = "type",index = 0, defaultValue = "User")
     @ApiModelProperty(allowableValues = "User",value = "User",dataType = "String",required = true,name = "User")
-    private String type;
+    private String type = "User";
 
 
     /**
@@ -93,7 +93,7 @@ public class User{
      * 一个用户具有多个角色
      */
 //    @NotEmpty
-            @JsonProperty("children")
+    @JsonProperty("children")
     @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.DETACH}, fetch = FetchType.EAGER)//立即从数据库中加载数据；
     @JoinTable(name = "UserRole", joinColumns = {@JoinColumn(name = "userId")}, inverseJoinColumns = {@JoinColumn(name = "roleId")})
     private Set<Role> roles = new HashSet<>();
