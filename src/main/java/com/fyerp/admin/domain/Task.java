@@ -13,6 +13,8 @@ package com.fyerp.admin.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiParam;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.beans.factory.annotation.Required;
@@ -32,6 +34,7 @@ import java.util.*;
 @Entity
 @DynamicUpdate
 @EntityListeners(AuditingEntityListener.class)
+@Data
 public class Task {
 
     @Id
@@ -40,6 +43,10 @@ public class Task {
     private Long taskId;
     @JsonProperty("name")
     private String taskName;
+    @Transient
+    @JsonProperty(value = "type",index = 0, defaultValue = "Task")
+    @ApiModelProperty(allowableValues = "Task",value = "Task",dataType = "String",required = true,name = "Task")
+    private String type;
     @JsonProperty("description")
     private String taskDesc;
     @JsonProperty("status")
@@ -67,6 +74,7 @@ public class Task {
      */
     @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinColumn(name = "taskId")
+    @JsonProperty("children")
     private Set<Plan> plans = new HashSet<>();
 
 
@@ -86,139 +94,4 @@ public class Task {
     @JsonProperty("updatedDate")
     private Date updateTime;
 
-    public Task() {
-    }
-
-    public Task(String taskName, String taskDesc, String taskState, Date taskPlanStartDate, Date taskRealStartDate, Date taskRealEndDate, Date taskPlanEndDate) {
-        this.taskName = taskName;
-        this.taskDesc = taskDesc;
-        this.taskState = taskState;
-        this.taskPlanStartDate = taskPlanStartDate;
-        this.taskRealStartDate = taskRealStartDate;
-        this.taskRealEndDate = taskRealEndDate;
-        this.taskPlanEndDate = taskPlanEndDate;
-    }
-
-    @Override
-    public String toString() {
-        return "Task{" +
-                "taskId=" + taskId +
-                ", taskName='" + taskName + '\'' +
-                ", taskDesc='" + taskDesc + '\'' +
-                ", taskState='" + taskState + '\'' +
-                ", taskPlanStartDate=" + taskPlanStartDate +
-                ", taskRealStartDate=" + taskRealStartDate +
-                ", taskRealEndDate=" + taskRealEndDate +
-                ", taskPlanEndDate=" + taskPlanEndDate +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
-                '}';
-    }
-
-    public Long getTaskId() {
-        return taskId;
-    }
-
-    public void setTaskId(Long taskId) {
-        this.taskId = taskId;
-    }
-
-    public String getTaskName() {
-        return taskName;
-    }
-
-    @Required
-    public void setTaskName(String taskName) {
-        this.taskName = taskName;
-    }
-
-    public String getTaskDesc() {
-        return taskDesc;
-    }
-
-    public void setTaskDesc(String taskDesc) {
-        this.taskDesc = taskDesc;
-    }
-
-    public String getTaskState() {
-        return taskState;
-    }
-
-    @Required
-    public void setTaskState(String taskState) {
-        this.taskState = taskState;
-    }
-
-    public Date getTaskPlanStartDate() {
-        return taskPlanStartDate;
-    }
-
-    public void setTaskPlanStartDate(Date taskPlanStartDate) {
-        this.taskPlanStartDate = taskPlanStartDate;
-    }
-
-    public Date getTaskRealStartDate() {
-        return taskRealStartDate;
-    }
-
-    public void setTaskRealStartDate(Date taskRealStartDate) {
-        this.taskRealStartDate = taskRealStartDate;
-    }
-
-    public Date getTaskRealEndDate() {
-        return taskRealEndDate;
-    }
-
-    public void setTaskRealEndDate(Date taskRealEndDate) {
-        this.taskRealEndDate = taskRealEndDate;
-    }
-
-    public Date getTaskPlanEndDate() {
-        return taskPlanEndDate;
-    }
-
-    public void setTaskPlanEndDate(Date taskPlanEndDate) {
-        this.taskPlanEndDate = taskPlanEndDate;
-    }
-
-    public Project getProject() {
-        return project;
-    }
-
-    public void setProject(Project project) {
-        this.project = project;
-    }
-
-//    public Set<Department> getDepartments() {
-//        return departments;
-//    }
-//
-//    @Required
-//    public void setDepartments(Set<Department> departments) {
-//        this.departments = departments;
-//    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Set<Plan> getPlans() {
-        return plans;
-    }
-
-    public void setPlans(Set<Plan> plans) {
-        this.plans = plans;
-    }
 }

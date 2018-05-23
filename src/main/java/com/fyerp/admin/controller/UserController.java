@@ -10,24 +10,21 @@
 
 package com.fyerp.admin.controller;
 
-import com.fyerp.admin.domain.Result;
-import com.fyerp.admin.domain.Role;
+import com.fyerp.admin.domain.Department;
 import com.fyerp.admin.domain.User;
-import com.fyerp.admin.domain.dto.UserDTO;
+import com.fyerp.admin.domain.dto.DepartmentDTO;
+import com.fyerp.admin.service.DepartmentService;
 import com.fyerp.admin.service.UserService;
-import com.fyerp.admin.utils.ResultUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * 用户管理API
@@ -39,6 +36,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private DepartmentService departmentService;
 
     private final static Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -82,9 +82,9 @@ public class UserController {
      */
     @ApiOperation(value = "查询单个用户", notes = "查询单个用户")
     @GetMapping(value = "/findOne/{id}")
-    public Result<User> findOneUser(@PathVariable("id") Long id) {
+    public User findOneUser(@PathVariable("id") Long id) {
         logger.info("findOneUser");
-        return ResultUtil.success(userService.findOne(id));
+        return userService.findOne(id);
     }
 
     /**
@@ -114,7 +114,6 @@ public class UserController {
     @ApiOperation(value = "更新用户", notes = "根据用户的id来更新用户信息")
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
     public User updateUser(@RequestBody User user) {
-
         return userService.save(user);
     }
 
@@ -137,8 +136,15 @@ public class UserController {
      */
     @ApiOperation(value = "删除用户", notes = "根据url的id来指定删除用户")
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    public void deleteUser(@RequestParam("id") Long id) {
-        userService.delete(id);
-        System.out.println("删除了id为"+id+"的用户");
+    public void deleteUser(@RequestParam("id") Long id) throws Exception {
+            userService.delete(id);
+            System.out.println("删除了id为"+id+"的用户");
+    }
+
+    @ApiOperation(value = "根据部门查询用户", notes = "根据部门查询用户")
+    @RequestMapping(value = "/findByDepartment", method = RequestMethod.GET)
+    public DepartmentDTO findByDepartment(@RequestParam Long departmentId){
+        return  departmentService.findOneDTO(departmentId);
+
     }
 }

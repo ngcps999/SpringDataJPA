@@ -10,6 +10,7 @@
 
 package com.fyerp.admin.service.impl;
 
+import com.fyerp.admin.domain.Department;
 import com.fyerp.admin.domain.User;
 import com.fyerp.admin.respository.UserRespository;
 import com.fyerp.admin.service.UserService;
@@ -72,4 +73,5 @@ public class UserServiceImpl implements UserService {
     public void delete(Long userId) {
         userRespository.delete(userId);
     }
+
 }

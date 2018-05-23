@@ -1,19 +1,23 @@
 /*
  * 作者：xuda
+ * 创建时间：18-5-22 下午12:33
+ * 模块名称：admin
+ */
+
+/*
+ * 作者：xuda
  * 创建时间：18-5-14 上午8:47
  * 模块名称：admin
  */
 
-package com.fyerp.admin.domain;
+package com.fyerp.admin.domain.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fyerp.admin.domain.Project;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiParam;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -22,11 +26,8 @@ import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
 
-@Entity
-@EntityListeners(AuditingEntityListener.class)
-@DynamicUpdate
 @Data
-public class ProjectCategory {
+public class ProjectCategoryVO {
 
     /**
      * 类目id
@@ -43,15 +44,13 @@ public class ProjectCategory {
     private String categoryName;
 
     @Transient
-    @JsonProperty(value = "type",index = 0, defaultValue = "ProjectCategory")
-    @ApiModelProperty(allowableValues = "ProjectCategory",value = "ProjectCategory",dataType = "String",required = true,name = "ProjectCategory")
-    private String type;
+    @ApiModelProperty(name = "type",value = "ProjectCategory",allowableValues = "ProjectCategory")
+    @JsonProperty(index = 0,defaultValue = "ProjectCategory",value = "ProjectCategory")
+    private String type = this.getClass().getName();
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "categoryId")
-
-    @JsonProperty("children")
-    private List<Project> projects;
+    private List<ProjectVO> children;
 
     @CreatedDate
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")

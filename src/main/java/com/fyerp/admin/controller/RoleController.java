@@ -19,6 +19,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 
 @RestController
 @RequestMapping(value = "/role")
@@ -36,17 +38,17 @@ public class RoleController {
      */
     @ApiOperation(value = "查询角色列表", notes = "查询角色列表")
     @RequestMapping(value = "/list",method = RequestMethod.GET)
-    public Result<Role> getRoles(@RequestParam(value = "page",required = false) Integer page,
-                                 @RequestParam(value = "size",required = false) Integer size,
-                                 @RequestParam(value = "sort_param", required = false, defaultValue = "createTime") String sortParam,
-                                 @RequestParam(value = "sort_desc|asc", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) {
+    public List<Role> getRoles(@RequestParam(value = "page",required = false) Integer page,
+                              @RequestParam(value = "size",required = false) Integer size,
+                              @RequestParam(value = "sort_param", required = false, defaultValue = "createTime") String sortParam,
+                              @RequestParam(value = "sort_desc|asc", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) {
         logger.info("roleList");
         Sort sort = new Sort(descOrAsc, sortParam);
         if (page == null && size == null) {
-            return ResultUtil.success(roleService.findAll(sort));
+            return roleService.findAll(sort);
         } else {
             PageRequest request = new PageRequest(page - 1, size);
-            return ResultUtil.success(roleService.findAll(request));
+            return (List<Role>) roleService.findAll(request);
         }
     }
 

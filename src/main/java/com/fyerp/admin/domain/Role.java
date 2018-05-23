@@ -32,7 +32,7 @@ import java.util.List;
  * @Time: 下午2:15
  */
 @Entity
-//@Data
+@Data
 @EntityListeners(AuditingEntityListener.class)
 @DynamicUpdate
 public class Role implements Serializable {
@@ -89,85 +89,4 @@ public class Role implements Serializable {
     @JsonProperty("updatedDate")
     private Date updateTime;
 
-    public Role() {
-    }
-
-//    public Role(String role, String description, Boolean available) {
-//        this.role = role;
-//        this.description = description;
-//        this.available = available;
-//    }
-
-    public Long getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(Long roleId) {
-        this.roleId = roleId;
-    }
-
-    public String getRole() {
-        return role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-//
-//    public Boolean getAvailable() {
-//        return available;
-//    }
-//
-//    public void setAvailable(Boolean available) {
-//        this.available = available;
-//    }
-
-    public List<Permission> getPermissions() {
-        return permissions;
-    }
-
-    public void setPermissions(List<Permission> permissions) {
-        this.permissions = permissions;
-    }
-
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    @Override
-    public String toString() {
-        return "Role{" +
-                "roleId=" + roleId +
-                ", role='" + role + '\'' +
-                ", description='" + description + '\'' +
-                '}';
-    }
 }

@@ -8,6 +8,7 @@ package com.fyerp.admin.controller;
 
 import com.fyerp.admin.domain.Department;
 import com.fyerp.admin.domain.Result;
+import com.fyerp.admin.domain.dto.DepartmentDTO;
 import com.fyerp.admin.service.DepartmentService;
 import com.fyerp.admin.utils.ResultUtil;
 import io.swagger.annotations.Api;
@@ -19,6 +20,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -38,17 +40,17 @@ public class DepartmentController {
      */
     @ApiOperation(value = "查询部门列表", notes = "查询部门列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public Result<Department> getDepartments(@RequestParam(value = "page",required = false) Integer page,
+    public List getDepartments(@RequestParam(value = "page",required = false) Integer page,
                                              @RequestParam(value = "size",required = false) Integer size,
                                              @RequestParam(value = "sort_param", required = false, defaultValue = "createTime") String sortParam,
                                              @RequestParam(value = "sort_desc|asc", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) {
         logger.info("departmentList");
         Sort sort = new Sort(descOrAsc, sortParam);
         if (page == null && size == null) {
-            return ResultUtil.success(departmentService.findAll(sort));
+            return departmentService.findAllDTO(sort);
         } else {
             PageRequest request = new PageRequest(page - 1, size);
-            return ResultUtil.success(departmentService.findAll(request));
+            return Collections.singletonList(departmentService.findAllDTO(request));
         }
     }
 
@@ -59,10 +61,10 @@ public class DepartmentController {
      */
     @ApiOperation(value = "查询单个部门", notes = "查询单个部门")
     @GetMapping(value = "/findOne/{id}")
-    public Result<Department> findOneDepartment(@PathVariable("id") Long departmentId) {
+    public DepartmentDTO findOneDepartment(@PathVariable("id") Long departmentId) {
         logger.info("findOneDepartment");
 
-        return ResultUtil.success(departmentService.findOne(departmentId));
+        return departmentService.findOneDTO(departmentId);
     }
 
     /**
@@ -97,8 +99,7 @@ public class DepartmentController {
      */
     @ApiOperation(value = "删除部门", notes = "根据id删除部门")
     @DeleteMapping(value = "/delete")
-    public Result<Department> deleteDepartment(@RequestParam("id") Long departmentId) {
+    public void deleteDepartment(@RequestParam("id") Long departmentId) {
         departmentService.delete(departmentId);
-        return ResultUtil.success(departmentId);
     }
 }

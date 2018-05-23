@@ -10,8 +10,11 @@
 
 package com.fyerp.admin.respository;
 
+import com.fyerp.admin.domain.Department;
 import com.fyerp.admin.domain.User;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
 
 /**
  * User持久化类

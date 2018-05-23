@@ -19,6 +19,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/task")
 @Api(value = "TaskController",description = "任务Api")
@@ -35,37 +37,39 @@ public class TaskController {
      */
     @ApiOperation(value = "查询任务列表", notes = "查询任务列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public Result<Task> getTasks(@RequestParam(value = "page",required = false) Integer page,
-                                 @RequestParam(value = "size",required = false) Integer size,
-                                 @RequestParam(value = "sort_param", required = false, defaultValue = "createTime") String sortParam,
-                                 @RequestParam(value = "sort_desc|asc", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) {
+    public List<Task> getTasks(@RequestParam(value = "page",required = false) Integer page,
+                              @RequestParam(value = "size",required = false) Integer size,
+                              @RequestParam(value = "sort_param", required = false, defaultValue = "createTime") String sortParam,
+                              @RequestParam(value = "sort_desc|asc", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) {
         logger.info("taskList");
         Sort sort = new Sort(descOrAsc, sortParam);
         if (page == null && size == null) {
-            return ResultUtil.success(taskService.findAll(sort));
+            return taskService.findAll(sort);
         } else {
             PageRequest request = new PageRequest(page - 1, size);
-            return ResultUtil.success(taskService.findAll(request));
+            return (List<Task>) taskService.findAll(request);
         }
     }
+
     /**
      * 查询单个任务
      * @return
      */
     @ApiOperation(value = "查询单个任务", notes = "查询单个任务")
     @GetMapping(value = "/findOne/{id}")
-    public Result<Task> findOneTask(@PathVariable("id") Long id) {
+    public Task findOneTask(@PathVariable("id") Long id) {
         logger.info("findOneTask");
-        return ResultUtil.success(taskService.findOne(id));
+        return taskService.findOne(id);
     }
+
     /**
      * 创建任务
      * @return
      */
     @ApiOperation(value = "创建任务", notes = "根据Task对象创建任务")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public Result<Task> addTask(@RequestBody Task task) {
-        return ResultUtil.success(taskService.save(task));
+    public Task addTask(@RequestBody Task task) {
+        return taskService.save(task);
     }
 
     /**
@@ -78,9 +82,9 @@ public class TaskController {
 //            @ApiImplicitParam(name = "project", value = "项目实体project", required = true, dataType = "Project")
 //    })
     @PutMapping(value = "/update")
-    public Result<Task> updateTask(@RequestBody Task task) {
+    public Task updateTask(@RequestBody Task task) {
 
-        return ResultUtil.success(taskService.save(task));
+        return taskService.save(task);
     }
 
     /**
@@ -88,8 +92,7 @@ public class TaskController {
      */
     @ApiOperation(value = "删除任务", notes = "根据id删除任务")
     @DeleteMapping(value = "/delete")
-    public Result<Task> deleteTask(@RequestParam("id") Long taskId) {
+    public void deleteTask(@RequestParam("id") Long taskId) {
         taskService.delete(taskId);
-        return ResultUtil.success(taskId);
     }
 }

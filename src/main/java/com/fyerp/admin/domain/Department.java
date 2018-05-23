@@ -9,6 +9,7 @@ package com.fyerp.admin.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.beans.factory.annotation.Required;
@@ -24,6 +25,7 @@ import java.util.List;
 @DynamicUpdate
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "department")
+@Data
 public class Department {
 
     @JsonProperty("id")
@@ -34,7 +36,8 @@ public class Department {
     @JsonProperty("name")
     private String depName;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST})//立即从数据库中加载数据；
+    @JsonIgnore
+    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.DETACH})//立即从数据库中加载数据；
     @JoinTable(name = "DepartmentUser", joinColumns = {@JoinColumn(name = "departmentId")}, inverseJoinColumns = {@JoinColumn(name = "userId")})
     private List<User> users;
 
@@ -57,60 +60,5 @@ public class Department {
     @JsonProperty("updatedDate")
     private Date updateTime;
 
-    public Long getDepartmentId() {
-        return departmentId;
-    }
-
-    public void setDepartmentId(Long departmentId) {
-        this.departmentId = departmentId;
-    }
-
-    public String getDepName() {
-        return depName;
-    }
-
-    public void setDepName(String depName) {
-        this.depName = depName;
-    }
-
-    public List<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(List<User> users) {
-        this.users = users;
-    }
-
-//    public List<Task> getTasks() {
-//        return tasks;
-//    }
-//
-//    public void setTasks(List<Task> tasks) {
-//        this.tasks = tasks;
-//    }
-
-//    public Plan getPlan() {
-//        return plan;
-//    }
-//
-//    public void setPlan(Plan plan) {
-//        this.plan = plan;
-//    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
+   
 }

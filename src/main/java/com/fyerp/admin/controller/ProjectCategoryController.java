@@ -12,6 +12,7 @@ import com.fyerp.admin.service.ProjectCategoryService;
 import com.fyerp.admin.utils.ResultUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,10 +41,10 @@ public class ProjectCategoryController {
      */
     @ApiOperation(value = "查询单个项目分类", notes = "查询单个项目分类")
 //    @GetMapping(value = "/findOneCategory/{id}")
-    public Result<ProjectCategory> findOneProjectCategory(@PathVariable("id") Integer categoryid) {
+    public ProjectCategory findOneProjectCategory(@PathVariable("id") Integer categoryid) {
         logger.info("findOneProject项目分类");
         if (categoryid != null) {
-            return ResultUtil.success(categoryService.findOne(categoryid));
+            return categoryService.findOne(categoryid);
         } else {
             throw new RuntimeException("项目分类为空");
         }
@@ -76,12 +77,13 @@ public class ProjectCategoryController {
      */
     @ApiOperation(value = "按项目类目编号查询", notes = "按项目类目编号查询")
     @GetMapping(value = "/findOne/{id}")
-    public Result<ProjectCategory> findByCategoryType(@PathVariable("id") Integer categoryId) {
-        return ResultUtil.success(categoryService.findOne(categoryId));
+    public ProjectCategory findByCategoryType(@PathVariable("id") Integer categoryId) {
+        return categoryService.findOne(categoryId);
     }
 
     @ApiOperation(value = "创建项目分类", notes = "根据Project对象创建项目分类")
     @PostMapping(value = "/add")
+//    @ApiImplicitParams(@ApiImplicitParam(paramType = "query", dataType = "String", name = "type", value = "类名", defaultValue = "ProjectCategory",required = true))
     public ProjectCategory addProjectCategory(@RequestBody ProjectCategory projectCategory) {
         return categoryService.save(projectCategory);
     }
@@ -100,8 +102,7 @@ public class ProjectCategoryController {
     @ApiOperation(value = "删除项目分类", notes = "根据url的id来指定删除项目分类")
     @ApiImplicitParam(name = "id", value = "项目分类ID", required = true, dataType = "Integer", paramType = "path")
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    public Result<ProjectCategory> deleteProjectCategory(@RequestParam("id") Integer categoryId) {
+    public void deleteProjectCategory(@RequestParam("id") Integer categoryId) {
         categoryService.delete(categoryId);
-        return ResultUtil.success(categoryId);
     }
 }

@@ -20,6 +20,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/plan")
 @Api(value = "PlanController",description = "计划Api")
@@ -36,17 +38,17 @@ public class PlanController {
      */
     @ApiOperation(value = "查询计划列表", notes = "查询计划列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public Result<Plan> getPlans(@RequestParam(value = "page",required = false) Integer page,
-                                 @RequestParam(value = "size",required = false) Integer size,
-                                 @RequestParam(value = "sort_param", required = false, defaultValue = "createTime") String sortParam,
-                                 @RequestParam(value = "sort_desc|asc", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) {
+    public List<Plan> getPlans(@RequestParam(value = "page",required = false) Integer page,
+                              @RequestParam(value = "size",required = false) Integer size,
+                              @RequestParam(value = "sort_param", required = false, defaultValue = "createTime") String sortParam,
+                              @RequestParam(value = "sort_desc|asc", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) {
         logger.info("planList");
         Sort sort = new Sort(descOrAsc, sortParam);
         if (page == null && size == null) {
-            return ResultUtil.success(planService.findAll(sort));
+            return planService.findAll(sort);
         } else {
             PageRequest request = new PageRequest(page - 1, size);
-            return ResultUtil.success(planService.findAll(request));
+            return (List<Plan>) planService.findAll(request);
         }
     }
 
@@ -57,9 +59,9 @@ public class PlanController {
      */
     @ApiOperation(value = "查询单个计划", notes = "查询单个计划")
     @GetMapping(value = "/findOne/{id}")
-    public Result<Plan> findOnePlan(@PathVariable("id") Integer id) {
+    public Plan findOnePlan(@PathVariable("id") Integer id) {
         logger.info("findOnePlan");
-        return ResultUtil.success(planService.findOne(id));
+        return planService.findOne(id);
     }
 
     /**
@@ -69,13 +71,13 @@ public class PlanController {
      */
     @ApiOperation(value = "创建计划", notes = "根据Plan对象创建计划")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public Result<Plan> addPlan(@RequestBody Plan plan
+    public Plan addPlan(@RequestBody Plan plan
 //            @RequestParam("plan_name") String planName,
 //            @RequestParam("plan_content") String planContent
     ) {
 //        plan.setPlanName(planName);
 //        plan.setPlanContent(planContent);
-        return ResultUtil.success(planService.save(plan));
+        return planService.save(plan);
     }
 
     /**
@@ -88,8 +90,8 @@ public class PlanController {
 //            @ApiImplicitParam(name = "project", value = "项目实体project", required = true, dataType = "Project")
 //    })
     @PutMapping(value = "/update")
-    public Result<Plan> updatePlan(@RequestBody Plan plan) {
-        return ResultUtil.success(planService.save(plan));
+    public Plan updatePlan(@RequestBody Plan plan) {
+        return planService.save(plan);
     }
 
     /**
@@ -98,9 +100,8 @@ public class PlanController {
      */
     @ApiOperation(value = "删除计划", notes = "根据id删除计划")
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    public Result<Task> deleteTask(@RequestParam("id") Integer planId) {
+    public void deleteTask(@RequestParam("id") Integer planId) {
         planService.delete(planId);
-        return ResultUtil.success(planId);
     }
 
 }

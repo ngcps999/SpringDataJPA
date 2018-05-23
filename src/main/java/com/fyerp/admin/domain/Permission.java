@@ -32,7 +32,7 @@ import java.util.List;
  * @Time: 下午2:33
  */
 @Entity
-//@Data
+@Data
 @EntityListeners(AuditingEntityListener.class)
 @DynamicUpdate
 public class Permission implements Serializable {
@@ -83,88 +83,5 @@ public class Permission implements Serializable {
     @JsonProperty("updatedDate")
     private Date updateTime;
 
-    public Permission() {
-    }
 
-    public Permission(String name, String url, String permission, Integer parentId) {
-        this.name = name;
-        this.url = url;
-        this.permission = permission;
-        this.parentId = parentId;
-    }
-
-    public Long getPermissionId() {
-        return permissionId;
-    }
-
-    public void setPermissionId(Long permissionId) {
-        this.permissionId = permissionId;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getUrl() {
-        return url;
-    }
-
-    public void setUrl(String url) {
-        this.url = url;
-    }
-
-    public String getPermission() {
-        return permission;
-    }
-
-    public void setPermission(String permission) {
-        this.permission = permission;
-    }
-
-    public Integer getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(Integer parentId) {
-        this.parentId = parentId;
-    }
-
-    public List<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    @Override
-    public String toString() {
-        return "Permission{" +
-                "permissionId=" + permissionId +
-                ", name='" + name + '\'' +
-                ", url='" + url + '\'' +
-                ", permission='" + permission + '\'' +
-                ", parentId=" + parentId +
-                '}';
-    }
 }

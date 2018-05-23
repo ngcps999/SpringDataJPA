@@ -10,6 +10,7 @@
 
 package com.fyerp.admin.service;
 
+import com.fyerp.admin.domain.Department;
 import com.fyerp.admin.domain.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -35,6 +36,7 @@ public interface UserService {
 	 * @return
 	 */
 	List<User> findAll();
+
 	List<User> findAll(Sort sort);
 
 
@@ -61,5 +63,6 @@ public interface UserService {
 	 * @param userId
 	 */
 	void delete(Long userId);
+
 
 }

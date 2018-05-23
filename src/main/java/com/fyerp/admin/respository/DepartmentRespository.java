@@ -11,4 +11,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface DepartmentRespository extends JpaRepository<Department,Long> {
 
+
 }

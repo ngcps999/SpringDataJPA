@@ -19,6 +19,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping(value = "/permission")
 @Api(value = "PermissionController", description = "权限Api")
@@ -36,16 +38,16 @@ public class PermissionController {
      */
     @ApiOperation(value = "查询权限列表", notes = "查询权限列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public Result<Permission> getPermissions(@RequestParam(value = "page", required = false) Integer page,
-                                             @RequestParam(value = "size", required = false) Integer size,
-                                             @RequestParam(value = "sort_param", required = false, defaultValue = "createTime") String sortParam,
-                                             @RequestParam(value = "sort_desc|asc", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) {
+    public List<Permission> getPermissions(@RequestParam(value = "page", required = false) Integer page,
+                                           @RequestParam(value = "size", required = false) Integer size,
+                                           @RequestParam(value = "sort_param", required = false, defaultValue = "createTime") String sortParam,
+                                           @RequestParam(value = "sort_desc|asc", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) {
         Sort sort = new Sort(descOrAsc, sortParam);
         if (page == null && size == null) {
-            return ResultUtil.success(permissionService.findAll(sort));
+            return permissionService.findAll(sort);
         } else {
             PageRequest request = new PageRequest(page - 1, size);
-            return ResultUtil.success(permissionService.findAll(request));
+            return (List<Permission>) permissionService.findAll(request);
         }
     }
 

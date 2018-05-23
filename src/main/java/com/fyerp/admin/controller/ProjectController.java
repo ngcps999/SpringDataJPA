@@ -22,7 +22,6 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
@@ -53,10 +52,10 @@ public class ProjectController {
      */
     @ApiOperation(value = "查询单个项目", notes = "查询单个项目")
     @GetMapping(value = "/findOne/{id}")
-    public Result<Project> findOneProject(@PathVariable("id") Integer id) {
+    public Project findOneProject(@PathVariable("id") Integer id) {
         logger.info("findOneProject");
         if(id!= null) {
-            return ResultUtil.success(projectService.findOne(id));
+            return projectService.findOne(id);
         } else {
             throw new RuntimeException("项目为空");
         }
@@ -69,9 +68,9 @@ public class ProjectController {
      */
     @ApiOperation(value = "按计划开始时间和计划结束时间段查询", notes = "按计划开始时间和计划结束时间段查询")
     @GetMapping(value = "/findByPlanStartDateAfterAndPlanEndDateBefore/{planStartDate}/{planEndDate}")
-    public Result<Project> findByPlanStartDateAfterAndPlanEndDateBefore(@PathVariable("planStartDate") Date planStartDate,
+    public Project findByPlanStartDateAfterAndPlanEndDateBefore(@PathVariable("planStartDate") Date planStartDate,
                                                                         @PathVariable("planEndDate") Date planEndDate) {
-        return ResultUtil.success(projectService.findByPlanStartDateAfterAndPlanEndDateBefore(planStartDate, planEndDate));
+        return (Project) projectService.findByPlanStartDateAfterAndPlanEndDateBefore(planStartDate, planEndDate);
     }
 
     /**
@@ -81,9 +80,9 @@ public class ProjectController {
      */
     @ApiOperation(value = "按实际开始时间和实际结束时间段查询", notes = "按实际开始时间和实际结束时间段查询")
     @GetMapping(value = "/findByRealStartDateAfterAndRealEndDateBefore/{realStartDate}/{realEndDate}")
-    public Result<Project> findByRealStartDateAfterAndRealEndDateBefore(@PathVariable("realStartDate") Date realStartDate,
+    public Project findByRealStartDateAfterAndRealEndDateBefore(@PathVariable("realStartDate") Date realStartDate,
                                                                         @PathVariable("realEndDate") Date realEndDate) {
-        return ResultUtil.success(projectService.findByPlanStartDateAfterAndPlanEndDateBefore(realStartDate, realEndDate));
+        return (Project) projectService.findByPlanStartDateAfterAndPlanEndDateBefore(realStartDate, realEndDate);
     }
 //
 //    /**
@@ -143,8 +142,6 @@ public class ProjectController {
 
         Result result = new Result();
         ProjectVO projectVO = new ProjectVO();
-        ProjectInfoVO projectInfoVO = new ProjectInfoVO();
-        projectVO.setProjectInfoVOList(Arrays.asList(projectInfoVO));
         result.setData(Arrays.asList(projectVO));
         result.setCode(0);
         result.setMsg("成功了");
@@ -159,8 +156,8 @@ public class ProjectController {
     @ApiOperation(value = "按状态查询项目,项目状态：0未进行，1正在进行，2遇到问题", notes = "按状态查询项目")
 //    @ApiImplicitParam(name = "projectState", value = "项目状态", required = true, dataType = "Integer", paramType = "path")
     @RequestMapping(value = "/findProjectStatusList/{projectState}", method = RequestMethod.GET)
-    public Result<Project> getProjectByStatus(@PathVariable("projectState") Integer projectState) {
-        return ResultUtil.success(projectService.findProjectsByProjectState(projectState));
+    public Project getProjectByStatus(@PathVariable("projectState") Integer projectState) {
+        return (Project) projectService.findProjectsByProjectState(projectState);
     }
 
     @ApiOperation(value = "创建项目", notes = "根据Project对象创建项目")
@@ -182,8 +179,7 @@ public class ProjectController {
     @ApiOperation(value = "删除项目", notes = "根据url的id来指定删除项目")
     @ApiImplicitParam(name = "id", value = "项目ID", required = true, dataType = "Integer", paramType = "path")
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    public Result<Project> deleteProject(@RequestParam("id") Integer id) {
+    public void deleteProject(@RequestParam("id") Integer id) {
         projectService.delete(id);
-        return ResultUtil.success(id);
     }
 }

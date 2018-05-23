@@ -9,6 +9,9 @@ package com.fyerp.admin.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiParam;
+import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.data.annotation.CreatedDate;
@@ -22,6 +25,7 @@ import java.util.Date;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @DynamicUpdate
+@Data
 public class Plan {
 
     @Id
@@ -30,6 +34,10 @@ public class Plan {
     private Integer planId;
     @JsonProperty("name")
     private String planName;
+    @Transient
+    @JsonProperty(value = "type",index = 0, defaultValue = "Plan")
+    @ApiModelProperty(allowableValues = "Plan",value = "Plan",dataType = "String",required = true,name = "Plan")
+    private String type;
     @JsonProperty("content")
     private String planContent;
 
@@ -80,93 +88,4 @@ public class Plan {
     @JsonProperty("updatedDate")
     private Date updateTime;
 
-    public Integer getPlanId() {
-        return planId;
-    }
-
-    public void setPlanId(Integer planId) {
-        this.planId = planId;
-    }
-
-    public String getPlanName() {
-        return planName;
-    }
-
-    @Required
-    public void setPlanName(String planName) {
-        this.planName = planName;
-    }
-
-    public String getPlanContent() {
-        return planContent;
-    }
-
-
-    public void setPlanContent(String planContent) {
-        this.planContent = planContent;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-
-    public Date getPlanStartDate() {
-        return planStartDate;
-    }
-
-    public void setPlanStartDate(Date planStartDate) {
-        this.planStartDate = planStartDate;
-    }
-
-    public Date getPlanEndDate() {
-        return planEndDate;
-    }
-
-    public void setPlanEndDate(Date planEndDate) {
-        this.planEndDate = planEndDate;
-    }
-
-    public Date getRealStartDate() {
-        return realStartDate;
-    }
-
-    public void setRealStartDate(Date realStartDate) {
-        this.realStartDate = realStartDate;
-    }
-
-    public Date getRealEndDate() {
-        return realEndDate;
-    }
-
-    public void setRealEndDate(Date realEndDate) {
-        this.realEndDate = realEndDate;
-    }
-
-    public Task getTask() {
-        return task;
-    }
-
-    public void setTask(Task task) {
-        this.task = task;
-    }
-
-    public Department getDepartment() {
-        return department;
-    }
-
-    public void setDepartment(Department department) {
-        this.department = department;
-    }
 }
