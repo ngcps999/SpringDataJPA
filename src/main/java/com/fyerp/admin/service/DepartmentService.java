@@ -36,6 +36,8 @@ public interface DepartmentService {
 
     Department save(Department department);
 
+    Department saveAndFlush(Department department);
+
     List<Department> save(List<Department> departments);
 
     void delete(Long departmentId);

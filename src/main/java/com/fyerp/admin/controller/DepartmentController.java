@@ -94,7 +94,7 @@ public class DepartmentController {
     @PutMapping(value = "/update")
     public Department updateDepartment(@RequestBody Department department) {
 
-        return departmentService.save(department);
+        return departmentService.saveAndFlush(department);
     }
 
     /**
