@@ -28,7 +28,7 @@ import java.util.List;
 @Data
 public class Department {
 
-    @JsonProperty("id")
+    @JsonProperty(value = "id")
     @Id
     @GeneratedValue(generator = "generator",strategy = GenerationType.IDENTITY)
     @GenericGenerator(name = "generator",strategy = "native")
@@ -42,7 +42,7 @@ public class Department {
     private String type = "department";
 
     @JsonProperty(value = "children")
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.REFRESH},fetch = FetchType.EAGER)//立即从数据库中加载数据；
+    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH},fetch = FetchType.EAGER)//立即从数据库中加载数据；
     @JoinTable(name = "DepartmentUser", joinColumns = {@JoinColumn(name = "departmentId")}, inverseJoinColumns = {@JoinColumn(name = "userId")})
     private List<User> users;
 

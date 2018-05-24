@@ -33,7 +33,7 @@ public class ProjectCategory {
      */
     @Id
     @GeneratedValue
-    @JsonProperty("id")
+    @JsonProperty(value = "id")
     private Integer categoryId;
 
     /**
@@ -47,9 +47,9 @@ public class ProjectCategory {
     @ApiModelProperty(allowableValues = "projectCategory")
     private String type = "projectCategory";
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH}, fetch = FetchType.EAGER)
     @JoinColumn(name = "categoryId")
-    @JsonProperty("children")
+    @JsonProperty(value = "children")
     private List<Project> projects;
 
     @CreatedDate

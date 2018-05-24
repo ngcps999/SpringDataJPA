@@ -45,7 +45,7 @@ public class Role implements Serializable {
     @Id
     @GeneratedValue(generator = "generator",strategy = GenerationType.IDENTITY)
     @GenericGenerator(name = "generator",strategy = "native")
-    @JsonProperty("id")
+    @JsonProperty(value = "id",index = 0)
     private Long roleId;
 
     /**
@@ -73,7 +73,7 @@ public class Role implements Serializable {
     /**
      * 角色-权限多对多关系
      */
-    @JsonProperty("children")
+    @JsonProperty(value = "children")
     @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.REFRESH},fetch = FetchType.EAGER)
     @JoinTable(name = "RolePermission", joinColumns = {@JoinColumn(name = "roleId")}, inverseJoinColumns = {@JoinColumn(name = "permissionId")})
     private List<Permission> permissions;
@@ -82,7 +82,7 @@ public class Role implements Serializable {
      * 用户-角色多对多关系,一个角色对应多个用户
      */
     @JsonIgnore
-    @ManyToMany(cascade = {CascadeType.ALL})
+    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
     @JoinTable(name = "UserRole", joinColumns = {@JoinColumn(name = "roleId")}, inverseJoinColumns = {@JoinColumn(name = "userId")})
     private List<User> users;
 

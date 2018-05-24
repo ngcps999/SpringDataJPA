@@ -50,23 +50,23 @@ public class User{
     @Id
     @GeneratedValue(generator = "generator",strategy = GenerationType.IDENTITY)
     @GenericGenerator(name = "generator",strategy = "native")
-    @JsonProperty("id")
+    @JsonProperty(value = "id")
     private Long userId;
 
     /**
      * 用户账号
      */
-//    @NotBlank
+    @NotBlank(message = "用户名必填")
     private String username;
 
     /**
      * 姓名
      */
-//    @NotBlank
+    @NotBlank(message = "姓名必填")
     private String name;
 
     @Transient
-    @JsonProperty(value = "type",index = 0, defaultValue = "user")
+    @JsonProperty(value = "type", defaultValue = "user")
     @ApiModelProperty(allowableValues = "user")
     private String type = "user";
 
@@ -94,12 +94,12 @@ public class User{
      */
 //    @NotEmpty
     @JsonProperty("children")
-    @ManyToMany(cascade = {CascadeType.ALL})//立即从数据库中加载数据；
+    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})//立即从数据库中加载数据；
     @JoinTable(name = "UserRole", joinColumns = {@JoinColumn(name = "userId")}, inverseJoinColumns = {@JoinColumn(name = "roleId")})
     private List<Role> roles;
 
     @JsonIgnore
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.REFRESH},fetch = FetchType.EAGER)
+    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH},fetch = FetchType.EAGER)
     @JoinTable(name = "DepartmentUser",joinColumns = {@JoinColumn(name = "userId")},inverseJoinColumns = {@JoinColumn(name = "departmentId")})
     private List<Department> departments;
 

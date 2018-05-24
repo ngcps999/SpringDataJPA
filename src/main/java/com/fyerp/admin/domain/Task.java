@@ -39,12 +39,12 @@ public class Task {
 
     @Id
     @GeneratedValue
-    @JsonProperty("id")
+    @JsonProperty(value = "id")
     private Long taskId;
     @JsonProperty("name")
     private String taskName;
     @Transient
-    @JsonProperty(value = "type",index = 0, defaultValue = "Task")
+    @JsonProperty(value = "type", defaultValue = "Task")
     @ApiModelProperty(allowableValues = "Task",value = "Task",dataType = "String",required = true,name = "Task")
     private String type = "Task";
     @JsonProperty("description")
@@ -72,9 +72,9 @@ public class Task {
     /**
      * 计划
      */
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH},fetch = FetchType.EAGER)
     @JoinColumn(name = "taskId")
-    @JsonProperty("children")
+    @JsonProperty(value = "children")
     private List<Plan> plans;
 
 

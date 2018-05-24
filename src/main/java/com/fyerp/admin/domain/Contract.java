@@ -41,12 +41,12 @@ public class Contract {
 
     @Id
     @GeneratedValue
-    @JsonProperty("id")
+    @JsonProperty(value = "id")
     private Integer contractId;
     @JsonProperty("name")
     private String contractName;
     @Transient
-    @JsonProperty(value = "type",index = 0, defaultValue = "Contract")
+    @JsonProperty(defaultValue = "Contract")
     @ApiModelProperty(allowableValues = "Contract",value = "Contract",dataType = "String",required = true,name = "Contract")
     private String type = "Contract";
     private String contractType;
