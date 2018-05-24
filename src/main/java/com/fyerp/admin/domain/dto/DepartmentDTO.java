@@ -30,12 +30,12 @@ public class DepartmentDTO {
     private String depName;
 
     @Transient
-    @JsonProperty(defaultValue = "Department")
-    @ApiModelProperty(allowableValues = "Department")
+    @JsonProperty(value = "type",defaultValue = "department")
+    @ApiModelProperty(allowableValues = "department")
     private String type;
 
     @JsonProperty("children")
-    @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.DETACH})//立即从数据库中加载数据；
+    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.REFRESH},fetch = FetchType.EAGER)//立即从数据库中加载数据；
     @JoinTable(name = "DepartmentUser", joinColumns = {@JoinColumn(name = "departmentId")}, inverseJoinColumns = {@JoinColumn(name = "userId")})
     private List<User> users;
 

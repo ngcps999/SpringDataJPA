@@ -28,7 +28,8 @@ public interface UserService {
 	 * @param userId
 	 * @return
 	 */
-	UserDTO findOne(Long userId);
+	UserDTO findOneDTO(Long userId);
+	User findOne(Long userId);
 
 	/**
 	 * 查询所有用户
@@ -54,8 +55,13 @@ public interface UserService {
 	 * @return
 	 */
 	User save(User user);
-
 	List<User> save(List<User> users);
+	UserDTO saveDTO(User user);
+	User saveAndFlush(User user);
+	UserDTO saveAndFlushDTO(User user);
+	UserDTO update(User user);
+
+	List<UserDTO> saveDTOList(List<User> users);
 
     /**
 	 * 删除用户

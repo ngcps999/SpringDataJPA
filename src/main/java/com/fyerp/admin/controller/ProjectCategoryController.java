@@ -17,6 +17,7 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,7 @@ import java.util.List;
 @RestController
 @RequestMapping("projectCategory")
 @Api(value = "projectCategoryController",description = "项目分类Api")
+@Scope("prototype")
 public class ProjectCategoryController {
 
     private final static Logger logger = LoggerFactory.getLogger(ProjectController.class);
@@ -57,7 +59,7 @@ public class ProjectCategoryController {
      */
     @ApiOperation(value = "查询项目分类列表", notes = "查询项目分类列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public List<ProjectCategory> getProjectCategorys(@RequestParam(value = "page", required = false) Integer page,
+    public Object getProjectCategorys(@RequestParam(value = "page", required = false) Integer page,
                                                      @RequestParam(value = "size", required = false) Integer size,
                                                      @RequestParam(value = "sort_param", required = false, defaultValue = "createTime") String sortParam,
                                                      @RequestParam(value = "sort_desc|asc", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) {
@@ -66,7 +68,7 @@ public class ProjectCategoryController {
             return categoryService.findAll(sort);
         } else {
             PageRequest request = new PageRequest(page - 1, size);
-            return (List<ProjectCategory>) categoryService.findAll(request);
+            return categoryService.findAll(request).getContent();
         }
     }
 

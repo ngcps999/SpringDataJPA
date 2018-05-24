@@ -15,6 +15,7 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/contract")
 @Api(value = "ContractController",description = "合同Api")
+@Scope("prototype")
 public class ContractController {
 
     private final static Logger logger = LoggerFactory.getLogger(ContractController.class);
@@ -40,7 +42,7 @@ public class ContractController {
      */
     @ApiOperation(value = "查询合同列表", notes = "查询合同列表")
     @RequestMapping(value = "/list",method = RequestMethod.GET)
-    public List<Contract> getContracts(@RequestParam(value = "page",required = false) Integer page,
+    public Object getContracts(@RequestParam(value = "page",required = false) Integer page,
                                        @RequestParam(value = "size",required = false) Integer size,
                                        @RequestParam(value = "sort_param", required = false, defaultValue = "createTime") String sortParam,
                                        @RequestParam(value = "sort_desc|asc", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) {
@@ -50,7 +52,7 @@ public class ContractController {
             return contractService.findAll(sort);
         } else {
             PageRequest request = new PageRequest(page - 1, size);
-            return (List<Contract>) contractService.findAll(request);
+            return contractService.findAll(request);
         }
     }
 

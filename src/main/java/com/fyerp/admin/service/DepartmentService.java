@@ -32,6 +32,8 @@ public interface DepartmentService {
 
     List<DepartmentDTO> findAllDTO(Sort sort);
 
+    DepartmentDTO saveDTO(Department department);
+
     Department save(Department department);
 
     List<Department> save(List<Department> departments);

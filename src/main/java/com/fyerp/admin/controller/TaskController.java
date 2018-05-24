@@ -15,6 +15,7 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/task")
 @Api(value = "TaskController",description = "任务Api")
+@Scope("prototype")
 public class TaskController {
 
     private final static Logger logger = LoggerFactory.getLogger(TaskController.class);
@@ -37,7 +39,7 @@ public class TaskController {
      */
     @ApiOperation(value = "查询任务列表", notes = "查询任务列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public List<Task> getTasks(@RequestParam(value = "page",required = false) Integer page,
+    public Object getTasks(@RequestParam(value = "page",required = false) Integer page,
                               @RequestParam(value = "size",required = false) Integer size,
                               @RequestParam(value = "sort_param", required = false, defaultValue = "createTime") String sortParam,
                               @RequestParam(value = "sort_desc|asc", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) {
@@ -47,7 +49,7 @@ public class TaskController {
             return taskService.findAll(sort);
         } else {
             PageRequest request = new PageRequest(page - 1, size);
-            return (List<Task>) taskService.findAll(request);
+            return taskService.findAll(request).getContent();
         }
     }
 

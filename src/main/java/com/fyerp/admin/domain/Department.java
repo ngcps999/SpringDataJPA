@@ -41,9 +41,8 @@ public class Department {
     @ApiModelProperty(allowableValues = "department")
     private String type = "department";
 
-    @JsonIgnore
-//    @JsonProperty(value = "children")
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.DETACH})//立即从数据库中加载数据；
+    @JsonProperty(value = "children")
+    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.REFRESH},fetch = FetchType.EAGER)//立即从数据库中加载数据；
     @JoinTable(name = "DepartmentUser", joinColumns = {@JoinColumn(name = "departmentId")}, inverseJoinColumns = {@JoinColumn(name = "userId")})
     private List<User> users;
 

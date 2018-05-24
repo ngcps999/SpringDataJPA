@@ -16,6 +16,7 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/plan")
 @Api(value = "PlanController",description = "计划Api")
+@Scope("prototype")
 public class PlanController {
 
     private final static Logger logger = LoggerFactory.getLogger(PlanController.class);
@@ -38,7 +40,7 @@ public class PlanController {
      */
     @ApiOperation(value = "查询计划列表", notes = "查询计划列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public List<Plan> getPlans(@RequestParam(value = "page",required = false) Integer page,
+    public Object getPlans(@RequestParam(value = "page",required = false) Integer page,
                               @RequestParam(value = "size",required = false) Integer size,
                               @RequestParam(value = "sort_param", required = false, defaultValue = "createTime") String sortParam,
                               @RequestParam(value = "sort_desc|asc", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) {
@@ -48,7 +50,7 @@ public class PlanController {
             return planService.findAll(sort);
         } else {
             PageRequest request = new PageRequest(page - 1, size);
-            return (List<Plan>) planService.findAll(request);
+            return planService.findAll(request).getContent();
         }
     }
 

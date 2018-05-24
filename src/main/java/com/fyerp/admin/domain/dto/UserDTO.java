@@ -10,7 +10,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fyerp.admin.domain.Department;
 import com.fyerp.admin.domain.Role;
-import com.fyerp.admin.domain.Task;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
@@ -18,9 +17,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Data
 public class UserDTO {
@@ -38,18 +35,38 @@ public class UserDTO {
     private String type;
 
     /**
+     * 性别
+     */
+//    @NotBlank
+    private String gender;
+
+    /**
+     * 密码
+     */
+//    @NotBlank
+    private String password;
+
+    /**
+     * 用户状态,0:用户未输入验证码, 1:正常状态,2：用户被锁定.
+     */
+    @JsonProperty("status")
+    private Integer state;
+
+    /**
      * 一个用户具有多个角色
      */
 //    @NotEmpty
+//    @JsonIgnore
     @JsonProperty("children")
-    @ManyToMany(cascade = {CascadeType.PERSIST}, fetch = FetchType.EAGER)//立即从数据库中加载数据；
+    @ManyToMany(cascade = {CascadeType.ALL})//立即从数据库中加载数据；
     @JoinTable(name = "UserRole", joinColumns = {@JoinColumn(name = "userId")}, inverseJoinColumns = {@JoinColumn(name = "roleId")})
-    private Set<Role> roles = new HashSet<>();
+    private List<Role> roles;
 
+    //    @JsonIgnore
+    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.REFRESH})
+    @JoinTable(name = "DepartmentUser", joinColumns = {@JoinColumn(name = "userId")}, inverseJoinColumns = {@JoinColumn(name = "departmentId")})
     @JsonProperty("children")
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.DETACH})
-    @JoinTable(name = "DepartmentUser",joinColumns = {@JoinColumn(name = "userId")},inverseJoinColumns = {@JoinColumn(name = "departmentId")})
-    private List<Department> departments;
+    private List<DepartmentDTO> departments;
 
     @JsonIgnore
     @CreatedDate

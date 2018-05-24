@@ -14,6 +14,7 @@ import com.fyerp.admin.domain.User;
 import com.fyerp.admin.domain.dto.UserDTO;
 import com.fyerp.admin.respository.UserRespository;
 import com.fyerp.admin.service.UserService;
+import com.fyerp.admin.utils.convert.User2UserDTOConverter;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -41,11 +42,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserDTO findOne(Long userId) {
+    public UserDTO findOneDTO(Long userId) {
         User user = userRespository.findOne(userId);
-        UserDTO userDTO = new UserDTO();
-        BeanUtils.copyProperties(user,userDTO);
+        UserDTO userDTO = User2UserDTOConverter.convert(user);
         return userDTO;
+    }
+
+    @Override
+    public User findOne(Long userId) {
+        return userRespository.findOne(userId);
     }
 
     @Override
@@ -61,6 +66,42 @@ public class UserServiceImpl implements UserService {
     @Override
     public Page<User> findAll(Pageable pageable) {
         return userRespository.findAll(pageable);
+    }
+
+    @Override
+    public UserDTO saveDTO(User user) {
+        User save = userRespository.save(user);
+        UserDTO userDTO = new UserDTO();
+        BeanUtils.copyProperties(save,userDTO);
+        return userDTO;
+    }
+
+    @Override
+    public UserDTO saveAndFlushDTO(User user) {
+        User flush = userRespository.saveAndFlush(user);
+        UserDTO userDTO = User2UserDTOConverter.convert(flush);
+        return userDTO;
+    }
+
+    @Override
+    public User saveAndFlush(User user) {
+        return userRespository.saveAndFlush(user);
+    }
+
+    @Override
+    public UserDTO update(User user) {
+        User one = userRespository.findOne(user.getUserId());
+        BeanUtils.copyProperties(user,one);
+        User save = userRespository.saveAndFlush(one);
+        UserDTO userDTO = User2UserDTOConverter.convert(save);
+        return userDTO;
+    }
+
+    @Override
+    public List<UserDTO> saveDTOList(List<User> users) {
+        List<User> userList = userRespository.save(users);
+        List<UserDTO> userDTOList = User2UserDTOConverter.convert(userList);
+        return userDTOList;
     }
 
     @Override

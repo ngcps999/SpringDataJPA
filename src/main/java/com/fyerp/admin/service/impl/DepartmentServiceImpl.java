@@ -62,15 +62,9 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public Page<DepartmentDTO> findAllDTO(Pageable pageable) {
-        List<DepartmentDTO> departmentDTOS = new ArrayList<>(pageable.getPageSize());
-        Page<Department> departments = departmentRespository.findAll(pageable);
-        for (Department department : departments) {
-            DepartmentDTO convert = Department2DepartmentDTOConverter.convert(department);
-            departmentDTOS.add(convert);
-        }
-
-        Page<DepartmentDTO> departmentDTOPage = new PageImpl<DepartmentDTO>(departmentDTOS,pageable,departments.getTotalElements());
-        return departmentDTOPage;
+        Page<Department> departmentPage = departmentRespository.findAll(pageable);
+        List<DepartmentDTO> departmentDTOPage = Department2DepartmentDTOConverter.convert(departmentPage.getContent());
+        return new PageImpl<>(departmentDTOPage,pageable,departmentPage.getTotalElements());
     }
 
     @Override
@@ -81,13 +75,22 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public List<DepartmentDTO> findAllDTO(Sort sort) {
         List<Department> departments = departmentRespository.findAll(sort);
-        List<DepartmentDTO> departmentDTOS = new ArrayList<>();
-        BeanUtils.copyProperties(departments, departmentDTOS);
+        List<DepartmentDTO> departmentDTOS =Department2DepartmentDTOConverter.convert(departments);
         return departmentDTOS;
     }
 
     @Override
+    public DepartmentDTO saveDTO(Department department) {
+        Department save = departmentRespository.save(department);
+        DepartmentDTO departmentDTO = new DepartmentDTO();
+        BeanUtils.copyProperties(save,departmentDTO);
+        return departmentDTO;
+    }
+
+    @Override
     public Department save(Department department) {
+
+
         return departmentRespository.save(department);
     }
 

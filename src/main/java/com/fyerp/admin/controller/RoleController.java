@@ -15,6 +15,7 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
@@ -25,6 +26,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/role")
 @Api(value = "RoleController",description = "角色Api")
+@Scope("prototype")
 public class RoleController {
 
     @Autowired
@@ -38,7 +40,7 @@ public class RoleController {
      */
     @ApiOperation(value = "查询角色列表", notes = "查询角色列表")
     @RequestMapping(value = "/list",method = RequestMethod.GET)
-    public List<Role> getRoles(@RequestParam(value = "page",required = false) Integer page,
+    public Object getRoles(@RequestParam(value = "page",required = false) Integer page,
                               @RequestParam(value = "size",required = false) Integer size,
                               @RequestParam(value = "sort_param", required = false, defaultValue = "createTime") String sortParam,
                               @RequestParam(value = "sort_desc|asc", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) {
@@ -48,7 +50,7 @@ public class RoleController {
             return roleService.findAll(sort);
         } else {
             PageRequest request = new PageRequest(page - 1, size);
-            return (List<Role>) roleService.findAll(request);
+            return roleService.findAll(request).getContent();
         }
     }
 
@@ -63,6 +65,7 @@ public class RoleController {
         logger.info("findOneProject");
         return ResultUtil.success(roleService.findOne(id));
     }
+
     /**
      * 添加角色
      */

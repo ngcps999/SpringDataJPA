@@ -66,9 +66,9 @@ public class User{
     private String name;
 
     @Transient
-    @JsonProperty(value = "type",index = 0, defaultValue = "User")
-    @ApiModelProperty(allowableValues = "User",value = "User",dataType = "String",required = true,name = "User")
-    private String type = "User";
+    @JsonProperty(value = "type",index = 0, defaultValue = "user")
+    @ApiModelProperty(allowableValues = "user")
+    private String type = "user";
 
 
     /**
@@ -94,19 +94,19 @@ public class User{
      */
 //    @NotEmpty
     @JsonProperty("children")
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.DETACH}, fetch = FetchType.EAGER)//立即从数据库中加载数据；
+    @ManyToMany(cascade = {CascadeType.ALL})//立即从数据库中加载数据；
     @JoinTable(name = "UserRole", joinColumns = {@JoinColumn(name = "userId")}, inverseJoinColumns = {@JoinColumn(name = "roleId")})
-    private Set<Role> roles = new HashSet<>();
+    private List<Role> roles;
 
-    @JsonProperty("children")
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.REFRESH,CascadeType.DETACH})
+    @JsonIgnore
+    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.REFRESH},fetch = FetchType.EAGER)
     @JoinTable(name = "DepartmentUser",joinColumns = {@JoinColumn(name = "userId")},inverseJoinColumns = {@JoinColumn(name = "departmentId")})
     private List<Department> departments;
 
-    @JsonIgnore
-    @ManyToMany
-    @JoinTable(name = "TaskUser",joinColumns = {@JoinColumn(name = "userId")},inverseJoinColumns = {@JoinColumn(name = "taskId")})
-    private List<Task> tasks;
+//    @JsonIgnore
+//    @ManyToMany
+//    @JoinTable(name = "TaskUser",joinColumns = {@JoinColumn(name = "userId")},inverseJoinColumns = {@JoinColumn(name = "taskId")})
+//    private List<Task> tasks;
 
     @CreatedDate
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")

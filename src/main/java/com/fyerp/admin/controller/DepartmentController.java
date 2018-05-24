@@ -16,16 +16,18 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Collections;
 import java.util.List;
 
 @RestController
 @RequestMapping(value = "/department")
 @Api(value = "DepartmentController",description = "部门Api")
+@Scope("prototype")
 public class DepartmentController {
 
     private final static Logger logger = LoggerFactory.getLogger(DepartmentController.class);
@@ -40,17 +42,18 @@ public class DepartmentController {
      */
     @ApiOperation(value = "查询部门列表", notes = "查询部门列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public List getDepartments(@RequestParam(value = "page",required = false) Integer page,
+    public Object getDepartments(@RequestParam(value = "page",required = false) Integer page,
                                              @RequestParam(value = "size",required = false) Integer size,
                                              @RequestParam(value = "sort_param", required = false, defaultValue = "createTime") String sortParam,
                                              @RequestParam(value = "sort_desc|asc", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) {
         logger.info("departmentList");
         Sort sort = new Sort(descOrAsc, sortParam);
         if (page == null && size == null) {
-            return departmentService.findAllDTO(sort);
+            return departmentService.findAll(sort);
         } else {
             PageRequest request = new PageRequest(page - 1, size);
-            return Collections.singletonList(departmentService.findAllDTO(request));
+            Page<Department> departmentDTOS = departmentService.findAll(request);
+            return departmentDTOS.getContent();
         }
     }
 
@@ -61,10 +64,10 @@ public class DepartmentController {
      */
     @ApiOperation(value = "查询单个部门", notes = "查询单个部门")
     @GetMapping(value = "/findOne/{id}")
-    public DepartmentDTO findOneDepartment(@PathVariable("id") Long departmentId) {
+    public Department findOneDepartment(@PathVariable("id") Long departmentId) {
         logger.info("findOneDepartment");
 
-        return departmentService.findOneDTO(departmentId);
+        return departmentService.findOne(departmentId);
     }
 
     /**

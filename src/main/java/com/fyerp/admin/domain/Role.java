@@ -55,9 +55,9 @@ public class Role implements Serializable {
     private String role;
 
     @Transient
-    @JsonProperty(value = "type",index = 0, defaultValue = "Role")
-    @ApiModelProperty(allowableValues = "Role",value = "Role",dataType = "String",required = true,name = "Role")
-    private String type = "Role";
+    @JsonProperty(defaultValue = "Role")
+    @ApiModelProperty(allowableValues = "role")
+    private String type = "role";
 
     /**
      * 角色描述
@@ -82,7 +82,7 @@ public class Role implements Serializable {
      * 用户-角色多对多关系,一个角色对应多个用户
      */
     @JsonIgnore
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.REFRESH})
+    @ManyToMany(cascade = {CascadeType.ALL})
     @JoinTable(name = "UserRole", joinColumns = {@JoinColumn(name = "roleId")}, inverseJoinColumns = {@JoinColumn(name = "userId")})
     private List<User> users;
 

@@ -24,6 +24,7 @@ import java.util.List;
  * @Time: 下午3:49
  */
 public interface UserRespository extends JpaRepository<User,Long> {
+
     /**
      * 通过username查找用户信息
      */

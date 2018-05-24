@@ -22,6 +22,7 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
@@ -36,6 +37,7 @@ import java.util.*;
 @RestController
 @RequestMapping(value = "/project")
 @Api(value = "ProjectController",description = "项目Api")
+@Scope("prototype")
 public class ProjectController {
 
     private final static Logger logger = LoggerFactory.getLogger(ProjectController.class);
@@ -107,7 +109,7 @@ public class ProjectController {
      */
     @ApiOperation(value = "查询项目列表", notes = "查询项目列表(第几页，每页几条)")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public List getProjects(@RequestParam(value = "page",required = false) Integer page,
+    public Object getProjects(@RequestParam(value = "page",required = false) Integer page,
                                      @RequestParam(value = "size",required = false) Integer size,
                                      @RequestParam(value = "sort_param", required = false, defaultValue = "createTime") String sortParam,
                                      @RequestParam(value = "sort_desc|asc", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) throws RuntimeException {
@@ -117,7 +119,7 @@ public class ProjectController {
             return projectService.findAll(sort);
         } else {
             PageRequest request = new PageRequest(page - 1, size);
-            return (List) projectService.findAll(request);
+            return projectService.findAll(request).getContent();
         }
 
     }

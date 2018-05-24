@@ -21,6 +21,7 @@ import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
@@ -33,6 +34,7 @@ import java.util.List;
 @RestController
 @RequestMapping("user")
 @Api(value = "UserController", description = "用户Api")
+@Scope("prototype")
 public class UserController {
 
     @Autowired
@@ -47,7 +49,7 @@ public class UserController {
      */
     @ApiOperation(value = "查询用户列表（带分页）", notes = "查询用户列表（带分页）")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public List<User> getUsers(@RequestParam(value = "page", required = false) Integer page,
+    public Object getUsers(@RequestParam(value = "page", required = false) Integer page,
                                @RequestParam(value = "size", required = false) Integer size,
                                @RequestParam(value = "sort_param", required = false, defaultValue = "createTime") String sortParam,
                                @RequestParam(value = "sort_desc|asc", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) {
@@ -57,7 +59,7 @@ public class UserController {
             return userService.findAll(sort);
         } else {
             PageRequest request = new PageRequest(page - 1, size);
-            return (List<User>) userService.findAll(request);
+            return userService.findAll(request).getContent();
         }
     }
 
@@ -80,7 +82,7 @@ public class UserController {
      */
     @ApiOperation(value = "查询单个用户", notes = "查询单个用户")
     @GetMapping(value = "/findOne/{id}")
-    public UserDTO findOneUser(@PathVariable("id") Long id) {
+    public User findOneUser(@PathVariable("id") Long id) {
         logger.info("findOneUser");
         return userService.findOne(id);
     }
@@ -112,7 +114,7 @@ public class UserController {
     @ApiOperation(value = "更新用户", notes = "根据用户的id来更新用户信息")
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
     public User updateUser(@RequestBody User user) {
-        return userService.save(user);
+        return userService.saveAndFlush(user);
     }
 
     /**
@@ -123,7 +125,6 @@ public class UserController {
     @ApiOperation(value = "更新多个用户", notes = "根据用户的id来更新用户信息")
     @RequestMapping(value = "/updates", method = RequestMethod.PUT)
     public List<User> updateUsers(@RequestBody List<User> users) {
-
         return userService.save(users);
     }
 
