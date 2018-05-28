@@ -32,7 +32,7 @@ public interface DepartmentService {
 
     List<DepartmentDTO> findAllDTO(Sort sort);
 
-    DepartmentDTO saveDTO(Department department);
+    DepartmentDTO saveDTO(DepartmentDTO department);
 
     Department save(Department department);
 

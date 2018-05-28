@@ -53,9 +53,9 @@ public class UserController {
     @ApiOperation(value = "查询用户列表（带分页）", notes = "查询用户列表（带分页）")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public Object getUsers(@RequestParam(value = "page", required = false) Integer page,
-                               @RequestParam(value = "size", required = false) Integer size,
-                               @RequestParam(value = "sort_param", required = false, defaultValue = "createTime") String sortParam,
-                               @RequestParam(value = "sort_desc|asc", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) {
+                           @RequestParam(value = "size", required = false) Integer size,
+                           @RequestParam(value = "sortBy", required = false, defaultValue = "createTime") String sortParam,
+                           @RequestParam(value = "order", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) {
         logger.info("userList");
         Sort sort = new Sort(descOrAsc, sortParam);
         if (page == null && size == null) {
@@ -95,9 +95,12 @@ public class UserController {
      */
     @ApiOperation(value = "创建用户", notes = "根据user对象创建用户")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public User addUser(@RequestBody User user) {
-        return userService.save(user);
-
+    public List<User> addUser(@RequestParam("部门id") Long departmentId, @RequestBody List<User> users) {
+        Department department = departmentService.findOne(departmentId);
+        department.setUsers(users);
+        List<User> users1 = department.getUsers();
+        BeanUtils.copyNotNullProperties(users1,users);
+        return userService.save(users);
     }
 
 //    /**
@@ -118,9 +121,9 @@ public class UserController {
     @ApiOperation(value = "更新用户", notes = "根据用户的id来更新用户信息")
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
     public User updateUser(@RequestBody User user) {
-        if (user.getUserId() != 0 ){
+        if (user.getUserId() != 0) {
             User source = userService.findOne(user.getUserId());
-            BeanUtils.copyNotNullProperties(source,user);
+            BeanUtils.copyNotNullProperties(source, user);
         }
         return userService.saveAndFlush(user);
     }
@@ -144,8 +147,8 @@ public class UserController {
     @ApiOperation(value = "删除用户", notes = "根据url的id来指定删除用户")
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public void deleteUser(@RequestParam("id") Long id) throws Exception {
-            userService.delete(id);
-            System.out.println("删除了id为"+id+"的用户");
+        userService.delete(id);
+        System.out.println("删除了id为" + id + "的用户");
     }
 
 }

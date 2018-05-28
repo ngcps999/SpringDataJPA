@@ -80,16 +80,15 @@ public class DepartmentServiceImpl implements DepartmentService {
     }
 
     @Override
-    public DepartmentDTO saveDTO(Department department) {
-        Department save = departmentRespository.save(department);
-        DepartmentDTO departmentDTO = new DepartmentDTO();
-        BeanUtils.copyProperties(save,departmentDTO);
-        return departmentDTO;
+    public DepartmentDTO saveDTO(DepartmentDTO departmentDTO) {
+        Department save = departmentRespository.findOne(departmentDTO.getDepartmentId());
+        DepartmentDTO departmentDTO1 = new DepartmentDTO();
+        BeanUtils.copyProperties(save,departmentDTO1);
+        return departmentDTO1;
     }
 
     @Override
     public Department save(Department department) {
-
         return departmentRespository.save(department);
     }
 

@@ -111,8 +111,8 @@ public class ProjectController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public Object getProjects(@RequestParam(value = "page",required = false) Integer page,
                                      @RequestParam(value = "size",required = false) Integer size,
-                                     @RequestParam(value = "sort_param", required = false, defaultValue = "createTime") String sortParam,
-                                     @RequestParam(value = "sort_desc|asc", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) throws RuntimeException {
+                                     @RequestParam(value = "sortBy", required = false, defaultValue = "createTime") String sortParam,
+                                     @RequestParam(value = "order", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) throws RuntimeException {
         logger.info("projectList");
         Sort sort = new Sort(descOrAsc, sortParam);
         if (page == null && size == null) {

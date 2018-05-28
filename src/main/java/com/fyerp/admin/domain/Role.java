@@ -43,8 +43,7 @@ public class Role implements Serializable {
      * 角色编号
      */
     @Id
-    @GeneratedValue(generator = "generator", strategy = GenerationType.IDENTITY)
-    @GenericGenerator(name = "generator", strategy = "native")
+    @GeneratedValue
     @JsonProperty(value = "id", index = 0)
     private Long roleId;
 

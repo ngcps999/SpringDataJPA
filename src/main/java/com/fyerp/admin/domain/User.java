@@ -42,16 +42,14 @@ import java.util.*;
 @Data
 @DynamicUpdate
 @EntityListeners(AuditingEntityListener.class)
-@Table(name = "user")
-@DynamicInsert
 public class User{
 
     /**
      * 用户Id
      */
     @Id
-    @GeneratedValue(generator = "generator",strategy = GenerationType.IDENTITY)
-    @GenericGenerator(name = "generator",strategy = "native")
+    @GeneratedValue
+//    @GenericGenerator(name = "generator",strategy = "assigned")
     @JsonProperty(value = "id")
     private Long userId;
 
@@ -95,8 +93,9 @@ public class User{
      * 一个用户具有多个角色
      */
 //    @NotEmpty
-    @JsonProperty("children")
-    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)//立即从数据库中加载数据；
+            @JsonIgnore
+//    @JsonProperty("children")
+    @ManyToMany(cascade = {CascadeType.ALL},fetch = FetchType.EAGER)//立即从数据库中加载数据；
     @JoinTable(name = "UserRole", joinColumns = {@JoinColumn(name = "userId")}, inverseJoinColumns = {@JoinColumn(name = "roleId")})
     private List<Role> roles;
 

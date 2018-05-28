@@ -53,8 +53,8 @@ public class DepartmentController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public Object getDepartments(@RequestParam(value = "page", required = false) Integer page,
                                  @RequestParam(value = "size", required = false) Integer size,
-                                 @RequestParam(value = "sort_param", required = false, defaultValue = "createTime") String sortParam,
-                                 @RequestParam(value = "sort_desc|asc", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) {
+                                 @RequestParam(value = "sortBy", required = false, defaultValue = "createTime") String sortParam,
+                                 @RequestParam(value = "order", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) {
         logger.info("departmentList");
         Sort sort = new Sort(descOrAsc, sortParam);
         if (page == null && size == null) {
@@ -96,19 +96,30 @@ public class DepartmentController {
      * @return
      */
     @ApiOperation(value = "更新部门", notes = "根据部门的id来更新部门")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "id", value = "项目ID", required = true, dataType = "Integer", paramType = "path"),
-//            @ApiImplicitParam(name = "project", value = "项目实体project", required = true, dataType = "Project")
-//    })
     @PutMapping(value = "/update")
     public Department updateDepartment(@RequestBody Department department) {
-
         if (department.getDepartmentId() != 0) {
             Department source = departmentService.findOne(department.getDepartmentId());
             copyNullProperties(source, department);
         }
 
         return departmentService.saveAndFlush(department);
+    }
+
+    /**
+     * 更新部门的员工
+     *
+     * @return
+     */
+    @ApiOperation(value = "更新部门员工", notes = "根据部门的id来更新部门员工")
+    @PutMapping(value = "/updateDepartmentUsers")
+    public DepartmentDTO updateDepartmentUsers(@RequestBody DepartmentDTO department) {
+        if (department.getDepartmentId() != 0) {
+            DepartmentDTO source = departmentService.findOneDTO(department.getDepartmentId());
+            copyNullProperties(source, department);
+        }
+
+        return departmentService.saveDTO(department);
     }
 
     /**

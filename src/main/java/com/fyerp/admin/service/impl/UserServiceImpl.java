@@ -88,6 +88,14 @@ public class UserServiceImpl implements UserService {
         return userRespository.saveAndFlush(user);
     }
 
+    @Override
+    public List<User> saveAndFlush(List<User> users) {
+        for (User user : users) {
+            users.add(userRespository.saveAndFlush(user));
+        }
+        return users;
+    }
+
 
     @Override
     public UserDTO update(User user) {

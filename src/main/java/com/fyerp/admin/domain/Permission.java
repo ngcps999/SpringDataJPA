@@ -42,8 +42,7 @@ public class Permission implements Serializable {
      * 主键Id
      */
     @Id
-    @GeneratedValue(generator = "generator",strategy = GenerationType.IDENTITY)
-    @GenericGenerator(name = "generator",strategy = "native")
+    @GeneratedValue
     @JsonProperty(value = "id")
     private Long permissionId;
 
@@ -78,7 +77,7 @@ public class Permission implements Serializable {
      */
     @JsonIgnore
 //            @JsonProperty("children")
-    @ManyToMany(cascade = CascadeType.ALL)
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinTable(name = "RolePermission",joinColumns={@JoinColumn(name = "permissionId")},inverseJoinColumns = {@JoinColumn(name = "roleId")})
     private List<Role> roles;
 
