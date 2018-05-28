@@ -77,7 +77,8 @@ public class Permission implements Serializable {
      * 角色-权限多对多关系
      */
     @JsonIgnore
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
+//            @JsonProperty("children")
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "RolePermission",joinColumns={@JoinColumn(name = "permissionId")},inverseJoinColumns = {@JoinColumn(name = "roleId")})
     private List<Role> roles;
 

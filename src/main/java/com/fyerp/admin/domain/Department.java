@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.beans.factory.annotation.Required;
@@ -24,14 +25,14 @@ import java.util.List;
 
 @Entity
 @DynamicUpdate
+@DynamicInsert
 @EntityListeners(AuditingEntityListener.class)
 @Data
 public class Department {
 
     @JsonProperty(value = "id")
     @Id
-    @GeneratedValue(generator = "generator",strategy = GenerationType.IDENTITY)
-    @GenericGenerator(name = "generator",strategy = "native")
+    @GeneratedValue
     private Long departmentId;
     @JsonProperty("name")
     private String depName;
@@ -42,7 +43,7 @@ public class Department {
     private String type = "department";
 
     @JsonProperty(value = "children")
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH},fetch = FetchType.EAGER)//立即从数据库中加载数据；
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)//立即从数据库中加载数据；
     @JoinTable(name = "DepartmentUser", joinColumns = {@JoinColumn(name = "departmentId")}, inverseJoinColumns = {@JoinColumn(name = "userId")})
     private List<User> users;
 

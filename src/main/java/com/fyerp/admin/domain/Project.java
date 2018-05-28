@@ -184,12 +184,12 @@ public class Project {
      * 任务
      */
     @JsonProperty(value = "children")
-    @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinColumn(name = "projectId")
     private List<Task> tasks;
 
     @JsonIgnore
-    @ManyToOne(targetEntity = ProjectCategory.class, cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @ManyToOne(targetEntity = ProjectCategory.class, cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinColumn(name = "categoryId")
     private ProjectCategory projectCategory;
 

@@ -8,10 +8,15 @@ package com.fyerp.admin.controller;
 
 import com.fyerp.admin.domain.Department;
 import com.fyerp.admin.domain.Result;
+import com.fyerp.admin.domain.User;
 import com.fyerp.admin.domain.dto.DepartmentDTO;
 import com.fyerp.admin.service.DepartmentService;
+import com.fyerp.admin.service.UserService;
+import com.fyerp.admin.utils.BeanUtils;
 import com.fyerp.admin.utils.ResultUtil;
+import com.fyerp.admin.utils.UpdateUtil;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,11 +27,15 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import static com.fyerp.admin.utils.UpdateUtil.*;
 
 @RestController
 @RequestMapping(value = "/department")
-@Api(value = "DepartmentController",description = "部门Api")
+@Api(value = "DepartmentController", description = "部门Api")
 @Scope("prototype")
 public class DepartmentController {
 
@@ -42,10 +51,10 @@ public class DepartmentController {
      */
     @ApiOperation(value = "查询部门列表", notes = "查询部门列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public Object getDepartments(@RequestParam(value = "page",required = false) Integer page,
-                                             @RequestParam(value = "size",required = false) Integer size,
-                                             @RequestParam(value = "sort_param", required = false, defaultValue = "createTime") String sortParam,
-                                             @RequestParam(value = "sort_desc|asc", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) {
+    public Object getDepartments(@RequestParam(value = "page", required = false) Integer page,
+                                 @RequestParam(value = "size", required = false) Integer size,
+                                 @RequestParam(value = "sort_param", required = false, defaultValue = "createTime") String sortParam,
+                                 @RequestParam(value = "sort_desc|asc", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) {
         logger.info("departmentList");
         Sort sort = new Sort(descOrAsc, sortParam);
         if (page == null && size == null) {
@@ -93,6 +102,11 @@ public class DepartmentController {
 //    })
     @PutMapping(value = "/update")
     public Department updateDepartment(@RequestBody Department department) {
+
+        if (department.getDepartmentId() != 0) {
+            Department source = departmentService.findOne(department.getDepartmentId());
+            copyNullProperties(source, department);
+        }
 
         return departmentService.saveAndFlush(department);
     }

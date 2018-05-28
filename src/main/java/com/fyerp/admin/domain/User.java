@@ -16,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fyerp.admin.enums.DepartmentEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.constraints.NotBlank;
@@ -42,6 +43,7 @@ import java.util.*;
 @DynamicUpdate
 @EntityListeners(AuditingEntityListener.class)
 @Table(name = "user")
+@DynamicInsert
 public class User{
 
     /**
@@ -56,13 +58,13 @@ public class User{
     /**
      * 用户账号
      */
-    @NotBlank(message = "用户名必填")
+//    @NotBlank(message = "用户名必填")
     private String username;
 
     /**
      * 姓名
      */
-    @NotBlank(message = "姓名必填")
+//    @NotBlank(message = "姓名必填")
     private String name;
 
     @Transient
@@ -94,12 +96,13 @@ public class User{
      */
 //    @NotEmpty
     @JsonProperty("children")
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})//立即从数据库中加载数据；
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)//立即从数据库中加载数据；
     @JoinTable(name = "UserRole", joinColumns = {@JoinColumn(name = "userId")}, inverseJoinColumns = {@JoinColumn(name = "roleId")})
     private List<Role> roles;
 
     @JsonIgnore
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH},fetch = FetchType.EAGER)
+//    @JsonProperty("children")
+    @ManyToMany(cascade = CascadeType.ALL)
     @JoinTable(name = "DepartmentUser",joinColumns = {@JoinColumn(name = "userId")},inverseJoinColumns = {@JoinColumn(name = "departmentId")})
     private List<Department> departments;
 
@@ -118,5 +121,20 @@ public class User{
     private Date updateTime;
 
     public User() {
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "userId=" + userId +
+                ", username='" + username + '\'' +
+                ", name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", gender='" + gender + '\'' +
+                ", password='" + password + '\'' +
+                ", state=" + state +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
     }
 }

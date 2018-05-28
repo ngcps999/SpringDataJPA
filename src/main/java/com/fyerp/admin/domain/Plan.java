@@ -70,7 +70,7 @@ public class Plan {
     private Date realEndDate;
 
     @JsonIgnore
-    @ManyToOne(targetEntity = Task.class, cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH},fetch = FetchType.EAGER)
+    @ManyToOne(targetEntity = Task.class, cascade = {CascadeType.ALL},fetch = FetchType.EAGER)
     @JoinColumn(name = "taskId")
     private Task task;
 

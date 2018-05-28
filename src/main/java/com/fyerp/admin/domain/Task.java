@@ -16,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
 import lombok.Data;
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.data.annotation.CreatedDate;
@@ -35,6 +36,7 @@ import java.util.*;
 @DynamicUpdate
 @EntityListeners(AuditingEntityListener.class)
 @Data
+@DynamicInsert
 public class Task {
 
     @Id
@@ -72,7 +74,7 @@ public class Task {
     /**
      * 计划
      */
-    @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH},fetch = FetchType.EAGER)
+    @OneToMany(cascade = {CascadeType.ALL},fetch = FetchType.EAGER)
     @JoinColumn(name = "taskId")
     @JsonProperty(value = "children")
     private List<Plan> plans;

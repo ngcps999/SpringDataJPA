@@ -47,7 +47,7 @@ public class ProjectCategory {
     @ApiModelProperty(allowableValues = "projectCategory")
     private String type = "projectCategory";
 
-    @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH}, fetch = FetchType.EAGER)
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinColumn(name = "categoryId")
     @JsonProperty(value = "children")
     private List<Project> projects;
@@ -56,6 +56,7 @@ public class ProjectCategory {
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @JsonProperty("creationDate")
     private Date createTime;
+
     @LastModifiedDate
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @JsonProperty("updatedDate")

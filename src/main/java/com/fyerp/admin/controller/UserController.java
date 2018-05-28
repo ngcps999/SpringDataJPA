@@ -12,10 +12,10 @@ package com.fyerp.admin.controller;
 
 import com.fyerp.admin.domain.Department;
 import com.fyerp.admin.domain.User;
-import com.fyerp.admin.domain.dto.DepartmentDTO;
-import com.fyerp.admin.domain.dto.UserDTO;
 import com.fyerp.admin.service.DepartmentService;
 import com.fyerp.admin.service.UserService;
+import com.fyerp.admin.utils.BeanUtils;
+import com.fyerp.admin.utils.UpdateUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -39,6 +39,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private DepartmentService departmentService;
 
     private final static Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -94,6 +97,7 @@ public class UserController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public User addUser(@RequestBody User user) {
         return userService.save(user);
+
     }
 
 //    /**
@@ -114,6 +118,10 @@ public class UserController {
     @ApiOperation(value = "更新用户", notes = "根据用户的id来更新用户信息")
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
     public User updateUser(@RequestBody User user) {
+        if (user.getUserId() != 0 ){
+            User source = userService.findOne(user.getUserId());
+            BeanUtils.copyNotNullProperties(source,user);
+        }
         return userService.saveAndFlush(user);
     }
 
