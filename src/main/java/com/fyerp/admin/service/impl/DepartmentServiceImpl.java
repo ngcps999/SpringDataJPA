@@ -7,11 +7,14 @@
 package com.fyerp.admin.service.impl;
 
 import com.fyerp.admin.domain.Department;
+import com.fyerp.admin.domain.User;
 import com.fyerp.admin.domain.dto.DepartmentDTO;
+import com.fyerp.admin.domain.dto.UserDTO;
 import com.fyerp.admin.respository.DepartmentRespository;
+import com.fyerp.admin.respository.UserRespository;
 import com.fyerp.admin.service.DepartmentService;
+import com.fyerp.admin.utils.BeanUtils;
 import com.fyerp.admin.utils.convert.Department2DepartmentDTOConverter;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -22,11 +25,17 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.fyerp.admin.utils.BeanUtils.*;
+
 @Service
 public class DepartmentServiceImpl implements DepartmentService {
 
+
     @Autowired
     private DepartmentRespository departmentRespository;
+
+    @Autowired
+    private UserRespository userRespository;
 
     @Override
     public Department findOne(Long departmentId) {
@@ -38,7 +47,7 @@ public class DepartmentServiceImpl implements DepartmentService {
 
         Department department = departmentRespository.findOne(departmentId);
         DepartmentDTO departmentDTO = new DepartmentDTO();
-        BeanUtils.copyProperties(department, departmentDTO);
+        copyNotNullProperties(department, departmentDTO);
         return departmentDTO;
     }
 
@@ -51,7 +60,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     public List<DepartmentDTO> findAllDTO() {
         List<Department> departments = departmentRespository.findAll();
         List<DepartmentDTO> departmentDTOS = new ArrayList<>();
-        BeanUtils.copyProperties(departments, departmentDTOS);
+        copyNotNullProperties(departments, departmentDTOS);
         return departmentDTOS;
     }
 
@@ -79,17 +88,18 @@ public class DepartmentServiceImpl implements DepartmentService {
         return departmentDTOS;
     }
 
-    @Override
-    public DepartmentDTO saveDTO(DepartmentDTO departmentDTO) {
-        Department save = departmentRespository.findOne(departmentDTO.getDepartmentId());
-        DepartmentDTO departmentDTO1 = new DepartmentDTO();
-        BeanUtils.copyProperties(save,departmentDTO1);
-        return departmentDTO1;
-    }
 
     @Override
     public Department save(Department department) {
+
         return departmentRespository.save(department);
+    }
+    @Override
+    public DepartmentDTO saveDTO(Department department) {
+
+        Department department1 = departmentRespository.saveAndFlush(department);
+        DepartmentDTO departmentDTO = Department2DepartmentDTOConverter.convert(department1);
+        return departmentDTO;
     }
 
     @Override
@@ -106,5 +116,20 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public void delete(Long departmentId) {
         departmentRespository.delete(departmentId);
+    }
+
+    @Override
+    public Integer deleteA(Long departmentId,Long userId) {
+        return departmentRespository.deleteA(userId);
+    }
+
+    @Override
+    public Integer update(Long departmentId, Long userId) {
+        return departmentRespository.update(departmentId,userId);
+    }
+
+    @Override
+    public Integer insert(Long departmentId, Long userId) {
+        return departmentRespository.insert(departmentId,userId);
     }
 }

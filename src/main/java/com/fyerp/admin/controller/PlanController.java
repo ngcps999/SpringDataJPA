@@ -60,8 +60,8 @@ public class PlanController {
      * @return
      */
     @ApiOperation(value = "查询单个计划", notes = "查询单个计划")
-    @GetMapping(value = "/findOne/{id}")
-    public Plan findOnePlan(@PathVariable("id") Integer id) {
+    @GetMapping(value = "/find")
+    public Plan findOnePlan(@RequestParam("id") Integer id) {
         logger.info("findOnePlan");
         return planService.findOne(id);
     }

@@ -78,8 +78,8 @@ public class ProjectCategoryController {
      * @return
      */
     @ApiOperation(value = "按项目类目编号查询", notes = "按项目类目编号查询")
-    @GetMapping(value = "/findOne/{id}")
-    public ProjectCategory findByCategoryType(@PathVariable("id") Integer categoryId) {
+    @GetMapping(value = "/find")
+    public ProjectCategory findByCategoryType(@RequestParam("id") Integer categoryId) {
         return categoryService.findOne(categoryId);
     }
 

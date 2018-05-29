@@ -41,6 +41,7 @@ import java.util.*;
 @Entity
 @Data
 @DynamicUpdate
+@DynamicInsert
 @EntityListeners(AuditingEntityListener.class)
 public class User{
 
@@ -92,17 +93,17 @@ public class User{
     /**
      * 一个用户具有多个角色
      */
-//    @NotEmpty
-            @JsonIgnore
-//    @JsonProperty("children")
-    @ManyToMany(cascade = {CascadeType.ALL},fetch = FetchType.EAGER)//立即从数据库中加载数据；
-    @JoinTable(name = "UserRole", joinColumns = {@JoinColumn(name = "userId")}, inverseJoinColumns = {@JoinColumn(name = "roleId")})
-    private List<Role> roles;
-
+////    @NotEmpty
+//            @JsonIgnore
+////    @JsonProperty("children")
+//    @ManyToMany(cascade = {CascadeType.ALL},fetch = FetchType.EAGER)//立即从数据库中加载数据；
+//    @JoinTable(name = "UserRole", joinColumns = {@JoinColumn(name = "userId")}, inverseJoinColumns = {@JoinColumn(name = "roleId")})
+//    private List<Role> roles;
+//
     @JsonIgnore
 //    @JsonProperty("children")
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "DepartmentUser",joinColumns = {@JoinColumn(name = "userId")},inverseJoinColumns = {@JoinColumn(name = "departmentId")})
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "users")
+//    @JoinTable(name = "DepartmentUser",joinColumns = {@JoinColumn(name = "userId")},inverseJoinColumns = {@JoinColumn(name = "departmentId")})
     private List<Department> departments;
 
 //    @JsonIgnore
@@ -122,18 +123,4 @@ public class User{
     public User() {
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "userId=" + userId +
-                ", username='" + username + '\'' +
-                ", name='" + name + '\'' +
-                ", type='" + type + '\'' +
-                ", gender='" + gender + '\'' +
-                ", password='" + password + '\'' +
-                ", state=" + state +
-                ", createTime=" + createTime +
-                ", updateTime=" + updateTime +
-                '}';
-    }
 }

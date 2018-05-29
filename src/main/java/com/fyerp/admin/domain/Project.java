@@ -17,6 +17,7 @@ import com.fyerp.admin.enums.ProjectStatusEnum;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
 import lombok.Data;
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.data.annotation.CreatedDate;
@@ -39,6 +40,7 @@ import java.util.Set;
 @Entity
 @EntityListeners(AuditingEntityListener.class)
 @DynamicUpdate
+@DynamicInsert
 @Data
 //@Document(indexName="index_entity", type="tstype")
 public class Project {

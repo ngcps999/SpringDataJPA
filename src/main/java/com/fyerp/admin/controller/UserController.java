@@ -84,8 +84,8 @@ public class UserController {
      * @return
      */
     @ApiOperation(value = "查询单个用户", notes = "查询单个用户")
-    @GetMapping(value = "/findOne/{id}")
-    public User findOneUser(@PathVariable("id") Long id) {
+    @GetMapping(value = "/find")
+    public User findOneUser(@RequestParam("id") Long id) {
         logger.info("findOneUser");
         return userService.findOne(id);
     }
@@ -95,11 +95,7 @@ public class UserController {
      */
     @ApiOperation(value = "创建用户", notes = "根据user对象创建用户")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public List<User> addUser(@RequestParam("部门id") Long departmentId, @RequestBody List<User> users) {
-        Department department = departmentService.findOne(departmentId);
-        department.setUsers(users);
-        List<User> users1 = department.getUsers();
-        BeanUtils.copyNotNullProperties(users1,users);
+    public List<User> addUser(@RequestBody List<User> users) {
         return userService.save(users);
     }
 

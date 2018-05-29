@@ -7,6 +7,7 @@
 package com.fyerp.admin.service;
 
 import com.fyerp.admin.domain.Department;
+import com.fyerp.admin.domain.User;
 import com.fyerp.admin.domain.dto.DepartmentDTO;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,13 +33,17 @@ public interface DepartmentService {
 
     List<DepartmentDTO> findAllDTO(Sort sort);
 
-    DepartmentDTO saveDTO(DepartmentDTO department);
-
     Department save(Department department);
+    DepartmentDTO saveDTO(Department department);
 
     Department saveAndFlush(Department department);
 
     List<Department> save(List<Department> departments);
 
     void delete(Long departmentId);
+
+    public Integer update(Long departmentId, Long userId);
+    public Integer insert(Long departmentId, Long userId);
+
+    public Integer deleteA(Long departmentId,Long userId);
 }

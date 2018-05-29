@@ -59,8 +59,8 @@ public class PermissionController {
      * @return
      */
     @ApiOperation(value = "查询单个权限", notes = "查询单个权限")
-    @GetMapping(value = "/findOne/{id}")
-    public Permission findOnePermission(@PathVariable("id") Long id) {
+    @GetMapping(value = "/find")
+    public Permission findOnePermission(@RequestParam("id") Long id) {
         logger.info("findOneProject");
         return permissionService.findOne(id);
     }

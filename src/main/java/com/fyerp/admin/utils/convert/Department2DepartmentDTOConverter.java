@@ -8,7 +8,7 @@ package com.fyerp.admin.utils.convert;
 
 import com.fyerp.admin.domain.Department;
 import com.fyerp.admin.domain.dto.DepartmentDTO;
-import org.springframework.beans.BeanUtils;
+import com.fyerp.admin.utils.BeanUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ public class Department2DepartmentDTOConverter {
 
     public static DepartmentDTO convert(Department department) {
         DepartmentDTO departmentDTO = new DepartmentDTO();
-        BeanUtils.copyProperties(department,departmentDTO);
+        BeanUtils.copyNotNullProperties(department,departmentDTO);
         return departmentDTO;
     }
 

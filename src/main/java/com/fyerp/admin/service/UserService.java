@@ -56,7 +56,6 @@ public interface UserService {
 	 */
 	User save(User user);
 	List<User> save(List<User> users);
-	UserDTO saveDTO(User user);
 	User saveAndFlush(User user);
 	List<User> saveAndFlush(List<User> user);
 	UserDTO saveAndFlushDTO(User user);

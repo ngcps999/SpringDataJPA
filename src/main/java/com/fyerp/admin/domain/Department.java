@@ -25,6 +25,7 @@ import java.util.List;
 
 @Entity
 @DynamicUpdate
+@DynamicInsert
 @EntityListeners(AuditingEntityListener.class)
 @Data
 public class Department {
@@ -41,8 +42,8 @@ public class Department {
     @ApiModelProperty(allowableValues = "department")
     private String type = "department";
 
-    @JsonIgnore
-//    @JsonProperty(value = "children")
+//    @JsonIgnore
+    @JsonProperty(value = "children")
     @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)//立即从数据库中加载数据；
     @JoinTable(name = "DepartmentUser", joinColumns = {@JoinColumn(name = "departmentId")}, inverseJoinColumns = {@JoinColumn(name = "userId")})
     private List<User> users;

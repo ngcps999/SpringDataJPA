@@ -58,8 +58,8 @@ public class TaskController {
      * @return
      */
     @ApiOperation(value = "查询单个任务", notes = "查询单个任务")
-    @GetMapping(value = "/findOne/{id}")
-    public Task findOneTask(@PathVariable("id") Long id) {
+    @GetMapping(value = "/find")
+    public Task findOneTask(@RequestParam("id") Long id) {
         logger.info("findOneTask");
         return taskService.findOne(id);
     }

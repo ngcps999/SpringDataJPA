@@ -27,6 +27,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -43,6 +44,9 @@ public class DepartmentController {
 
     @Autowired
     private DepartmentService departmentService;
+
+    @Autowired
+    private UserService userService;
 
     /**
      * 查询部门列表
@@ -72,8 +76,8 @@ public class DepartmentController {
      * @return
      */
     @ApiOperation(value = "查询单个部门", notes = "查询单个部门")
-    @GetMapping(value = "/findOne/{id}")
-    public Department findOneDepartment(@PathVariable("id") Long departmentId) {
+    @GetMapping(value = "/find")
+    public Department findOneDepartment(@RequestParam("id") Long departmentId) {
         logger.info("findOneDepartment");
 
         return departmentService.findOne(departmentId);
@@ -100,24 +104,19 @@ public class DepartmentController {
     public Department updateDepartment(@RequestBody Department department) {
         if (department.getDepartmentId() != 0) {
             Department source = departmentService.findOne(department.getDepartmentId());
-            copyNullProperties(source, department);
+            BeanUtils.copyNotNullProperties(source, department);
         }
-
         return departmentService.saveAndFlush(department);
     }
 
     /**
-     * 更新部门的员工
+     * 添加部门的员工
      *
      * @return
      */
-    @ApiOperation(value = "更新部门员工", notes = "根据部门的id来更新部门员工")
-    @PutMapping(value = "/updateDepartmentUsers")
-    public DepartmentDTO updateDepartmentUsers(@RequestBody DepartmentDTO department) {
-        if (department.getDepartmentId() != 0) {
-            DepartmentDTO source = departmentService.findOneDTO(department.getDepartmentId());
-            copyNullProperties(source, department);
-        }
+    @ApiOperation(value = "添加部门员工", notes = "根据部门的id来更新部门员工")
+    @PutMapping(value = "/saveDepartmentUsers")
+    public DepartmentDTO saveDepartmentUsers(@RequestBody Department department) throws SQLException {
 
         return departmentService.saveDTO(department);
     }

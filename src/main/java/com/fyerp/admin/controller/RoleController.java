@@ -60,8 +60,8 @@ public class RoleController {
      * @return
      */
     @ApiOperation(value = "查询单个角色", notes = "查询单个角色")
-    @GetMapping(value = "/findOne/{id}")
-    public Result<Role> findOneRole(@PathVariable("id") Long id) {
+    @GetMapping(value = "/find")
+    public Result<Role> findOneRole(@RequestParam("id") Long id) {
         logger.info("findOneProject");
         return ResultUtil.success(roleService.findOne(id));
     }

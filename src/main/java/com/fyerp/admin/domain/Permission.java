@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.hibernate.annotations.GenericGenerator;
 import org.springframework.beans.factory.annotation.Required;
@@ -36,6 +37,7 @@ import java.util.List;
 @Data
 @EntityListeners(AuditingEntityListener.class)
 @DynamicUpdate
+@DynamicInsert
 public class Permission implements Serializable {
     private static final long serialVersionUID = 8787425039423616077L;
     /**

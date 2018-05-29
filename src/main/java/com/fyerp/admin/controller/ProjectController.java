@@ -53,8 +53,8 @@ public class ProjectController {
      * @return
      */
     @ApiOperation(value = "查询单个项目", notes = "查询单个项目")
-    @GetMapping(value = "/findOne/{id}")
-    public Project findOneProject(@PathVariable("id") Integer id) {
+    @GetMapping(value = "/find")
+    public Project findOneProject(@RequestParam("id") Integer id) {
         logger.info("findOneProject");
         if(id!= null) {
             return projectService.findOne(id);

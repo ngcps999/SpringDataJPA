@@ -25,6 +25,7 @@ import java.util.List;
 public class DepartmentDTO {
 
     @Id
+    @JsonProperty("id")
     private Long departmentId;
 
     private String depName;
@@ -35,7 +36,7 @@ public class DepartmentDTO {
     private String type;
 
     @JsonProperty("children")
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.REFRESH},fetch = FetchType.EAGER)//立即从数据库中加载数据；
+    @ManyToMany(cascade = {CascadeType.ALL},fetch = FetchType.EAGER)//立即从数据库中加载数据；
     @JoinTable(name = "DepartmentUser", joinColumns = {@JoinColumn(name = "departmentId")}, inverseJoinColumns = {@JoinColumn(name = "userId")})
     private List<User> users;
 

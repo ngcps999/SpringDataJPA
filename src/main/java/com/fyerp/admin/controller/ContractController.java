@@ -61,8 +61,8 @@ public class ContractController {
      * @return
      */
     @ApiOperation(value = "查询单个合同", notes = "查询单个合同")
-    @GetMapping(value = "/findOne/{id}")
-    public Contract findOneContract(@PathVariable("id") Integer contractId) {
+    @GetMapping(value = "/find")
+    public Contract findOneContract(@RequestParam("id") Integer contractId) {
         logger.info("findOneDepartment");
         return contractService.findOne(contractId);
     }

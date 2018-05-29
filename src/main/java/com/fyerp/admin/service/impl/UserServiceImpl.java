@@ -10,12 +10,16 @@
 
 package com.fyerp.admin.service.impl;
 
+import com.fyerp.admin.domain.Department;
 import com.fyerp.admin.domain.User;
+import com.fyerp.admin.domain.dto.DepartmentDTO;
 import com.fyerp.admin.domain.dto.UserDTO;
+import com.fyerp.admin.respository.DepartmentRespository;
 import com.fyerp.admin.respository.UserRespository;
+import com.fyerp.admin.service.DepartmentService;
 import com.fyerp.admin.service.UserService;
+import com.fyerp.admin.utils.BeanUtils;
 import com.fyerp.admin.utils.convert.User2UserDTOConverter;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -31,6 +35,9 @@ import java.util.List;
  */
 @Service
 public class UserServiceImpl implements UserService {
+
+    @Autowired
+    private DepartmentService departmentService;
 
     @Autowired
     private UserRespository userRespository;
@@ -66,14 +73,6 @@ public class UserServiceImpl implements UserService {
     @Override
     public Page<User> findAll(Pageable pageable) {
         return userRespository.findAll(pageable);
-    }
-
-    @Override
-    public UserDTO saveDTO(User user) {
-        User save = userRespository.save(user);
-        UserDTO userDTO = new UserDTO();
-        BeanUtils.copyProperties(save,userDTO);
-        return userDTO;
     }
 
     @Override
