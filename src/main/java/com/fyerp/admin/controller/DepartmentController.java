@@ -101,7 +101,7 @@ public class DepartmentController {
      */
     @ApiOperation(value = "更新部门", notes = "根据部门的id来更新部门")
     @PutMapping(value = "/update")
-    public Department updateDepartment(@RequestBody Department department) {
+    public Department updateDepartment(@RequestParam("id") Long departmentId) {
         if (department.getDepartmentId() != 0) {
             Department source = departmentService.findOne(department.getDepartmentId());
             BeanUtils.copyNotNullProperties(source, department);

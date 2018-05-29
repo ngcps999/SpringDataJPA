@@ -56,7 +56,7 @@ public class Role implements Serializable {
     private String role;
 
     @Transient
-    @JsonProperty(defaultValue = "Role")
+    @JsonProperty(defaultValue = "role")
     @ApiModelProperty(allowableValues = "role")
     private String type = "role";
 
