@@ -21,7 +21,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @DynamicUpdate
@@ -44,9 +46,9 @@ public class Department {
 
 //    @JsonIgnore
     @JsonProperty(value = "children")
-    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)//立即从数据库中加载数据；
+    @ManyToMany(targetEntity = User.class,cascade = CascadeType.MERGE,fetch = FetchType.EAGER)//立即从数据库中加载数据；
     @JoinTable(name = "DepartmentUser", joinColumns = {@JoinColumn(name = "departmentId")}, inverseJoinColumns = {@JoinColumn(name = "userId")})
-    private List<User> users;
+    private Set<User> users = new HashSet<>();
 
 //    @JsonIgnore
 //    @ManyToMany

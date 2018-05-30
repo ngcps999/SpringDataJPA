@@ -77,11 +77,11 @@ public class Permission implements Serializable {
     /**
      * 角色-权限多对多关系
      */
-    @JsonIgnore
-//            @JsonProperty("children")
-    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    @JoinTable(name = "RolePermission",joinColumns={@JoinColumn(name = "permissionId")},inverseJoinColumns = {@JoinColumn(name = "roleId")})
-    private List<Role> roles;
+//    @JsonIgnore
+////            @JsonProperty("children")
+//    @ManyToMany(cascade = CascadeType.REFRESH,fetch = FetchType.EAGER)
+//    @JoinTable(name = "RolePermission",joinColumns={@JoinColumn(name = "permissionId")},inverseJoinColumns = {@JoinColumn(name = "roleId")})
+//    private List<Role> roles;
 
     @CreatedDate
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")

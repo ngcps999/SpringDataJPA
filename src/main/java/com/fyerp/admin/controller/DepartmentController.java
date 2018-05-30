@@ -15,6 +15,7 @@ import com.fyerp.admin.service.UserService;
 import com.fyerp.admin.utils.BeanUtils;
 import com.fyerp.admin.utils.ResultUtil;
 import com.fyerp.admin.utils.UpdateUtil;
+import com.fyerp.admin.utils.convert.Department2DepartmentDTOConverter;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
@@ -31,6 +32,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
 
 import static com.fyerp.admin.utils.UpdateUtil.*;
 
@@ -109,15 +111,29 @@ public class DepartmentController {
     }
 
     /**
-     * 添加部门的员工
+     * 更新部门的员工
      *
      * @return
      */
-    @ApiOperation(value = "添加部门员工", notes = "根据部门的id来更新部门员工")
-    @PutMapping(value = "/saveDepartmentUsers")
-    public DepartmentDTO saveDepartmentUsers(@RequestBody Department department) throws SQLException {
+    @ApiOperation(value = "更新部门员工", notes = "根据部门的id来更新部门员工")
+    @PutMapping(value = "/updateDepartmentUsers")
+    public Department updateDepartmentUsers(@RequestParam(value = "departmentId",required = true) Long departmentId, @RequestParam(value = "userId",required = true) List<Long> userIds){
+        Department department = departmentService.findOne(departmentId);
+        List<User> users = userService.findAll(userIds);
+        Set<User> departmentUsers = department.getUsers();
+        for (User user : users) {
+            if (departmentUsers.contains(user)) {
+                continue;
+            }
+            departmentUsers.add(user);
+        }
 
-        return departmentService.saveDTO(department);
+        try {
+            departmentService.save(department);
+        } catch (Exception e) {
+            throw new RuntimeException("update fail!");
+        }
+        return department;
     }
 
     /**

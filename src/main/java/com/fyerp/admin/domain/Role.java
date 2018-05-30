@@ -26,7 +26,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * @Author: xuda
@@ -75,17 +77,17 @@ public class Role implements Serializable {
      * 角色-权限多对多关系
      */
     @JsonProperty(value = "children")
-    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @ManyToMany(targetEntity = Permission.class,cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
     @JoinTable(name = "RolePermission", joinColumns = {@JoinColumn(name = "roleId")}, inverseJoinColumns = {@JoinColumn(name = "permissionId")})
-    private List<Permission> permissions;
+    private Set<Permission> permissions =new HashSet<>();
 
     /**
      * 用户-角色多对多关系,一个角色对应多个用户
      */
-    @JsonIgnore
-    @ManyToMany(cascade = CascadeType.ALL)
-    @JoinTable(name = "UserRole", joinColumns = {@JoinColumn(name = "roleId")}, inverseJoinColumns = {@JoinColumn(name = "userId")})
-    private List<User> users;
+//    @JsonIgnore
+//    @ManyToMany(cascade = CascadeType.ALL)
+//    @JoinTable(name = "UserRole", joinColumns = {@JoinColumn(name = "roleId")}, inverseJoinColumns = {@JoinColumn(name = "userId")})
+//    private List<User> users;
 
     @CreatedDate
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")

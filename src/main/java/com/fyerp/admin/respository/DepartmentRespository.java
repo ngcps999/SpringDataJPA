@@ -22,16 +22,16 @@ public interface DepartmentRespository extends JpaRepository<Department, Long> {
 
     @Modifying
     @Transactional
-    @Query(value = "update department inner join department_user user2 on department.department_id = user2.department_id set user2.user_id = ?2 where user2.department_id =?1", nativeQuery = true)
+    @Query(value = "update department inner join department_user user2 on department.department_id = user2.department_id set user2.user_id = ?2 where user2.department_id = ?1 ", nativeQuery = true)
     public Integer update(@RequestParam("department_id") Long departmentId, @RequestParam("user_id") Long userId);
 
 
     @Transactional
-    @Query(value = "insert into department_user values (?1,?2)",nativeQuery = true)
+    @Query(value = "insert into department_user values (?1,?2) ", nativeQuery = true)
     public Integer insert(@RequestParam("department_id") Long departmentId, @RequestParam("user_id") Long userId);
 
     @Transactional
-    @Query(value = "delete from department_user where user_id=?1",nativeQuery = true)
+    @Query(value = "delete from department_user where user_id=?1 ", nativeQuery = true)
     public Integer deleteA(@RequestParam("user_id") Long userId);
 
 

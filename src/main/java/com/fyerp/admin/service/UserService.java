@@ -37,6 +37,7 @@ public interface UserService {
 	 * @return
 	 */
 	List<User> findAll();
+	List<User> findAll(List<Long> userIds);
 
 	List<User> findAll(Sort sort);
 

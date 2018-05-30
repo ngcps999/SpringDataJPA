@@ -95,16 +95,16 @@ public class User{
      */
 ////    @NotEmpty
 //            @JsonIgnore
-////    @JsonProperty("children")
-//    @ManyToMany(cascade = {CascadeType.ALL},fetch = FetchType.EAGER)//立即从数据库中加载数据；
-//    @JoinTable(name = "UserRole", joinColumns = {@JoinColumn(name = "userId")}, inverseJoinColumns = {@JoinColumn(name = "roleId")})
-//    private List<Role> roles;
+    @JsonProperty("children")
+    @ManyToMany(targetEntity = Role.class,cascade = {CascadeType.MERGE},fetch = FetchType.EAGER)//立即从数据库中加载数据；
+    @JoinTable(name = "UserRole", joinColumns = {@JoinColumn(name = "userId")}, inverseJoinColumns = {@JoinColumn(name = "roleId")})
+    private List<Role> roles;
 //
-    @JsonIgnore
-//    @JsonProperty("children")
-    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER,mappedBy = "users")
+//    @JsonIgnore
+////    @JsonProperty("children")
+//    @ManyToMany(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
 //    @JoinTable(name = "DepartmentUser",joinColumns = {@JoinColumn(name = "userId")},inverseJoinColumns = {@JoinColumn(name = "departmentId")})
-    private List<Department> departments;
+//    private List<Department> departments;
 
 //    @JsonIgnore
 //    @ManyToMany
