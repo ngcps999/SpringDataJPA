@@ -11,8 +11,10 @@
 package com.fyerp.admin.controller;
 
 import com.fyerp.admin.domain.Department;
+import com.fyerp.admin.domain.Role;
 import com.fyerp.admin.domain.User;
 import com.fyerp.admin.service.DepartmentService;
+import com.fyerp.admin.service.RoleService;
 import com.fyerp.admin.service.UserService;
 import com.fyerp.admin.utils.BeanUtils;
 import com.fyerp.admin.utils.UpdateUtil;
@@ -26,7 +28,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 用户管理API
@@ -39,6 +43,9 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private RoleService roleService;
 
     @Autowired
     private DepartmentService departmentService;
@@ -95,8 +102,21 @@ public class UserController {
      */
     @ApiOperation(value = "创建用户", notes = "根据user对象创建用户")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public List<User> addUser(@RequestBody List<User> users) {
-        return userService.save(users);
+    public User addUser(@RequestParam(value = "name", required = true) String name,
+                              @RequestParam(value = "username",required = true) String username,
+                              @RequestParam(value = "genger",required = true) String genger,
+                              @RequestParam(value = "password",required = true) String password,
+                              @RequestParam(value = "roleIds",required = true) List<Long> roleIds)  {
+        User user = new User();
+        user.setName(name);
+        user.setUsername(username);
+        user.setGender(genger);
+        user.setPassword(password);
+
+        List<Role> roles = roleService.findAll(roleIds);
+        Set<Role> roles1 = new HashSet<>(roles);
+        user.setRoles(roles1);
+        return userService.save(user);
     }
 
 //    /**
@@ -114,14 +134,25 @@ public class UserController {
      *
      * @return
      */
-    @ApiOperation(value = "更新用户", notes = "根据用户的id来更新用户信息")
+    @ApiOperation(value = "更新用户关联的角色", notes = "根据用户的id来更新用户的角色")
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
-    public User updateUser(@RequestBody User user) {
-        if (user.getUserId() != 0) {
-            User source = userService.findOne(user.getUserId());
-            BeanUtils.copyNotNullProperties(source, user);
+    public User updateUserRoles(@RequestParam(value = "userId",required = true) Long userId,
+                                @RequestParam(value = "roleIds",required = true) List<Long> roleIds) {
+        User user = userService.findOne(userId);
+        List<Role> roles = roleService.findAll(roleIds);
+        Set<Role> userRoles = user.getRoles();
+        for (Role role : roles) {
+            if (userRoles.contains(role)) {
+                continue;
+            }
+            userRoles.add(role);
         }
-        return userService.saveAndFlush(user);
+        try {
+            userService.save(user);
+        } catch (Exception e) {
+            throw new RuntimeException("update fail!");
+        }
+        return user;
     }
 
 //    /**
@@ -134,6 +165,30 @@ public class UserController {
 //    public List<User> updateUsers(@RequestBody List<User> users) {
 //        return userService.save(users);
 //    }
+    /**
+     * 删除用户关联的角色
+     *
+     * @return
+     */
+    @ApiOperation(value = "删除用户关联的角色", notes = "根据用户的id来删除对应角色")
+    @PutMapping(value = "/deleteRoles")
+    public User deleteUserRoles(@RequestParam(value = "userId",required = true) Long userId,
+                                @RequestParam(value = "roleIds",required = true) List<Long> roleIds) {
+        User user = userService.findOne(userId);
+        List<Role> roles = roleService.findAll(roleIds);
+        Set<Role> userRoles = user.getRoles();
+        for (Role role : roles) {
+            if (userRoles.contains(role)) {
+                userRoles.remove(role);
+            }
+        }
+        try {
+            userService.save(user);
+        } catch (Exception e) {
+            throw new RuntimeException("update fail!");
+        }
+        return user;
+    }
 
     /**
      * 删除用户

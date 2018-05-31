@@ -39,6 +39,11 @@ public class PermissionServiceImpl implements PermissionService {
     }
 
     @Override
+    public List<Permission> findAll(List<Long> permissionIds) {
+        return permissionRespository.findAll(permissionIds);
+    }
+
+    @Override
     public List<Permission> findAll(Sort sort) {
         return permissionRespository.findAll(sort);
     }

@@ -38,6 +38,8 @@ public interface UserService {
 	 */
 	List<User> findAll();
 	List<User> findAll(List<Long> userIds);
+	List<UserDTO> findAllDTD(List<Long> userIds);
+
 
 	List<User> findAll(Sort sort);
 

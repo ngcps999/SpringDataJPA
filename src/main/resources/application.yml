@@ -41,6 +41,10 @@ spring:
       cluster-name: my-es
       repositories:
         enabled: true
+  http:
+    multipart:
+      max-file-size: 100Mb
+      max-request-size: 100Mb
 #  mvc:
 #    view:
 #      suffix: .html
@@ -54,9 +58,7 @@ logging:
 #      springframework:
 #        security: info
 debug: false
-#文件存储路径
-prop:
-  upload-folder: files/
+
 
 
 

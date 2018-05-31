@@ -10,6 +10,7 @@ import com.fyerp.admin.domain.Contract;
 import com.fyerp.admin.domain.Result;
 import com.fyerp.admin.service.ContractService;
 import com.fyerp.admin.utils.ResultUtil;
+import com.fyerp.admin.utils.UplaodFile;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -19,8 +20,12 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 合同API层
@@ -67,14 +72,36 @@ public class ContractController {
         return contractService.findOne(contractId);
     }
     /**
-     * 创建合同
+     * 上传合同文件
      * @return
      */
-    @ApiOperation(value = "创建合同", notes = "根据Contract对象创建合同")
+    @ApiOperation(value = "上传合同文件", notes = "根据File上传合同")
     @RequestMapping(value = "/add",method = RequestMethod.POST)
-    public Contract addContract(@RequestBody Contract contract) {
-        return contractService.save(contract);
+    public String addContract(@RequestParam("file") MultipartFile file,HttpServletRequest request) {
+        String contentType = file.getContentType();
+        String fileName = file.getOriginalFilename();
+        /*System.out.println("fileName-->" + fileName);
+        System.out.println("getContentType-->" + contentType);*/
+        String filePath = request.getSession().getServletContext().getRealPath("files/");
+        try {
+            UplaodFile.uploadFile(file.getBytes(), filePath, fileName);
+        } catch (Exception e) {
+            // TODO: handle exception
+        }
+        //返回json
+        return "uploadimg success";
     }
+
+    /**
+     * 下载合同
+     */
+    @ApiOperation(value = "下载合同", notes = "根据路径下载合同")
+    @GetMapping(value = "/download")
+    public void download(@RequestParam("合同id") String id) {
+
+    }
+
+
 
     /**
      * 更新一个合同

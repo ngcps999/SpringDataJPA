@@ -52,21 +52,15 @@ public class UserDTO {
     @JsonProperty("status")
     private Integer state;
 
-    /**
-     * 一个用户具有多个角色
-     */
-//    @NotEmpty
-    @JsonIgnore
-//    @JsonProperty("children")
-    @ManyToMany(cascade = {CascadeType.ALL})//立即从数据库中加载数据；
-    @JoinTable(name = "UserRole", joinColumns = {@JoinColumn(name = "userId")}, inverseJoinColumns = {@JoinColumn(name = "roleId")})
-    private List<Role> roles;
-
-    //    @JsonIgnore
-    @ManyToMany(cascade = {CascadeType.PERSIST,CascadeType.REFRESH},mappedBy = "users")
-//    @JoinTable(name = "DepartmentUser", joinColumns = {@JoinColumn(name = "userId")}, inverseJoinColumns = {@JoinColumn(name = "departmentId")})
-    @JsonProperty("children")
-    private List<DepartmentDTO> departments;
+//    /**
+//     * 一个用户具有多个角色
+//     */
+////    @NotEmpty
+//    @JsonIgnore
+////    @JsonProperty("children")
+//    @ManyToMany(cascade = {CascadeType.ALL})//立即从数据库中加载数据；
+//    @JoinTable(name = "UserRole", joinColumns = {@JoinColumn(name = "userId")}, inverseJoinColumns = {@JoinColumn(name = "roleId")})
+//    private List<Role> roles;
 
     @JsonIgnore
     @CreatedDate

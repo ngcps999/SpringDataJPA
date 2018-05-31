@@ -10,13 +10,9 @@
 
 package com.fyerp.admin.service.impl;
 
-import com.fyerp.admin.domain.Department;
 import com.fyerp.admin.domain.User;
-import com.fyerp.admin.domain.dto.DepartmentDTO;
 import com.fyerp.admin.domain.dto.UserDTO;
-import com.fyerp.admin.respository.DepartmentRespository;
 import com.fyerp.admin.respository.UserRespository;
-import com.fyerp.admin.service.DepartmentService;
 import com.fyerp.admin.service.UserService;
 import com.fyerp.admin.utils.BeanUtils;
 import com.fyerp.admin.utils.convert.User2UserDTOConverter;
@@ -26,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,9 +32,6 @@ import java.util.List;
  */
 @Service
 public class UserServiceImpl implements UserService {
-
-    @Autowired
-    private DepartmentService departmentService;
 
     @Autowired
     private UserRespository userRespository;
@@ -68,6 +62,14 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<User> findAll(List<Long> userIds) {
         return userRespository.findAll(userIds);
+    }
+
+    @Override
+    public List<UserDTO> findAllDTD(List<Long> userIds) {
+        List<User> users = userRespository.findAll(userIds);
+        List<UserDTO> userDTOS =new ArrayList<>();
+        BeanUtils.copyNotNullProperties(users,userDTOS);
+        return userDTOS;
     }
 
     @Override

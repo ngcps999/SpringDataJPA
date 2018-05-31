@@ -35,6 +35,7 @@ public interface RoleService {
      * @return
      */
     List<Role> findAll();
+    List<Role> findAll(List<Long> roleIds);
 
     List<Role> findAll(Sort sort);
     /**

@@ -36,8 +36,18 @@ public class Department {
     @Id
     @GeneratedValue
     private Long departmentId;
+
+    /**
+     * 部门名称
+     */
     @JsonProperty("name")
     private String depName;
+
+    /**
+     * 部门描述
+     */
+    @JsonProperty("description")
+    private String depDesc;
 
     @Transient
     @JsonProperty(defaultValue = "department")

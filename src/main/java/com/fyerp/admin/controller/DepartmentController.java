@@ -10,6 +10,7 @@ import com.fyerp.admin.domain.Department;
 import com.fyerp.admin.domain.Result;
 import com.fyerp.admin.domain.User;
 import com.fyerp.admin.domain.dto.DepartmentDTO;
+import com.fyerp.admin.domain.dto.UserDTO;
 import com.fyerp.admin.service.DepartmentService;
 import com.fyerp.admin.service.UserService;
 import com.fyerp.admin.utils.BeanUtils;
@@ -29,10 +30,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static com.fyerp.admin.utils.UpdateUtil.*;
 
@@ -84,15 +82,35 @@ public class DepartmentController {
 
         return departmentService.findOne(departmentId);
     }
+//
+//    @PostMapping("/addDepTest")
+//    public Department addDep(@RequestBody Department department) {
+//
+//        Department department1 = departmentService.findOne(department.getDepartmentId());
+//        UpdateUtil.copyNullProperties(department1,department);
+//
+//        return departmentService.save(department);
+//    }
+
+
+
 
     /**
      * 创建部门
      *
      * @return
      */
-    @ApiOperation(value = "创建部门", notes = "根据Task对象创建部门")
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public Department addDepartment(@RequestBody Department department) {
+    @ApiOperation(value = "添加部门", notes = "根据department对象属性创建部门")
+    @RequestMapping(value = "/addDep", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public Department addDepartment(@RequestParam(value = "name", required = true) String depName, @RequestParam(value = "description", required = false) String depDesc, @RequestParam(value = "userIds", required = true) List<Long> userIds) {
+        Department department = new Department();
+        department.setDepName(depName);
+        department.setDepDesc(depDesc);
+
+        List<User> users = userService.findAll(userIds);
+        Set<User> users1 = new HashSet<>(users);
+
+        department.setUsers(users1);
         return departmentService.save(department);
     }
 
@@ -101,23 +119,23 @@ public class DepartmentController {
      *
      * @return
      */
-    @ApiOperation(value = "更新部门", notes = "根据部门的id来更新部门")
-    @PutMapping(value = "/update")
-    public Department updateDepartment(@RequestParam("id") Long departmentId) {
-        Department source = departmentService.findOne(departmentId);
-        Department department = new Department();
-        BeanUtils.copyNotNullProperties(source, department);
-        return departmentService.saveAndFlush(department);
-    }
+//    @ApiOperation(value = "更新部门", notes = "根据部门的id来更新部门")
+//    @PutMapping(value = "/update")
+//    public Department updateDepartment(@RequestParam("id") Long departmentId) {
+//        Department source = departmentService.findOne(departmentId);
+//        Department department = new Department();
+//        BeanUtils.copyNotNullProperties(source, department);
+//        return departmentService.saveAndFlush(department);
+//    }
 
     /**
      * 更新部门的员工
      *
      * @return
      */
-    @ApiOperation(value = "更新部门员工", notes = "根据部门的id来更新部门员工")
-    @PutMapping(value = "/updateDepartmentUsers")
-    public Department updateDepartmentUsers(@RequestParam(value = "departmentId",required = true) Long departmentId, @RequestParam(value = "userId",required = true) List<Long> userIds){
+    @ApiOperation(value = "更新部门的员工", notes = "根据部门的id来更新部门的员工")
+    @PutMapping(value = "/updateUsers")
+    public Department updateDepartmentUsers(@RequestParam(value = "departmentId", required = true) Long departmentId, @RequestParam(value = "userId", required = true) List<Long> userIds) {
         Department department = departmentService.findOne(departmentId);
         List<User> users = userService.findAll(userIds);
         Set<User> departmentUsers = department.getUsers();
@@ -127,7 +145,6 @@ public class DepartmentController {
             }
             departmentUsers.add(user);
         }
-
         try {
             departmentService.save(department);
         } catch (Exception e) {
@@ -135,6 +152,90 @@ public class DepartmentController {
         }
         return department;
     }
+
+//    /**
+//     * 更新部门的员工
+//     *
+//     * @return
+//     */
+//    @ApiOperation(value = "更新部门的员工", notes = "根据部门的id来更新部门的员工")
+//    @PutMapping(value = "/updateUsersTest")
+//    public Department updateDepartmentUsersTest(@RequestBody Department department) {
+//        Department department1 = departmentService.findOne(department.getDepartmentId());
+//        UpdateUtil.copyNullProperties(department1,department);
+//        List<Long> userIds =new ArrayList<>();
+//        for (User user : department.getUsers()) {
+//            Long userId = user.getUserId();
+//            userIds.add(userId);
+//        }
+//        List<User> users = userService.findAll(userIds);
+//        Set<User> departmentUsers = department.getUsers();
+//        for (User user : users) {
+//            if (departmentUsers.contains(user)) {
+//                continue;
+//            }
+//            departmentUsers.add(user);
+//        }
+//        try {
+//            departmentService.save(department);
+//        } catch (Exception e) {
+//            throw new RuntimeException("update fail!");
+//        }
+//        return department;
+//    }
+
+    /**
+     * 删除部门的员工
+     *
+     * @return
+     */
+    @ApiOperation(value = "删除部门员工", notes = "根据部门的id来添加部门员工")
+    @PutMapping(value = "/deleteUsers")
+    public Department deleteDepartmentUsers(@RequestParam(value = "departmentId", required = true) Long departmentId, @RequestParam(value = "userId", required = true) List<Long> userIds) {
+        Department department = departmentService.findOne(departmentId);
+        List<User> users = userService.findAll(userIds);
+        Set<User> departmentUsers = department.getUsers();
+        for (User user : users) {
+            if (departmentUsers.contains(user)) {
+                departmentUsers.remove(user);
+            }
+        }
+        try {
+            departmentService.save(department);
+        } catch (Exception e) {
+            throw new RuntimeException("update fail!");
+        }
+        return department;
+    }
+
+//    @ApiOperation(value = "更新部门员工", notes = "根据部门的id来更新部门员工")
+//    @PutMapping(value = "/updateTest")
+//    public Department updateDepartmentUsersTest(@RequestBody Department department) {
+//        Department department1 = departmentService.findOne(department.getDepartmentId());
+//        List<Long> userIds = new ArrayList<>();
+//        Set<User> userList = department.getUsers();
+//        for (User user : userList) {
+//            if (user.getUserId() == 0) {
+//                User user1 = userService.save(user);
+//                userList.add(user1);
+//            }
+//            userIds.add(user.getUserId());
+//        }
+//
+//        List<User> users = userService.findAll(userIds);
+//        Set<User> departmentUsers = department1.getUsers();
+//        for (User user : users) {
+//            if (departmentUsers.contains(user)) {
+//                continue;
+//            }
+//            departmentUsers.add(user);
+//        }
+//        try {
+//            return departmentService.save(department1);
+//        } catch (Exception e) {
+//            throw new RuntimeException("update fail!");
+//        }
+//    }
 
     /**
      * 删除部门

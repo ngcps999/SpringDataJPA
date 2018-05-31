@@ -6,6 +6,8 @@
 
 package com.fyerp.admin.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fyerp.admin.domain.User;
 import com.fyerp.admin.respository.UserRespository;
@@ -15,29 +17,49 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.io.Serializable;
+import java.util.*;
 
 
 @Data
-public class DepartmentDTO {
+public class DepartmentDTO implements Serializable {
 
+    @JsonProperty(value = "id")
     @Id
-    @JsonProperty("id")
+    @GeneratedValue
     private Long departmentId;
 
+    /**
+     * 部门名称
+     */
+    @JsonProperty("name")
     private String depName;
 
+    /**
+     * 部门描述
+     */
+    @JsonProperty("description")
+    private String depDesc;
+
     @Transient
-    @JsonProperty(value = "type",defaultValue = "department")
+    @JsonProperty(defaultValue = "department")
     @ApiModelProperty(allowableValues = "department")
-    private String type;
+    private String type = "department";
 
-    @JsonProperty("children")
-    @ManyToMany(cascade = {CascadeType.ALL},fetch = FetchType.EAGER)//立即从数据库中加载数据；
-    @JoinTable(name = "DepartmentUser", joinColumns = {@JoinColumn(name = "departmentId")}, inverseJoinColumns = {@JoinColumn(name = "userId")})
-    private List<User> users;
+    @CreatedDate
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+    @JsonProperty("creationDate")
+    private Date createTime;
 
+    @LastModifiedDate
+    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+    @JsonProperty("updatedDate")
+    private Date updateTime;
+
+    public DepartmentDTO() {
+    }
 }

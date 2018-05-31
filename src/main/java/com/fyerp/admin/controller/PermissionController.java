@@ -9,7 +9,9 @@ package com.fyerp.admin.controller;
 import com.fyerp.admin.domain.Permission;
 import com.fyerp.admin.domain.Result;
 import com.fyerp.admin.service.PermissionService;
+import com.fyerp.admin.utils.BeanUtils;
 import com.fyerp.admin.utils.ResultUtil;
+import com.fyerp.admin.utils.UpdateUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -71,7 +73,10 @@ public class PermissionController {
     @ApiOperation(value = "创建权限", notes = "根据permission对象创建权限")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public Permission addPermission(@RequestBody Permission permission) {
-
+        if (permission.getPermissionId()!=0) {
+            Permission permission1 = permissionService.findOne(permission.getPermissionId());
+            UpdateUtil.copyNullProperties(permission1, permission);
+        }
         return permissionService.save(permission);
     }
 

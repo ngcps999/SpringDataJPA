@@ -33,6 +33,7 @@ public interface PermissionService  {
      * @return
      */
     List<Permission> findAll();
+    List<Permission> findAll(List<Long> permissionIds);
     List<Permission> findAll(Sort sort);
 
     /**
