@@ -7,9 +7,11 @@
 package com.fyerp.admin.controller;
 
 import com.fyerp.admin.domain.Plan;
+import com.fyerp.admin.domain.Project;
 import com.fyerp.admin.domain.Result;
 import com.fyerp.admin.domain.Task;
 import com.fyerp.admin.service.PlanService;
+import com.fyerp.admin.service.ProjectService;
 import com.fyerp.admin.service.TaskService;
 import com.fyerp.admin.utils.ResultUtil;
 import io.swagger.annotations.Api;
@@ -34,6 +36,8 @@ public class TaskController {
 
     private final static Logger logger = LoggerFactory.getLogger(TaskController.class);
 
+    @Autowired
+    private ProjectService projectService;
     @Autowired
     private TaskService taskService;
 
@@ -82,10 +86,10 @@ public class TaskController {
      */
     @ApiOperation(value = "添加/更新任务", notes = "根据Task对象属性创建/更新任务")
     @RequestMapping(value = "/addProject", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-    public Task addTask(@RequestParam Task task1,
-                              @RequestParam("ids") List<Integer> planIds) {
+    public Task addTask(@RequestParam("taskName") String taskName,
+                        @RequestParam("ids") List<Integer> planIds) {
         Task task = new Task();
-
+        task.setTaskName(taskName);
         List<Plan> plans = planService.findAll(planIds);
         Set<Plan> plans1 = new HashSet<>(plans);
 

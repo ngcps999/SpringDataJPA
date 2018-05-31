@@ -25,6 +25,7 @@ public interface TaskService {
     List<Task> findAll(Sort sort);
 
     Task save(Task task);
+    List<Task> save(List<Task> tasks);
 
     void delete(Long taskId);
 

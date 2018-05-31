@@ -53,6 +53,11 @@ public class TaskServiceImpl implements TaskService {
     public Task save(Task task) {
         return taskRespository.save(task);
     }
+    @Override
+    public List<Task> save(List<Task> tasks) {
+        return taskRespository.save(tasks);
+    }
+
 
     @Override
     public void delete(Long taskId) {

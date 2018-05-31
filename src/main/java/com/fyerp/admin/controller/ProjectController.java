@@ -16,6 +16,7 @@ import com.fyerp.admin.domain.vo.ProjectVO;
 import com.fyerp.admin.service.ProjectCategoryService;
 import com.fyerp.admin.service.ProjectService;
 import com.fyerp.admin.service.TaskService;
+import com.fyerp.admin.utils.BeanUtils;
 import com.fyerp.admin.utils.ResultUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -67,7 +68,7 @@ public class ProjectController {
         logger.info("findOneProject");
         try {
             return projectService.findOne(id);
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException("项目不存在");
         }
     }
@@ -146,35 +147,33 @@ public class ProjectController {
         return (Project) projectService.findProjectsByProjectState(projectState);
     }
 
-    /**
-     * 创建/更新项目
-     *
-     * @return
-     */
-    @ApiOperation(value = "添加/更新项目", notes = "根据Project对象属性创建/更新项目")
-    @RequestMapping(value = "/addProject", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-    public Project addProject(@RequestParam Project project1,
-                              @RequestParam("ids") List<Long> taskIds) {
-        Project project = new Project();
-        project.setMap(project1.getMap());
-        project.setFlyPlatform(project1.getFlyPlatform());
-
-        List<Task> tasks = taskService.findAll(taskIds);
-        Set<Task> tasks1 = new HashSet<>(tasks);
-
-        project.setTasks(tasks1);
-        return projectService.save(project);
-    }
+//    /**
+//     * 创建/更新项目
+//     *
+//     * @return
+//     */
+//    @ApiOperation(value = "添加/更新项目", notes = "根据Project对象属性创建/更新项目")
+//    @RequestMapping(value = "/addProject", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+//    public Project addProject(@RequestParam("projectName") String projectName,
+//                              @RequestParam("ids") List<Long> taskIds) {
+//        Project project = new Project();
+//        project.setProjectName(projectName);
+//
+//        List<Task> tasks = taskService.findAll(taskIds);
+//
+//        project.setTasks(new HashSet<>(tasks));
+//        return projectService.save(project);
+//    }
 
     /**
      * 更新项目下的任务
      *
      * @return
      */
-    @ApiOperation(value = "更新项目类型下的任务", notes = "更新项目类型下的任务")
+    @ApiOperation(value = "添加项目下的任务", notes = "添加项目下的任务")
     @PutMapping(value = "/updateTasks")
     public Project updateTasks(@RequestParam("id") Integer projectId,
-                              @RequestParam("ids") List<Long> taskIds) {
+                               @RequestParam("ids") List<Long> taskIds) {
         Project project = projectService.findOne(projectId);
         List<Task> tasks = taskService.findAll(taskIds);
         Set<Task> projectTasks = project.getTasks();
@@ -190,6 +189,30 @@ public class ProjectController {
             throw new RuntimeException("update fail!");
         }
         return project;
+    }
+
+    /**
+     * 添加项目下的新任务
+     *
+     * @return
+     */
+    @ApiOperation(value = "添加项目下的新任务", notes = "添加项目下的新任务")
+    @PutMapping(value = "/addProjectTasks")
+    public Project addProjectTasks(@RequestParam("projectName") String projectName,
+                                   @RequestBody List<Task> tasks) {
+        Project project = new Project();
+        project.setProjectName(projectName);
+
+        List<Task> save = taskService.save(tasks);
+
+        List<Task> tasks1 = new ArrayList<>();
+        for (Task task : save) {
+            tasks1.add(task);
+        }
+
+        Set<Task> tasks2 = new HashSet<>(tasks1);
+        project.setTasks(tasks2);
+        return projectService.save(project);
     }
 
     /**
