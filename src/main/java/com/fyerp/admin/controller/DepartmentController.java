@@ -82,25 +82,13 @@ public class DepartmentController {
 
         return departmentService.findOne(departmentId);
     }
-//
-//    @PostMapping("/addDepTest")
-//    public Department addDep(@RequestBody Department department) {
-//
-//        Department department1 = departmentService.findOne(department.getDepartmentId());
-//        UpdateUtil.copyNullProperties(department1,department);
-//
-//        return departmentService.save(department);
-//    }
-
-
-
 
     /**
-     * 创建部门
+     * 创建/更新部门
      *
      * @return
      */
-    @ApiOperation(value = "添加部门", notes = "根据department对象属性创建部门")
+    @ApiOperation(value = "添加/更新部门", notes = "根据department对象属性创建部门")
     @RequestMapping(value = "/addDep", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     public Department addDepartment(@RequestParam(value = "name", required = true) String depName, @RequestParam(value = "description", required = false) String depDesc, @RequestParam(value = "userIds", required = true) List<Long> userIds) {
         Department department = new Department();
@@ -113,20 +101,6 @@ public class DepartmentController {
         department.setUsers(users1);
         return departmentService.save(department);
     }
-
-    /**
-     * 更新部门
-     *
-     * @return
-     */
-//    @ApiOperation(value = "更新部门", notes = "根据部门的id来更新部门")
-//    @PutMapping(value = "/update")
-//    public Department updateDepartment(@RequestParam("id") Long departmentId) {
-//        Department source = departmentService.findOne(departmentId);
-//        Department department = new Department();
-//        BeanUtils.copyNotNullProperties(source, department);
-//        return departmentService.saveAndFlush(department);
-//    }
 
     /**
      * 更新部门的员工
@@ -153,37 +127,6 @@ public class DepartmentController {
         return department;
     }
 
-//    /**
-//     * 更新部门的员工
-//     *
-//     * @return
-//     */
-//    @ApiOperation(value = "更新部门的员工", notes = "根据部门的id来更新部门的员工")
-//    @PutMapping(value = "/updateUsersTest")
-//    public Department updateDepartmentUsersTest(@RequestBody Department department) {
-//        Department department1 = departmentService.findOne(department.getDepartmentId());
-//        UpdateUtil.copyNullProperties(department1,department);
-//        List<Long> userIds =new ArrayList<>();
-//        for (User user : department.getUsers()) {
-//            Long userId = user.getUserId();
-//            userIds.add(userId);
-//        }
-//        List<User> users = userService.findAll(userIds);
-//        Set<User> departmentUsers = department.getUsers();
-//        for (User user : users) {
-//            if (departmentUsers.contains(user)) {
-//                continue;
-//            }
-//            departmentUsers.add(user);
-//        }
-//        try {
-//            departmentService.save(department);
-//        } catch (Exception e) {
-//            throw new RuntimeException("update fail!");
-//        }
-//        return department;
-//    }
-
     /**
      * 删除部门的员工
      *
@@ -207,35 +150,6 @@ public class DepartmentController {
         }
         return department;
     }
-
-//    @ApiOperation(value = "更新部门员工", notes = "根据部门的id来更新部门员工")
-//    @PutMapping(value = "/updateTest")
-//    public Department updateDepartmentUsersTest(@RequestBody Department department) {
-//        Department department1 = departmentService.findOne(department.getDepartmentId());
-//        List<Long> userIds = new ArrayList<>();
-//        Set<User> userList = department.getUsers();
-//        for (User user : userList) {
-//            if (user.getUserId() == 0) {
-//                User user1 = userService.save(user);
-//                userList.add(user1);
-//            }
-//            userIds.add(user.getUserId());
-//        }
-//
-//        List<User> users = userService.findAll(userIds);
-//        Set<User> departmentUsers = department1.getUsers();
-//        for (User user : users) {
-//            if (departmentUsers.contains(user)) {
-//                continue;
-//            }
-//            departmentUsers.add(user);
-//        }
-//        try {
-//            return departmentService.save(department1);
-//        } catch (Exception e) {
-//            throw new RuntimeException("update fail!");
-//        }
-//    }
 
     /**
      * 删除部门

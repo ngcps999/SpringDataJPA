@@ -66,18 +66,14 @@ public class Task {
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date taskPlanEndDate;
 
-    @JsonIgnore
-    @ManyToOne(targetEntity = Project.class, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    @JoinColumn(name = "projectId")
-    private Project project;
 
     /**
      * 计划
      */
-    @OneToMany(cascade = {CascadeType.ALL},fetch = FetchType.EAGER)
+    @OneToMany(targetEntity = Plan.class,cascade = {CascadeType.MERGE},fetch = FetchType.EAGER)
     @JoinColumn(name = "taskId")
     @JsonProperty(value = "children")
-    private List<Plan> plans;
+    private Set<Plan> plans = new HashSet<>();
 
 
     /**

@@ -71,15 +71,10 @@ public class Plan {
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     private Date realEndDate;
 
-    @JsonIgnore
-    @ManyToOne(targetEntity = Task.class, cascade = {CascadeType.ALL},fetch = FetchType.EAGER)
-    @JoinColumn(name = "taskId")
-    private Task task;
-
-    @JsonIgnore
-    @OneToOne
-    @JoinColumn(name = "departmentId")
-    private Department department;
+//    @JsonIgnore
+//    @ManyToOne(targetEntity = Task.class, cascade = {CascadeType.ALL},fetch = FetchType.EAGER)
+//    @JoinColumn(name = "taskId")
+//    private Task task;
 
     @CreatedDate
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")

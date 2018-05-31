@@ -6,8 +6,10 @@
 
 package com.fyerp.admin.controller;
 
+import com.fyerp.admin.domain.Plan;
 import com.fyerp.admin.domain.Result;
 import com.fyerp.admin.domain.Task;
+import com.fyerp.admin.service.PlanService;
 import com.fyerp.admin.service.TaskService;
 import com.fyerp.admin.utils.ResultUtil;
 import io.swagger.annotations.Api;
@@ -20,7 +22,9 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping(value = "/task")
@@ -32,6 +36,9 @@ public class TaskController {
 
     @Autowired
     private TaskService taskService;
+
+    @Autowired
+    private PlanService planService;
 
     /**
      * 查询任务列表
@@ -61,32 +68,80 @@ public class TaskController {
     @GetMapping(value = "/find")
     public Task findOneTask(@RequestParam("id") Long id) {
         logger.info("findOneTask");
-        return taskService.findOne(id);
+        try {
+            return taskService.findOne(id);
+        }catch (Exception e){
+            throw new RuntimeException("任务不存在");
+        }
     }
 
     /**
-     * 创建任务
+     * 创建/更新任务
+     *
      * @return
      */
-    @ApiOperation(value = "创建任务", notes = "根据Task对象创建任务")
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public Task addTask(@RequestBody Task task) {
+    @ApiOperation(value = "添加/更新任务", notes = "根据Task对象属性创建/更新任务")
+    @RequestMapping(value = "/addProject", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public Task addTask(@RequestParam Task task1,
+                              @RequestParam("ids") List<Integer> planIds) {
+        Task task = new Task();
+
+        List<Plan> plans = planService.findAll(planIds);
+        Set<Plan> plans1 = new HashSet<>(plans);
+
+        task.setPlans(plans1);
         return taskService.save(task);
     }
 
     /**
-     * 更新任务
+     * 更新任务下的计划
+     *
      * @return
      */
-    @ApiOperation(value = "更新任务", notes = "根据任务的id来更新任务")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "id", value = "项目ID", required = true, dataType = "Integer", paramType = "path"),
-//            @ApiImplicitParam(name = "project", value = "项目实体project", required = true, dataType = "Project")
-//    })
-    @PutMapping(value = "/update")
-    public Task updateTask(@RequestBody Task task) {
+    @ApiOperation(value = "更新任务下的计划", notes = "更新任务下的计划")
+    @PutMapping(value = "/updatePlans")
+    public Task updatePlans(@RequestParam("id") Long taskId,
+                               @RequestParam("ids") List<Integer> planIds) {
+        Task task = taskService.findOne(taskId);
+        List<Plan> plans = planService.findAll(planIds);
+        Set<Plan> taskPlans = task.getPlans();
+        for (Plan plan : plans) {
+            if (taskPlans.contains(plan)) {
+                continue;
+            }
+            taskPlans.add(plan);
+        }
+        try {
+            taskService.save(task);
+        } catch (Exception e) {
+            throw new RuntimeException("update fail!");
+        }
+        return task;
+    }
 
-        return taskService.save(task);
+    /**
+     * 删除任务里的计划
+     *
+     * @return
+     */
+    @ApiOperation(value = "删除任务里的计划", notes = "删除任务里的计划")
+    @PutMapping(value = "/deleteProjects")
+    public Task deletePlans(@RequestParam("id") Long taskId,
+                            @RequestParam("ids") List<Integer> planIds) {
+        Task task = taskService.findOne(taskId);
+        List<Plan> plans = planService.findAll(planIds);
+        Set<Plan> taskPlans = task.getPlans();
+        for (Plan plan : plans) {
+            if (taskPlans.contains(plan)) {
+                taskPlans.remove(plan);
+            }
+        }
+        try {
+            taskService.save(task);
+        } catch (Exception e) {
+            throw new RuntimeException("update fail!");
+        }
+        return task;
     }
 
     /**

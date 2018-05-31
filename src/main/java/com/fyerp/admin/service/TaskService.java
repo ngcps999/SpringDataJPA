@@ -20,6 +20,7 @@ public interface TaskService {
     Page<Task> findAll(Pageable pageable);
 
     List<Task> findAll();
+    List<Task> findAll(List<Long> taskIds);
 
     List<Task> findAll(Sort sort);
 

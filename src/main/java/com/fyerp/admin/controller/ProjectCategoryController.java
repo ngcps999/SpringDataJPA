@@ -6,9 +6,11 @@
 
 package com.fyerp.admin.controller;
 
+import com.fyerp.admin.domain.Project;
 import com.fyerp.admin.domain.ProjectCategory;
 import com.fyerp.admin.domain.Result;
 import com.fyerp.admin.service.ProjectCategoryService;
+import com.fyerp.admin.service.ProjectService;
 import com.fyerp.admin.utils.ResultUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -22,11 +24,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("projectCategory")
-@Api(value = "projectCategoryController",description = "项目分类Api")
+@Api(value = "projectCategoryController", description = "项目分类Api")
 @Scope("prototype")
 public class ProjectCategoryController {
 
@@ -35,20 +39,23 @@ public class ProjectCategoryController {
     @Autowired
     private ProjectCategoryService categoryService;
 
+    @Autowired
+    private ProjectService projectService;
+
 
     /**
-     * 查询单个项目分类
+     * 查询单个项目类型
      *
      * @return
      */
-    @ApiOperation(value = "查询单个项目分类", notes = "查询单个项目分类")
-//    @GetMapping(value = "/findOneCategory/{id}")
-    public ProjectCategory findOneProjectCategory(@PathVariable("id") Integer categoryid) {
+    @ApiOperation(value = "查询单个项目类型", notes = "查询单个项目类型")
+    @GetMapping(value = "/find")
+    public ProjectCategory findOneProjectCategory(@RequestParam("id") Integer categoryid) {
         logger.info("findOneProject项目分类");
-        if (categoryid != null) {
+        try {
             return categoryService.findOne(categoryid);
-        } else {
-            throw new RuntimeException("项目分类为空");
+        } catch (Exception e){
+            throw new RuntimeException("项目分类不存在！");
         }
     }
 
@@ -60,9 +67,9 @@ public class ProjectCategoryController {
     @ApiOperation(value = "查询项目分类列表", notes = "查询项目分类列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public Object getProjectCategorys(@RequestParam(value = "page", required = false) Integer page,
-                                                     @RequestParam(value = "size", required = false) Integer size,
-                                                     @RequestParam(value = "sortBy", required = false, defaultValue = "createTime") String sortParam,
-                                                     @RequestParam(value = "order", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) {
+                                      @RequestParam(value = "size", required = false) Integer size,
+                                      @RequestParam(value = "sortBy", required = false, defaultValue = "createTime") String sortParam,
+                                      @RequestParam(value = "order", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) {
         Sort sort = new Sort(descOrAsc, sortParam);
         if (page == null && size == null) {
             return categoryService.findAll(sort);
@@ -73,27 +80,73 @@ public class ProjectCategoryController {
     }
 
     /**
-     * 按项目类目编号查询
+     * 创建/更新项目类型
      *
      * @return
      */
-    @ApiOperation(value = "按项目类目编号查询", notes = "按项目类目编号查询")
-    @GetMapping(value = "/find")
-    public ProjectCategory findByCategoryType(@RequestParam("id") Integer categoryId) {
-        return categoryService.findOne(categoryId);
-    }
+    @ApiOperation(value = "添加/更新项目类型", notes = "根据ProjectCategory对象属性创建项目类型")
+    @RequestMapping(value = "/addProjectCategory", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public ProjectCategory addProjectCategory(@RequestParam(value = "name", required = true) String categoryName,
+                                              @RequestParam(value = "description", required = false) String categoryDesc,
+                                              @RequestParam(value = "projectIds", required = true) List<Integer> projectIds) {
+        ProjectCategory projectCategory = new ProjectCategory();
+        projectCategory.setCategoryName(categoryName);
+        projectCategory.setCategoryDesc(categoryDesc);
 
-    @ApiOperation(value = "创建项目分类", notes = "根据Project对象创建项目分类")
-    @PostMapping(value = "/add")
-//    @ApiImplicitParams(@ApiImplicitParam(paramType = "query", dataType = "String", name = "type", value = "类名", defaultValue = "ProjectCategory",required = true))
-    public ProjectCategory addProjectCategory(@RequestBody ProjectCategory projectCategory) {
+        List<Project> projects = projectService.findAll(projectIds);
+        Set<Project> projects1 = new HashSet<>(projects);
+
+        projectCategory.setProjects(projects1);
         return categoryService.save(projectCategory);
     }
 
-    @ApiOperation(value = "更新项目分类", notes = "根据项目分类的id来更新项目分类信息")
-    @PutMapping(value = "/update")
-    public ProjectCategory updateProjectCategory(@RequestBody ProjectCategory projectCategory) {
-        return categoryService.save(projectCategory);
+    /**
+     * 更新项目类型下的项目
+     *
+     * @return
+     */
+    @ApiOperation(value = "更新项目类型下的项目", notes = "更新项目类型下的项目")
+    @PutMapping(value = "/updateProjectCategoryProjects")
+    public ProjectCategory updateProjectCategoryProjects(@RequestParam(value = "projectCategoryId", required = true) Integer projectCategoryId, @RequestParam(value = "projectIds", required = true) List<Integer> projectIds) {
+        ProjectCategory projectCategory = categoryService.findOne(projectCategoryId);
+        List<Project> projects = projectService.findAll(projectIds);
+        Set<Project> projectCatProjects = projectCategory.getProjects();
+        for (Project project : projects) {
+            if (projectCatProjects.contains(project)) {
+                continue;
+            }
+            projectCatProjects.add(project);
+        }
+        try {
+            categoryService.save(projectCategory);
+        } catch (Exception e) {
+            throw new RuntimeException("update fail!");
+        }
+        return projectCategory;
+    }
+
+    /**
+     * 删除项目类型下的项目
+     *
+     * @return
+     */
+    @ApiOperation(value = "删除项目类型下的项目", notes = "删除项目类型下的项目")
+    @PutMapping(value = "/deleteProjectCategoryProjects")
+    public ProjectCategory deleteProjectCategoryProjects(@RequestParam(value = "projectCategoryId", required = true) Integer projectCategoryId, @RequestParam(value = "projectIds", required = true) List<Integer> projectIds) {
+        ProjectCategory projectCategory = categoryService.findOne(projectCategoryId);
+        List<Project> projects = projectService.findAll(projectIds);
+        Set<Project> projectCatProjects = projectCategory.getProjects();
+        for (Project project : projects) {
+            if (projectCatProjects.contains(project)) {
+                projectCatProjects.remove(project);
+            }
+        }
+        try {
+            categoryService.save(projectCategory);
+        } catch (Exception e) {
+            throw new RuntimeException("update fail!");
+        }
+        return projectCategory;
     }
 
     /**
@@ -105,6 +158,10 @@ public class ProjectCategoryController {
     @ApiImplicitParam(name = "id", value = "项目分类ID", required = true, dataType = "Integer", paramType = "path")
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public void deleteProjectCategory(@RequestParam("id") Integer categoryId) {
-        categoryService.delete(categoryId);
+        try {
+            categoryService.delete(categoryId);
+        }catch (Exception e) {
+            throw new RuntimeException("项目分类下有项目，请先删除关联项目");
+        }
     }
 }

@@ -39,6 +39,12 @@ public class PlanServiceImpl implements PlanService {
     }
 
     @Override
+    public List<Plan> findAll(List<Integer> planIds) {
+        return planRespository.findAll(planIds);
+    }
+
+
+    @Override
     public List<Plan> findAll(Sort sort) {
         return planRespository.findAll(sort);
     }

@@ -48,6 +48,7 @@ public interface ProjectService {
      * @return
      */
     List<Project> findAll();
+    List<Project> findAll(List<Integer> projectIds);
 
     List<Project> findAll(Sort sort);
 

@@ -21,7 +21,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @EntityListeners(AuditingEntityListener.class)
@@ -44,15 +46,21 @@ public class ProjectCategory {
     @JsonProperty("name")
     private String categoryName;
 
+    /**
+     * 类目描述
+     */
+    @JsonProperty("description")
+    private String categoryDesc;
+
     @Transient
     @JsonProperty(defaultValue = "projectCategory")
     @ApiModelProperty(allowableValues = "projectCategory")
     private String type = "projectCategory";
 
-    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @OneToMany(targetEntity = Project.class,cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinColumn(name = "categoryId")
     @JsonProperty(value = "children")
-    private List<Project> projects;
+    private Set<Project> projects =new HashSet<>();
 
     @CreatedDate
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")

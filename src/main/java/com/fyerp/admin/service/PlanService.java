@@ -20,6 +20,7 @@ public interface PlanService {
     Page<Plan> findAll(Pageable pageable);
 
     List<Plan> findAll();
+    List<Plan> findAll(List<Integer> planIds);
     List<Plan> findAll(Sort sort);
 
     Plan save(Plan plan);

@@ -40,6 +40,11 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
+    public List<Task> findAll(List<Long> taskIds) {
+        return taskRespository.findAll(taskIds);
+    }
+
+    @Override
     public List<Task> findAll(Sort sort) {
         return taskRespository.findAll(sort);
     }

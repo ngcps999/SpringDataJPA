@@ -186,14 +186,9 @@ public class Project {
      * 任务
      */
     @JsonProperty(value = "children")
-    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @OneToMany(targetEntity = Task.class,cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
     @JoinColumn(name = "projectId")
-    private List<Task> tasks;
-
-    @JsonIgnore
-    @ManyToOne(targetEntity = ProjectCategory.class, cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
-    @JoinColumn(name = "categoryId")
-    private ProjectCategory projectCategory;
+    private Set<Task> tasks = new HashSet<>();
 
     /**
      * 创建时间

@@ -53,6 +53,11 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    public List<Project> findAll(List<Integer> projectIds) {
+        return respository.findAll(projectIds);
+    }
+
+    @Override
     public List<Project> findAll(Sort sort) {
         return respository.findAll(sort);
     }
