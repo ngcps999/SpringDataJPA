@@ -91,7 +91,7 @@ public class RoleController {
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public Role addRole(@RequestParam(value = "role", required = true) String role,
                         @RequestParam(value = "description", required = false) String description,
-                        @RequestParam(value = "permissionIds",required = true) List<Long> permissionIds) {
+                        @RequestParam(value = "permissionIds", required = true) List<Long> permissionIds) {
         Role role1 = new Role();
         role1.setRole(role);
         role1.setDescription(description);
@@ -113,6 +113,7 @@ public class RoleController {
 //
 //        return roleService.save(role);
 //    }
+
     /**
      * 更新角色
      *
@@ -120,8 +121,8 @@ public class RoleController {
      */
     @ApiOperation(value = "更新角色关联的权限", notes = "根据角色的id来更新权限")
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
-    public Role updateRolePermissions(@RequestParam(value = "roleId",required = true) Long roleId,
-                                @RequestParam(value = "permissionIds",required = true) List<Long> permissionIds) {
+    public Role updateRolePermissions(@RequestParam(value = "roleId", required = true) Long roleId,
+                                      @RequestParam(value = "permissionIds", required = true) List<Long> permissionIds) {
         Role role = roleService.findOne(roleId);
         List<Permission> permissions = permissionService.findAll(permissionIds);
         Set<Permission> rolePermissions = role.getPermissions();
@@ -146,8 +147,8 @@ public class RoleController {
      */
     @ApiOperation(value = "删除角色关联的权限", notes = "根据角色的id来删除权限")
     @RequestMapping(value = "/deletePermissions", method = RequestMethod.PUT)
-    public Role deleteRolePermissions(@RequestParam(value = "roleId",required = true) Long roleId,
-                                      @RequestParam(value = "permissionIds",required = true) List<Long> permissionIds) {
+    public Role deleteRolePermissions(@RequestParam(value = "roleId", required = true) Long roleId,
+                                      @RequestParam(value = "permissionIds", required = true) List<Long> permissionIds) {
         Role role = roleService.findOne(roleId);
         List<Permission> permissions = permissionService.findAll(permissionIds);
         Set<Permission> rolePermissions = role.getPermissions();

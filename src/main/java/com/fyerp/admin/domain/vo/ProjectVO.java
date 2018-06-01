@@ -26,12 +26,12 @@ import java.util.Set;
 @Data
 public class ProjectVO {
 
+
     /**
      * 项目id
      */
     @Id
-    @GeneratedValue
-    @JsonProperty("id")
+    @JsonProperty(value = "id")
     private Integer projectId;
 
     /**
@@ -40,37 +40,38 @@ public class ProjectVO {
     @JsonProperty("name")
     private String projectName;
 
-    @Transient
-    @ApiModelProperty(name = "Project",value = "Project",allowableValues = "Project")
-    @JsonProperty(index = 0,defaultValue = "Project",value = "Project")
-    private String type = this.getClass().getName();
+//    @Transient
+//    @JsonProperty(defaultValue = "project")
+//    @ApiModelProperty(allowableValues = "project")
+//    private String type = "project";
+
 
     /**
      * 项目计划开始时间
      */
 //    @DateTimeFormat(pattern="yyyy-MM-dd")
-    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date planStartDate;
 
     /**
      * 项目计划完成时间
      */
 //    @DateTimeFormat(pattern="yyyy-MM-dd")
-    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date planEndDate;
 
     /**
      * 项目实际开始时间
      */
 //    @DateTimeFormat(pattern="yyyy-MM-dd")
-    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date realStartDate;
 
     /**
      * 项目实际完成时间
      */
 //    @DateTimeFormat(pattern="yyyy-MM-dd")
-    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date realEndDate;
 
 //    /**
@@ -162,23 +163,19 @@ public class ProjectVO {
 //    @JoinColumn(name = "projectId")
 //    private Set<Department> departments = new HashSet<>();
 
-    /**
-     * 任务
-     */
-    @OneToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    @JoinColumn(name = "projectId")
-    private Set<Task> children = new HashSet<>();
-
-    @JsonIgnore
-    @ManyToOne(targetEntity = ProjectCategory.class, cascade = CascadeType.ALL,fetch = FetchType.EAGER)
-    @JoinColumn(name = "categoryId")
-    private ProjectCategory projectCategory;
+//    /**
+//     * 任务
+//     */
+//    @JsonProperty(value = "children")
+//    @OneToMany(targetEntity = Task.class,cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
+//    @JoinColumn(name = "projectId")
+//    private Set<Task> tasks = new HashSet<>();
 
     /**
      * 创建时间
      */
     @CreatedDate
-    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @JsonProperty("creationDate")
     private Date createTime;
 
@@ -186,9 +183,11 @@ public class ProjectVO {
      * 更新时间
      */
     @LastModifiedDate
-    @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @JsonProperty("updatedDate")
     private Date updateTime;
 
+    public ProjectVO() {
+    }
 
 }

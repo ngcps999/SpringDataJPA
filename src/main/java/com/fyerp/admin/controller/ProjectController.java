@@ -136,6 +136,17 @@ public class ProjectController {
 
 
     /**
+     * 统计项目数量
+     * @param
+     * @return
+     */
+    @ApiOperation(value = "统计项目数量", notes = "统计项目数量")
+    @RequestMapping(value = "/count", method = RequestMethod.GET)
+    public Integer getCount() {
+        List<Project> all = projectService.findAll();
+        return all.size();
+    }
+    /**
      * 按状态查询项目
      *
      * @return
@@ -166,78 +177,53 @@ public class ProjectController {
 //    }
 
     /**
-     * 更新项目下的任务
+     * 新增/修改/删除项目
      *
      * @return
      */
-    @ApiOperation(value = "添加项目下的任务", notes = "添加项目下的任务")
-    @PutMapping(value = "/updateTasks")
-    public Project updateTasks(@RequestParam("id") Integer projectId,
-                               @RequestParam("ids") List<Long> taskIds) {
-        Project project = projectService.findOne(projectId);
-        List<Task> tasks = taskService.findAll(taskIds);
-        Set<Task> projectTasks = project.getTasks();
-        for (Task task : tasks) {
-            if (projectTasks.contains(project)) {
-                continue;
+    @ApiOperation(value = "新增/修改/删除项目", notes = "新增/修改/删除项目")
+    @PutMapping(value = "/addOrUpOrDel")
+    public Project addOrUpOrDelProject(@RequestBody Project project) {
+
+        if (project.getProjectId() != 0) {
+            Project project1 = projectService.findOne(project.getProjectId());
+            //获取project1里的taskIds
+            List<Long> taskIds = new ArrayList<>();
+            for (Task task : project1.getTasks()) {
+                Long taskId = task.getTaskId();
+                taskIds.add(taskId);
             }
-            projectTasks.add(task);
+            Set<Task> projectTasks = project1.getTasks();
+            //根据taskIds查询task库里是否存在，如果不存在就绑定到project1里
+            //判断project1里是否包含task,有就继续，没有就添加
+            for (Task task : taskService.findAll(taskIds)) {
+                if (projectTasks.contains(task)) {
+                    continue;
+                }
+                projectTasks.add(task);
+            }
+
+            for (Task task : project.getTasks()) {
+
+                projectTasks.add(taskService.save(task));
+
+            }
+
+            project.setTasks(new HashSet<>(projectTasks));
+
+            Project save = projectService.save(project);
+            Set<Task> tasks = save.getTasks();
+            Iterator<Task> iterator = tasks.iterator();
+            while(iterator.hasNext()){
+                Task task = iterator.next();
+                if(task.getTaskState()==2)
+                    iterator.remove();   //注意这个地方
+            }
+
+            return save;
         }
-        try {
-            projectService.save(project);
-        } catch (Exception e) {
-            throw new RuntimeException("update fail!");
-        }
-        return project;
-    }
 
-    /**
-     * 添加项目下的新任务
-     *
-     * @return
-     */
-    @ApiOperation(value = "添加项目下的新任务", notes = "添加项目下的新任务")
-    @PutMapping(value = "/addProjectTasks")
-    public Project addProjectTasks(@RequestParam("projectName") String projectName,
-                                   @RequestBody List<Task> tasks) {
-        Project project = new Project();
-        project.setProjectName(projectName);
-
-        List<Task> save = taskService.save(tasks);
-
-        List<Task> tasks1 = new ArrayList<>();
-        for (Task task : save) {
-            tasks1.add(task);
-        }
-
-        Set<Task> tasks2 = new HashSet<>(tasks1);
-        project.setTasks(tasks2);
         return projectService.save(project);
-    }
-
-    /**
-     * 删除项目下的任务
-     *
-     * @return
-     */
-    @ApiOperation(value = "删除项目下的任务", notes = "删除项目类型下的任务")
-    @PutMapping(value = "/deleteProjects")
-    public Project deleteTasks(@RequestParam("id") Integer projectId,
-                               @RequestParam("ids") List<Long> taskIds) {
-        Project project = projectService.findOne(projectId);
-        List<Task> tasks = taskService.findAll(taskIds);
-        Set<Task> projectTasks = project.getTasks();
-        for (Task task : tasks) {
-            if (projectTasks.contains(project)) {
-                projectTasks.remove(task);
-            }
-        }
-        try {
-            projectService.save(project);
-        } catch (Exception e) {
-            throw new RuntimeException("update fail!");
-        }
-        return project;
     }
 
     /**

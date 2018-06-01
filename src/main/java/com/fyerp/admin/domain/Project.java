@@ -166,7 +166,7 @@ public class Project {
      * 项目状态：0未进行，1正在进行，2遇到问题
      */
     @JsonProperty("status")
-    private Integer projectState = ProjectStatusEnum.DOING.getCode();
+    private Integer projectState;
 
     /**
      * 项目描述
@@ -186,7 +186,7 @@ public class Project {
      * 任务
      */
     @JsonProperty(value = "children")
-    @OneToMany(targetEntity = Task.class,cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @OneToMany(targetEntity = Task.class,cascade = {CascadeType.MERGE,CascadeType.REMOVE}, fetch = FetchType.EAGER)
     @JoinColumn(name = "projectId")
     private Set<Task> tasks = new HashSet<>();
 

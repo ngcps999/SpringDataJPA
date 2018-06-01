@@ -52,7 +52,7 @@ public class Task {
     @JsonProperty("description")
     private String taskDesc;
     @JsonProperty("status")
-    private String taskState;
+    private Integer taskState;
     @JsonProperty("planStartDate")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date taskPlanStartDate;
