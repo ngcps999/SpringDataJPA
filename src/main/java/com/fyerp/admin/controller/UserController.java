@@ -218,13 +218,15 @@ public class UserController {
     /**
      * 删除用户
      *
-     * @param id
+     * @param userId
      */
     @ApiOperation(value = "删除用户", notes = "根据url的id来指定删除用户")
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    public void deleteUser(@RequestParam("id") Long id) throws Exception {
-        userService.delete(id);
-        System.out.println("删除了id为" + id + "的用户");
+    public void deleteUser(@RequestParam("userId") Long userId) throws Exception {
+        User user = userService.findOne(userId);
+        Set<Role> roles = user.getRoles();
+        roles.removeAll(roles);
+        userService.delete(userId);
     }
 
 }

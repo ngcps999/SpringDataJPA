@@ -234,16 +234,15 @@ public class ProjectController {
     /**
      * 删除项目
      *
-     * @param id
+     * @param projectId
      */
     @ApiOperation(value = "删除项目", notes = "删除项目前先确认项目下是否有任务")
     @ApiImplicitParam(name = "id", value = "项目ID", required = true, dataType = "Integer", paramType = "path")
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    public void deleteProject(@RequestParam("id") Integer id) {
-        try {
-            projectService.delete(id);
-        } catch (RuntimeException e) {
-            throw new RuntimeException("项目分类下有任务，请先删除任务。");
-        }
+    public void deleteProject(@RequestParam("projectId") Integer projectId) {
+        Project project = projectService.findOne(projectId);
+        Set<Task> tasks = project.getTasks();
+        tasks.removeAll(tasks);
+        projectService.delete(projectId);
     }
 }

@@ -87,10 +87,6 @@ public class PlanController {
      * @return
      */
     @ApiOperation(value = "更新计划", notes = "根据计划的id来更新计划")
-//    @ApiImplicitParams({
-//            @ApiImplicitParam(name = "id", value = "项目ID", required = true, dataType = "Integer", paramType = "path"),
-//            @ApiImplicitParam(name = "project", value = "项目实体project", required = true, dataType = "Project")
-//    })
     @PutMapping(value = "/update")
     public Plan updatePlan(@RequestBody Plan plan) {
         return planService.save(plan);

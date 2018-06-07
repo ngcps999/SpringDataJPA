@@ -76,6 +76,7 @@ public class Plan {
 //    @JoinColumn(name = "taskId")
 //    private Task task;
 
+    private Integer strategy;
     @CreatedDate
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     @JsonProperty("creationDate")

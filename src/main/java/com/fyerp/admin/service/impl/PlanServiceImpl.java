@@ -9,6 +9,7 @@ package com.fyerp.admin.service.impl;
 import com.fyerp.admin.domain.Plan;
 import com.fyerp.admin.respository.PlanRespository;
 import com.fyerp.admin.service.PlanService;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class PlanServiceImpl implements PlanService {
@@ -31,6 +33,12 @@ public class PlanServiceImpl implements PlanService {
     @Override
     public Page<Plan> findAll(Pageable pageable) {
         return planRespository.findAll(pageable);
+    }
+
+    @Override
+    public List<Plan> findAll(Set<Integer> planIds) {
+        return planRespository.findAll(planIds);
+
     }
 
     @Override

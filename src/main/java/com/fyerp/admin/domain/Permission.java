@@ -74,6 +74,8 @@ public class Permission implements Serializable {
      */
     private Integer parentId;
 
+    private Integer strategy;
+
     /**
      * 角色-权限多对多关系
      */

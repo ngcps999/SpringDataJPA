@@ -12,12 +12,14 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
+import java.util.Set;
 
 public interface PlanService {
 
     Plan findOne(Integer planId);
 
     Page<Plan> findAll(Pageable pageable);
+    List<Plan> findAll(Set<Integer> planIds);
 
     List<Plan> findAll();
     List<Plan> findAll(List<Integer> planIds);

@@ -81,7 +81,7 @@ public class PermissionController {
     }
 
     /**
-     * 更新一个权限
+     * 更新权限
      *
      * @return
      */
@@ -101,7 +101,6 @@ public class PermissionController {
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public void deletePermission(@RequestParam("id") Long id) {
         permissionService.delete(id);
-        System.out.println("删除id号为" + id + "的权限成功");
 
 
     }

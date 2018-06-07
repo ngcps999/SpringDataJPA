@@ -10,10 +10,13 @@ import com.fyerp.admin.domain.Plan;
 import com.fyerp.admin.domain.Project;
 import com.fyerp.admin.domain.Result;
 import com.fyerp.admin.domain.Task;
+import com.fyerp.admin.enums.ResultEnum;
+import com.fyerp.admin.exception.TaskException;
 import com.fyerp.admin.service.PlanService;
 import com.fyerp.admin.service.ProjectService;
 import com.fyerp.admin.service.TaskService;
 import com.fyerp.admin.utils.ResultUtil;
+import com.fyerp.admin.utils.UpdateUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -25,6 +28,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -98,6 +102,59 @@ public class TaskController {
     }
 
     /**
+     * 更新用户
+     *
+     * @return
+     */
+    @ApiOperation(value = "更新用户及其关联的角色", notes = "根据用户的id来更新用户")
+    @RequestMapping(value = "/update", method = RequestMethod.PUT)
+    public Object updateTaskPlans(@RequestBody Task task){
+        try {
+            if (task.getTaskId() != 0) {
+                Task task1 = taskService.findOne(task.getTaskId());
+                //获取project1里的taskIds
+                Set<Integer> roleIds = new HashSet<>();
+                for (Plan plan : task1.getPlans()) {
+                    Integer roleId = plan.getPlanId();
+                    roleIds.add(roleId);
+                }
+                Set<Plan> taskPlans = task1.getPlans();
+                //根据taskIds查询task库里是否存在，如果不存在就绑定到project1里
+                //判断project1里是否包含task,有就继续，没有就添加
+                for (Plan plan : planService.findAll(roleIds)) {
+                    if (taskPlans.contains(plan)) {
+                        continue;
+                    }
+                    taskPlans.add(plan);
+                }
+
+                for (Plan plan : task.getPlans()) {
+                    taskPlans.add(planService.save(plan));
+                }
+
+                task.setPlans(new HashSet<>(taskPlans));
+
+                Task save = taskService.save(task);
+                Set<Plan> plans = save.getPlans();
+                Iterator<Plan> iterator = plans.iterator();
+                while (iterator.hasNext()) {
+                    Plan plan = iterator.next();
+                    if (plan.getStrategy() == 2) //strategy属性等于2时即删除task
+                        iterator.remove();
+                }
+
+                UpdateUtil.copyNullProperties(task1, save);
+                return save;
+            }
+        }catch (Exception e) {
+            throw new TaskException(ResultEnum.PARAM_ERROR);
+        }
+
+        Result result = new Result("请传入Id");
+        return result;
+    }
+
+    /**
      * 更新任务下的计划
      *
      * @return
@@ -154,6 +211,9 @@ public class TaskController {
     @ApiOperation(value = "删除任务", notes = "根据id删除任务")
     @DeleteMapping(value = "/delete")
     public void deleteTask(@RequestParam("id") Long taskId) {
+        Task task = taskService.findOne(taskId);
+        Set<Plan> plans = task.getPlans();
+        plans.removeAll(plans);
         taskService.delete(taskId);
     }
 }

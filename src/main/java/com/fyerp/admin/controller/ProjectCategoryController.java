@@ -181,7 +181,7 @@ public class ProjectCategoryController {
      * @return
      */
     @ApiOperation(value = "删除项目类型下的项目", notes = "删除项目类型下的项目")
-    @PutMapping(value = "/deleteProjectCategoryProjects")
+    @PutMapping(value = "/deleteProjects")
     public ProjectCategory deleteProjectCategoryProjects(@RequestParam(value = "projectCategoryId", required = true) Integer projectCategoryId, @RequestParam(value = "projectIds", required = true) List<Integer> projectIds) {
         ProjectCategory projectCategory = categoryService.findOne(projectCategoryId);
         List<Project> projects = projectService.findAll(projectIds);
@@ -208,7 +208,9 @@ public class ProjectCategoryController {
     @ApiImplicitParam(name = "id", value = "项目分类ID", required = true, dataType = "Integer", paramType = "path")
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public void deleteProjectCategory(@RequestParam("id") Integer categoryId) {
-
+        ProjectCategory projectCategory = categoryService.findOne(categoryId);
+        Set<Project> projects = projectCategory.getProjects();
+        projects.removeAll(projects);
         categoryService.delete(categoryId);
     }
 }
