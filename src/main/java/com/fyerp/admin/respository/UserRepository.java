@@ -11,7 +11,6 @@
 package com.fyerp.admin.respository;
 
 import com.fyerp.admin.domain.User;
-import com.fyerp.admin.respository.BaseRespository.BaseRespository;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**
