@@ -11,8 +11,12 @@
 package com.fyerp.admin.controller;
 
 import com.fyerp.admin.domain.Department;
+import com.fyerp.admin.domain.Result;
 import com.fyerp.admin.domain.Role;
 import com.fyerp.admin.domain.User;
+import com.fyerp.admin.domain.dto.UserDTO;
+import com.fyerp.admin.enums.ResultEnum;
+import com.fyerp.admin.exception.UserException;
 import com.fyerp.admin.service.DepartmentService;
 import com.fyerp.admin.service.RoleService;
 import com.fyerp.admin.service.UserService;
@@ -28,9 +32,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 用户管理API
@@ -102,21 +104,12 @@ public class UserController {
      */
     @ApiOperation(value = "创建用户", notes = "根据user对象创建用户")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public User addUser(@RequestParam(value = "name", required = true) String name,
-                              @RequestParam(value = "username",required = true) String username,
-                              @RequestParam(value = "genger",required = true) String genger,
-                              @RequestParam(value = "password",required = true) String password,
-                              @RequestParam(value = "roleIds",required = true) List<Long> roleIds)  {
+    public UserDTO addUser(@RequestBody UserDTO userDTO)  {
         User user = new User();
-        user.setName(name);
-        user.setUsername(username);
-        user.setGender(genger);
-        user.setPassword(password);
-
-        List<Role> roles = roleService.findAll(roleIds);
-        Set<Role> roles1 = new HashSet<>(roles);
-        user.setRoles(roles1);
-        return userService.save(user);
+        UpdateUtil.copyNullProperties(userDTO,user);
+        User user1 = userService.save(user);
+        BeanUtils.copyNotNullProperties(user1,userDTO);
+        return userDTO;
     }
 
 //    /**
@@ -130,30 +123,56 @@ public class UserController {
 //    }
 
     /**
-     * 更新一个用户
+     * 更新用户
      *
      * @return
      */
-    @ApiOperation(value = "更新用户关联的角色", notes = "根据用户的id来更新用户的角色")
+    @ApiOperation(value = "更新用户及其关联的角色", notes = "根据用户的id来更新用户")
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
-    public User updateUserRoles(@RequestParam(value = "userId",required = true) Long userId,
-                                @RequestParam(value = "roleIds",required = true) List<Long> roleIds) {
-        User user = userService.findOne(userId);
-        List<Role> roles = roleService.findAll(roleIds);
-        Set<Role> userRoles = user.getRoles();
-        for (Role role : roles) {
-            if (userRoles.contains(role)) {
-                continue;
-            }
-            userRoles.add(role);
-        }
+    public Object updateUserRoles(@RequestBody User user){
         try {
-            userService.save(user);
-        } catch (Exception e) {
-            throw new RuntimeException("update fail!");
+        if (user.getUserId() != 0) {
+            User user1 = userService.findOne(user.getUserId());
+            //获取project1里的taskIds
+            Set<Long> roleIds = new HashSet<>();
+            for (Role role : user1.getRoles()) {
+                Long roleId = role.getRoleId();
+                roleIds.add(roleId);
+            }
+            Set<Role> userRoles = user1.getRoles();
+            //根据taskIds查询task库里是否存在，如果不存在就绑定到project1里
+            //判断project1里是否包含task,有就继续，没有就添加
+            for (Role role : roleService.findAll(roleIds)) {
+                if (userRoles.contains(role)) {
+                    continue;
+                }
+                userRoles.add(role);
+
+            }
+
+            for (Role role : user.getRoles()) {
+                userRoles.add(roleService.save(role));
+            }
+
+            user.setRoles(new HashSet<>(userRoles));
+
+            User save = userService.save(user);
+            Set<Role> roles = save.getRoles();
+            Iterator<Role> iterator = roles.iterator();
+            while (iterator.hasNext()) {
+                Role role = iterator.next();
+                if (role.getStrategy() == 2) //strategy属性等于2时即删除task
+                    iterator.remove();
+            }
+            UpdateUtil.copyNullProperties(user1, save);
+            return save;
         }
-        return user;
+    }catch (Exception e) {
+        throw new UserException(ResultEnum.PARAM_ERROR);
     }
+    Result result = new Result("请传入Id");
+        return result;
+}
 
 //    /**
 //     * 更新多个用户
@@ -172,16 +191,22 @@ public class UserController {
      */
     @ApiOperation(value = "删除用户关联的角色", notes = "根据用户的id来删除对应角色")
     @PutMapping(value = "/deleteRoles")
-    public User deleteUserRoles(@RequestParam(value = "userId",required = true) Long userId,
-                                @RequestParam(value = "roleIds",required = true) List<Long> roleIds) {
+    public User deleteUserRoles(@RequestParam(value = "userId",required = true) Long userId) {
         User user = userService.findOne(userId);
+        Set<Long> roleIds = new HashSet<>();
+        for (Role role : user.getRoles()) {
+            Long roleId = role.getRoleId();
+            roleIds.add(roleId);
+        }
+
         List<Role> roles = roleService.findAll(roleIds);
         Set<Role> userRoles = user.getRoles();
         for (Role role : roles) {
             if (userRoles.contains(role)) {
-                userRoles.remove(role);
+                userRoles.removeAll(roles);
             }
         }
+
         try {
             userService.save(user);
         } catch (Exception e) {

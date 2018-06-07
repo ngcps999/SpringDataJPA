@@ -24,7 +24,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Data
 public class ProjectCategoryVO {
@@ -33,7 +35,6 @@ public class ProjectCategoryVO {
      * 类目id
      */
     @Id
-    @GeneratedValue
     @JsonProperty("id")
     private Integer categoryId;
 
@@ -44,13 +45,13 @@ public class ProjectCategoryVO {
     private String categoryName;
 
     @Transient
-    @ApiModelProperty(name = "type",value = "ProjectCategory",allowableValues = "ProjectCategory")
-    @JsonProperty(index = 0,defaultValue = "ProjectCategory",value = "ProjectCategory")
+    @ApiModelProperty(allowableValues = "projectCategory")
+    @JsonProperty(defaultValue = "projectCategory",value = "projectCategory")
     private String type = this.getClass().getName();
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinColumn(name = "categoryId")
-    private List<ProjectVO> children;
+    @ManyToMany(targetEntity = Project.class,cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @JoinTable(name = "ProjectCategoryProject", joinColumns = {@JoinColumn(name = "categoryId")}, inverseJoinColumns = {@JoinColumn(name = "projectId")})
+    private Set<Project> projects = new HashSet<>();
 
     @CreatedDate
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")

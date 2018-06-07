@@ -1,20 +1,26 @@
 /*
  * 作者：xuda
+ * 创建时间：18-6-7 下午1:09
+ * 模块名称：admin
+ */
+
+/*
+ * 作者：xuda
  * 创建时间：18-5-8 上午11:01
  * 模块名称：admin
  */
 
-package com.fyerp.admin.domain;
+package com.fyerp.admin.domain.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fyerp.admin.domain.Task;
+import com.fyerp.admin.domain.User;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import org.hibernate.annotations.GenericGenerator;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -25,16 +31,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Entity
-@DynamicUpdate
-@DynamicInsert
 @EntityListeners(AuditingEntityListener.class)
 @Data
-public class Department {
+public class DepartmentVO {
 
     @JsonProperty(value = "id")
     @Id
-    @GeneratedValue
     private Long departmentId;
 
     /**
@@ -54,14 +56,7 @@ public class Department {
     @ApiModelProperty(allowableValues = "department")
     private String type = "department";
 
-    //    @JsonIgnore
     @JsonProperty(value = "children")
-    @ManyToMany(targetEntity = User.class, cascade = CascadeType.MERGE, fetch = FetchType.EAGER)//立即从数据库中加载数据；
-    @JoinTable(name = "DepartmentUser", joinColumns = {@JoinColumn(name = "departmentId")}, inverseJoinColumns = {@JoinColumn(name = "userId")})
-    private Set<User> users = new HashSet<>();
-
-    //    @JsonProperty(value = "children")
-    @JsonIgnore
     @ManyToMany(targetEntity = Task.class, cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinTable(name = "DepartmentTask", joinColumns = {@JoinColumn(name = "departmentId")}, inverseJoinColumns = {@JoinColumn(name = "taskId")})
     private Set<Task> tasks = new HashSet<>();
@@ -80,6 +75,6 @@ public class Department {
     @JsonProperty("updatedDate")
     private Date updateTime;
 
-    public Department() {
+    public DepartmentVO() {
     }
 }

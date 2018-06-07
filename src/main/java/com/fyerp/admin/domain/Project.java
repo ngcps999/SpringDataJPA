@@ -128,7 +128,7 @@ public class Project {
     private Integer workDay;
 
     /**
-     * 阶段
+     * 项目阶段
      */
     private String projectPhase;
 
@@ -174,6 +174,8 @@ public class Project {
     @JsonProperty("description")
     private String projectDesc;
 
+    private Integer strategy;
+
     /**
      * 项目对应多个部门
      */
@@ -208,4 +210,5 @@ public class Project {
 
     public Project() {
     }
+
 }

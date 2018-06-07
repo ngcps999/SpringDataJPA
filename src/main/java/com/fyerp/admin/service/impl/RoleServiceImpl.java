@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class RoleServiceImpl implements RoleService {
@@ -39,7 +40,7 @@ public class RoleServiceImpl implements RoleService {
     }
 
     @Override
-    public List<Role> findAll(List<Long> roleIds) {
+    public List<Role> findAll(Set<Long> roleIds) {
         return roleRespository.findAll(roleIds);
     }
 

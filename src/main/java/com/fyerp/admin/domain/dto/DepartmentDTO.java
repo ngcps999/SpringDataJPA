@@ -10,7 +10,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fyerp.admin.domain.User;
-import com.fyerp.admin.respository.UserRespository;
 import com.fyerp.admin.service.UserService;
 import com.fyerp.admin.utils.convert.User2UserDTOConverter;
 import io.swagger.annotations.ApiModelProperty;

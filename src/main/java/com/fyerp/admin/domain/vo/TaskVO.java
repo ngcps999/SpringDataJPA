@@ -1,46 +1,37 @@
 /*
- * Copyright (c) 2018.
- * 项目名称：fyerp.
- * 模块名称：fyerp
- * 文件名称：Task.java
  * 作者：xuda
- * 时间：18-4-10 上午9:42
- *
+ * 创建时间：18-6-7 下午2:01
+ * 模块名称：admin
  */
 
-package com.fyerp.admin.domain;
+package com.fyerp.admin.domain.vo;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fyerp.admin.domain.Plan;
 import io.swagger.annotations.ApiModelProperty;
-import io.swagger.annotations.ApiParam;
 import lombok.Data;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.beans.factory.annotation.Required;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
-import java.sql.Timestamp;
-import java.util.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @Author: xuda
  * @Date: 2018/4/10
  * @Time: 上午9:42
  */
-@Entity
-@DynamicUpdate
 @EntityListeners(AuditingEntityListener.class)
 @Data
-@DynamicInsert
-public class Task {
+public class TaskVO {
 
     @Id
-    @GeneratedValue
     @JsonProperty(value = "id")
     private Long taskId;
     @JsonProperty("name")
@@ -68,21 +59,20 @@ public class Task {
     private Integer strategy;
 
 
-    /**
-     * 计划
-     */
-    @OneToMany(targetEntity = Plan.class,cascade = {CascadeType.MERGE},fetch = FetchType.EAGER)
-    @JoinColumn(name = "taskId")
-    @JsonProperty(value = "children")
-    private Set<Plan> plans = new HashSet<>();
-
-
 //    /**
-//     * 一个任务具有多个部门参与
+//     * 计划
 //     */
-//    @JsonIgnore
-//    @ManyToMany(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)//立即从数据库中加载数据；
-//    @JoinTable(name = "DepartmentTask", joinColumns = {@JoinColumn(name = "taskId")}, inverseJoinColumns = {@JoinColumn(name = "departmentId")})
+//    @OneToMany(targetEntity = Plan.class,cascade = {CascadeType.MERGE},fetch = FetchType.EAGER)
+//    @JoinColumn(name = "taskId")
+//    @JsonProperty(value = "children")
+//    private Set<Plan> plans = new HashSet<>();
+
+
+    /**
+     * 一个任务具有多个部门参与
+     */
+//    @ManyToMany(fetch = FetchType.EAGER)//立即从数据库中加载数据；
+//    @JoinTable(name = "TaskDepartment", joinColumns = {@JoinColumn(name = "taskId")}, inverseJoinColumns = {@JoinColumn(name = "departmentId")})
 //    private Set<Department> departments = new HashSet<>();
 
     @CreatedDate
@@ -94,6 +84,6 @@ public class Task {
     @JsonProperty("updatedDate")
     private Date updateTime;
 
-    public Task() {
+    public TaskVO() {
     }
 }

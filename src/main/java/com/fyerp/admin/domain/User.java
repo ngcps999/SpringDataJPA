@@ -13,6 +13,7 @@ package com.fyerp.admin.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fyerp.admin.domain.base.BaseModel;
 import com.fyerp.admin.enums.DepartmentEnum;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -43,7 +44,7 @@ import java.util.*;
 @DynamicUpdate
 @DynamicInsert
 @EntityListeners(AuditingEntityListener.class)
-public class User{
+public class User {
 
     /**
      * 用户Id
@@ -71,7 +72,6 @@ public class User{
     @ApiModelProperty(allowableValues = "user")
     private String type = "user";
 
-
     /**
      * 性别
      */
@@ -89,6 +89,8 @@ public class User{
      */
     @JsonProperty("status")
     private Integer state;
+
+    private Integer strategy;
 
     /**
      * 一个用户具有多个角色
@@ -123,5 +125,6 @@ public class User{
 
     public User() {
     }
+
 
 }

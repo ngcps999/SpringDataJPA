@@ -12,6 +12,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
+import java.util.Set;
 
 public interface RoleService {
 
@@ -35,7 +36,7 @@ public interface RoleService {
      * @return
      */
     List<Role> findAll();
-    List<Role> findAll(List<Long> roleIds);
+    List<Role> findAll(Set<Long> roleIds);
 
     List<Role> findAll(Sort sort);
     /**

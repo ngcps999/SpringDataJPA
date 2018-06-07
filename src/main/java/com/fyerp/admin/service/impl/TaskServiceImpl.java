@@ -7,8 +7,10 @@
 package com.fyerp.admin.service.impl;
 
 import com.fyerp.admin.domain.Task;
+import com.fyerp.admin.domain.vo.TaskVO;
 import com.fyerp.admin.respository.TaskRespository;
 import com.fyerp.admin.service.TaskService;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -40,6 +40,9 @@ public class ProjectVO {
     @JsonProperty("name")
     private String projectName;
 
+
+    private Integer strategy;
+
 //    @Transient
 //    @JsonProperty(defaultValue = "project")
 //    @ApiModelProperty(allowableValues = "project")

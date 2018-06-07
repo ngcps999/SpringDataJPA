@@ -11,7 +11,7 @@ import com.fyerp.admin.domain.User;
 import com.fyerp.admin.domain.dto.DepartmentDTO;
 import com.fyerp.admin.domain.dto.UserDTO;
 import com.fyerp.admin.respository.DepartmentRespository;
-import com.fyerp.admin.respository.UserRespository;
+import com.fyerp.admin.respository.UserRepository;
 import com.fyerp.admin.service.DepartmentService;
 import com.fyerp.admin.utils.BeanUtils;
 import com.fyerp.admin.utils.convert.Department2DepartmentDTOConverter;
@@ -35,7 +35,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     private DepartmentRespository departmentRespository;
 
     @Autowired
-    private UserRespository userRespository;
+    private UserRepository userRepository;
 
     @Override
     public Department findOne(Long departmentId) {

@@ -12,7 +12,7 @@ package com.fyerp.admin.service.impl;
 
 import com.fyerp.admin.domain.User;
 import com.fyerp.admin.domain.dto.UserDTO;
-import com.fyerp.admin.respository.UserRespository;
+import com.fyerp.admin.respository.UserRepository;
 import com.fyerp.admin.service.UserService;
 import com.fyerp.admin.utils.BeanUtils;
 import com.fyerp.admin.utils.convert.User2UserDTOConverter;
@@ -34,39 +34,39 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    private UserRespository userRespository;
+    private UserRepository userRepository;
 
     @Override
     public User findByUsername(String username) {
         System.out.println("UserServiceImpl.findByUsername()");
-        return userRespository.findUserByUsername(username);
+        return userRepository.findUserByUsername(username);
     }
 
     @Override
     public UserDTO findOneDTO(Long userId) {
-        User user = userRespository.findOne(userId);
+        User user = userRepository.findOne(userId);
         UserDTO userDTO = User2UserDTOConverter.convert(user);
         return userDTO;
     }
 
     @Override
     public User findOne(Long userId) {
-        return userRespository.findOne(userId);
+        return userRepository.findOne(userId);
     }
 
     @Override
     public List<User> findAll() {
-        return userRespository.findAll();
+        return userRepository.findAll();
     }
 
     @Override
     public List<User> findAll(List<Long> userIds) {
-        return userRespository.findAll(userIds);
+        return userRepository.findAll(userIds);
     }
 
     @Override
     public List<UserDTO> findAllDTD(List<Long> userIds) {
-        List<User> users = userRespository.findAll(userIds);
+        List<User> users = userRepository.findAll(userIds);
         List<UserDTO> userDTOS =new ArrayList<>();
         BeanUtils.copyNotNullProperties(users,userDTOS);
         return userDTOS;
@@ -74,30 +74,30 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> findAll(Sort sort) {
-        return userRespository.findAll(sort);
+        return userRepository.findAll(sort);
     }
 
     @Override
     public Page<User> findAll(Pageable pageable) {
-        return userRespository.findAll(pageable);
+        return userRepository.findAll(pageable);
     }
 
     @Override
     public UserDTO saveAndFlushDTO(User user) {
-        User flush = userRespository.saveAndFlush(user);
+        User flush = userRepository.saveAndFlush(user);
         UserDTO userDTO = User2UserDTOConverter.convert(flush);
         return userDTO;
     }
 
     @Override
     public User saveAndFlush(User user) {
-        return userRespository.saveAndFlush(user);
+        return userRepository.saveAndFlush(user);
     }
 
     @Override
     public List<User> saveAndFlush(List<User> users) {
         for (User user : users) {
-            users.add(userRespository.saveAndFlush(user));
+            users.add(userRepository.saveAndFlush(user));
         }
         return users;
     }
@@ -105,33 +105,33 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public UserDTO update(User user) {
-        User one = userRespository.findOne(user.getUserId());
+        User one = userRepository.findOne(user.getUserId());
         BeanUtils.copyProperties(user,one);
-        User save = userRespository.saveAndFlush(one);
+        User save = userRepository.saveAndFlush(one);
         UserDTO userDTO = User2UserDTOConverter.convert(save);
         return userDTO;
     }
 
     @Override
     public List<UserDTO> saveDTOList(List<User> users) {
-        List<User> userList = userRespository.save(users);
+        List<User> userList = userRepository.save(users);
         List<UserDTO> userDTOList = User2UserDTOConverter.convert(userList);
         return userDTOList;
     }
 
     @Override
     public User save(User user) {
-        return userRespository.save(user);
+        return userRepository.save(user);
     }
 
     @Override
     public List<User> save(List<User> users) {
-        return userRespository.save(users);
+        return userRepository.save(users);
     }
 
     @Override
     public void delete(Long userId) {
-        userRespository.delete(userId);
+        userRepository.delete(userId);
     }
 
 }

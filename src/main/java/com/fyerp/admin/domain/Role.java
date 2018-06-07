@@ -67,11 +67,12 @@ public class Role implements Serializable {
      */
     private String description;
 
+    private Integer strategy;
+
 //    /**
 //     * 角色是否可用，如果不可用将不会添加给用户
 //     */
-//    private Boolean available = Boolean.FALSE;
-
+//    private Boolean available = Boolean.FALSE;·
 
     /**
      * 角色-权限多对多关系

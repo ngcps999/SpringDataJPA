@@ -52,13 +52,15 @@ public class ProjectCategory {
     @JsonProperty("description")
     private String categoryDesc;
 
+    private Integer strategy;
+
     @Transient
     @JsonProperty(defaultValue = "projectCategory")
     @ApiModelProperty(allowableValues = "projectCategory")
     private String type = "projectCategory";
 
-    @OneToMany(targetEntity = Project.class,cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
-    @JoinColumn(name = "categoryId")
+    @ManyToMany(targetEntity = Project.class,cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @JoinTable(name = "ProjectCategoryProject", joinColumns = {@JoinColumn(name = "categoryId")}, inverseJoinColumns = {@JoinColumn(name = "projectId")})
     @JsonProperty(value = "children")
     private Set<Project> projects =new HashSet<>();
 

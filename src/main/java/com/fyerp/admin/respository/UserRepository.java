@@ -10,11 +10,9 @@
 
 package com.fyerp.admin.respository;
 
-import com.fyerp.admin.domain.Department;
 import com.fyerp.admin.domain.User;
+import com.fyerp.admin.respository.BaseRespository.BaseRespository;
 import org.springframework.data.jpa.repository.JpaRepository;
-
-import java.util.List;
 
 /**
  * User持久化类
@@ -23,7 +21,7 @@ import java.util.List;
  * @Date: 2018/4/10
  * @Time: 下午3:49
  */
-public interface UserRespository extends JpaRepository<User,Long> {
+public interface UserRepository extends JpaRepository<User,Long> {
 
     /**
      * 通过username查找用户信息

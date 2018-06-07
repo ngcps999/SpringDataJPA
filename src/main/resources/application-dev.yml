@@ -3,11 +3,11 @@ spring:
 #    active: dev
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    url: jdbc:mysql://192.168.1.79:3306/fyerp?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&useSSL=false
-#    url: jdbc:mysql://localhost:3306/fyerp?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&useSSL=false
+#    url: jdbc:mysql://192.168.1.79:3306/fyerp?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&useSSL=false
+    url: jdbc:mysql://localhost:3306/fyerp?useUnicode=true&characterEncoding=utf8&characterSetResults=utf8&useSSL=false
     username: root
-    password: yfbdb123
-#    password: SDysjdsr1225
+#    password: yfbdb123
+    password: SDysjdsr1225
 ##设置最大上传大小为10Mb
 #  http:
 #    multipart:
@@ -26,8 +26,8 @@ spring:
   thymeleaf:
     cache: false
   redis:
-    host: 192.168.1.79
-#    host: localhost
+#    host: 192.168.1.79
+    host: localhost
     port: 6379
     password: yfb123
     database: 0

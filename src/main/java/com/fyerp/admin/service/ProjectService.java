@@ -106,5 +106,5 @@ public interface ProjectService {
      *
      * @param id
      */
-    void delete(Integer id);
+    Project delete(Integer id);
 }

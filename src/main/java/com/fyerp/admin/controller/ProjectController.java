@@ -13,11 +13,14 @@ package com.fyerp.admin.controller;
 import com.fyerp.admin.domain.*;
 import com.fyerp.admin.domain.vo.ProjectInfoVO;
 import com.fyerp.admin.domain.vo.ProjectVO;
+import com.fyerp.admin.enums.ResultEnum;
+import com.fyerp.admin.exception.ProjectException;
 import com.fyerp.admin.service.ProjectCategoryService;
 import com.fyerp.admin.service.ProjectService;
 import com.fyerp.admin.service.TaskService;
 import com.fyerp.admin.utils.BeanUtils;
 import com.fyerp.admin.utils.ResultUtil;
+import com.fyerp.admin.utils.UpdateUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
@@ -131,12 +134,11 @@ public class ProjectController {
             PageRequest request = new PageRequest(page - 1, size);
             return projectService.findAll(request).getContent();
         }
-
     }
-
 
     /**
      * 统计项目数量
+     *
      * @param
      * @return
      */
@@ -146,6 +148,7 @@ public class ProjectController {
         List<Project> all = projectService.findAll();
         return all.size();
     }
+
     /**
      * 按状态查询项目
      *
@@ -153,77 +156,79 @@ public class ProjectController {
      */
     @ApiOperation(value = "按状态查询项目,项目状态：0未进行，1正在进行，2遇到问题", notes = "按状态查询项目")
 //    @ApiImplicitParam(name = "projectState", value = "项目状态", required = true, dataType = "Integer", paramType = "path")
-    @RequestMapping(value = "/findProjectStatusList/{projectState}", method = RequestMethod.GET)
-    public Project getProjectByStatus(@PathVariable("projectState") Integer projectState) {
-        return (Project) projectService.findProjectsByProjectState(projectState);
+    @RequestMapping(value = "/findProjectStatusList", method = RequestMethod.GET)
+    public List<Project> getProjectByStatus(@RequestParam("projectState") Integer projectState) {
+        return projectService.findProjectsByProjectState(projectState);
     }
 
-//    /**
-//     * 创建/更新项目
-//     *
-//     * @return
-//     */
-//    @ApiOperation(value = "添加/更新项目", notes = "根据Project对象属性创建/更新项目")
-//    @RequestMapping(value = "/addProject", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-//    public Project addProject(@RequestParam("projectName") String projectName,
-//                              @RequestParam("ids") List<Long> taskIds) {
-//        Project project = new Project();
-//        project.setProjectName(projectName);
-//
-//        List<Task> tasks = taskService.findAll(taskIds);
-//
-//        project.setTasks(new HashSet<>(tasks));
-//        return projectService.save(project);
-//    }
-
     /**
-     * 新增/修改/删除项目
+     * 添加项目
      *
      * @return
      */
-    @ApiOperation(value = "新增/修改/删除项目", notes = "新增/修改/删除项目")
-    @PutMapping(value = "/addOrUpOrDel")
-    public Project addOrUpOrDelProject(@RequestBody Project project) {
+    @ApiOperation(value = "添加项目", notes = "根据Project对象创建项目")
+    @RequestMapping(value = "/add", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    public ProjectVO addProject(@RequestBody ProjectVO projectVO) {
+        Project project =new Project();
+        UpdateUtil.copyNullProperties(projectVO,project);
+        Project project1 = projectService.save(project);
+        BeanUtils.copyNotNullProperties(project1,projectVO);
+        return projectVO;
+    }
 
-        if (project.getProjectId() != 0) {
-            Project project1 = projectService.findOne(project.getProjectId());
-            //获取project1里的taskIds
-            List<Long> taskIds = new ArrayList<>();
-            for (Task task : project1.getTasks()) {
-                Long taskId = task.getTaskId();
-                taskIds.add(taskId);
-            }
-            Set<Task> projectTasks = project1.getTasks();
-            //根据taskIds查询task库里是否存在，如果不存在就绑定到project1里
-            //判断project1里是否包含task,有就继续，没有就添加
-            for (Task task : taskService.findAll(taskIds)) {
-                if (projectTasks.contains(task)) {
-                    continue;
+    /**
+     * 更新项目
+     *
+     * @return
+     */
+    @ApiOperation(value = "更新项目", notes = "更新项目")
+    @PutMapping(value = "/update")
+    public Object updateProject(@RequestBody Project project) {
+
+        try {
+            if (project.getProjectId() != 0) {
+                Project project1 = projectService.findOne(project.getProjectId());
+                //获取project1里的taskIds
+                List<Long> taskIds = new ArrayList<>();
+                for (Task task : project1.getTasks()) {
+                    Long taskId = task.getTaskId();
+                    taskIds.add(taskId);
                 }
-                projectTasks.add(task);
+                Set<Task> projectTasks = project1.getTasks();
+                //根据taskIds查询task库里是否存在，如果不存在就绑定到project1里
+                //判断project1里是否包含task,有就继续，没有就添加
+                for (Task task : taskService.findAll(taskIds)) {
+                    if (projectTasks.contains(task)) {
+                        continue;
+                    }
+                    projectTasks.add(task);
+
+                }
+
+                for (Task task : project.getTasks()) {
+
+                    projectTasks.add(taskService.save(task));
+
+                }
+
+                project.setTasks(new HashSet<>(projectTasks));
+
+                Project save = projectService.save(project);
+                Set<Task> tasks = save.getTasks();
+                Iterator<Task> iterator = tasks.iterator();
+                while (iterator.hasNext()) {
+                    Task task = iterator.next();
+                    if (task.getStrategy() == 2) //strategy属性等于2时即删除task
+                        iterator.remove();
+                }
+                UpdateUtil.copyNullProperties(project1, save);
+                return save;
             }
-
-            for (Task task : project.getTasks()) {
-
-                projectTasks.add(taskService.save(task));
-
-            }
-
-            project.setTasks(new HashSet<>(projectTasks));
-
-            Project save = projectService.save(project);
-            Set<Task> tasks = save.getTasks();
-            Iterator<Task> iterator = tasks.iterator();
-            while(iterator.hasNext()){
-                Task task = iterator.next();
-                if(task.getTaskState()==2)
-                    iterator.remove();   //注意这个地方
-            }
-
-            return save;
+        }catch (Exception e) {
+            throw new ProjectException(ResultEnum.PARAM_ERROR);
         }
-
-        return projectService.save(project);
+        Result result = new Result("请传入Id");
+        return result;
     }
 
     /**
