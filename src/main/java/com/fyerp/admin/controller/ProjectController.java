@@ -15,6 +15,7 @@ import com.fyerp.admin.domain.vo.ProjectInfoVO;
 import com.fyerp.admin.domain.vo.ProjectVO;
 import com.fyerp.admin.enums.ResultEnum;
 import com.fyerp.admin.exception.ProjectException;
+import com.fyerp.admin.service.PlanService;
 import com.fyerp.admin.service.ProjectCategoryService;
 import com.fyerp.admin.service.ProjectService;
 import com.fyerp.admin.service.TaskService;
@@ -33,6 +34,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static org.activiti.engine.impl.event.logger.handler.Fields.PRIORITY;
 
@@ -59,6 +61,9 @@ public class ProjectController {
 
     @Autowired
     private TaskService taskService;
+
+    @Autowired
+    private PlanService planService;
 
     /**
      * 查询单个项目
@@ -167,7 +172,7 @@ public class ProjectController {
      * @return
      */
     @ApiOperation(value = "添加项目", notes = "根据Project对象创建项目")
-    @RequestMapping(value = "/add", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+    @PostMapping(value = "/add",produces = "application/json;charset=UTF-8")
     public ProjectVO addProject(@RequestBody ProjectVO projectVO) {
         Project project =new Project();
         UpdateUtil.copyNullProperties(projectVO,project);
@@ -184,36 +189,36 @@ public class ProjectController {
     @ApiOperation(value = "更新项目", notes = "更新项目")
     @PutMapping(value = "/update")
     public Object updateProject(@RequestBody Project project) {
-
         try {
+            //根据id来查询，再更新
             if (project.getProjectId() != 0) {
                 Project project1 = projectService.findOne(project.getProjectId());
                 //获取project1里的taskIds
                 List<Long> taskIds = new ArrayList<>();
-                for (Task task : project1.getTasks()) {
-                    Long taskId = task.getTaskId();
+                for (Task task1 : project1.getTasks()) {
+                    Long taskId = task1.getTaskId();
                     taskIds.add(taskId);
                 }
-                Set<Task> projectTasks = project1.getTasks();
+                Set<Task> project1Tasks = project1.getTasks();
                 //根据taskIds查询task库里是否存在，如果不存在就绑定到project1里
                 //判断project1里是否包含task,有就继续，没有就添加
                 for (Task task : taskService.findAll(taskIds)) {
-                    if (projectTasks.contains(task)) {
+                    if (project1Tasks.contains(task)) {
                         continue;
                     }
-                    projectTasks.add(task);
-
+                    project1Tasks.add(task);
                 }
-
+//----------------------
+//id为0就新增
                 for (Task task : project.getTasks()) {
-
-                    projectTasks.add(taskService.save(task));
-
+                    project1Tasks.add(taskService.save(task));
                 }
 
-                project.setTasks(new HashSet<>(projectTasks));
+                project.setTasks(new HashSet<>(project1Tasks));
 
                 Project save = projectService.save(project);
+
+                //strategy参数为2就是删除
                 Set<Task> tasks = save.getTasks();
                 Iterator<Task> iterator = tasks.iterator();
                 while (iterator.hasNext()) {
@@ -221,7 +226,7 @@ public class ProjectController {
                     if (task.getStrategy() == 2) //strategy属性等于2时即删除task
                         iterator.remove();
                 }
-                UpdateUtil.copyNullProperties(project1, save);
+//                UpdateUtil.copyNullProperties(project1, save);
                 return save;
             }
         }catch (Exception e) {
@@ -230,10 +235,8 @@ public class ProjectController {
         Result result = new Result("请传入Id");
         return result;
     }
-
     /**
      * 删除项目
-     *
      * @param projectId
      */
     @ApiOperation(value = "删除项目", notes = "删除项目前先确认项目下是否有任务")

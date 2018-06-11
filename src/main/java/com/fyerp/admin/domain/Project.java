@@ -108,6 +108,11 @@ public class Project {
     private String projectContent;
 
     /**
+     * 项目分类
+     */
+    private String projectCategory;
+
+    /**
      * 项目范围
      */
     private String projectScope;

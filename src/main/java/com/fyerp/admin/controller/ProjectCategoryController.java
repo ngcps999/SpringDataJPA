@@ -30,6 +30,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("projectCategory")
@@ -135,36 +136,20 @@ public class ProjectCategoryController {
             if (projectCategory.getCategoryId() != 0) {
                 ProjectCategory projectCategory1 = categoryService.findOne(projectCategory.getCategoryId());
                 //获取project1里的taskIds
-                List<Integer> projectIds = new ArrayList<>();
-                for (Project project : projectCategory1.getProjects()) {
-                    Integer projectId = project.getProjectId();
-                    projectIds.add(projectId);
-                }
+                List<Integer> projectIds = projectCategory1.getProjects().stream().map(Project::getProjectId).collect(Collectors.toList());
                 Set<Project> categoryProjects = projectCategory.getProjects();
                 //根据taskIds查询task库里是否存在，如果不存在就绑定到project1里
                 //判断project1里是否包含task,有就继续，没有就添加
-                for (Project project : projectService.findAll(projectIds)) {
-                    if (categoryProjects.contains(project)) {
-                        continue;
-                    }
-                    categoryProjects.add(project);
+                projectService.findAll(projectIds).stream().filter(project -> !categoryProjects.contains(project)).forEach(categoryProjects::add);
 
-                }
-
-                for (Project project : projectCategory.getProjects()) {
-                    categoryProjects.add(projectService.save(project));
-                }
+                projectCategory.getProjects().stream().map(project -> projectService.save(project)).forEach(categoryProjects::add);
 
                 projectCategory.setProjects(new HashSet<>(categoryProjects));
 
                 ProjectCategory save = categoryService.save(projectCategory);
                 Set<Project> tasks = save.getProjects();
-                Iterator<Project> iterator = tasks.iterator();
-                while (iterator.hasNext()) {
-                    Project project = iterator.next();
-                    if (project.getStrategy() == 2) //strategy属性等于2时即删除task
-                        iterator.remove();
-                }
+                //strategy属性等于2时即删除task
+                tasks.removeIf(project -> project.getStrategy() == 2);
                 UpdateUtil.copyNullProperties(projectCategory1, save);
                 return save;
             }
