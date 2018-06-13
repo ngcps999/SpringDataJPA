@@ -7,13 +7,9 @@
 package com.fyerp.admin.respository;
 
 import com.fyerp.admin.domain.Permission;
-import com.fyerp.admin.domain.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+import com.fyerp.admin.respository.BaseRespository.BaseRepository;
 
-import java.util.List;
-
-public interface PermissionRespository extends JpaRepository<Permission,Long> {
+public interface PermissionRespository extends BaseRepository<Permission,Long> {
 
 //    @Query("select p from user u LEFT JOIN user_role ur on u.user_id = ur.user_id" +
 //            "left join Role r on ur.role_id = r.role_id" +

@@ -7,18 +7,13 @@
 package com.fyerp.admin.respository;
 
 import com.fyerp.admin.domain.Department;
-import com.fyerp.admin.domain.User;
-import com.fyerp.admin.domain.dto.DepartmentDTO;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.fyerp.admin.respository.BaseRespository.BaseRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
-
-public interface DepartmentRespository extends JpaRepository<Department, Long> {
+public interface DepartmentRespository extends BaseRepository<Department, Long> {
 
     @Modifying
     @Transactional

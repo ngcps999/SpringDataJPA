@@ -7,11 +7,11 @@
 package com.fyerp.admin.respository;
 
 import com.fyerp.admin.domain.User;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.fyerp.admin.respository.BaseRespository.BaseRepository;
 
 import java.util.List;
 
-public interface LoginRespository extends JpaRepository<User,Long> {
+public interface LoginRespository extends BaseRepository<User,Long> {
 
     public List<User> findByUsernameAndPassword(String name, String password);
 

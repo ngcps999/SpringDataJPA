@@ -7,7 +7,7 @@
 package com.fyerp.admin.respository;
 
 import com.fyerp.admin.domain.Plan;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.fyerp.admin.respository.BaseRespository.BaseRepository;
 
-public interface PlanRespository extends JpaRepository<Plan,Integer> {
+public interface PlanRespository extends BaseRepository<Plan,Integer> {
 }

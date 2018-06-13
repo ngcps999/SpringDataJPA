@@ -11,10 +11,9 @@
 package com.fyerp.admin.respository;
 
 import com.fyerp.admin.domain.Project;
+import com.fyerp.admin.respository.BaseRespository.BaseRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Date;
 import java.util.List;
@@ -23,7 +22,7 @@ import java.util.List;
  * 项目持久层Dao
  */
 
-public interface ProjectRespository extends JpaRepository<Project, Integer> {
+public interface ProjectRespository extends BaseRepository<Project, Integer> {
 
     List<Project> findProjectsByProjectState(Integer projectState);
 

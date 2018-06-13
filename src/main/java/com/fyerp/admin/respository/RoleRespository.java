@@ -7,8 +7,8 @@
 package com.fyerp.admin.respository;
 
 import com.fyerp.admin.domain.Role;
-import org.springframework.data.jpa.repository.JpaRepository;
+import com.fyerp.admin.respository.BaseRespository.BaseRepository;
 
-public interface RoleRespository extends JpaRepository<Role,Long> {
+public interface RoleRespository extends BaseRepository<Role,Long> {
 
 }

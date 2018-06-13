@@ -7,9 +7,8 @@
 package com.fyerp.admin.respository;
 
 import com.fyerp.admin.domain.Contract;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.repository.CrudRepository;
+import com.fyerp.admin.respository.BaseRespository.BaseRepository;
 
-public interface ContractRespository extends JpaRepository<Contract,Integer> {
+public interface ContractRespository extends BaseRepository<Contract,Integer> {
 
 }

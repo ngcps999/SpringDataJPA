@@ -53,6 +53,7 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public Task save(Task task) {
+        taskRespository.baseTest();
         return taskRespository.save(task);
     }
     @Override
