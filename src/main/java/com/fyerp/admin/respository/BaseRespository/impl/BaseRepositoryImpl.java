@@ -56,7 +56,9 @@ public class BaseRepositoryImpl<T, ID extends Serializable>  extends SimpleJpaRe
 
         //如果是更新，不更新为null字段
         T s = this.findOne(id);
-        UpdateUtil.copyNullProperties(s,entity);
+        if(s != null){
+            UpdateUtil.copyNullProperties(s,entity);
+        }
         return super.save(entity);
     }
 

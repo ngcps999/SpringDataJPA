@@ -71,8 +71,8 @@ public class Task {
     /**
      * 计划
      */
-    @OneToMany(targetEntity = Plan.class,cascade = {CascadeType.MERGE},fetch = FetchType.EAGER)
-    @JoinColumn(name = "taskId")
+    @ManyToMany(targetEntity = Plan.class,cascade = {CascadeType.MERGE},fetch = FetchType.EAGER)
+    @JoinTable(name = "TaskPlan", joinColumns = {@JoinColumn(name = "taskId")}, inverseJoinColumns = {@JoinColumn(name = "planId")})
     @JsonProperty(value = "children")
     private Set<Plan> plans = new HashSet<>();
 

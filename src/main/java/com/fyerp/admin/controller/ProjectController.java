@@ -285,4 +285,103 @@ public class ProjectController {
         tasks.removeAll(tasks);
         projectService.delete(projectId);
     }
+
+
+
+    @ApiOperation(value = "更新项目2", notes = "更新项目2")
+    @PutMapping(value = "/update2")
+    public Object updateProject2(@RequestBody Project project){
+
+        try {
+            if(project.getProjectId().intValue() > 0){
+                //更新
+
+                /*先将整个project整理出来，再整体入库*/
+                Project project1 = projectService.findOne(project.getProjectId());
+//                1)整理task
+                Set<Task> project1Task = project1.getTasks();
+
+                Iterator<Task> taskIterator = project1Task.iterator();
+                if(project.getTasks() != null){
+                    //迭代传入参数中的task.如果不同则放入要更新对象中
+                    Set<Task> newTasks = new HashSet<>();
+                    for(Task task : project.getTasks()){
+                        //比较原先task与当前task的id，如果不同，插入
+                        boolean isInsert = true;
+                        while (taskIterator.hasNext()){
+                            Task oldTask = taskIterator.next();
+                            if(oldTask.getTaskId().intValue() == task.getTaskId().intValue()){
+                                //如果是ID一样的，更新操作，把原来的task删除掉并新增一个处理过的进去
+                                taskIterator.remove();
+                                isInsert = false;
+                                Task newTask = task;
+                                //对修改的和原先的两个task处理合并成一个,需要合并子对象plan
+                                if(newTask.getPlans() != null){
+                                    Set<Plan> newPlans = new HashSet<>();
+                                    for(Plan newPlan : newTask.getPlans()){
+                                        Iterator<Plan> planIterator = oldTask.getPlans().iterator();
+                                        boolean insertPlan = true;
+                                        while (planIterator.hasNext()){
+                                            if(newPlan.getPlanId().intValue() == planIterator.next().getPlanId().intValue()){
+                                                insertPlan = false;
+                                                //替换
+                                                newPlans.add(newPlan);
+                                                planIterator.remove();
+                                                break;
+                                            }
+                                        }
+                                        if(insertPlan){
+                                            newPlans.add(newPlan);
+                                        }
+                                    }
+                                    oldTask.getPlans().addAll(newPlans);
+                                    newTask.setPlans(oldTask.getPlans());
+
+                                }else{
+                                    newTask.setPlans(oldTask.getPlans());
+                                }
+                                newTasks.add(newTask);
+                                break;
+                            }
+                        }
+                        if(isInsert){
+                            newTasks.add(task);
+                        }
+                    }
+                    project1Task.addAll(newTasks);
+                }
+                project.setTasks(project1Task);
+
+                Project save = projectService.save(project);
+
+                //处理以删除元素不返回，strategy参数为2就是删除
+                if(save.getStrategy().intValue() == 2){
+                    return null;
+                }else{
+                    Set<Task> taskSet = new HashSet<>();
+                    for(Task task : save.getTasks()){
+                        if(task.getStrategy().intValue() != 2){
+                            Set<Plan> planSet = new HashSet<>();
+                            for(Plan plan : task.getPlans()){
+                                if(plan.getStrategy() != 2){
+                                    planSet.add(plan);
+                                }
+                            }
+                            task.setPlans(planSet);
+                            taskSet.add(task);
+                        }
+                    }
+                    save.setTasks(taskSet);
+
+                }
+
+                return save;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+        return projectService.save(project);
+    }
 }

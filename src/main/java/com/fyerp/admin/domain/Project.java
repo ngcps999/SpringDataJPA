@@ -193,8 +193,8 @@ public class Project {
      * 任务
      */
     @JsonProperty(value = "children")
-    @OneToMany(targetEntity = Task.class,cascade = {CascadeType.MERGE,CascadeType.REMOVE}, fetch = FetchType.EAGER)
-    @JoinColumn(name = "projectId")
+    @ManyToMany(targetEntity = Task.class,cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @JoinTable(name = "ProjectTask", joinColumns = {@JoinColumn(name = "projectId")}, inverseJoinColumns = {@JoinColumn(name = "taskId")})
     private Set<Task> tasks = new HashSet<>();
 
     /**
