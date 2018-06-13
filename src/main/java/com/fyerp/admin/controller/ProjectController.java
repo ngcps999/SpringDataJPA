@@ -190,6 +190,7 @@ public class ProjectController {
     @PutMapping(value = "/update")
     public Object updateProject(@RequestBody Project project) {
         try {
+
             //根据id来查询，再更新
             if (project.getProjectId() != 0) {
                 Project project1 = projectService.findOne(project.getProjectId());
@@ -247,16 +248,17 @@ public class ProjectController {
                     Task task = iterator.next();
                     if (task.getStrategy() == 2) //strategy属性等于2时即删除task
                         iterator.remove();
+
                 }
                 for (Task task : tasks) {
-                    Set<Plan> plans = task.getPlans();
-                    Iterator<Plan> iterator1= plans.iterator();
+                    Iterator<Plan> iterator1 = task.getPlans().iterator();
                     while (iterator1.hasNext()) {
                         Plan plan = iterator1.next();
-                        if (plan.getStrategy() == 2) //strategy属性等于2时即删除task
+                        if (plan.getStrategy() == 2)
                             iterator.remove();
                     }
                 }
+
 //                UpdateUtil.copyNullProperties(project1, save);
                 return save;
             }
@@ -264,8 +266,8 @@ public class ProjectController {
 //            throw new ProjectException(ResultEnum.PARAM_ERROR);
             e.printStackTrace();
         }
-        Result result = new Result("请传入Id");
-        return result;
+//        Result result = new Result("请传入Id");
+        return projectService.save(project);
     }
 
     /**
