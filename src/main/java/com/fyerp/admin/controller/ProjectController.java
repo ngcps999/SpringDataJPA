@@ -172,12 +172,12 @@ public class ProjectController {
      * @return
      */
     @ApiOperation(value = "添加项目", notes = "根据Project对象创建项目")
-    @PostMapping(value = "/add",produces = "application/json;charset=UTF-8")
+    @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
     public ProjectVO addProject(@RequestBody ProjectVO projectVO) {
-        Project project =new Project();
-        UpdateUtil.copyNullProperties(projectVO,project);
+        Project project = new Project();
+        UpdateUtil.copyNullProperties(projectVO, project);
         Project project1 = projectService.save(project);
-        BeanUtils.copyNotNullProperties(project1,projectVO);
+        BeanUtils.copyNotNullProperties(project1, projectVO);
         return projectVO;
     }
 
@@ -194,11 +194,7 @@ public class ProjectController {
             if (project.getProjectId() != 0) {
                 Project project1 = projectService.findOne(project.getProjectId());
                 //获取project1里的taskIds
-                List<Long> taskIds = new ArrayList<>();
-                for (Task task1 : project1.getTasks()) {
-                    Long taskId = task1.getTaskId();
-                    taskIds.add(taskId);
-                }
+                List<Long> taskIds = project1.getTasks().stream().map(Task::getTaskId).collect(Collectors.toList());
                 Set<Task> project1Tasks = project1.getTasks();
                 //根据taskIds查询task库里是否存在，如果不存在就绑定到project1里
                 //判断project1里是否包含task,有就继续，没有就添加
@@ -208,9 +204,35 @@ public class ProjectController {
                     }
                     project1Tasks.add(task);
                 }
+
+                for (Task task : project1.getTasks()) {
+                    Task task1 = taskService.findOne(task.getTaskId());
+                    //获取task1里的planIds
+                    List<Integer> planIds = task1.getPlans().stream().map(Plan::getPlanId).collect(Collectors.toList());
+                    //根据planIds查询plan库里是否存在，如果不存在就绑定到task1里
+                    //判断task1里是否包含plan,有就继续，没有就添加
+                    Set<Plan> task1Plans = task1.getPlans();
+                    for (Plan plan : planService.findAll(planIds)) {
+                        if (task1Plans.contains(plan)){
+                            continue;
+                        }
+                        task1Plans.add(plan);
+                    }
+                }
+
 //----------------------
 //id为0就新增
                 for (Task task : project.getTasks()) {
+                    for (Plan plan : task.getPlans()) {
+                        for (Task project1Task : project1Tasks) {
+                            Task task1 = taskService.findOne(project1Task.getTaskId());
+                            Set<Plan> task1Plans = task1.getPlans();
+                            task1Plans.add(planService.save(plan));
+                            for (Task task2 : project.getTasks()) {
+                                task2.setPlans(new HashSet<>(task1Plans));
+                            }
+                        }
+                    }
                     project1Tasks.add(taskService.save(task));
                 }
 
@@ -226,17 +248,29 @@ public class ProjectController {
                     if (task.getStrategy() == 2) //strategy属性等于2时即删除task
                         iterator.remove();
                 }
+                for (Task task : tasks) {
+                    Set<Plan> plans = task.getPlans();
+                    Iterator<Plan> iterator1= plans.iterator();
+                    while (iterator1.hasNext()) {
+                        Plan plan = iterator1.next();
+                        if (plan.getStrategy() == 2) //strategy属性等于2时即删除task
+                            iterator.remove();
+                    }
+                }
 //                UpdateUtil.copyNullProperties(project1, save);
                 return save;
             }
-        }catch (Exception e) {
-            throw new ProjectException(ResultEnum.PARAM_ERROR);
+        } catch (Exception e) {
+//            throw new ProjectException(ResultEnum.PARAM_ERROR);
+            e.printStackTrace();
         }
         Result result = new Result("请传入Id");
         return result;
     }
+
     /**
      * 删除项目
+     *
      * @param projectId
      */
     @ApiOperation(value = "删除项目", notes = "删除项目前先确认项目下是否有任务")
