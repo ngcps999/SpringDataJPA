@@ -298,6 +298,9 @@ public class ProjectController {
 
                 /*先将整个project整理出来，再整体入库*/
                 Project project1 = projectService.findOne(project.getProjectId());
+
+
+
 //                1)整理task
                 Set<Task> project1Task = project1.getTasks();
 
@@ -345,7 +348,7 @@ public class ProjectController {
                             }
                         }
                         if(isInsert){
-                            newTasks.add(task);
+                            newTasks.add(taskService.save(task));
                         }
                     }
                     project1Task.addAll(newTasks);
