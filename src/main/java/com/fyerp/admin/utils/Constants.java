@@ -21,5 +21,12 @@ public class Constants {
 	public static final String ROLE_CODE_OPERATOR = "operator";
 	/**管理员*/
 	public static final String ROLE_CODE_ADMIN = "admin";
+
+	/**
+	 * PROJECT strategy 参数
+	 */
+	public static final int PROJECT_STRATEGY_INSERT = 0;
+	public static final int PROJECT_STRATEGY_UPDATE = 1;
+	public static final int PROJECT_STRATEGY_DELETE = 2;
 	
 }

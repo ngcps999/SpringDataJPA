@@ -21,6 +21,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import sun.util.calendar.BaseCalendar;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 @Entity
@@ -28,7 +29,7 @@ import java.util.Date;
 @DynamicUpdate
 @DynamicInsert
 @Data
-public class Plan {
+public class Plan implements Serializable {
 
     @Id
     @GeneratedValue

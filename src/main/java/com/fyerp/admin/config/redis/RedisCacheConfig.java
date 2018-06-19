@@ -22,6 +22,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import redis.clients.jedis.JedisPool;
 import redis.clients.jedis.JedisPoolConfig;
@@ -70,6 +71,11 @@ public class RedisCacheConfig extends CachingConfigurerSupport {
         RedisTemplate<String, String> redisTemplate = new RedisTemplate<String, String>();
         redisTemplate.setConnectionFactory(cf);
         return redisTemplate;
+    }
+
+    @Bean
+    public HashOperations<String,String,Object> hashOperations(RedisTemplate redisTemplate){
+        return redisTemplate.opsForHash();
     }
 
     @Bean

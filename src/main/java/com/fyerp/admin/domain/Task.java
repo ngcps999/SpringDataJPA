@@ -24,6 +24,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.*;
 
@@ -37,7 +38,7 @@ import java.util.*;
 @EntityListeners(AuditingEntityListener.class)
 @Data
 @DynamicInsert
-public class Task {
+public class Task implements Serializable {
 
     @Id
     @GeneratedValue

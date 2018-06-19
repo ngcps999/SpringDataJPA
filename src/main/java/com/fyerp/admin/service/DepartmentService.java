@@ -46,4 +46,6 @@ public interface DepartmentService {
     public Integer insert(Long departmentId, Long userId);
 
     public Integer deleteA(Long departmentId,Long userId);
+
+    Department updateDepartment(Department department);
 }

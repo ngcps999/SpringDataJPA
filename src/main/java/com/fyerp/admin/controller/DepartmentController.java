@@ -98,15 +98,15 @@ public class DepartmentController {
      *
      * @return
      */
-    @ApiOperation(value = "添加部门", notes = "根据department对象属性创建部门")
-    @RequestMapping(value = "/add", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-    public DepartmentDTO addDepartment(@RequestBody DepartmentDTO departmentDTO) {
-        Department department = new Department();
-        UpdateUtil.copyNullProperties(departmentDTO,department);
-        Department department1 = departmentService.save(department);
-        BeanUtils.copyNotNullProperties(department1,departmentDTO);
-        return departmentDTO;
-    }
+//    @ApiOperation(value = "添加部门", notes = "根据department对象属性创建部门")
+//    @RequestMapping(value = "/add", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+//    public DepartmentDTO addDepartment(@RequestBody DepartmentDTO departmentDTO) {
+//        Department department = new Department();
+//        UpdateUtil.copyNullProperties(departmentDTO,department);
+//        Department department1 = departmentService.save(department);
+//        BeanUtils.copyNotNullProperties(department1,departmentDTO);
+//        return departmentDTO;
+//    }
     /**
      * 统计部门数量
      *
@@ -128,49 +128,7 @@ public class DepartmentController {
     @ApiOperation(value = "更新部门", notes = "根据部门的id来更新部门")
     @PutMapping(value = "/update")
     public Object updateDepartment(@RequestBody Department department) {
-
-        try {
-            if (department.getDepartmentId() != 0) {
-                Department department1 = departmentService.findOne(department.getDepartmentId());
-                //获取project1里的taskIds
-                List<Long> userIds = new ArrayList<>();
-                for (User user : department1.getUsers()) {
-                    Long userId = user.getUserId();
-                    userIds.add(userId);
-                }
-                Set<User> departmentUsers = department1.getUsers();
-                //根据taskIds查询task库里是否存在，如果不存在就绑定到project1里
-                //判断project1里是否包含task,有就继续，没有就添加
-                for (User user : userService.findAll(userIds)) {
-                    if (departmentUsers.contains(user)) {
-                        continue;
-                    }
-                    departmentUsers.add(user);
-
-                }
-
-                for (User user : department.getUsers()) {
-                    departmentUsers.add(userService.save(user));
-                }
-
-                department.setUsers(new HashSet<>(departmentUsers));
-
-                Department save = departmentService.save(department);
-                Set<User> users = save.getUsers();
-                Iterator<User> iterator = users.iterator();
-                while (iterator.hasNext()) {
-                    User user = iterator.next();
-                    if (user.getStrategy() == 2) //strategy属性等于2时即删除user
-                        iterator.remove();
-                }
-                UpdateUtil.copyNullProperties(department1, save);
-                return save;
-            }
-        }catch (Exception e) {
-            throw new DepartmentException(ResultEnum.PARAM_ERROR);
-        }
-        Result result = new Result("请传入Id");
-        return result;
+        return departmentService.updateDepartment(department);
     }
 
 
