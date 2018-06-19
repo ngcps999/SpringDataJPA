@@ -89,9 +89,9 @@ public class ProjectController {
      */
     @ApiOperation(value = "按计划开始时间和计划结束时间段查询", notes = "按计划开始时间和计划结束时间段查询")
     @GetMapping(value = "/findByPlanDate")
-    public Project findByPlanStartDateAfterAndPlanEndDateBefore(@RequestParam("planStartDate") Date planStartDate,
+    public List<Project> findByPlanStartDateAfterAndPlanEndDateBefore(@RequestParam("planStartDate") Date planStartDate,
                                                                 @RequestParam("planEndDate") Date planEndDate) {
-        return (Project) projectService.findByPlanStartDateAfterAndPlanEndDateBefore(planStartDate, planEndDate);
+        return projectService.findByPlanStartDateAfterAndPlanEndDateBefore(planStartDate, planEndDate);
     }
 
     /**
@@ -101,9 +101,9 @@ public class ProjectController {
      */
     @ApiOperation(value = "按实际开始时间和实际结束时间段查询", notes = "按实际开始时间和实际结束时间段查询")
     @GetMapping(value = "/findByRealDate")
-    public Project findByRealStartDateAfterAndRealEndDateBefore(@RequestParam("realStartDate") Date realStartDate,
+    public List<Project> findByRealStartDateAfterAndRealEndDateBefore(@RequestParam("realStartDate") Date realStartDate,
                                                                 @RequestParam("realEndDate") Date realEndDate) {
-        return (Project) projectService.findByPlanStartDateAfterAndPlanEndDateBefore(realStartDate, realEndDate);
+        return projectService.findByPlanStartDateAfterAndPlanEndDateBefore(realStartDate, realEndDate);
     }
 
     /**
@@ -188,7 +188,7 @@ public class ProjectController {
      * @return
      */
     @ApiOperation(value = "更新项目", notes = "更新项目")
-    @PutMapping(value = "/update")
+//    @PutMapping(value = "/update")
     public Object updateProject(@RequestBody Project project) {
         try {
 
@@ -200,7 +200,8 @@ public class ProjectController {
                 Set<Task> project1Tasks = project1.getTasks();
                 //根据taskIds查询task库里是否存在，如果不存在就绑定到project1里
                 //判断project1里是否包含task,有就继续，没有就添加
-                for (Task task : taskService.findAll(taskIds)) {
+                List<Task> taskList = taskService.findAll(taskIds);
+                for (Task task : taskList) {
                     if (project1Tasks.contains(task)) {
                         continue;
                     }
@@ -225,17 +226,14 @@ public class ProjectController {
 //----------------------
 //id为0就新增
                 for (Task task : project.getTasks()) {
+                    Task task1 = taskService.save(task);
+                    project1Tasks.add(task1);
                     for (Plan plan : task.getPlans()) {
-                        for (Task project1Task : project1Tasks) {
-                            Task task1 = taskService.findOne(project1Task.getTaskId());
-                            Set<Plan> task1Plans = task1.getPlans();
+                        Task task3 = taskService.findOne(task1.getTaskId());
+                        Set<Plan> task1Plans = task3.getPlans();
                             task1Plans.add(planService.save(plan));
-                            for (Task task2 : project.getTasks()) {
-                                task2.setPlans(new HashSet<>(task1Plans));
-                            }
-                        }
+                        task3.setPlans(task1Plans);
                     }
-                    project1Tasks.add(taskService.save(task));
                 }
 
                 project.setTasks(new HashSet<>(project1Tasks));
@@ -249,15 +247,6 @@ public class ProjectController {
                     Task task = iterator.next();
                     if (task.getStrategy() == 2) //strategy属性等于2时即删除task
                         iterator.remove();
-
-                }
-                for (Task task : tasks) {
-                    Iterator<Plan> iterator1 = task.getPlans().iterator();
-                    while (iterator1.hasNext()) {
-                        Plan plan = iterator1.next();
-                        if (plan.getStrategy() == 2)
-                            iterator.remove();
-                    }
                 }
 
 //                UpdateUtil.copyNullProperties(project1, save);
@@ -276,6 +265,7 @@ public class ProjectController {
      *
      * @param projectId
      */
+
     @ApiOperation(value = "删除项目", notes = "删除项目前先确认项目下是否有任务")
     @ApiImplicitParam(name = "id", value = "项目ID", required = true, dataType = "Integer", paramType = "path")
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
@@ -284,6 +274,7 @@ public class ProjectController {
         Set<Task> tasks = project.getTasks();
         tasks.removeAll(tasks);
         projectService.delete(projectId);
+
     }
 
 
@@ -298,8 +289,6 @@ public class ProjectController {
 
                 /*先将整个project整理出来，再整体入库*/
                 Project project1 = projectService.findOne(project.getProjectId());
-
-
 
 //                1)整理task
                 Set<Task> project1Task = project1.getTasks();
