@@ -194,7 +194,7 @@ public class Project implements Serializable {
      * 任务
      */
     @JsonProperty(value = "children")
-    @ManyToMany(targetEntity = Task.class,cascade = {CascadeType.MERGE}, fetch = FetchType.EAGER)
+    @ManyToMany(targetEntity = Task.class,cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     @JoinTable(name = "ProjectTask", joinColumns = {@JoinColumn(name = "projectId")}, inverseJoinColumns = {@JoinColumn(name = "taskId")})
     private Set<Task> tasks = new HashSet<>();
 
