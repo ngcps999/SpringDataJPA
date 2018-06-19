@@ -18,8 +18,6 @@ import org.springframework.beans.factory.annotation.Required;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-import sun.util.calendar.BaseCalendar;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;

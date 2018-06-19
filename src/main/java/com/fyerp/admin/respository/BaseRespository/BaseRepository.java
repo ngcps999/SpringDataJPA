@@ -9,6 +9,7 @@ import java.io.Serializable;
 public interface BaseRepository<T, ID extends Serializable>
         extends JpaRepository<T, ID> {
     void baseTest();
+
     boolean support(String modelType);
 
 }
