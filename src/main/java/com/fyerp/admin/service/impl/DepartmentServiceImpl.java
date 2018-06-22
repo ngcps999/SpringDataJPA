@@ -313,7 +313,8 @@ public class DepartmentServiceImpl implements DepartmentService {
                 return save;
             }
         }catch (Exception e){
-            throw new DepartmentException(ResultEnum.PARAM_ERROR);
+//            throw new DepartmentException(ResultEnum.PARAM_ERROR);
+            e.printStackTrace();
         }
 
         return departmentRespository.save(department);

@@ -60,8 +60,8 @@ public class Department {
     @JoinTable(name = "DepartmentUser", joinColumns = {@JoinColumn(name = "departmentId")}, inverseJoinColumns = {@JoinColumn(name = "userId")})
     private Set<User> users = new HashSet<>();
 
-        @JsonProperty(value = "tasks")
-//    @JsonIgnore
+//        @JsonProperty(value = "tasks")
+    @JsonIgnore
     @ManyToMany(targetEntity = Task.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "DepartmentTask", joinColumns = {@JoinColumn(name = "departmentId")}, inverseJoinColumns = {@JoinColumn(name = "taskId")})
     private Set<Task> tasks = new HashSet<>();
