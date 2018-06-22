@@ -78,13 +78,14 @@ public class Task implements Serializable {
     private Set<Plan> plans = new HashSet<>();
 
 
-//    /**
-//     * 一个任务具有多个部门参与
-//     */
+    /**
+     * 一个任务具有多个部门参与
+     */
 //    @JsonIgnore
-//    @ManyToMany(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)//立即从数据库中加载数据；
-//    @JoinTable(name = "DepartmentTask", joinColumns = {@JoinColumn(name = "taskId")}, inverseJoinColumns = {@JoinColumn(name = "departmentId")})
-//    private Set<Department> departments = new HashSet<>();
+    @JsonProperty("departments")
+    @ManyToMany(cascade = CascadeType.ALL,fetch = FetchType.EAGER)//立即从数据库中加载数据；
+    @JoinTable(name = "TaskDepartment", joinColumns = {@JoinColumn(name = "taskId")}, inverseJoinColumns = {@JoinColumn(name = "departmentId")})
+    private Set<Department> departments = new HashSet<>();
 
     @CreatedDate
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
