@@ -1,3 +1,4 @@
+/*
 package com.fyerp.admin.config.security;
 
 import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
@@ -70,13 +71,15 @@ public class ShiroConfig {
         return shiroFilterFactoryBean;
     }
 
-    /**
+    */
+/**
      * 凭证匹配器
      * （由于我们的密码校验交给Shiro的SimpleAuthenticationInfo进行处理了
      * ）
      *
      * @return
-     */
+     *//*
+
 //    @Bean
 //    public HashedCredentialsMatcher hashedCredentialsMatcher() {
 //        HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
@@ -115,13 +118,15 @@ public class ShiroConfig {
         return mySessionManager;
     }
 
-    /**
+    */
+/**
      * 配置shiro redisManager
      * <p>
      * 使用的是shiro-redis开源插件
      *
      * @return
-     */
+     *//*
+
     public RedisManager redisManager() {
         RedisManager redisManager = new RedisManager();
         redisManager.setHost(host);
@@ -132,13 +137,15 @@ public class ShiroConfig {
         return redisManager;
     }
 
-    /**
+    */
+/**
      * cacheManager 缓存 redis实现
      * <p>
      * 使用的是shiro-redis开源插件
      *
      * @return
-     */
+     *//*
+
     @Bean
     public RedisCacheManager redisCacheManager() {
         RedisCacheManager redisCacheManager = new RedisCacheManager();
@@ -146,11 +153,13 @@ public class ShiroConfig {
         return redisCacheManager;
     }
 
-    /**
+    */
+/**
      * RedisSessionDAO shiro sessionDao层的实现 通过redis
      * <p>
      * 使用的是shiro-redis开源插件
-     */
+     *//*
+
     @Bean
     public RedisSessionDAO redisSessionDAO() {
         RedisSessionDAO redisSessionDAO = new RedisSessionDAO();
@@ -158,13 +167,15 @@ public class ShiroConfig {
         return redisSessionDAO;
     }
 
-    /**
+    */
+/**
      * 开启shiro aop注解支持.
      * 使用代理方式;所以需要开启代码支持;
      *
      * @param securityManager
      * @return
-     */
+     *//*
+
     @Bean
     public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(SecurityManager securityManager) {
         AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
@@ -172,10 +183,12 @@ public class ShiroConfig {
         return authorizationAttributeSourceAdvisor;
     }
 
-    /**
+    */
+/**
      * 注册全局异常处理
      * @return
-     */
+     *//*
+
     @Bean(name = "exceptionHandler")
     public HandlerExceptionResolver handlerExceptionResolver() {
 //        return new MyExceptionHandler();
@@ -183,3 +196,4 @@ public class ShiroConfig {
     }
 
 }
+*/
