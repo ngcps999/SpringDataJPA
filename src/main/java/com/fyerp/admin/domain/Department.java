@@ -56,13 +56,13 @@ public class Department {
 
     //    @JsonIgnore
     @JsonProperty(value = "children")
-    @ManyToMany(targetEntity = User.class, cascade = CascadeType.MERGE, fetch = FetchType.EAGER)//立即从数据库中加载数据；
+    @ManyToMany(targetEntity = User.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)//立即从数据库中加载数据；
     @JoinTable(name = "DepartmentUser", joinColumns = {@JoinColumn(name = "departmentId")}, inverseJoinColumns = {@JoinColumn(name = "userId")})
     private Set<User> users = new HashSet<>();
 
         @JsonProperty(value = "tasks")
 //    @JsonIgnore
-    @ManyToMany(targetEntity = Task.class, cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
+    @ManyToMany(targetEntity = Task.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "DepartmentTask", joinColumns = {@JoinColumn(name = "departmentId")}, inverseJoinColumns = {@JoinColumn(name = "taskId")})
     private Set<Task> tasks = new HashSet<>();
 

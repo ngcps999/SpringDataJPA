@@ -78,7 +78,7 @@ public class Role implements Serializable {
      * 角色-权限多对多关系
      */
     @JsonProperty(value = "children")
-    @ManyToMany(targetEntity = Permission.class,cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
+    @ManyToMany(targetEntity = Permission.class,cascade = CascadeType.ALL,fetch = FetchType.EAGER)
     @JoinTable(name = "RolePermission", joinColumns = {@JoinColumn(name = "roleId")}, inverseJoinColumns = {@JoinColumn(name = "permissionId")})
     private Set<Permission> permissions =new HashSet<>();
 

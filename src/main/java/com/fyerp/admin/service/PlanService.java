@@ -11,6 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -28,4 +29,6 @@ public interface PlanService {
     Plan save(Plan plan);
 
     void delete(Integer planId);
+
+    List<Plan> findByPlanStartDateAfterAndPlanEndDateBefore(Date planStartDate, Date planEndDate);
 }

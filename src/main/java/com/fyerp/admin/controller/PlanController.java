@@ -21,6 +21,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @RestController
@@ -64,6 +65,18 @@ public class PlanController {
     public Plan findOnePlan(@RequestParam("id") Integer id) {
         logger.info("findOnePlan");
         return planService.findOne(id);
+    }
+
+    /**
+     * 按计划开始时间和计划结束时间段查询
+     *
+     * @return
+     */
+    @ApiOperation(value = "按计划开始时间和计划结束时间段查询", notes = "按计划开始时间和计划结束时间段查询")
+    @GetMapping(value = "/findByPlanDate")
+    public List<Plan> findByPlanStartDateAfterAndPlanEndDateBefore(@RequestParam("planStartDate") Date planStartDate,
+                                                                   @RequestParam("planEndDate") Date planEndDate) {
+        return planService.findByPlanStartDateAfterAndPlanEndDateBefore(planStartDate, planEndDate);
     }
 
     /**

@@ -16,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
@@ -65,5 +66,10 @@ public class PlanServiceImpl implements PlanService {
     @Override
     public void delete(Integer planId) {
         planRespository.delete(planId);
+    }
+
+    @Override
+    public List<Plan> findByPlanStartDateAfterAndPlanEndDateBefore(Date planStartDate, Date planEndDate) {
+        return planRespository.findByPlanStartDateAfterAndPlanEndDateBefore(planStartDate,planEndDate);
     }
 }
