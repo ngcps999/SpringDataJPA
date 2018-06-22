@@ -27,10 +27,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @RestController
 @RequestMapping(value = "/task")
@@ -99,6 +96,17 @@ public class TaskController {
 
         task.setPlans(plans1);
         return taskService.save(task);
+    }
+    /**
+     * 按计划开始时间和计划结束时间段查询
+     *
+     * @return
+     */
+    @ApiOperation(value = "按计划开始时间和计划结束时间段查询", notes = "按计划开始时间和计划结束时间段查询")
+    @GetMapping(value = "/findByPlanDate")
+    public List<Task> findByPlanStartDateAfterAndPlanEndDateBefore(@RequestParam("planStartDate") Date planStartDate,
+                                                                      @RequestParam("planEndDate") Date planEndDate) {
+        return taskService.findByPlanStartDateAfterAndPlanEndDateBefore(planStartDate, planEndDate);
     }
 
     /**

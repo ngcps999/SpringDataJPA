@@ -98,7 +98,7 @@ public class User {
 ////    @NotEmpty
 //            @JsonIgnore
     @JsonProperty("children")
-    @ManyToMany(targetEntity = Role.class,cascade = {CascadeType.MERGE},fetch = FetchType.EAGER)//立即从数据库中加载数据；
+    @ManyToMany(targetEntity = Role.class,cascade = {CascadeType.ALL},fetch = FetchType.EAGER)//立即从数据库中加载数据；
     @JoinTable(name = "UserRole", joinColumns = {@JoinColumn(name = "userId")}, inverseJoinColumns = {@JoinColumn(name = "roleId")})
     private Set<Role> roles = new HashSet<>();
 

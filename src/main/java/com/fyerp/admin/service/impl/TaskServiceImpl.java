@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -65,5 +66,10 @@ public class TaskServiceImpl implements TaskService {
     @Override
     public void delete(Long taskId) {
         taskRespository.delete(taskId);
+    }
+
+    @Override
+    public List<Task> findByPlanStartDateAfterAndPlanEndDateBefore(Date planStartDate, Date planEndDate) {
+        return taskRespository.findByTaskPlanStartDateAfterAndTaskPlanEndDateBefore(planStartDate,planEndDate);
     }
 }

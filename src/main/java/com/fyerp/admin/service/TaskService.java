@@ -12,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import java.util.Date;
 import java.util.List;
 
 public interface TaskService {
@@ -30,4 +31,5 @@ public interface TaskService {
 
     void delete(Long taskId);
 
+    List<Task> findByPlanStartDateAfterAndPlanEndDateBefore(Date planStartDate, Date planEndDate);
 }

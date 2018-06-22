@@ -9,5 +9,9 @@ package com.fyerp.admin.respository;
 import com.fyerp.admin.domain.Plan;
 import com.fyerp.admin.respository.BaseRespository.BaseRepository;
 
+import java.util.Date;
+import java.util.List;
+
 public interface PlanRespository extends BaseRepository<Plan,Integer> {
+    List<Plan> findByPlanStartDateAfterAndPlanEndDateBefore(Date planStartDate, Date planEndDate);
 }

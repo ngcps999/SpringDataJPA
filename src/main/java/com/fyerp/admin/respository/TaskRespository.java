@@ -9,6 +9,10 @@ package com.fyerp.admin.respository;
 import com.fyerp.admin.domain.Task;
 import com.fyerp.admin.respository.BaseRespository.BaseRepository;
 
+import java.util.Date;
+import java.util.List;
+
 public interface TaskRespository extends BaseRepository<Task,Long> {
 
+    List<Task> findByTaskPlanStartDateAfterAndTaskPlanEndDateBefore(Date planStartDate, Date planEndDate);
 }
