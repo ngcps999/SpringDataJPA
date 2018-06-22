@@ -24,7 +24,10 @@ public enum ResultEnum {
     TASK_CANCEL_SUCCESS(23, "任务取消成功"),
     TASK_FINISH_SUCCESS(24, "任务完成成功"),
     LOGOUT_SUCCESS(24, "登出成功"),
-    STRATEGY_ERROR(3,"Strategy输入错误，0新增1更新2删除");
+    STRATEGY_ERROR(3,"Strategy输入错误，0新增1更新2删除"),
+    USER_STRATEGY_DELETE(25,"用户已停用"),
+    LOGIN_FAILED(26,"登录失败，请检查用户名或密码"),
+    EMPTY_LOGIN_PARAM(27,"用户名和密码不能为空");
 
     private Integer code;
     private String msg;

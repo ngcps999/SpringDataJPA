@@ -44,7 +44,7 @@ import java.util.*;
 @DynamicUpdate
 @DynamicInsert
 @EntityListeners(AuditingEntityListener.class)
-public class User {
+public class User implements Serializable{
 
     /**
      * 用户Id

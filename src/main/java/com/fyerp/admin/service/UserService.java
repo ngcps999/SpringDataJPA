@@ -74,4 +74,6 @@ public interface UserService {
 	void delete(Long userId);
 
 
+	User findUserByNameAndPwd(String userName,String password);
+
 }

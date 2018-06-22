@@ -112,7 +112,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Project save(Project project) {
         try {
-            if(project.getProjectId().intValue() > 0){
+            if(project.getProjectId() != null && project.getProjectId().intValue() > 0){
                 //更新
 
                 /*先将整个project整理出来，再整体入库*/

@@ -52,6 +52,12 @@ public class UserDTO {
     @JsonProperty("status")
     private Integer state;
 
+    @JsonProperty("name")
+    private String name;
+
+    @JsonProperty("username")
+    private String username;
+
 //    /**
 //     * 一个用户具有多个角色
 //     */

@@ -25,8 +25,8 @@ public class Constants {
 	/**
 	 * PROJECT strategy 参数
 	 */
-	public static final int PROJECT_STRATEGY_INSERT = 0;
-	public static final int PROJECT_STRATEGY_UPDATE = 1;
-	public static final int PROJECT_STRATEGY_DELETE = 2;
+	public static final int STRATEGY_INSERT = 0;
+	public static final int STRATEGY_UPDATE = 1;
+	public static final int STRATEGY_DELETE = 2;
 	
 }

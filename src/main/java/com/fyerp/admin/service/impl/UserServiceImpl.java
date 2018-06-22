@@ -15,6 +15,7 @@ import com.fyerp.admin.domain.dto.UserDTO;
 import com.fyerp.admin.respository.UserRepository;
 import com.fyerp.admin.service.UserService;
 import com.fyerp.admin.utils.BeanUtils;
+import com.fyerp.admin.utils.MD5Util;
 import com.fyerp.admin.utils.convert.User2UserDTOConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -22,6 +23,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -121,7 +123,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User user) {
-        return userRepository.save(user);
+        user.setPassword(MD5Util.getMD5(user.getPassword()));
+        User save = userRepository.save(user);
+        save.setPassword("");
+        return save;
     }
 
     @Override
@@ -133,5 +138,16 @@ public class UserServiceImpl implements UserService {
     public void delete(Long userId) {
         userRepository.delete(userId);
     }
+
+    @Override
+    public User findUserByNameAndPwd(String userName, String password) {
+        List<BigInteger> ids = userRepository.findUserIdsByNameAndPwd(userName,MD5Util.getMD5(password));
+        if(ids != null && ids.size() > 0){
+            return userRepository.findOne(ids.get(0).longValue());
+        }
+        return null;
+    }
+
+
 
 }
