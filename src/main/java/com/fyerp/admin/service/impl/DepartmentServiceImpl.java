@@ -130,10 +130,11 @@ public class DepartmentServiceImpl implements DepartmentService {
                 Department department1 = departmentRespository.findOne(department.getDepartmentId());
                 //处理task
                 Set<Task> department1Tasks = department1.getTasks();
-                Iterator<Task> iterator = department1Tasks.iterator();
+
                 if(department.getTasks() != null){
                     Set<Task> newTasks = new HashSet<>();
                     for(Task task : department.getTasks()){
+                        Iterator<Task> iterator = department1Tasks.iterator();
                         boolean isInsert = true;
                         while(iterator.hasNext()){
                             Task oldTask = iterator.next();
