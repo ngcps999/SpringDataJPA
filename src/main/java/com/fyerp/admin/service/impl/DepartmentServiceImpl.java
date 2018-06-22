@@ -187,11 +187,12 @@ public class DepartmentServiceImpl implements DepartmentService {
                 department.setTasks(department1Tasks);
                 //处理user
                 Set<User> department1Users = department1.getUsers();
-                Iterator<User> userIterator = department1Users.iterator();
+
                 if(department.getUsers() != null){
                     Set<User> newUsers = new HashSet<>();
                     for(User user : department.getUsers()){
                         boolean isInsert = true;
+                        Iterator<User> userIterator = department1Users.iterator();
                         while(userIterator.hasNext()){
                             User oldUser = userIterator.next();
                             if(oldUser.getUserId().intValue() == user.getUserId().intValue()){
@@ -236,7 +237,6 @@ public class DepartmentServiceImpl implements DepartmentService {
                                                 //替换
 
                                                 newRoles.add(role);
-                                                roleIterator.remove();
                                                 break;
                                             }
                                         }
@@ -282,10 +282,10 @@ public class DepartmentServiceImpl implements DepartmentService {
 
                 Set<Task> taskSet = new HashSet<>();
                 for(Task task : save.getTasks()){
-                    if(task.getStrategy().intValue() != 2){
+                    if(task.getStrategy() == null ||task.getStrategy().intValue() != 2){
                         Set<Plan> planSet = new HashSet<>();
                         for(Plan plan : task.getPlans()){
-                            if(plan.getStrategy().intValue() != 2){
+                            if(plan.getStrategy() == null || plan.getStrategy().intValue() != 2){
                                 planSet.add(plan);
                             }
                         }
@@ -297,10 +297,17 @@ public class DepartmentServiceImpl implements DepartmentService {
 
                 Set<User> userSet = new HashSet<>();
                 for(User user : save.getUsers()){
-                    if(user.getStrategy().intValue() != 2){
+                    if(user.getStrategy() == null || user.getStrategy().intValue() != 2){
                         Set<Role> roleSet = new HashSet<>();
                         for(Role role : user.getRoles()){
-                            if(role.getStrategy().intValue() != 2){
+                            if(role.getStrategy() == null || role.getStrategy().intValue() != 2){
+                                Set<Permission> permissionSet = role.getPermissions();
+                                for(Permission permission : permissionSet){
+                                    if(permission.getStrategy() == null || permission.getStrategy().intValue() != 2){
+                                        permissionSet.add(permission);
+                                    }
+                                }
+                                role.setPermissions(permissionSet);
                                 roleSet.add(role);
                             }
                         }

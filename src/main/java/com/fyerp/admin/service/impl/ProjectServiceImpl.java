@@ -120,19 +120,19 @@ public class ProjectServiceImpl implements ProjectService {
 //                1)整理task
                 Set<Task> project1Task = project1.getTasks();
 
-                Iterator<Task> taskIterator = project1Task.iterator();
+
                 if(project.getTasks() != null){
                     //迭代传入参数中的task.如果不同则放入要更新对象中
                     Set<Task> newTasks = new HashSet<>();
                     for(Task task : project.getTasks()){
                         //比较原先task与当前task的id，如果不同，插入
                         boolean isInsert = true;
+                        Iterator<Task> taskIterator = project1Task.iterator();
                         while (taskIterator.hasNext()){
                             Task oldTask = taskIterator.next();
                             if(oldTask.getTaskId().intValue() == task.getTaskId().intValue()){
-                                //如果是ID一样的，更新操作，把原来的task删除掉并新增一个处理过的进去
-                                taskIterator.remove();
                                 isInsert = false;
+                                taskIterator.remove();
                                 Task newTask = task;
                                 //对修改的和原先的两个task处理合并成一个,需要合并子对象plan
                                 if(newTask.getPlans() != null){
@@ -141,11 +141,14 @@ public class ProjectServiceImpl implements ProjectService {
                                         Iterator<Plan> planIterator = oldTask.getPlans().iterator();
                                         boolean insertPlan = true;
                                         while (planIterator.hasNext()){
-                                            if(newPlan.getPlanId().intValue() == planIterator.next().getPlanId().intValue()){
+                                            Plan oldPlan = planIterator.next();
+
+                                            if(newPlan.getPlanId().intValue() == oldPlan.getPlanId().intValue()){
                                                 insertPlan = false;
+                                                planIterator.remove();
                                                 //替换
                                                 newPlans.add(newPlan);
-                                                planIterator.remove();
+
                                                 break;
                                             }
                                         }
