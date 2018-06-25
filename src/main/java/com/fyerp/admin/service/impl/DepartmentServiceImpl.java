@@ -14,6 +14,7 @@ import com.fyerp.admin.exception.ProjectException;
 import com.fyerp.admin.respository.DepartmentRespository;
 import com.fyerp.admin.respository.UserRepository;
 import com.fyerp.admin.service.DepartmentService;
+import com.fyerp.admin.utils.Constants;
 import com.fyerp.admin.utils.convert.Department2DepartmentDTOConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -283,10 +284,10 @@ public class DepartmentServiceImpl implements DepartmentService {
 
                 Set<Task> taskSet = new HashSet<>();
                 for(Task task : save.getTasks()){
-                    if(task.getStrategy() == null ||task.getStrategy().intValue() != 2){
+                    if(task.getStrategy() == null ||task.getStrategy().intValue() != Constants.STRATEGY_DELETE){
                         Set<Plan> planSet = new HashSet<>();
                         for(Plan plan : task.getPlans()){
-                            if(plan.getStrategy() == null || plan.getStrategy().intValue() != 2){
+                            if(plan.getStrategy() == null || plan.getStrategy().intValue() != Constants.STRATEGY_DELETE){
                                 planSet.add(plan);
                             }
                         }
@@ -298,13 +299,13 @@ public class DepartmentServiceImpl implements DepartmentService {
 
                 Set<User> userSet = new HashSet<>();
                 for(User user : save.getUsers()){
-                    if(user.getStrategy() == null || user.getStrategy().intValue() != 2){
+                    if(user.getStrategy() == null || user.getStrategy().intValue() != Constants.STRATEGY_DELETE){
                         Set<Role> roleSet = new HashSet<>();
                         for(Role role : user.getRoles()){
-                            if(role.getStrategy() == null || role.getStrategy().intValue() != 2){
+                            if(role.getStrategy() == null || role.getStrategy().intValue() != Constants.STRATEGY_DELETE){
                                 Set<Permission> permissionSet = role.getPermissions();
                                 for(Permission permission : permissionSet){
-                                    if(permission.getStrategy() == null || permission.getStrategy().intValue() != 2){
+                                    if(permission.getStrategy() == null || permission.getStrategy().intValue() != Constants.STRATEGY_DELETE){
                                         permissionSet.add(permission);
                                     }
                                 }

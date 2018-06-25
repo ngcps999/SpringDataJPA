@@ -20,6 +20,7 @@ import com.fyerp.admin.service.ProjectCategoryService;
 import com.fyerp.admin.service.ProjectService;
 import com.fyerp.admin.service.TaskService;
 import com.fyerp.admin.utils.BeanUtils;
+import com.fyerp.admin.utils.Constants;
 import com.fyerp.admin.utils.ResultUtil;
 import com.fyerp.admin.utils.UpdateUtil;
 import io.swagger.annotations.Api;
@@ -291,6 +292,27 @@ public class ProjectController {
     @ApiOperation(value = "更新项目2", notes = "更新项目2")
     @PutMapping(value = "/update2")
     public Object updateProject2(@RequestBody Project project){
-        return projectService.save(project);
+        Project project1 =  projectService.save(project);
+        Project save = projectService.findOne(project1.getProjectId());
+        //处理以删除元素不返回，strategy参数为2就是删除
+        if(save.getStrategy().intValue() == Constants.STRATEGY_DELETE){
+            return null;
+        }else{
+            Set<Task> taskSet = new LinkedHashSet<>();
+            for(Task task : save.getTasks()){
+                if(task.getStrategy().intValue() != Constants.STRATEGY_DELETE){
+                    Set<Plan> planSet = new LinkedHashSet<>();
+                    for(Plan plan : task.getPlans()){
+                        if(plan.getStrategy() != Constants.STRATEGY_DELETE){
+                            planSet.add(plan);
+                        }
+                    }
+                    task.setPlans(planSet);
+                    taskSet.add(task);
+                }
+            }
+            save.setTasks(taskSet);
+        }
+        return save;
     }
 }

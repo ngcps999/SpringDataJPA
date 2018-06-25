@@ -20,6 +20,7 @@ import com.fyerp.admin.service.PlanService;
 import com.fyerp.admin.service.ProjectService;
 import com.fyerp.admin.service.TaskService;
 import com.fyerp.admin.utils.Constants;
+import org.activiti.engine.RuntimeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -47,6 +48,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Autowired
     private PlanService planService;
+
+    @Autowired
+    private RuntimeService runtimeService;
 
 //    @Cacheable(value="projectInfo")
     @Override
@@ -184,32 +188,35 @@ public class ProjectServiceImpl implements ProjectService {
 
                 Project save = respository.save(project);
 
-                //处理以删除元素不返回，strategy参数为2就是删除
-                if(save.getStrategy().intValue() == 2){
-                    return null;
-                }else{
-                    Set<Task> taskSet = new HashSet<>();
-                    for(Task task : save.getTasks()){
-                        if(task.getStrategy().intValue() != 2){
-                            Set<Plan> planSet = new HashSet<>();
-                            for(Plan plan : task.getPlans()){
-                                if(plan.getStrategy() != 2){
-                                    planSet.add(plan);
-                                }
-                            }
-                            task.setPlans(planSet);
-                            taskSet.add(task);
-                        }
-                    }
-                    save.setTasks(taskSet);
-                }
+
+//                //处理以删除元素不返回，strategy参数为2就是删除
+//                if(save.getStrategy().intValue() == Constants.STRATEGY_DELETE){
+//                    return null;
+//                }else{
+//                    Set<Task> taskSet = new LinkedHashSet<>();
+//                    for(Task task : save.getTasks()){
+//                        if(task.getStrategy().intValue() != Constants.STRATEGY_DELETE){
+//                            Set<Plan> planSet = new LinkedHashSet<>();
+//                            for(Plan plan : task.getPlans()){
+//                                if(plan.getStrategy() != Constants.STRATEGY_DELETE){
+//                                    planSet.add(plan);
+//                                }
+//                            }
+//                            task.setPlans(planSet);
+//                            taskSet.add(task);
+//                        }
+//                    }
+//                    save.setTasks(taskSet);
+//                }
                 return save;
 
             }
         }catch (Exception e){
             e.printStackTrace();
         }
-        return respository.save(project);
+        Project save = respository.save(project);
+
+        return save;
     }
 
     @Override

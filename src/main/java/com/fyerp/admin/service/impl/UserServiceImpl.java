@@ -22,6 +22,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -123,7 +124,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User user) {
-        user.setPassword(MD5Util.getMD5(user.getPassword()));
+        if(user.getUserId() != 0 && !StringUtils.isEmpty(user.getPassword())){
+            user.setPassword(MD5Util.getMD5(user.getPassword()));
+        }
+
         User save = userRepository.save(user);
         save.setPassword("");
         return save;
@@ -147,7 +151,5 @@ public class UserServiceImpl implements UserService {
         }
         return null;
     }
-
-
 
 }

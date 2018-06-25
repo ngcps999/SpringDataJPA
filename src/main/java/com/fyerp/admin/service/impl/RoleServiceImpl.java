@@ -6,9 +6,11 @@
 
 package com.fyerp.admin.service.impl;
 
+import com.fyerp.admin.domain.Permission;
 import com.fyerp.admin.domain.Role;
 import com.fyerp.admin.respository.RoleRespository;
 import com.fyerp.admin.service.RoleService;
+import com.fyerp.admin.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,6 +25,9 @@ public class RoleServiceImpl implements RoleService {
 
     @Autowired
     private RoleRespository roleRespository;
+
+    @Autowired
+    private UserService userService;
 
     @Override
     public Role findOne(Long roleId) {
@@ -56,6 +61,10 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     public void delete(Long roleId) {
+        Role role = this.findOne(roleId);
+        role.setPermissions(null);
+        roleRespository.save(role);
+        roleRespository.deleteUserRoleByRoleId(roleId);
         roleRespository.delete(roleId);
     }
 }

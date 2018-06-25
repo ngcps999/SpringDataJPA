@@ -27,10 +27,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @Author: xuda
@@ -168,6 +165,7 @@ public class Project implements Serializable {
      */
     private Integer priority;
 
+
     /**
      * 项目状态：0未进行，1正在进行，2遇到问题
      */
@@ -195,6 +193,7 @@ public class Project implements Serializable {
      */
     @JsonProperty(value = "children")
     @ManyToMany(targetEntity = Task.class,cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @OrderBy(" taskId desc")
     @JoinTable(name = "ProjectTask", joinColumns = {@JoinColumn(name = "projectId")}, inverseJoinColumns = {@JoinColumn(name = "taskId")})
     private Set<Task> tasks = new HashSet<>();
 

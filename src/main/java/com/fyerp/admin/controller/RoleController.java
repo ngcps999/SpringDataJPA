@@ -156,7 +156,7 @@ public class RoleController {
                 Iterator<Permission> iterator = permissions.iterator();
                 while (iterator.hasNext()) {
                     Permission permission = iterator.next();
-                    if (permission.getStrategy() == 2) //strategy属性等于2时即删除task
+                    if (permission.getStrategy()!= null && permission.getStrategy() == 2) //strategy属性等于2时即删除task
                         iterator.remove();
                 }
                 UpdateUtil.copyNullProperties(role1, save);
@@ -202,10 +202,8 @@ public class RoleController {
      */
     @ApiOperation(value = "删除角色", notes = "根据id删除角色")
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    public void deleteRole(@RequestParam("roleId") Long roleId) {
-        Role role = roleService.findOne(roleId);
-        Set<Permission> permissions = role.getPermissions();
-        permissions.removeAll(permissions);
+    public void deleteRole(@RequestParam("id") Long roleId) {
+
         roleService.delete(roleId);
     }
 
