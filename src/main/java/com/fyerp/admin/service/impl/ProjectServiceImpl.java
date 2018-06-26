@@ -189,25 +189,25 @@ public class ProjectServiceImpl implements ProjectService {
                 Project save = respository.save(project);
 
 
-//                //处理以删除元素不返回，strategy参数为2就是删除
-//                if(save.getStrategy().intValue() == Constants.STRATEGY_DELETE){
-//                    return null;
-//                }else{
-//                    Set<Task> taskSet = new LinkedHashSet<>();
-//                    for(Task task : save.getTasks()){
-//                        if(task.getStrategy().intValue() != Constants.STRATEGY_DELETE){
-//                            Set<Plan> planSet = new LinkedHashSet<>();
-//                            for(Plan plan : task.getPlans()){
-//                                if(plan.getStrategy() != Constants.STRATEGY_DELETE){
-//                                    planSet.add(plan);
-//                                }
-//                            }
-//                            task.setPlans(planSet);
-//                            taskSet.add(task);
-//                        }
-//                    }
-//                    save.setTasks(taskSet);
-//                }
+                //处理以删除元素不返回，strategy参数为2就是删除
+                if(save.getStrategy().intValue() == Constants.STRATEGY_DELETE){
+                    return null;
+                }else{
+                    Set<Task> taskSet = new LinkedHashSet<>();
+                    for(Task task : save.getTasks()){
+                        if(task.getStrategy().intValue() != Constants.STRATEGY_DELETE){
+                            Set<Plan> planSet = new LinkedHashSet<>();
+                            for(Plan plan : task.getPlans()){
+                                if(plan.getStrategy() != Constants.STRATEGY_DELETE){
+                                    planSet.add(plan);
+                                }
+                            }
+                            task.setPlans(planSet);
+                            taskSet.add(task);
+                        }
+                    }
+                    save.setTasks(taskSet);
+                }
                 return save;
 
             }

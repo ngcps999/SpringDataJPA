@@ -8,6 +8,9 @@ package com.fyerp.admin.respository;
 
 import com.fyerp.admin.domain.Permission;
 import com.fyerp.admin.respository.BaseRespository.BaseRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.transaction.annotation.Transactional;
 
 public interface PermissionRespository extends BaseRepository<Permission,Long> {
 
@@ -16,5 +19,10 @@ public interface PermissionRespository extends BaseRepository<Permission,Long> {
 //            "left join role_permission rp on r.role_id = rp.role_id" +
 //            "left join permission p on rp.permission_id = p.permission_id" +
 //            "where u.user_id =?1")
+
+    @Modifying
+    @Transactional
+    @Query(value = "delete from role_permission where permission_id = ?1",nativeQuery = true)
+    void deleteRolePermissionByPermissionId(Long permissionId);
 
 }

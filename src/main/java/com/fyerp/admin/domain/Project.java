@@ -24,6 +24,7 @@ import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 //import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -180,6 +181,10 @@ public class Project implements Serializable {
 
     private Integer strategy;
 
+    @ApiModelProperty(hidden = true)
+    @Transient
+    private List<Task> taskList;
+
     /**
      * 项目对应多个部门
      */
@@ -212,6 +217,23 @@ public class Project implements Serializable {
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @JsonProperty("updatedDate")
     private Date updateTime;
+
+    public void setTasks(Set<Task> tasks) {
+        this.tasks = tasks;
+        if(tasks != null){
+            taskList = new ArrayList<Task>(tasks);
+            taskList.sort(new Comparator<Task>() {
+                @Override
+                public int compare(Task o1, Task o2) {
+                    if(o1.getTaskId().intValue() > o2.getTaskId().intValue()){
+                        return 1;
+                    }else{
+                        return -1;
+                    }
+                }
+            });
+        }
+    }
 
     public Project() {
     }
