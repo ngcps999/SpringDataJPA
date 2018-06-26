@@ -120,9 +120,9 @@ public class LoginController {
     public Object unauth(HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("code", "1000000");
-        map.put("msg", "未登录");
+        map.put("msg", "未登录!!");
         response.setHeader("Access-Control-Allow-Credentials", "true");
-        response.setHeader("Access-Control-Allow-Origin",request.getHeader("Origin"));
+        response.setHeader("Access-Control-Allow-Origin","*");
         return map;
     }
 
