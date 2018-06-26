@@ -116,18 +116,17 @@ public class LoginController {
 //    }
 
     @CrossOrigin(origins = "*",maxAge = 3600)
-    @RequestMapping(value = "/unauth")
+    @GetMapping(value = "/unauth", produces = "application/json;charset=UTF-8")
     @ResponseBody
     public Object unauth(HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("code", "1000000");
         map.put("msg", "未登录");
-
         return map;
     }
 
     @ApiOperation(value = "login", notes = "ajaxlogin")
-    @GetMapping(value = "/ajaxLogin", produces = "application/json;charset=UTF-8")
+    @PostMapping(value = "/ajaxLogin", produces = "application/json;charset=UTF-8")
     public String ajaxLogin(@RequestParam(value = "username", required = false)String username,
                             @RequestParam(value = "password", required = false)String password) {
         JSONObject jsonObject = new JSONObject();
