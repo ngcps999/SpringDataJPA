@@ -21,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.Map;
@@ -116,15 +117,17 @@ public class LoginController {
 
     @RequestMapping(value = "/unauth")
     @ResponseBody
-    public Object unauth() {
+    public Object unauth(HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("code", "1000000");
         map.put("msg", "未登录");
+        response.setHeader("Access-Control-Allow-Credentials", "true");
+        response.setHeader("Access-Control-Allow-Origin",request.getHeader("Origin"));
         return map;
     }
 
     @ApiOperation(value = "login", notes = "ajaxlogin")
-    @RequestMapping(value = "/ajaxLogin", produces = "application/json;charset=UTF-8")
+    @GetMapping(value = "/ajaxLogin", produces = "application/json;charset=UTF-8")
     public String ajaxLogin(@RequestParam(value = "username", required = false)String username,
                             @RequestParam(value = "password", required = false)String password) {
         JSONObject jsonObject = new JSONObject();
