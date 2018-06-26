@@ -280,9 +280,6 @@ public class ProjectController {
 //    @ApiImplicitParam(name = "id", value = "项目ID", required = true, dataType = "Integer", paramType = "path")
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
     public void deleteProject(@RequestParam("id") Integer projectId) {
-        Project project = projectService.findOne(projectId);
-        Set<Task> tasks = project.getTasks();
-        tasks.removeAll(tasks);
         projectService.delete(projectId);
 
     }

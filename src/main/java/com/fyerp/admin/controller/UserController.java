@@ -222,7 +222,7 @@ public class UserController {
      */
     @ApiOperation(value = "删除用户", notes = "根据url的id来指定删除用户")
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    public void deleteUser(@RequestParam("userId") Long userId) throws Exception {
+    public void deleteUser(@RequestParam("id") Long userId) throws Exception {
         User user = userService.findOne(userId);
         Set<Role> roles = user.getRoles();
         roles.removeAll(roles);

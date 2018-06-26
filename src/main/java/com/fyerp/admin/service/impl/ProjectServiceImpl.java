@@ -28,6 +28,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
 
@@ -220,7 +221,15 @@ public class ProjectServiceImpl implements ProjectService {
     }
 
     @Override
+    @Transactional
     public Project delete(Integer id) {
+        Project project = respository.findOne(id);
+        Set<Task> tasks = project.getTasks();
+        for (Task task : tasks) {
+            Set<Plan> taskPlans = task.getPlans();
+            taskPlans.removeAll(taskPlans);
+        }
+        tasks.removeAll(tasks);
         respository.delete(id);
         return null;
     }
