@@ -57,12 +57,13 @@ public class ShiroConfig {
 
         //<!-- 过滤链定义，从上向下顺序执行，一般将/**放在最为下边 -->:这是一个坑呢，一不小心代码就不好使了;
         //<!-- authc:所有url都必须认证通过才可以访问; anon:所有url都都可以匿名访问-->
-        filterChainDefinitionMap.put("/*", "authc"); // 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
+        // 如果不设置默认会自动寻找Web工程根目录下的"/login.jsp"页面
         // 登录成功后要跳转的链接
         //配置shiro默认登录界面地址，前后端分离中登录界面跳转应由前端路由控制，后台仅返回json数据
-        shiroFilterFactoryBean.setLoginUrl("/unauth");
+//        shiroFilterFactoryBean.setLoginUrl("/unauth");
         //未授权界面;
         shiroFilterFactoryBean.setUnauthorizedUrl("/403");
+        filterChainDefinitionMap.put("/**", "authc");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
         return shiroFilterFactoryBean;
     }
