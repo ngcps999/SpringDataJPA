@@ -118,7 +118,7 @@ public class LoginController {
 
     @GetMapping(value = "/unauth", produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public Object unauth(HttpServletRequest request, HttpServletResponse response) {
+    public Object unauth() {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("code", "1000000");
         map.put("msg", "未登录");

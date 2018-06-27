@@ -1,11 +1,11 @@
 package com.fyerp.admin.config.security;
 
 import com.fyerp.admin.controller.ProjectController;
+import com.fyerp.admin.utils.SerializeUtils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.session.mgt.eis.AbstractSessionDAO;
 import org.crazycake.shiro.RedisManager;
-import org.crazycake.shiro.SerializeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
