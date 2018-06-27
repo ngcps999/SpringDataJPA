@@ -1,27 +1,27 @@
-//package com.fyerp.admin.config.security;
-//
-//import org.apache.shiro.web.servlet.ShiroHttpServletRequest;
-//import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
-//import org.apache.shiro.web.util.WebUtils;
-//import org.springframework.util.StringUtils;
-//
-//import javax.servlet.ServletRequest;
-//import javax.servlet.ServletResponse;
-//import java.io.Serializable;
-//
-///**
-// * 自定义session获取
-// */
-//public class MySessionManager extends DefaultWebSessionManager {
-//
-//    private static final String AUTHORIZATION = "Authorization";
-//
-//    private static final String REFERENCED_SESSION_ID_SOURCE = "Stateless request";
-//
-//    public MySessionManager() {
-//        super();
-//    }
-//
+package com.fyerp.admin.config.security;
+
+import org.apache.shiro.web.servlet.ShiroHttpServletRequest;
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
+import org.apache.shiro.web.util.WebUtils;
+import org.springframework.util.StringUtils;
+
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
+import java.io.Serializable;
+
+/**
+ * 自定义session获取
+ */
+public class MySessionManager extends DefaultWebSessionManager {
+
+    private static final String AUTHORIZATION = "Authorization";
+
+    private static final String REFERENCED_SESSION_ID_SOURCE = "Stateless request";
+
+    public MySessionManager() {
+        super();
+    }
+
 //    @Override
 //    protected Serializable getSessionId(ServletRequest request, ServletResponse response) {
 //         String id = WebUtils.toHttp(request).getHeader(AUTHORIZATION);
@@ -36,5 +36,5 @@
 //            return super.getSessionId(request, response);
 //        }
 //    }
-//
-//}
+
+}
