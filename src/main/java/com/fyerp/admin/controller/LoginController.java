@@ -21,7 +21,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.lang.ref.ReferenceQueue;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -114,17 +116,23 @@ public class LoginController {
 //        return ResultUtil.success(userService.findByUsername(username));
 //    }
 
-    @RequestMapping(value = "/unauth")
+    @CrossOrigin(origins = "*",maxAge = 3600)
+    @GetMapping(value = "/unauth", produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public Object unauth() {
+    public Object unauth(HttpServletRequest request, HttpServletResponse response) {
         Map<String, Object> map = new HashMap<String, Object>();
+        System.out.println("in!!!");
+        response.setHeader("Access-Control-Allow-Origin",request.getHeader("Access-Control-Allow-Origin"));
+        response.setHeader("Access-Control-Allow-Credentials",request.getHeader("Access-Control-Allow-Credentials"));
+        response.setHeader("Access-Control-Allow-Headers",request.getHeader("Access-Control-Allow-Headers"));
+        response.setHeader("Access-Control-Allow-Methods",request.getHeader("Access-Control-Allow-Methods"));
         map.put("code", "1000000");
         map.put("msg", "未登录");
         return map;
     }
 
     @ApiOperation(value = "login", notes = "ajaxlogin")
-    @RequestMapping(value = "/ajaxLogin", produces = "application/json;charset=UTF-8")
+    @PostMapping(value = "/ajaxLogin", produces = "application/json;charset=UTF-8")
     public String ajaxLogin(@RequestParam(value = "username", required = false)String username,
                             @RequestParam(value = "password", required = false)String password) {
         JSONObject jsonObject = new JSONObject();
