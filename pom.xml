@@ -106,10 +106,10 @@
             <version>7.0.47</version>
         </dependency>
         <!--springboot-security-->
-        <!--<dependency>-->
-            <!--<groupId>org.springframework.boot</groupId>-->
-            <!--<artifactId>spring-boot-starter-security</artifactId>-->
-        <!--</dependency>-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
         <!--<dependency>-->
             <!--<groupId>org.thymeleaf.extras</groupId>-->
             <!--<artifactId>thymeleaf-extras-springsecurity4</artifactId>-->
@@ -126,6 +126,14 @@
         <artifactId>shiro-redis</artifactId>
         <version>2.4.2.1-RELEASE</version>
     </dependency>
+
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.47</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -136,6 +144,7 @@
             </plugin>
         </plugins>
     </build>
+
 
     <distributionManagement>
         <!-- 两个ID必须与setting.xml中的<server><id>nexus-releases</id></server>保持一致-->
