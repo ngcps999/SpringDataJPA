@@ -10,12 +10,6 @@ import com.fyerp.admin.service.LoginService;
 import com.fyerp.admin.service.UserService;
 import io.swagger.annotations.ApiOperation;
 import org.activiti.engine.impl.util.json.JSONObject;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.LockedAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -130,25 +124,32 @@ public class LoginController {
     public String ajaxLogin(@RequestParam(value = "username", required = false)String username,
                             @RequestParam(value = "password", required = false)String password) {
         JSONObject jsonObject = new JSONObject();
-        Subject subject = SecurityUtils.getSubject();
-        UsernamePasswordToken token = new UsernamePasswordToken(username,password);
-        try {
-            subject.login(token);
-            jsonObject.put("token", subject.getSession().getId());
-            jsonObject.put("msg", "登录成功");
-            System.out.println("===========登录成功===========");
-        } catch (IncorrectCredentialsException e) {
-            jsonObject.put("msg", "密码错误");
-            System.out.println("============密码错误===========");
-        } catch (LockedAccountException e) {
-            jsonObject.put("msg", "登录失败，该用户已被冻结");
-            System.out.println("============登录失败，该用户已被冻结===========");
-        } catch (AuthenticationException e) {
-            jsonObject.put("msg", "该用户不存在");
-            System.out.println("============该用户不存在===========");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        Subject subject = SecurityUtils.getSubject();
+//        UsernamePasswordToken token = new UsernamePasswordToken(username,password);
+//        try {
+//            subject.login(token);
+//            jsonObject.put("token", subject.getSession().getId());
+//            jsonObject.put("msg", "登录成功");
+//            System.out.println("===========登录成功===========");
+//        } catch (IncorrectCredentialsException e) {
+//            jsonObject.put("msg", "密码错误");
+//            System.out.println("============密码错误===========");
+//        } catch (LockedAccountException e) {
+//            jsonObject.put("msg", "登录失败，该用户已被冻结");
+//            System.out.println("============登录失败，该用户已被冻结===========");
+//        } catch (AuthenticationException e) {
+//            jsonObject.put("msg", "该用户不存在");
+//            System.out.println("============该用户不存在===========");
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
         return jsonObject.toString();
+    }
+
+
+
+    @GetMapping("connect")
+    public String connected(){
+        return "success !";
     }
 }

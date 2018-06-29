@@ -28,5 +28,8 @@ public class Constants {
 	public static final int STRATEGY_INSERT = 0;
 	public static final int STRATEGY_UPDATE = 1;
 	public static final int STRATEGY_DELETE = 2;
-	
+
+	public static final String LOGIN_SUCCESS = "登录成功！";
+	public static final String LOGIN_FAILURE = "登录失败！";
+
 }
