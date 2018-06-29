@@ -14,6 +14,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fyerp.admin.enums.ProjectStatusEnum;
+import com.fyerp.admin.utils.BeanComparator;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
 import lombok.Data;
@@ -181,6 +182,12 @@ public class Project implements Serializable {
 
     private Integer strategy;
 
+    @Transient
+    private String orderTask;
+
+    @Transient
+    private Integer taskOrderDirection;
+
     @ApiModelProperty(hidden = true)
     @Transient
     private List<Task> taskList;
@@ -220,18 +227,30 @@ public class Project implements Serializable {
 
     public void setTasks(Set<Task> tasks) {
         this.tasks = tasks;
+//        if(tasks != null){
+//            taskList = new ArrayList<Task>(tasks);
+//            taskList.sort(new Comparator<Task>() {
+//                @Override
+//                public int compare(Task o1, Task o2) {
+//
+//                    if(o1.getTaskId().intValue() > o2.getTaskId().intValue()){
+//                        return 1;
+//                    }else{
+//                        return -1;
+//                    }
+//                }
+//            });
+//        }
+        if (taskOrderDirection != null && taskOrderDirection.intValue() != 0){
+            sortChild(orderTask,taskOrderDirection.intValue() > 0 ? 1 : -1);
+        }
+
+    }
+
+    public void sortChild(String keyword,int orderDirection){
         if(tasks != null){
             taskList = new ArrayList<Task>(tasks);
-            taskList.sort(new Comparator<Task>() {
-                @Override
-                public int compare(Task o1, Task o2) {
-                    if(o1.getTaskId().intValue() > o2.getTaskId().intValue()){
-                        return 1;
-                    }else{
-                        return -1;
-                    }
-                }
-            });
+           Collections.sort(taskList,new BeanComparator(keyword,orderDirection));
         }
     }
 

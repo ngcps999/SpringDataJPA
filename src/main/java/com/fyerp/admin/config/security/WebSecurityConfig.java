@@ -12,7 +12,6 @@ package com.fyerp.admin.config.security;
 
 
 import com.fyerp.admin.utils.MD5Util;
-import com.fyerp.admin.utils.PropertiesUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,8 +42,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource(name = "fyUserDetailService")
     private UserDetailsService userDetailsService;
 
-    @Autowired
-    private PropertiesUtil propertiesUtil;
 
 //    @Value("${myProperties.default.username}")
 //    private String defaultUsername;

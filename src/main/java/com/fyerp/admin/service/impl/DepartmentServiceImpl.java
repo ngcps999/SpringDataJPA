@@ -159,6 +159,7 @@ public class DepartmentServiceImpl implements DepartmentService {
                                             }
                                         }
                                         if(insertPlan){
+                                            newPlan.setCreateTime(new Date());
                                             newPlans.add(newPlan);
                                         }
                                     }
@@ -181,6 +182,7 @@ public class DepartmentServiceImpl implements DepartmentService {
                                     }
                                 }
                             }
+                            task.setCreateTime(new Date());
                             newTasks.add(task);
                         }
                     }
@@ -228,6 +230,7 @@ public class DepartmentServiceImpl implements DepartmentService {
                                                             }
                                                         }
                                                         if(insertPermission){
+                                                            newPermission.setCreateTime(new Date());
                                                             newPermissions.add(newPermission);
                                                         }
                                                     }
@@ -251,6 +254,7 @@ public class DepartmentServiceImpl implements DepartmentService {
                                                     }
                                                 }
                                             }
+                                            role.setCreateTime(new Date());
                                             newRoles.add(role);
                                         }
                                     }
@@ -273,6 +277,7 @@ public class DepartmentServiceImpl implements DepartmentService {
                                     }
                                 }
                             }
+                            user.setCreateTime(new Date());
                             newUsers.add(user);
                         }
                     }

@@ -180,6 +180,7 @@ public class ProjectServiceImpl implements ProjectService {
                                     }
                                 }
                             }
+                            task.setCreateTime(new Date());
                             newTasks.add(task);
                         }
                     }

@@ -13,7 +13,7 @@ spring:
 #    multipart:
 #      max-file-size: 10Mb
   jpa:
-    show-sql: true
+    show-sql: false
     hibernate:
       ddl-auto: update
       naming:
@@ -55,11 +55,18 @@ server:
   tomcat:
     uri-encoding: utf-8
 logging:
-  level: info
+  level: debug
 #    org:
 #      springframework:
 #        security: info
-debug: false
+debug: true
+
+
+
+
+
+
+
 
 
 
