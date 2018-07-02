@@ -34,6 +34,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -129,7 +130,7 @@ public class ProjectController {
      *
      * @return
      */
-    @PreAuthorize("hasAnyAuthority('project','all')")
+//    @PreAuthorize("hasAnyAuthority('project','all')")
     @ApiOperation(value = "查询项目列表", notes = "查询项目列表(第几页，每页几条)")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public Object getProjects(@RequestParam(value = "page", required = false) Integer page,
@@ -293,6 +294,15 @@ public class ProjectController {
     @PutMapping(value = "/update2")
     public Object updateProject2(@RequestBody Project project){
         return  projectService.save(project);
-
     }
+
+
+    @ApiOperation(value = "根据当前登录用户获取项目",notes = "根据当前登录用户获取项目")
+    public Object getMyProject(){
+        SecurityUser user = (SecurityUser)SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+
+        return null;
+    }
+
 }
