@@ -50,7 +50,7 @@ public class FyUserDetailService implements UserDetailsService {
                     }
                 }
             }
-            return new SecurityUser(s,user.getPassword(), auths);
+            return new SecurityUser(s,user.getPassword(), auths,roleSet,user.getUserId());
         }else{
             throw new UserException(ResultEnum.LOGIN_USERNAME_FAIL);
         }

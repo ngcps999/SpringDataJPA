@@ -43,44 +43,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private UserDetailsService userDetailsService;
 
 
-//    @Value("${myProperties.default.username}")
-//    private String defaultUsername;
-//
-//    @Value("${myProperties.default.password}")
-//    private String defaultPassword;
-
-//    public final static String SESSION_KEY="username";
-//
-//    @Bean
-//    public SecurityInterceptor getSecurityInterceptor(){
-//        return new SecurityInterceptor();
-//    }
-//
-//    public void  addInterceptors(InterceptorRegistry registry){
-//        InterceptorRegistration addInterceptor = registry.addInterceptor(getSecurityInterceptor());
-//
-//        addInterceptor.excludePathPatterns("/error");
-//        addInterceptor.excludePathPatterns("/login**");
-//
-//        addInterceptor.addPathPatterns("/**");
-//    }
-//
-//    private class SecurityInterceptor extends HandlerInterceptorAdapter {
-//        @Override
-//        public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws IOException {
-//            HttpSession session = request.getSession();
-//
-////            判断是否已有该用户登录的session
-//            if(session.getAttribute(SESSION_KEY) != null){
-//                return true;
-//            }
-//
-////            跳转到登录页
-////            String url = "/loginPost";
-////            response.sendRedirect(url);
-//            return false;
-//        }
-//    }
 
 
 
@@ -99,34 +61,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logout().permitAll()
         .and().cors();
 
-
-//        http.formLogin().loginProcessingUrl("ajaxLogin").and().authorizeRequests().anyRequest().authenticated();
-
-//        http
-//                .authorizeRequests()
-//                .antMatchers("/").permitAll()
-//                .anyRequest().authenticated()
-//                .and()
-//                .formLogin()
-//                .loginPage("/unauth")
-//                .defaultSuccessUrl("/ajaxLogin")
-//                .permitAll()
-//                .and()
-//                .logout()
-//                .permitAll().and().cors()
-//        .and().csrf().disable();
     }
 
-//    @Bean
-//    public PasswordEncoder passwordEncoder() {
-//        return new BCryptPasswordEncoder();
-////        return new MyPasswordEncoder();
-//    }
-
-//    @Autowired
-//    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-//        auth.
-//    }
 
     @Bean
     @Override
