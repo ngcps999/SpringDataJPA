@@ -195,10 +195,10 @@ public class Project implements Serializable {
     /**
      * 项目对应多个部门
      */
-//    @JsonIgnore
-//    @OneToMany(cascade = CascadeType.ALL)
-//    @JoinColumn(name = "projectId")
-//    private Set<Department> departments = new HashSet<>();
+    @JsonIgnore
+    @ManyToMany(targetEntity = Department.class,cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @JoinTable(name = "ProjectDepartment", joinColumns = {@JoinColumn(name = "projectId")}, inverseJoinColumns = {@JoinColumn(name = "departmentId")})
+    private Set<Department> departments = new HashSet<>();
 
     /**
      * 任务

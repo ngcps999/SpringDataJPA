@@ -15,10 +15,8 @@ import com.fyerp.admin.domain.vo.ProjectInfoVO;
 import com.fyerp.admin.domain.vo.ProjectVO;
 import com.fyerp.admin.enums.ResultEnum;
 import com.fyerp.admin.exception.ProjectException;
-import com.fyerp.admin.service.PlanService;
-import com.fyerp.admin.service.ProjectCategoryService;
-import com.fyerp.admin.service.ProjectService;
-import com.fyerp.admin.service.TaskService;
+import com.fyerp.admin.exception.UserException;
+import com.fyerp.admin.service.*;
 import com.fyerp.admin.utils.BeanUtils;
 import com.fyerp.admin.utils.Constants;
 import com.fyerp.admin.utils.ResultUtil;
@@ -30,12 +28,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
@@ -69,6 +70,9 @@ public class ProjectController {
 
     @Autowired
     private PlanService planService;
+
+    @Autowired
+    private UserService userService;
 
     /**
      * 查询单个项目
@@ -298,11 +302,37 @@ public class ProjectController {
 
 
     @ApiOperation(value = "根据当前登录用户获取项目",notes = "根据当前登录用户获取项目")
+    @GetMapping(value = "getMyProject")
     public Object getMyProject(){
         SecurityUser user = (SecurityUser)SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
-
-        return null;
+        if(user == null || user.getUserId() == null || user.getUserId().longValue() == 0l){
+            throw new UserException(ResultEnum.LOGIN_AGAIN);
+        }
+        return projectService.findProjectByUserId(user.getUserId());
     }
+
+
+    @ApiOperation(value = "搜索项目",notes = "搜索项目")
+    @GetMapping(value = "searchProject")
+    public Object searchProject(@RequestParam("column") String column,
+                                @RequestParam("keyword") String keyword,
+                                @RequestParam("pageNumber") int pageNumber,
+                                @RequestParam("pageSize") int pageSize){
+
+        if(StringUtils.isEmpty(column) || StringUtils.isEmpty(keyword)){
+            throw new ProjectException(ResultEnum.PARAM_ERROR);
+        }
+
+        if(pageNumber <= 0){
+            pageNumber = 1;
+        }
+        Sort sort = new Sort(Sort.Direction.DESC,"projectId");
+        Pageable page = new PageRequest(pageNumber-1,pageSize,sort);
+        Page<Project> result = projectService.findProjectBySearch(column,keyword,page);
+        return result;
+    }
+
+
 
 }

@@ -120,7 +120,7 @@ public class LoginController {
     }
 
     @ApiOperation(value = "login", notes = "ajaxlogin")
-    @PostMapping(value = "/ajaxLogin", produces = "application/json;charset=UTF-8")
+    @GetMapping(value = "/ajaxLogin", produces = "application/json;charset=UTF-8")
     public String ajaxLogin(@RequestParam(value = "username", required = false)String username,
                             @RequestParam(value = "password", required = false)String password) {
         JSONObject jsonObject = new JSONObject();

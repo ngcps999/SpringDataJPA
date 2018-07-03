@@ -27,7 +27,8 @@ public enum ResultEnum {
     STRATEGY_ERROR(3,"Strategy输入错误，0新增1更新2删除"),
     USER_STRATEGY_DELETE(25,"用户已停用"),
     LOGIN_FAILED(26,"登录失败，请检查用户名或密码"),
-    EMPTY_LOGIN_PARAM(27,"用户名和密码不能为空");
+    EMPTY_LOGIN_PARAM(27,"用户名和密码不能为空"),
+    LOGIN_AGAIN(28,"请重新登录");
 
     private Integer code;
     private String msg;

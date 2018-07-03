@@ -19,6 +19,7 @@ import com.fyerp.admin.respository.ProjectRespository;
 import com.fyerp.admin.service.PlanService;
 import com.fyerp.admin.service.ProjectService;
 import com.fyerp.admin.service.TaskService;
+import com.fyerp.admin.service.UserService;
 import com.fyerp.admin.utils.Constants;
 import org.activiti.engine.RuntimeService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,9 +28,15 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 import java.util.*;
 
 /**
@@ -52,6 +59,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Autowired
     private RuntimeService runtimeService;
+
+    @Autowired
+    private UserService userService;
 
 //    @Cacheable(value="projectInfo")
     @Override
@@ -235,6 +245,34 @@ public class ProjectServiceImpl implements ProjectService {
         return null;
     }
 
+    @Override
+    public Page<Project> findProjectBySearch(String column, String keyword, Pageable pageable) {
+        return respository.findAll(new Specification<Project>() {
+            @Override
+            public Predicate toPredicate(Root<Project> root, CriteriaQuery<?> query, CriteriaBuilder cb) {
+                if(StringUtils.isEmpty(column)){
+                    return null;
+                }
+                Predicate predicate = cb.like(root.get(column).as(String.class),"%"+keyword+"%");
+                query.where(predicate);
+                return query.getRestriction();
+            }
+        },pageable);
+    }
+
+    @Override
+    public List<Project> findProjectByUserId(Long userId) {
+        List<Long> departmentIds = userService.findDepartmentByUser(userId);
+        if(departmentIds == null || departmentIds.size() <= 0){
+            return null;
+        }
+        List<Integer> projectIds = respository.findProjectIdsByDepartmentIdList(departmentIds);
+        if(projectIds == null || projectIds.size() <= 0){
+            return null;
+        }
+        List<Project> projects = respository.findAll(projectIds);
+        return projects;
+    }
 
 
 }

@@ -76,4 +76,6 @@ public interface UserService {
 
 	User findUserByNameAndPwd(String userName,String password);
 
+	List<Long> findDepartmentByUser(Long userId);
+
 }

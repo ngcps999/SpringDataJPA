@@ -14,6 +14,11 @@ import com.fyerp.admin.domain.Project;
 import com.fyerp.admin.respository.BaseRespository.BaseRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.util.Date;
 import java.util.List;
@@ -22,7 +27,7 @@ import java.util.List;
  * 项目持久层Dao
  */
 
-public interface ProjectRespository extends BaseRepository<Project, Integer> {
+public interface ProjectRespository extends BaseRepository<Project, Integer>,JpaSpecificationExecutor<Project> {
 
     List<Project> findProjectsByProjectState(Integer projectState);
 
@@ -38,5 +43,8 @@ public interface ProjectRespository extends BaseRepository<Project, Integer> {
 
     Page<Project> findByPriority(Integer priority,Pageable pageable);
 
+    Page<Project> findAll(Specification<Project> specification, Pageable pageable);
 
+    @Query(value = "select project_id from project_department where department_id in (:ids)", nativeQuery = true)
+    List<Integer> findProjectIdsByDepartmentIdList(@Param("ids") List<Long> ids);
 }

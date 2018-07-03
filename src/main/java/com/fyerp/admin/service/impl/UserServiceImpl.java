@@ -152,4 +152,9 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
+    @Override
+    public List<Long> findDepartmentByUser(Long userId) {
+        return userRepository.findDepartmentIdsByUser(userId);
+    }
+
 }
