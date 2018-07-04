@@ -9,8 +9,8 @@ package com.fyerp.admin.controller;
 import com.fyerp.admin.domain.Contract;
 import com.fyerp.admin.domain.Result;
 import com.fyerp.admin.service.ContractService;
+import com.fyerp.admin.utils.FileUtil;
 import com.fyerp.admin.utils.ResultUtil;
-import com.fyerp.admin.utils.UplaodFile;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -84,7 +84,7 @@ public class ContractController {
         System.out.println("getContentType-->" + contentType);*/
         String filePath = request.getSession().getServletContext().getRealPath("files/");
         try {
-            UplaodFile.uploadFile(file.getBytes(), filePath, fileName);
+            FileUtil.uploadFile(file.getBytes(), filePath, fileName);
         } catch (Exception e) {
             // TODO: handle exception
         }

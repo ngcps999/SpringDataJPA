@@ -61,6 +61,11 @@ logging:
 #        security: info
 debug: true
 
+#文件上传路径
+file:
+  path: /Users/xuda/Downloads/
+  name: xxx.docx
+
 
 
 
