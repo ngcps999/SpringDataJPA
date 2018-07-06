@@ -279,7 +279,7 @@ public class ProjectServiceImpl implements ProjectService {
         if(obj == null || obj.getFilters() == null || obj.getFilters().size() <= 0){
             return null;
         }
-        Map map = SearchUtil.createSqlAndParam(obj.getFilters(),obj.getOrders(),page,amount);
+        Map map = SearchUtil.createSqlAndParam(obj.getFilters(),obj.getOrders(),page,amount,Project.class);
         String sql = " select project_id from project where   ";
         String sqlFilter = map.get("sql").toString();
         Query query = entityManager.createNativeQuery(sql+sqlFilter);
