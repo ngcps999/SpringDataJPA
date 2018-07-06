@@ -70,7 +70,7 @@ public class SearchUtil {
                 if(i != 0){
                     filterSql += " , ";
                 }
-                filterSql += (" "+orders.get(i).getPropName()+" ");
+                filterSql += (" "+getColumnName(orders.get(i).getPropName(),clazz)+" ");
                 if("0".equals(orders.get(i).getOrder())){
                     filterSql += " asc ";
                 }
