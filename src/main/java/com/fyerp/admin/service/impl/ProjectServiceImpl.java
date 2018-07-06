@@ -27,6 +27,7 @@ import org.activiti.engine.RuntimeService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
@@ -292,8 +293,19 @@ public class ProjectServiceImpl implements ProjectService {
             }
         }
         List idList = query.getResultList();
+
         if(idList != null && idList.size() > 0){
-            return respository.findAll(idList);
+            List<Project> projects = respository.findAll(idList);
+            List<Project> result = new ArrayList<>();
+            for(int i = 0; i < idList.size(); i++){
+                for(Project project : projects){
+                    if(project.getProjectId().intValue() == Integer.valueOf(idList.get(i).toString()).intValue()){
+                        result.add(project);
+                        break;
+                    }
+                }
+            }
+            return  result;
         }
         return null;
     }
