@@ -73,6 +73,8 @@ public class SearchUtil {
                 filterSql += (" "+getColumnName(orders.get(i).getPropName(),clazz)+" ");
                 if("0".equals(orders.get(i).getOrder())){
                     filterSql += " asc ";
+                }else{
+                    filterSql += " desc ";
                 }
             }
         }
