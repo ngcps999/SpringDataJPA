@@ -12,6 +12,7 @@ package com.fyerp.admin.service.impl;
 
 import com.fyerp.admin.domain.Plan;
 import com.fyerp.admin.domain.Project;
+import com.fyerp.admin.utils.search.SearchObj;
 import com.fyerp.admin.domain.Task;
 import com.fyerp.admin.enums.ResultEnum;
 import com.fyerp.admin.exception.ProjectException;
@@ -21,18 +22,19 @@ import com.fyerp.admin.service.ProjectService;
 import com.fyerp.admin.service.TaskService;
 import com.fyerp.admin.service.UserService;
 import com.fyerp.admin.utils.Constants;
+import com.fyerp.admin.utils.search.*;
 import org.activiti.engine.RuntimeService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.StringUtils;
 
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -62,6 +64,9 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private EntityManager entityManager;
 
 //    @Cacheable(value="projectInfo")
     @Override
@@ -129,13 +134,10 @@ public class ProjectServiceImpl implements ProjectService {
         try {
             if(project.getProjectId() != null && project.getProjectId().intValue() > 0){
                 //更新
-
                 /*先将整个project整理出来，再整体入库*/
                 Project project1 = respository.findOne(project.getProjectId());
 //                1)整理task
                 Set<Task> project1Task = project1.getTasks();
-
-
                 if(project.getTasks() != null){
                     //迭代传入参数中的task.如果不同则放入要更新对象中
                     Set<Task> newTasks = new HashSet<>();
@@ -221,13 +223,11 @@ public class ProjectServiceImpl implements ProjectService {
                     save.setTasks(taskSet);
                 }
                 return save;
-
             }
         }catch (Exception e){
             e.printStackTrace();
         }
         Project save = respository.save(project);
-
         return save;
     }
 
@@ -274,5 +274,27 @@ public class ProjectServiceImpl implements ProjectService {
         return projects;
     }
 
-
+    @Override
+    public List searchTest(SearchObj obj, int page , int amount) {
+        if(obj == null || obj.getFilters() == null || obj.getFilters().size() <= 0){
+            return null;
+        }
+        Map map = SearchUtil.createSqlAndParam(obj.getFilters(),obj.getOrders(),page,amount);
+        String sql = " select project_id from project where   ";
+        String sqlFilter = map.get("sql").toString();
+        Query query = entityManager.createNativeQuery(sql+sqlFilter);
+        if(map.get("params") != null){
+            List list = (List)map.get("params");
+            if(list != null && list.size() > 0){
+                for(int i = 0; i < list.size(); i++){
+                    query.setParameter(i+1,list.get(i));
+                }
+            }
+        }
+        List idList = query.getResultList();
+        if(idList != null && idList.size() > 0){
+            return respository.findAll(idList);
+        }
+        return null;
+    }
 }

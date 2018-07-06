@@ -11,6 +11,7 @@
 package com.fyerp.admin.service;
 
 import com.fyerp.admin.domain.Project;
+import com.fyerp.admin.utils.search.SearchObj;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -113,4 +114,6 @@ public interface ProjectService {
 
 
     List<Project> findProjectByUserId(Long userId);
+
+    List searchTest(SearchObj obj,int page ,int amount);
 }

@@ -11,18 +11,16 @@
 package com.fyerp.admin.controller;
 
 import com.fyerp.admin.domain.*;
-import com.fyerp.admin.domain.vo.ProjectInfoVO;
 import com.fyerp.admin.domain.vo.ProjectVO;
 import com.fyerp.admin.enums.ResultEnum;
 import com.fyerp.admin.exception.ProjectException;
 import com.fyerp.admin.exception.UserException;
 import com.fyerp.admin.service.*;
 import com.fyerp.admin.utils.BeanUtils;
-import com.fyerp.admin.utils.Constants;
 import com.fyerp.admin.utils.ResultUtil;
 import com.fyerp.admin.utils.UpdateUtil;
+import com.fyerp.admin.utils.search.SearchObj;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,10 +30,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.access.annotation.Secured;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
@@ -139,7 +134,7 @@ public class ProjectController {
     @RequestMapping(value = "/list", method = RequestMethod.GET)
     public Object getProjects(@RequestParam(value = "page", required = false) Integer page,
                               @RequestParam(value = "size", required = false) Integer size,
-                              @RequestParam(value = "sortBy", required = false, defaultValue = "createTime") String sortParam,
+                              @RequestParam(value = "sort", required = false, defaultValue = "createTime") String sortParam,
                               @RequestParam(value = "order", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) throws RuntimeException {
         logger.info("projectList");
         Sort sort = new Sort(descOrAsc, sortParam);
@@ -313,24 +308,32 @@ public class ProjectController {
     }
 
 
-    @ApiOperation(value = "搜索项目",notes = "搜索项目")
-    @GetMapping(value = "searchProject")
-    public Object searchProject(@RequestParam("column") String column,
-                                @RequestParam("keyword") String keyword,
-                                @RequestParam("pageNumber") int pageNumber,
-                                @RequestParam("pageSize") int pageSize){
+//    @ApiOperation(value = "搜索项目",notes = "搜索项目")
+//    @GetMapping(value = "search")
+//    public Object searchProject(@RequestParam("column") String column,
+//                                @RequestParam("keyword") String keyword,
+//                                @RequestParam("page") int page,
+//                                @RequestParam("amount") int amount){
+//
+//        if(StringUtils.isEmpty(column) || StringUtils.isEmpty(keyword)){
+//            throw new ProjectException(ResultEnum.PARAM_ERROR);
+//        }
+//
+//        if(page <= 0){
+//            page = 1;
+//        }
+//        Sort sort = new Sort(Sort.Direction.DESC,"projectId");
+//        Pageable pg = new PageRequest(page-1,amount,sort);
+//        Page<Project> result = projectService.findProjectBySearch(column,keyword,pg);
+//        return result;
+//    }
 
-        if(StringUtils.isEmpty(column) || StringUtils.isEmpty(keyword)){
-            throw new ProjectException(ResultEnum.PARAM_ERROR);
-        }
 
-        if(pageNumber <= 0){
-            pageNumber = 1;
-        }
-        Sort sort = new Sort(Sort.Direction.DESC,"projectId");
-        Pageable page = new PageRequest(pageNumber-1,pageSize,sort);
-        Page<Project> result = projectService.findProjectBySearch(column,keyword,page);
-        return result;
+    @ApiOperation(value = "搜索",notes = "搜索")
+    @PostMapping(value = "/search", produces = "application/json;charset=UTF-8")
+    public Object searchTest(@RequestBody SearchObj obj){
+        List<Project> list = projectService.searchTest(obj,obj.getPage(),obj.getAmount());
+        return list;
     }
 
 
