@@ -28,7 +28,9 @@ public enum ResultEnum {
     USER_STRATEGY_DELETE(25,"用户已停用"),
     LOGIN_FAILED(26,"登录失败，请检查用户名或密码"),
     EMPTY_LOGIN_PARAM(27,"用户名和密码不能为空"),
-    LOGIN_AGAIN(28,"请重新登录");
+    LOGIN_AGAIN(28,"请重新登录"),
+    DELETE_FAILED(29,"删除失败"),
+    DELETE_SUCCESS(30,"删除成功");
 
     private Integer code;
     private String msg;

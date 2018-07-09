@@ -107,7 +107,7 @@ public interface ProjectService {
      *
      * @param id
      */
-    Project delete(Integer id);
+    String delete(Integer id);
 
 
     Page<Project> findProjectBySearch(String column,String keyword,Pageable pageable);

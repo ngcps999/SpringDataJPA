@@ -234,16 +234,24 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     @Transactional
-    public Project delete(Integer id) {
-        Project project = respository.findOne(id);
-        Set<Task> tasks = project.getTasks();
-        for (Task task : tasks) {
-            Set<Plan> taskPlans = task.getPlans();
-            taskPlans.removeAll(taskPlans);
+    public String delete(Integer id) {
+        try{
+            Project project = respository.findOne(id);
+            if(project == null){
+                return "项目不存在";
+            }
+            Set<Task> tasks = project.getTasks();
+            for (Task task : tasks) {
+                Set<Plan> taskPlans = task.getPlans();
+                taskPlans.removeAll(taskPlans);
+            }
+            tasks.removeAll(tasks);
+            respository.delete(id);
+        }catch (Exception e){
+            throw new ProjectException(ResultEnum.DELETE_FAILED);
         }
-        tasks.removeAll(tasks);
-        respository.delete(id);
-        return null;
+
+        return ResultEnum.DELETE_SUCCESS.getMsg();
     }
 
     @Override

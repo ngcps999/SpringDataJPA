@@ -11,6 +11,7 @@
 package com.fyerp.admin.controller;
 
 import com.fyerp.admin.domain.*;
+import com.fyerp.admin.domain.dto.ResultMsg;
 import com.fyerp.admin.domain.vo.ProjectVO;
 import com.fyerp.admin.enums.ResultEnum;
 import com.fyerp.admin.exception.ProjectException;
@@ -154,9 +155,12 @@ public class ProjectController {
      */
     @ApiOperation(value = "统计项目数量", notes = "统计项目数量")
     @RequestMapping(value = "/count", method = RequestMethod.GET)
-    public Integer getCount() {
+    public Object getCount() {
         List<Project> all = projectService.findAll();
-        return all.size();
+        ResultMsg msg = new ResultMsg();
+        msg.setCode("000000");
+        msg.setResult(String.valueOf(all.size()));
+        return msg;
     }
 
     /**
@@ -282,9 +286,8 @@ public class ProjectController {
     @ApiOperation(value = "删除项目", notes = "删除项目前先确认项目下是否有任务")
 //    @ApiImplicitParam(name = "id", value = "项目ID", required = true, dataType = "Integer", paramType = "path")
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    public void deleteProject(@RequestParam("id") Integer projectId) {
-        projectService.delete(projectId);
-
+    public String deleteProject(@RequestParam("id") Integer projectId) {
+        return projectService.delete(projectId);
     }
 
 
