@@ -225,6 +225,17 @@ public class Project implements Serializable {
     @JsonProperty("updatedDate")
     private Date updateTime;
 
+    @OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @JoinColumn(name = "contract_id")
+    private Contract contract;
+
+
+    @OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    @JoinColumn(name = "customer_id")
+    private Customer customer;
+
+
+
     public void setTasks(Set<Task> tasks) {
         this.tasks = tasks;
 //        if(tasks != null){
