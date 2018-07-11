@@ -96,6 +96,8 @@ public class Task implements Serializable {
     @JsonProperty("updatedDate")
     private Date updateTime;
 
+    private String airport;
+
     public Task() {
     }
 }
