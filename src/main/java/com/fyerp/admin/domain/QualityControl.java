@@ -37,5 +37,6 @@ public class QualityControl implements Serializable {
 
     private String fileName;
 
+
     private String address;
 }

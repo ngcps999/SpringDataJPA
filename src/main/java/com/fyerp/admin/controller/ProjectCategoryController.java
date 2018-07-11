@@ -15,6 +15,7 @@ import com.fyerp.admin.exception.ProjectCategoryException;
 import com.fyerp.admin.service.ProjectCategoryService;
 import com.fyerp.admin.service.ProjectService;
 import com.fyerp.admin.utils.BeanUtils;
+import com.fyerp.admin.utils.Constants;
 import com.fyerp.admin.utils.ResultUtil;
 import com.fyerp.admin.utils.UpdateUtil;
 import io.swagger.annotations.Api;
@@ -54,13 +55,9 @@ public class ProjectCategoryController {
      */
     @ApiOperation(value = "查询单个项目类型", notes = "查询单个项目类型")
     @GetMapping(value = "/find")
-    public ProjectCategory findOneProjectCategory(@RequestParam("id") Integer categoryid) {
+    public Result findOneProjectCategory(@RequestParam("id") Integer categoryid) {
         logger.info("findOneProject项目分类");
-        try {
-            return categoryService.findOne(categoryid);
-        } catch (Exception e) {
-            throw new RuntimeException("项目分类不存在！");
-        }
+        return ResultUtil.success(categoryService.findOne(categoryid));
     }
 
     /**
@@ -70,16 +67,16 @@ public class ProjectCategoryController {
      */
     @ApiOperation(value = "查询项目分类列表", notes = "查询项目分类列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public Object getProjectCategorys(@RequestParam(value = "page", required = false) Integer page,
+    public Result getProjectCategorys(@RequestParam(value = "page", required = false) Integer page,
                                       @RequestParam(value = "size", required = false) Integer size,
                                       @RequestParam(value = "sortBy", required = false, defaultValue = "createTime") String sortParam,
                                       @RequestParam(value = "order", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) {
         Sort sort = new Sort(descOrAsc, sortParam);
         if (page == null && size == null) {
-            return categoryService.findAll(sort);
+            return ResultUtil.success(categoryService.findAll(sort));
         } else {
             PageRequest request = new PageRequest(page - 1, size);
-            return categoryService.findAll(request).getContent();
+            return ResultUtil.success(categoryService.findAll(request).getContent());
         }
     }
 
@@ -90,12 +87,13 @@ public class ProjectCategoryController {
      */
     @ApiOperation(value = "添加/更新项目类型", notes = "根据ProjectCategory对象属性创建项目类型")
     @RequestMapping(value = "/addProjectCategory", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-    public ProjectCategoryVO addProjectCategory(@RequestBody ProjectCategoryVO projectCategoryVO) {
+    public Result addProjectCategory(@RequestBody ProjectCategoryVO projectCategoryVO) {
         ProjectCategory projectCategory = new ProjectCategory();
         UpdateUtil.copyNullProperties(projectCategoryVO, projectCategory);
         ProjectCategory projectCategory1 = categoryService.save(projectCategory);
         BeanUtils.copyNotNullProperties(projectCategory, projectCategory1);
-        return projectCategoryVO;
+        return ResultUtil.success(projectCategoryVO);
+
     }
 
 //    /**
@@ -130,31 +128,27 @@ public class ProjectCategoryController {
      */
     @ApiOperation(value = "更新项目", notes = "更新项目")
     @PutMapping(value = "/update")
-    public Object updateProjectCategory(@RequestBody ProjectCategory projectCategory) {
+    public Result updateProjectCategory(@RequestBody ProjectCategory projectCategory) {
 
-        try {
-            if (projectCategory.getCategoryId() != 0) {
-                ProjectCategory projectCategory1 = categoryService.findOne(projectCategory.getCategoryId());
-                //获取project1里的taskIds
-                List<Integer> projectIds = projectCategory1.getProjects().stream().map(Project::getProjectId).collect(Collectors.toList());
-                Set<Project> categoryProjects = projectCategory.getProjects();
-                //根据taskIds查询task库里是否存在，如果不存在就绑定到project1里
-                //判断project1里是否包含task,有就继续，没有就添加
-                projectService.findAll(projectIds).stream().filter(project -> !categoryProjects.contains(project)).forEach(categoryProjects::add);
+        if (projectCategory.getCategoryId() != 0) {
+            ProjectCategory projectCategory1 = categoryService.findOne(projectCategory.getCategoryId());
+            //获取project1里的taskIds
+            List<Integer> projectIds = projectCategory1.getProjects().stream().map(Project::getProjectId).collect(Collectors.toList());
+            Set<Project> categoryProjects = projectCategory.getProjects();
+            //根据taskIds查询task库里是否存在，如果不存在就绑定到project1里
+            //判断project1里是否包含task,有就继续，没有就添加
+            projectService.findAll(projectIds).stream().filter(project -> !categoryProjects.contains(project)).forEach(categoryProjects::add);
 
-                projectCategory.getProjects().stream().map(project -> projectService.save(project)).forEach(categoryProjects::add);
+            projectCategory.getProjects().stream().map(project -> projectService.save(project)).forEach(categoryProjects::add);
 
-                projectCategory.setProjects(new HashSet<>(categoryProjects));
+            projectCategory.setProjects(new HashSet<>(categoryProjects));
 
-                ProjectCategory save = categoryService.save(projectCategory);
-                Set<Project> tasks = save.getProjects();
-                //strategy属性等于2时即删除task
-                tasks.removeIf(project -> project.getStrategy() == 2);
-                UpdateUtil.copyNullProperties(projectCategory1, save);
-                return save;
-            }
-        } catch (Exception e) {
-            throw new ProjectCategoryException(ResultEnum.PARAM_ERROR);
+            ProjectCategory save = categoryService.save(projectCategory);
+            Set<Project> tasks = save.getProjects();
+            //strategy属性等于2时即删除task
+            tasks.removeIf(project -> project.getStrategy() == 2);
+            UpdateUtil.copyNullProperties(projectCategory1, save);
+            return ResultUtil.success(save);
         }
         Result result = new Result("请传入Id");
         return result;
@@ -167,7 +161,7 @@ public class ProjectCategoryController {
      */
     @ApiOperation(value = "删除项目类型下的项目", notes = "删除项目类型下的项目")
     @PutMapping(value = "/deleteProjects")
-    public ProjectCategory deleteProjectCategoryProjects(@RequestParam(value = "projectCategoryId", required = true) Integer projectCategoryId, @RequestParam(value = "projectIds", required = true) List<Integer> projectIds) {
+    public Result deleteProjectCategoryProjects(@RequestParam(value = "projectCategoryId", required = true) Integer projectCategoryId, @RequestParam(value = "projectIds", required = true) List<Integer> projectIds) {
         ProjectCategory projectCategory = categoryService.findOne(projectCategoryId);
         List<Project> projects = projectService.findAll(projectIds);
         Set<Project> projectCatProjects = projectCategory.getProjects();
@@ -176,12 +170,10 @@ public class ProjectCategoryController {
                 projectCatProjects.remove(project);
             }
         }
-        try {
-            categoryService.save(projectCategory);
-        } catch (Exception e) {
-            throw new RuntimeException("update fail!");
-        }
-        return projectCategory;
+
+        categoryService.save(projectCategory);
+
+        return ResultUtil.success(projectCategory);
     }
 
     /**
@@ -192,10 +184,11 @@ public class ProjectCategoryController {
     @ApiOperation(value = "删除项目分类", notes = "根据url的id来指定删除项目分类")
     @ApiImplicitParam(name = "id", value = "项目分类ID", required = true, dataType = "Integer", paramType = "path")
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    public void deleteProjectCategory(@RequestParam("id") Integer categoryId) {
+    public Result deleteProjectCategory(@RequestParam("id") Integer categoryId) {
         ProjectCategory projectCategory = categoryService.findOne(categoryId);
         Set<Project> projects = projectCategory.getProjects();
         projects.removeAll(projects);
         categoryService.delete(categoryId);
+        return ResultUtil.success(Constants.DELETE_SUCCESS);
     }
 }

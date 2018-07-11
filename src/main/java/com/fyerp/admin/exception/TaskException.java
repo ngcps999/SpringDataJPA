@@ -19,7 +19,10 @@
 package com.fyerp.admin.exception;
 
 import com.fyerp.admin.enums.ResultEnum;
+import lombok.Data;
+import lombok.Getter;
 
+@Getter
 public class TaskException extends RuntimeException {
     private Integer code;
 

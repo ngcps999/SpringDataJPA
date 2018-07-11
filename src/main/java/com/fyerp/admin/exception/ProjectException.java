@@ -7,7 +7,9 @@
 package com.fyerp.admin.exception;
 
 import com.fyerp.admin.enums.ResultEnum;
+import lombok.Getter;
 
+@Getter
 public class ProjectException extends RuntimeException {
     private Integer code;
 

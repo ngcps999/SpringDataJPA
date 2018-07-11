@@ -41,6 +41,4 @@ public class HomeController {
         return "redirect:swagger-ui.html";
     }
 
-
-
 }

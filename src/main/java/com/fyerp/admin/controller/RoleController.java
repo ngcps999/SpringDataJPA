@@ -13,6 +13,7 @@ import com.fyerp.admin.enums.ResultEnum;
 import com.fyerp.admin.exception.RoleException;
 import com.fyerp.admin.service.PermissionService;
 import com.fyerp.admin.service.RoleService;
+import com.fyerp.admin.utils.Constants;
 import com.fyerp.admin.utils.ResultUtil;
 import com.fyerp.admin.utils.UpdateUtil;
 import io.swagger.annotations.Api;
@@ -49,18 +50,19 @@ public class RoleController {
      */
     @ApiOperation(value = "查询角色列表", notes = "查询角色列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public Object getRoles(@RequestParam(value = "page", required = false) Integer page,
+    public Result getRoles(@RequestParam(value = "page", required = false) Integer page,
                            @RequestParam(value = "size", required = false) Integer size,
                            @RequestParam(value = "sortBy", required = false, defaultValue = "createTime") String sortParam,
                            @RequestParam(value = "order", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) {
         logger.info("roleList");
         Sort sort = new Sort(descOrAsc, sortParam);
         if (page == null && size == null) {
-            return roleService.findAll(sort);
+            return ResultUtil.success(roleService.findAll(sort));
         } else {
             PageRequest request = new PageRequest(page - 1, size);
-            return roleService.findAll(request).getContent();
+            return ResultUtil.success(roleService.findAll(request).getContent());
         }
+
     }
 
     /**
@@ -75,22 +77,13 @@ public class RoleController {
         return ResultUtil.success(roleService.findOne(id));
     }
 
-//    /**
-//     * 添加角色
-//     */
-//    @ApiOperation(value = "创建角色", notes = "根据user对象创建角色")
-//    @RequestMapping(value = "/add", method = RequestMethod.POST)
-//    public Role addRole(@RequestBody Role role) {
-//
-//        return roleService.save(role);
-//    }
 
     /**
      * 添加一个角色
      */
     @ApiOperation(value = "创建角色", notes = "根据role对象创建角色")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public Role addRole(@RequestParam(value = "role", required = true) String role,
+    public Result addRole(@RequestParam(value = "role", required = true) String role,
                         @RequestParam(value = "description", required = false) String description,
                         @RequestParam(value = "permissionIds", required = true) List<Long> permissionIds) {
         Role role1 = new Role();
@@ -100,20 +93,10 @@ public class RoleController {
         List<Permission> permissions = permissionService.findAll(permissionIds);
         Set<Permission> permissions1 = new HashSet<>(permissions);
         role1.setPermissions(permissions1);
-        return roleService.save(role1);
+        return ResultUtil.success(roleService.save(role1));
+
     }
 
-//    /**
-//     * 更新一个角色
-//     *
-//     * @return
-//     */
-//    @ApiOperation(value = "更新角色", notes = "根据角色的id来更新角色信息")
-//    @RequestMapping(value = "/update", method = RequestMethod.PUT)
-//    public Role updateRole(@RequestBody Role role) {
-//
-//        return roleService.save(role);
-//    }
 
     /**
      * 更新角色
@@ -122,48 +105,44 @@ public class RoleController {
      */
     @ApiOperation(value = "更新角色")
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
-    public Object updateRolePermissions(@RequestBody Role role) {
-        try {
-            if (role.getRoleId() != 0) {
-                Role role1 = roleService.findOne(role.getRoleId());
-                //获取project1里的taskIds
-                List<Long> permissionIds = new ArrayList<>();
-                for (Permission permission : role1.getPermissions()) {
-                    Long permissionId = permission.getPermissionId();
-                    permissionIds.add(permissionId);
-                }
-                Set<Permission> rolePermissions = role1.getPermissions();
-                //根据taskIds查询task库里是否存在，如果不存在就绑定到project1里
-                //判断project1里是否包含task,有就继续，没有就添加
-                for (Permission permission : permissionService.findAll(permissionIds)) {
-                    if (rolePermissions.contains(permission)) {
-                        continue;
-                    }
-                    rolePermissions.add(permission);
-
-                }
-
-                for (Permission permission : role.getPermissions()) {
-
-                    rolePermissions.add(permissionService.save(permission));
-
-                }
-
-                role.setPermissions(new HashSet<>(rolePermissions));
-
-                Role save = roleService.save(role);
-                Set<Permission> permissions = save.getPermissions();
-                Iterator<Permission> iterator = permissions.iterator();
-                while (iterator.hasNext()) {
-                    Permission permission = iterator.next();
-                    if (permission.getStrategy()!= null && permission.getStrategy() == 2) //strategy属性等于2时即删除task
-                        iterator.remove();
-                }
-                UpdateUtil.copyNullProperties(role1, save);
-                return save;
+    public Result updateRolePermissions(@RequestBody Role role) {
+        if (role.getRoleId() != 0) {
+            Role role1 = roleService.findOne(role.getRoleId());
+            //获取project1里的taskIds
+            List<Long> permissionIds = new ArrayList<>();
+            for (Permission permission : role1.getPermissions()) {
+                Long permissionId = permission.getPermissionId();
+                permissionIds.add(permissionId);
             }
-        }catch (Exception e) {
-            throw new RoleException(ResultEnum.PARAM_ERROR);
+            Set<Permission> rolePermissions = role1.getPermissions();
+            //根据taskIds查询task库里是否存在，如果不存在就绑定到project1里
+            //判断project1里是否包含task,有就继续，没有就添加
+            for (Permission permission : permissionService.findAll(permissionIds)) {
+                if (rolePermissions.contains(permission)) {
+                    continue;
+                }
+                rolePermissions.add(permission);
+
+            }
+
+            for (Permission permission : role.getPermissions()) {
+
+                rolePermissions.add(permissionService.save(permission));
+
+            }
+
+            role.setPermissions(new HashSet<>(rolePermissions));
+
+            Role save = roleService.save(role);
+            Set<Permission> permissions = save.getPermissions();
+            Iterator<Permission> iterator = permissions.iterator();
+            while (iterator.hasNext()) {
+                Permission permission = iterator.next();
+                if (permission.getStrategy()!= null && permission.getStrategy() == 2) //strategy属性等于2时即删除task
+                    iterator.remove();
+            }
+            UpdateUtil.copyNullProperties(role1, save);
+            return ResultUtil.success(save);
         }
         Result result = new Result("请传入Id");
         return result;
@@ -177,7 +156,7 @@ public class RoleController {
      */
     @ApiOperation(value = "删除角色关联的权限", notes = "根据角色的id来删除权限")
     @RequestMapping(value = "/deletePermissions", method = RequestMethod.PUT)
-    public Role deleteRolePermissions(@RequestParam(value = "roleId", required = true) Long roleId,
+    public Result deleteRolePermissions(@RequestParam(value = "roleId", required = true) Long roleId,
                                       @RequestParam(value = "permissionIds", required = true) List<Long> permissionIds) {
         Role role = roleService.findOne(roleId);
         List<Permission> permissions = permissionService.findAll(permissionIds);
@@ -187,12 +166,8 @@ public class RoleController {
                 rolePermissions.remove(permission);
             }
         }
-        try {
-            roleService.save(role);
-        } catch (Exception e) {
-            throw new RuntimeException("delete fail!");
-        }
-        return role;
+        roleService.save(role);
+        return ResultUtil.success(role);
     }
 
     /**
@@ -202,9 +177,9 @@ public class RoleController {
      */
     @ApiOperation(value = "删除角色", notes = "根据id删除角色")
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    public void deleteRole(@RequestParam("id") Long roleId) {
-
+    public Result deleteRole(@RequestParam("id") Long roleId) {
         roleService.delete(roleId);
+        return ResultUtil.success(Constants.DELETE_SUCCESS);
     }
 
 }

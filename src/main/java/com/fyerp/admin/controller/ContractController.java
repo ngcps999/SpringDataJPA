@@ -47,17 +47,17 @@ public class ContractController {
      */
     @ApiOperation(value = "查询合同列表", notes = "查询合同列表")
     @RequestMapping(value = "/list",method = RequestMethod.GET)
-    public Object getContracts(@RequestParam(value = "page",required = false) Integer page,
+    public Result getContracts(@RequestParam(value = "page",required = false) Integer page,
                                        @RequestParam(value = "size",required = false) Integer size,
                                        @RequestParam(value = "sortBy", required = false, defaultValue = "createTime") String sortParam,
                                        @RequestParam(value = "order", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) {
         logger.info("ContractList");
         Sort sort = new Sort(descOrAsc, sortParam);
         if (page == null && size == null) {
-            return contractService.findAll(sort);
+            return ResultUtil.success(contractService.findAll(sort));
         } else {
             PageRequest request = new PageRequest(page - 1, size);
-            return contractService.findAll(request);
+            return ResultUtil.success(contractService.findAll(request));
         }
     }
 
@@ -67,9 +67,9 @@ public class ContractController {
      */
     @ApiOperation(value = "查询单个合同", notes = "查询单个合同")
     @GetMapping(value = "/find")
-    public Contract findOneContract(@RequestParam("id") Integer contractId) {
+    public Result findOneContract(@RequestParam("id") Integer contractId) {
         logger.info("findOneDepartment");
-        return contractService.findOne(contractId);
+        return ResultUtil.success(contractService.findOne(contractId));
     }
     /**
      * 上传合同文件
@@ -77,7 +77,7 @@ public class ContractController {
      */
     @ApiOperation(value = "上传合同文件", notes = "根据File上传合同")
     @RequestMapping(value = "/add",method = RequestMethod.POST)
-    public String addContract(@RequestParam("file") MultipartFile file,HttpServletRequest request) {
+    public Result addContract(@RequestParam("file") MultipartFile file,HttpServletRequest request) {
         String contentType = file.getContentType();
         String fileName = file.getOriginalFilename();
         /*System.out.println("fileName-->" + fileName);
@@ -89,7 +89,7 @@ public class ContractController {
             // TODO: handle exception
         }
         //返回json
-        return "uploadimg success";
+        return ResultUtil.success("uploadimg success");
     }
 
     /**
@@ -107,8 +107,8 @@ public class ContractController {
      */
     @ApiOperation(value = "更新合同", notes = "根据合同的id来更新合同信息")
     @RequestMapping(value = "/update",method = RequestMethod.PUT)
-    public Contract updateProject(@RequestBody Contract contract) {
-        return contractService.save(contract);
+    public Result updateProject(@RequestBody Contract contract) {
+        return ResultUtil.success(contractService.save(contract));
     }
 
     /**

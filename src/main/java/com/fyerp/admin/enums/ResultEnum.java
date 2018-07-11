@@ -30,7 +30,9 @@ public enum ResultEnum {
     EMPTY_LOGIN_PARAM(27,"用户名和密码不能为空"),
     LOGIN_AGAIN(28,"请重新登录"),
     DELETE_FAILED(29,"删除失败"),
-    DELETE_SUCCESS(30,"删除成功");
+    DELETE_SUCCESS(30,"删除成功"),
+    RESULT_FAILED(-1,"系统异常"),
+    NEED_LOGIN(31,"请登录");
 
     private Integer code;
     private String msg;

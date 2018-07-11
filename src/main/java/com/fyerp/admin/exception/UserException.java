@@ -13,7 +13,9 @@
 package com.fyerp.admin.exception;
 
 import com.fyerp.admin.enums.ResultEnum;
+import lombok.Getter;
 
+@Getter
 public class UserException extends RuntimeException {
     private Integer code;
 

@@ -77,13 +77,9 @@ public class ProjectController {
      */
     @ApiOperation(value = "查询单个项目", notes = "查询单个项目")
     @GetMapping(value = "/find")
-    public Project findOneProject(@RequestParam("id") Integer id) {
+    public Result findOneProject(@RequestParam("id") Integer id) {
         logger.info("findOneProject");
-        try {
-            return projectService.findOne(id);
-        } catch (Exception e) {
-            throw new RuntimeException("项目不存在");
-        }
+        return ResultUtil.success(projectService.findOne(id));
     }
 
     /**
@@ -93,9 +89,10 @@ public class ProjectController {
      */
     @ApiOperation(value = "按计划开始时间和计划结束时间段查询", notes = "按计划开始时间和计划结束时间段查询")
     @GetMapping(value = "/findByPlanDate")
-    public List<Project> findByPlanStartDateAfterAndPlanEndDateBefore(@RequestParam("planStartDate") Date planStartDate,
+    public Result findByPlanStartDateAfterAndPlanEndDateBefore(@RequestParam("planStartDate") Date planStartDate,
                                                                 @RequestParam("planEndDate") Date planEndDate) {
-        return projectService.findByPlanStartDateAfterAndPlanEndDateBefore(planStartDate, planEndDate);
+        return ResultUtil.success(projectService.
+                findByPlanStartDateAfterAndPlanEndDateBefore(planStartDate, planEndDate));
     }
 
     /**
@@ -105,9 +102,9 @@ public class ProjectController {
      */
     @ApiOperation(value = "按实际开始时间和实际结束时间段查询", notes = "按实际开始时间和实际结束时间段查询")
     @GetMapping(value = "/findByRealDate")
-    public List<Project> findByRealStartDateAfterAndRealEndDateBefore(@RequestParam("realStartDate") Date realStartDate,
+    public Result findByRealStartDateAfterAndRealEndDateBefore(@RequestParam("realStartDate") Date realStartDate,
                                                                 @RequestParam("realEndDate") Date realEndDate) {
-        return projectService.findByPlanStartDateAfterAndPlanEndDateBefore(realStartDate, realEndDate);
+        return ResultUtil.success(projectService.findByPlanStartDateAfterAndPlanEndDateBefore(realStartDate, realEndDate));
     }
 
     /**
@@ -123,6 +120,7 @@ public class ProjectController {
         Sort sort = new Sort(Sort.Direction.ASC, PRIORITY);
         PageRequest request = new PageRequest(page - 1, size, sort);
         return ResultUtil.success(projectService.findAll(request));
+
     }
 
     /**
@@ -133,18 +131,19 @@ public class ProjectController {
 //    @PreAuthorize("hasAnyAuthority('project','all')")
     @ApiOperation(value = "查询项目列表", notes = "查询项目列表(第几页，每页几条)")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public Object getProjects(@RequestParam(value = "page", required = false) Integer page,
+    public Result getProjects(@RequestParam(value = "page", required = false) Integer page,
                               @RequestParam(value = "size", required = false) Integer size,
                               @RequestParam(value = "sort", required = false, defaultValue = "createTime") String sortParam,
                               @RequestParam(value = "order", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) throws RuntimeException {
         logger.info("projectList");
         Sort sort = new Sort(descOrAsc, sortParam);
         if (page == null && size == null) {
-            return projectService.findAll(sort);
+            return ResultUtil.success(projectService.findAll(sort));
         } else {
             PageRequest request = new PageRequest(page - 1, size);
-            return projectService.findAll(request).getContent();
+            return ResultUtil.success(projectService.findAll(request).getContent());
         }
+
     }
 
     /**
@@ -155,12 +154,9 @@ public class ProjectController {
      */
     @ApiOperation(value = "统计项目数量", notes = "统计项目数量")
     @RequestMapping(value = "/count", method = RequestMethod.GET)
-    public Object getCount() {
+    public Result getCount() {
         List<Project> all = projectService.findAll();
-        ResultMsg msg = new ResultMsg();
-        msg.setCode("000000");
-        msg.setResult(String.valueOf(all.size()));
-        return msg;
+        return ResultUtil.success(all.size());
     }
 
     /**
@@ -171,8 +167,8 @@ public class ProjectController {
     @ApiOperation(value = "按状态查询项目,项目状态：0未进行，1正在进行，2遇到问题", notes = "按状态查询项目")
 //    @ApiImplicitParam(name = "projectState", value = "项目状态", required = true, dataType = "Integer", paramType = "path")
     @RequestMapping(value = "/findProjectStatusList", method = RequestMethod.GET)
-    public List<Project> getProjectByStatus(@RequestParam("projectState") Integer projectState) {
-        return projectService.findProjectsByProjectState(projectState);
+    public Result getProjectByStatus(@RequestParam("projectState") Integer projectState) {
+        return ResultUtil.success(projectService.findProjectsByProjectState(projectState));
     }
 
     /**
@@ -182,12 +178,12 @@ public class ProjectController {
      */
     @ApiOperation(value = "添加项目", notes = "根据Project对象创建项目")
     @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
-    public ProjectVO addProject(@RequestBody ProjectVO projectVO) {
+    public Result addProject(@RequestBody ProjectVO projectVO) {
         Project project = new Project();
         UpdateUtil.copyNullProperties(projectVO, project);
         Project project1 = projectService.save(project);
         BeanUtils.copyNotNullProperties(project1, projectVO);
-        return projectVO;
+        return ResultUtil.success(projectVO);
     }
 
     /**
@@ -197,84 +193,79 @@ public class ProjectController {
      */
     @ApiOperation(value = "更新项目", notes = "更新项目")
 //    @PutMapping(value = "/update")
-    public Object updateProject(@RequestBody Project project) {
-        try {
+    public Result updateProject(@RequestBody Project project) {
+        //根据id来查询，再更新
+        if (project.getProjectId() != 0) {
+            Project project1 = projectService.findOne(project.getProjectId());
+            //获取project1里的taskIds
+            List<Long> taskIds = project1.getTasks().stream().map(Task::getTaskId).collect(Collectors.toList());
+            Set<Task> project1Tasks = project1.getTasks();
+            //根据taskIds查询task库里是否存在，如果不存在就绑定到project1里
+            //判断project1里是否包含task,有就继续，没有就添加
+            List<Task> taskList = taskService.findAll(taskIds);
+            for (Task task : taskList) {
+                if (project1Tasks.contains(task)) {
+                    continue;
+                }
+                project1Tasks.add(task);
+            }
 
-            //根据id来查询，再更新
-            if (project.getProjectId() != 0) {
-                Project project1 = projectService.findOne(project.getProjectId());
-                //获取project1里的taskIds
-                List<Long> taskIds = project1.getTasks().stream().map(Task::getTaskId).collect(Collectors.toList());
-                Set<Task> project1Tasks = project1.getTasks();
-                //根据taskIds查询task库里是否存在，如果不存在就绑定到project1里
-                //判断project1里是否包含task,有就继续，没有就添加
-                List<Task> taskList = taskService.findAll(taskIds);
-                for (Task task : taskList) {
-                    if (project1Tasks.contains(task)) {
+            for (Task task : project1.getTasks()) {
+                Task task1 = taskService.findOne(task.getTaskId());
+                //获取task1里的planIds
+                List<Integer> planIds = task1.getPlans().stream().map(Plan::getPlanId).collect(Collectors.toList());
+                //根据planIds查询plan库里是否存在，如果不存在就绑定到task1里
+                //判断task1里是否包含plan,有就继续，没有就添加
+                Set<Plan> task1Plans = task1.getPlans();
+                for (Plan plan : planService.findAll(planIds)) {
+                    if (task1Plans.contains(plan)){
                         continue;
                     }
-                    project1Tasks.add(task);
+                    task1Plans.add(plan);
                 }
-
-                for (Task task : project1.getTasks()) {
-                    Task task1 = taskService.findOne(task.getTaskId());
-                    //获取task1里的planIds
-                    List<Integer> planIds = task1.getPlans().stream().map(Plan::getPlanId).collect(Collectors.toList());
-                    //根据planIds查询plan库里是否存在，如果不存在就绑定到task1里
-                    //判断task1里是否包含plan,有就继续，没有就添加
-                    Set<Plan> task1Plans = task1.getPlans();
-                    for (Plan plan : planService.findAll(planIds)) {
-                        if (task1Plans.contains(plan)){
-                            continue;
-                        }
-                        task1Plans.add(plan);
-                    }
-                }
+            }
 
 //----------------------
 //id为0就新增
-                for (Task task : project.getTasks()) {
-                    Task task1 = taskService.save(task);
-                    project1Tasks.add(task1);
-                    for (Plan plan : task.getPlans()) {
-                        Task task3 = taskService.findOne(task1.getTaskId());
-                        Set<Plan> task1Plans = task3.getPlans();
-                            task1Plans.add(planService.save(plan));
-                        task3.setPlans(task1Plans);
-                    }
+            for (Task task : project.getTasks()) {
+                Task task1 = taskService.save(task);
+                project1Tasks.add(task1);
+                for (Plan plan : task.getPlans()) {
+                    Task task3 = taskService.findOne(task1.getTaskId());
+                    Set<Plan> task1Plans = task3.getPlans();
+                    task1Plans.add(planService.save(plan));
+                    task3.setPlans(task1Plans);
                 }
+            }
 
-                project.setTasks(new HashSet<>(project1Tasks));
+            project.setTasks(new HashSet<>(project1Tasks));
 
-                Project save = projectService.save(project);
+            Project save = projectService.save(project);
 
-                //strategy参数为2就是删除
-                Set<Task> tasks = save.getTasks();
-                Iterator<Task> iterator = tasks.iterator();
-                while (iterator.hasNext()) {
-                    Task task = iterator.next();
-                    if (task.getStrategy() == 2) //strategy属性等于2时即删除task
+            //strategy参数为2就是删除
+            Set<Task> tasks = save.getTasks();
+            Iterator<Task> iterator = tasks.iterator();
+            while (iterator.hasNext()) {
+                Task task = iterator.next();
+                if (task.getStrategy() == 2) //strategy属性等于2时即删除task
+                    iterator.remove();
+
+            }
+            for (Task task : tasks) {
+                Iterator<Plan> iterator1 = task.getPlans().iterator();
+                while (iterator1.hasNext()) {
+                    Plan plan = iterator1.next();
+                    if (plan.getStrategy() == 2)
                         iterator.remove();
-
                 }
-                for (Task task : tasks) {
-                    Iterator<Plan> iterator1 = task.getPlans().iterator();
-                    while (iterator1.hasNext()) {
-                        Plan plan = iterator1.next();
-                        if (plan.getStrategy() == 2)
-                            iterator.remove();
-                    }
-                }
+            }
 
 //                UpdateUtil.copyNullProperties(project1, save);
-                return save;
-            }
-        } catch (Exception e) {
-//            throw new ProjectException(ResultEnum.PARAM_ERROR);
-            e.printStackTrace();
+            return ResultUtil.success(save);
         }
 //        Result result = new Result("请传入Id");
-        return projectService.save(project);
+        return ResultUtil.success(projectService.save(project));
+
     }
 
     /**
@@ -286,59 +277,38 @@ public class ProjectController {
     @ApiOperation(value = "删除项目", notes = "删除项目前先确认项目下是否有任务")
 //    @ApiImplicitParam(name = "id", value = "项目ID", required = true, dataType = "Integer", paramType = "path")
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    public String deleteProject(@RequestParam("id") Integer projectId) {
-        return projectService.delete(projectId);
+    public Result deleteProject(@RequestParam("id") Integer projectId) {
+        return ResultUtil.success(projectService.delete(projectId));
     }
 
 
 
     @ApiOperation(value = "更新项目2", notes = "更新项目2")
     @PutMapping(value = "/update2")
-    public Object updateProject2(@RequestBody Project project){
-        return  projectService.save(project);
+    public Result updateProject2(@RequestBody Project project){
+        return  ResultUtil.success(projectService.save(project));
     }
 
 
     @ApiOperation(value = "根据当前登录用户获取项目",notes = "根据当前登录用户获取项目")
     @GetMapping(value = "getMyProject")
-    public Object getMyProject(){
+    public Result getMyProject(){
         SecurityUser user = (SecurityUser)SecurityContextHolder.getContext()
                 .getAuthentication().getPrincipal();
         if(user == null || user.getUserId() == null || user.getUserId().longValue() == 0l){
-            throw new UserException(ResultEnum.LOGIN_AGAIN);
+            ResultUtil.error(ResultEnum.LOGIN_AGAIN);
         }
-        return projectService.findProjectByUserId(user.getUserId());
+        return ResultUtil.success(projectService.findProjectByUserId(user.getUserId()));
+
     }
-
-
-//    @ApiOperation(value = "搜索项目",notes = "搜索项目")
-//    @GetMapping(value = "search")
-//    public Object searchProject(@RequestParam("column") String column,
-//                                @RequestParam("keyword") String keyword,
-//                                @RequestParam("page") int page,
-//                                @RequestParam("amount") int amount){
-//
-//        if(StringUtils.isEmpty(column) || StringUtils.isEmpty(keyword)){
-//            throw new ProjectException(ResultEnum.PARAM_ERROR);
-//        }
-//
-//        if(page <= 0){
-//            page = 1;
-//        }
-//        Sort sort = new Sort(Sort.Direction.DESC,"projectId");
-//        Pageable pg = new PageRequest(page-1,amount,sort);
-//        Page<Project> result = projectService.findProjectBySearch(column,keyword,pg);
-//        return result;
-//    }
 
 
     @ApiOperation(value = "搜索",notes = "搜索")
     @PostMapping(value = "/search", produces = "application/json;charset=UTF-8")
-    public Object searchTest(@RequestBody SearchObj obj){
+    public Result searchTest(@RequestBody SearchObj obj){
+        List<Supplier> spl = new ArrayList<>();
         List<Project> list = projectService.searchTest(obj,obj.getPage(),obj.getAmount());
-        return list;
+        return ResultUtil.success(list);
     }
-
-
 
 }

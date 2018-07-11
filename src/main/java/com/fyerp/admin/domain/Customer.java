@@ -2,6 +2,7 @@ package com.fyerp.admin.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fyerp.admin.utils.MyComment;
 import com.sun.javafx.beans.IDProperty;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -61,7 +62,7 @@ public class Customer implements Serializable {
     @LastModifiedDate
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @JsonProperty("updatedDate")
-    @Column(columnDefinition = " COMMENT '主键，自动生成'")
+    @MyComment("更新时间")
     private Date updateTime;
 
 }

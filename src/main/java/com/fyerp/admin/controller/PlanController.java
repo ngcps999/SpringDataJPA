@@ -9,7 +9,9 @@ package com.fyerp.admin.controller;
 import com.fyerp.admin.domain.Plan;
 import com.fyerp.admin.domain.Result;
 import com.fyerp.admin.domain.Task;
+import com.fyerp.admin.enums.ResultEnum;
 import com.fyerp.admin.service.PlanService;
+import com.fyerp.admin.utils.Constants;
 import com.fyerp.admin.utils.ResultUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -41,18 +43,19 @@ public class PlanController {
      */
     @ApiOperation(value = "查询计划列表", notes = "查询计划列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public Object getPlans(@RequestParam(value = "page",required = false) Integer page,
+    public Result getPlans(@RequestParam(value = "page",required = false) Integer page,
                               @RequestParam(value = "size",required = false) Integer size,
                               @RequestParam(value = "sortBy", required = false, defaultValue = "createTime") String sortParam,
                               @RequestParam(value = "order", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) {
         logger.info("planList");
         Sort sort = new Sort(descOrAsc, sortParam);
         if (page == null && size == null) {
-            return planService.findAll(sort);
+            return ResultUtil.success(planService.findAll(sort));
         } else {
             PageRequest request = new PageRequest(page - 1, size);
-            return planService.findAll(request).getContent();
+            return ResultUtil.success(planService.findAll(request).getContent());
         }
+
     }
 
     /**
@@ -62,9 +65,9 @@ public class PlanController {
      */
     @ApiOperation(value = "查询单个计划", notes = "查询单个计划")
     @GetMapping(value = "/find")
-    public Plan findOnePlan(@RequestParam("id") Integer id) {
+    public Result findOnePlan(@RequestParam("id") Integer id) {
         logger.info("findOnePlan");
-        return planService.findOne(id);
+        return ResultUtil.success(planService.findOne(id));
     }
 
     /**
@@ -74,9 +77,9 @@ public class PlanController {
      */
     @ApiOperation(value = "按计划开始时间和计划结束时间段查询", notes = "按计划开始时间和计划结束时间段查询")
     @GetMapping(value = "/findByPlanDate")
-    public List<Plan> findByPlanStartDateAfterAndPlanEndDateBefore(@RequestParam("planStartDate") Date planStartDate,
+    public Result findByPlanStartDateAfterAndPlanEndDateBefore(@RequestParam("planStartDate") Date planStartDate,
                                                                    @RequestParam("planEndDate") Date planEndDate) {
-        return planService.findByPlanStartDateAfterAndPlanEndDateBefore(planStartDate, planEndDate);
+        return ResultUtil.success(planService.findByPlanStartDateAfterAndPlanEndDateBefore(planStartDate, planEndDate));
     }
 
     /**
@@ -86,13 +89,13 @@ public class PlanController {
      */
     @ApiOperation(value = "创建计划", notes = "根据Plan对象创建计划")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public Plan addPlan(@RequestBody Plan plan
+    public Result addPlan(@RequestBody Plan plan
 //            @RequestParam("plan_name") String planName,
 //            @RequestParam("plan_content") String planContent
     ) {
 //        plan.setPlanName(planName);
 //        plan.setPlanContent(planContent);
-        return planService.save(plan);
+        return ResultUtil.success(planService.save(plan));
     }
 
     /**
@@ -101,8 +104,9 @@ public class PlanController {
      */
     @ApiOperation(value = "更新计划", notes = "根据计划的id来更新计划")
     @PutMapping(value = "/update")
-    public Plan updatePlan(@RequestBody Plan plan) {
-        return planService.save(plan);
+    public Result updatePlan(@RequestBody Plan plan) {
+        return ResultUtil.success(planService.save(plan));
+
     }
 
     /**
@@ -111,8 +115,9 @@ public class PlanController {
      */
     @ApiOperation(value = "删除计划", notes = "根据id删除计划")
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    public void deleteTask(@RequestParam("id") Integer planId) {
+    public Result deleteTask(@RequestParam("id") Integer planId) {
         planService.delete(planId);
+        return ResultUtil.success(Constants.DELETE_SUCCESS);
     }
 
 }

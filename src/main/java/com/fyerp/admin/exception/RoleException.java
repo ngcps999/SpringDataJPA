@@ -25,7 +25,9 @@
 package com.fyerp.admin.exception;
 
 import com.fyerp.admin.enums.ResultEnum;
+import lombok.Getter;
 
+@Getter
 public class RoleException extends RuntimeException {
     private Integer code;
 

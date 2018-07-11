@@ -12,6 +12,7 @@ package com.fyerp.admin.utils;
 
 
 import com.fyerp.admin.domain.Result;
+import com.fyerp.admin.enums.ResultEnum;
 
 public class ResultUtil {
 
@@ -33,6 +34,14 @@ public class ResultUtil {
 
         result.setCode(code);
         result.setMsg(msg);
+        result.setData(null);
+        return result;
+    }
+
+    public static Result error(ResultEnum re){
+        result.setCode(re.getCode());
+        result.setMsg(re.getMsg());
+        result.setData(null);
         return result;
     }
 }

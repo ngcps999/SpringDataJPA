@@ -21,6 +21,7 @@ import com.fyerp.admin.service.DepartmentService;
 import com.fyerp.admin.service.RoleService;
 import com.fyerp.admin.service.UserService;
 import com.fyerp.admin.utils.BeanUtils;
+import com.fyerp.admin.utils.ResultUtil;
 import com.fyerp.admin.utils.UpdateUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -61,31 +62,22 @@ public class UserController {
      */
     @ApiOperation(value = "查询用户列表（带分页）", notes = "查询用户列表（带分页）")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public Object getUsers(@RequestParam(value = "page", required = false) Integer page,
+    public Result getUsers(@RequestParam(value = "page", required = false) Integer page,
                            @RequestParam(value = "size", required = false) Integer size,
                            @RequestParam(value = "sortBy", required = false, defaultValue = "createTime") String sortParam,
                            @RequestParam(value = "order", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) {
         logger.info("userList");
         Sort sort = new Sort(descOrAsc, sortParam);
         if (page == null && size == null) {
-            return userService.findAll(sort);
+            return ResultUtil.success(userService.findAll(sort));
         } else {
             PageRequest request = new PageRequest(page - 1, size);
-            return userService.findAll(request).getContent();
+            return ResultUtil.success(userService.findAll(request).getContent());
         }
+
     }
 
-//    /**
-//     * 查询用户列表
-//     *
-//     * @return
-//     */
-//    @ApiOperation(value = "查询用户列表", notes = "查询用户列表")
-//    @RequestMapping(value = "/list", method = RequestMethod.GET)
-//    public Result<User> getUsers() {
-//        logger.info("userList");
-//        return ResultUtil.success(userService.findAll());
-//    }
+
 
     /**
      * 查询单个用户
@@ -94,9 +86,9 @@ public class UserController {
      */
     @ApiOperation(value = "查询单个用户", notes = "查询单个用户")
     @GetMapping(value = "/find")
-    public User findOneUser(@RequestParam("id") Long id) {
+    public Result findOneUser(@RequestParam("id") Long id) {
         logger.info("findOneUser");
-        return userService.findOne(id);
+        return ResultUtil.success(userService.findOne(id));
     }
 
     /**
@@ -104,23 +96,14 @@ public class UserController {
      */
     @ApiOperation(value = "创建用户", notes = "根据user对象创建用户")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public UserDTO addUser(@RequestBody UserDTO userDTO)  {
+    public Result addUser(@RequestBody UserDTO userDTO)  {
         User user = new User();
         UpdateUtil.copyNullProperties(userDTO,user);
         User user1 = userService.save(user);
         BeanUtils.copyNotNullProperties(user1,userDTO);
-        return userDTO;
+        return ResultUtil.success(userDTO);
     }
 
-//    /**
-//     * 添加多个用户
-//     */
-//    @ApiOperation(value = "创建用户", notes = "根据user对象创建用户")
-//    @RequestMapping(value = "/adds", method = RequestMethod.POST)
-//    public List<User> addUsers(@RequestBody List<User> users) {
-//
-//        return userService.save(users);
-//    }
 
     /**
      * 更新用户
@@ -129,8 +112,7 @@ public class UserController {
      */
     @ApiOperation(value = "更新用户及其关联的角色", notes = "根据用户的id来更新用户")
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
-    public Object updateUserRoles(@RequestBody User user){
-        try {
+    public Result updateUserRoles(@RequestBody User user){
         if (user.getUserId() != 0) {
             User user1 = userService.findOne(user.getUserId());
             //获取project1里的taskIds
@@ -165,14 +147,11 @@ public class UserController {
                     iterator.remove();
             }
             UpdateUtil.copyNullProperties(user1, save);
-            return save;
+            return ResultUtil.success(save);
         }
-    }catch (Exception e) {
-        throw new UserException(ResultEnum.PARAM_ERROR);
-    }
-    Result result = new Result("请传入Id");
+        Result result = new Result("请传入Id");
         return result;
-}
+    }
 
 //    /**
 //     * 更新多个用户
@@ -191,7 +170,7 @@ public class UserController {
      */
     @ApiOperation(value = "删除用户关联的角色", notes = "根据用户的id来删除对应角色")
     @PutMapping(value = "/deleteRoles")
-    public User deleteUserRoles(@RequestParam(value = "userId",required = true) Long userId) {
+    public Result deleteUserRoles(@RequestParam(value = "userId",required = true) Long userId) {
         User user = userService.findOne(userId);
         Set<Long> roleIds = new HashSet<>();
         for (Role role : user.getRoles()) {
@@ -206,13 +185,9 @@ public class UserController {
                 userRoles.removeAll(roles);
             }
         }
+        userService.save(user);
+        return ResultUtil.success(user);
 
-        try {
-            userService.save(user);
-        } catch (Exception e) {
-            throw new RuntimeException("update fail!");
-        }
-        return user;
     }
 
     /**
@@ -222,11 +197,12 @@ public class UserController {
      */
     @ApiOperation(value = "删除用户", notes = "根据url的id来指定删除用户")
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    public void deleteUser(@RequestParam("id") Long userId) throws Exception {
+    public Result deleteUser(@RequestParam("id") Long userId) throws Exception {
         User user = userService.findOne(userId);
         Set<Role> roles = user.getRoles();
         roles.removeAll(roles);
         userService.delete(userId);
+        return ResultUtil.success();
     }
 
 }

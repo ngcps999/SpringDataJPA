@@ -8,8 +8,10 @@ package com.fyerp.admin.controller;
 
 import com.fyerp.admin.domain.Permission;
 import com.fyerp.admin.domain.Result;
+import com.fyerp.admin.enums.ResultEnum;
 import com.fyerp.admin.service.PermissionService;
 import com.fyerp.admin.utils.BeanUtils;
+import com.fyerp.admin.utils.Constants;
 import com.fyerp.admin.utils.ResultUtil;
 import com.fyerp.admin.utils.UpdateUtil;
 import io.swagger.annotations.Api;
@@ -42,16 +44,16 @@ public class PermissionController {
      */
     @ApiOperation(value = "查询权限列表", notes = "查询权限列表")
     @RequestMapping(value = "/list", method = RequestMethod.GET)
-    public Object getPermissions(@RequestParam(value = "page", required = false) Integer page,
+    public Result getPermissions(@RequestParam(value = "page", required = false) Integer page,
                                            @RequestParam(value = "size", required = false) Integer size,
                                            @RequestParam(value = "sortBy", required = false, defaultValue = "createTime") String sortParam,
                                            @RequestParam(value = "order", required = false, defaultValue = "DESC") Sort.Direction descOrAsc) {
         Sort sort = new Sort(descOrAsc, sortParam);
         if (page == null && size == null) {
-            return permissionService.findAll(sort);
+            return ResultUtil.success(permissionService.findAll(sort));
         } else {
             PageRequest request = new PageRequest(page - 1, size);
-            return permissionService.findAll(request).getContent();
+            return ResultUtil.success(permissionService.findAll(request).getContent());
         }
     }
 
@@ -62,9 +64,9 @@ public class PermissionController {
      */
     @ApiOperation(value = "查询单个权限", notes = "查询单个权限")
     @GetMapping(value = "/find")
-    public Permission findOnePermission(@RequestParam("id") Long id) {
+    public Result findOnePermission(@RequestParam("id") Long id) {
         logger.info("findOneProject");
-        return permissionService.findOne(id);
+        return ResultUtil.success(permissionService.findOne(id));
     }
 
     /**
@@ -72,12 +74,12 @@ public class PermissionController {
      */
     @ApiOperation(value = "创建权限", notes = "根据permission对象创建权限")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public Permission addPermission(@RequestBody Permission permission) {
+    public Result addPermission(@RequestBody Permission permission) {
         if (permission.getPermissionId()!=0) {
             Permission permission1 = permissionService.findOne(permission.getPermissionId());
             UpdateUtil.copyNullProperties(permission1, permission);
         }
-        return permissionService.save(permission);
+        return ResultUtil.success(permissionService.save(permission));
     }
 
     /**
@@ -87,9 +89,8 @@ public class PermissionController {
      */
     @ApiOperation(value = "更新权限", notes = "根据权限的id来更新权限信息")
     @RequestMapping(value = "/update", method = RequestMethod.PUT)
-    public Permission updatePermission(@RequestBody Permission permission) {
-
-        return permissionService.save(permission);
+    public Result updatePermission(@RequestBody Permission permission) {
+        return ResultUtil.success(permissionService.save(permission));
     }
 
     /**
@@ -99,10 +100,9 @@ public class PermissionController {
      */
     @ApiOperation(value = "删除权限", notes = "根据id删除权限")
     @RequestMapping(value = "/delete", method = RequestMethod.DELETE)
-    public void deletePermission(@RequestParam("id") Long id) {
+    public Result deletePermission(@RequestParam("id") Long id) {
         permissionService.delete(id);
-
-
+        return ResultUtil.success(Constants.DELETE_SUCCESS);
     }
 
 }
