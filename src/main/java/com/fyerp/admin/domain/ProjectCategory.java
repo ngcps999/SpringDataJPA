@@ -9,6 +9,7 @@ package com.fyerp.admin.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fyerp.admin.utils.MyComment;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
 import lombok.Data;
@@ -44,12 +45,14 @@ public class ProjectCategory {
      * 类目名称
      */
     @JsonProperty("name")
+    @MyComment("类目名称")
     private String categoryName;
 
     /**
      * 类目描述
      */
     @JsonProperty("description")
+    @MyComment("类目描述")
     private String categoryDesc;
 
     private Integer strategy;
@@ -67,11 +70,13 @@ public class ProjectCategory {
     @CreatedDate
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @JsonProperty("creationDate")
+    @MyComment("创建时间")
     private Date createTime;
 
     @LastModifiedDate
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @JsonProperty("updatedDate")
+    @MyComment("更新时间")
     private Date updateTime;
 
 }

@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fyerp.admin.enums.ProjectStatusEnum;
 import com.fyerp.admin.utils.BeanComparator;
+import com.fyerp.admin.utils.MyComment;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
 import lombok.Data;
@@ -57,6 +58,7 @@ public class Project implements Serializable {
      * 项目名称
      */
     @JsonProperty("name")
+    @MyComment("项目名称")
     private String projectName;
 
     @Transient
@@ -70,6 +72,7 @@ public class Project implements Serializable {
      */
 //    @DateTimeFormat(pattern="yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    @MyComment("项目计划开始时间")
     private Date planStartDate;
 
     /**
@@ -77,6 +80,7 @@ public class Project implements Serializable {
      */
 //    @DateTimeFormat(pattern="yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    @MyComment("项目计划完成时间")
     private Date planEndDate;
 
     /**
@@ -84,6 +88,7 @@ public class Project implements Serializable {
      */
 //    @DateTimeFormat(pattern="yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    @MyComment("项目实际开始时间")
     private Date realStartDate;
 
     /**
@@ -91,6 +96,7 @@ public class Project implements Serializable {
      */
 //    @DateTimeFormat(pattern="yyyy-MM-dd")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
+    @MyComment("项目实际完成时间")
     private Date realEndDate;
 
 //    /**
@@ -100,71 +106,85 @@ public class Project implements Serializable {
     /**
      * 使用设备
      */
+    @MyComment("使用设备")
     private String equipment;
 
     /**
      * 项目内容
      */
+    @MyComment("项目内容")
     private String projectContent;
 
     /**
      * 项目分类
      */
+    @MyComment("项目分类")
     private String projectCategory;
 
     /**
      * 项目范围
      */
+    @MyComment("项目范围")
     private String projectScope;
 
     /**
      * 技术要求
      */
+    @MyComment("技术要求")
     private String techReqs;
 
     /**
      * 成果要求
      */
+    @MyComment("成果要求")
     private String resultsReqs;
 
     /**
      * 工期要求
      */
+    @MyComment("工期要求")
     private Integer workDay;
 
     /**
      * 项目阶段
      */
+    @MyComment("项目阶段")
     private String projectPhase;
 
     /**
      * 飞行平台
      */
+    @MyComment("飞行平台")
     private String flyPlatform;
 
     /**
      * 飞行高度
      */
+    @MyComment("飞行高度")
     private String flyHeight;
 
     /**
      * 航摄分辨率
      */
+    @MyComment("航摄分辨率")
     private String aeroRatio;
 
     /**
      * 航摄面积
      */
+    @MyComment("航摄面积")
     private String areoArea;
 
     /**
      * 地图
      */
+    @MyComment("地图")
     private String map;
 
     /**
      * 优先级（1最大100最小）
      */
+    @MyComment("优先级")
     private Integer priority;
 
 
@@ -172,12 +192,14 @@ public class Project implements Serializable {
      * 项目状态：0未进行，1正在进行，2遇到问题
      */
     @JsonProperty("status")
+    @MyComment("项目状态")
     private Integer projectState;
 
     /**
      * 项目描述
      */
     @JsonProperty("description")
+    @MyComment("项目描述")
     private String projectDesc;
 
     private Integer strategy;
@@ -215,6 +237,7 @@ public class Project implements Serializable {
     @CreatedDate
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @JsonProperty("creationDate")
+    @MyComment("创建时间")
     private Date createTime;
 
     /**
@@ -223,6 +246,7 @@ public class Project implements Serializable {
     @LastModifiedDate
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @JsonProperty("updatedDate")
+    @MyComment("更新时间")
     private Date updateTime;
 
     @OneToOne(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)

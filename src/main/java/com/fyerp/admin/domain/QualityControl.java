@@ -1,6 +1,7 @@
 package com.fyerp.admin.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fyerp.admin.utils.MyComment;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.hibernate.annotations.DynamicInsert;
@@ -27,6 +28,7 @@ public class QualityControl implements Serializable {
     @JsonProperty(value = "id")
     private Integer qualityControlId;
 
+    @MyComment("备注")
     private String remark;
 
     @Transient
@@ -34,9 +36,9 @@ public class QualityControl implements Serializable {
     @ApiModelProperty(allowableValues = "qualityControl")
     private String type = "qualityControl";
 
-
+    @MyComment("文件名")
     private String fileName;
 
-
-    private String address;
+    @MyComment("文件路径")
+    private String filePath;
 }

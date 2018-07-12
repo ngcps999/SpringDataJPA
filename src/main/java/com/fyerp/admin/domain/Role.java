@@ -13,6 +13,7 @@ package com.fyerp.admin.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fyerp.admin.utils.MyComment;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.hibernate.annotations.DynamicInsert;
@@ -55,6 +56,7 @@ public class Role implements Serializable {
      * 角色标识，程序中判断使用,如"admin",这个是唯一的:
      */
     @JsonProperty("name")
+    @MyComment("角色名")
     private String role;
 
     @Transient
@@ -65,6 +67,7 @@ public class Role implements Serializable {
     /**
      * 角色描述
      */
+    @MyComment("角色描述")
     private String description;
 
     private Integer strategy;
@@ -93,11 +96,13 @@ public class Role implements Serializable {
     @CreatedDate
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @JsonProperty("creationDate")
+    @MyComment("创建描述")
     private Date createTime;
 
     @LastModifiedDate
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @JsonProperty("updatedDate")
+    @MyComment("更新描述")
     private Date updateTime;
 
 }

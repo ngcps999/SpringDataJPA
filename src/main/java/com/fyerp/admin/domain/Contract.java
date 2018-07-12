@@ -71,7 +71,7 @@ public class Contract {
     private Double contractMoney;
 
     @MyComment("税率")
-    @JsonProperty("tax_rate")
+    @JsonProperty("taxRate")
     private Double contractTaxRate;
 
     @MyComment("税费")

@@ -3,6 +3,7 @@ package com.fyerp.admin.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fyerp.admin.utils.MyComment;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
@@ -27,6 +28,7 @@ public class Supplier implements Serializable {
     private Integer supplierId;
 
     @JsonProperty("name")
+    @MyComment("供应商名称")
     private String supplierName;
 
     @Transient
@@ -34,14 +36,19 @@ public class Supplier implements Serializable {
     @ApiModelProperty(allowableValues = "supplier")
     private String type;
 
+    @MyComment("公司名")
     private String companyName;
 
+    @MyComment("联系人")
     private String linkman;
 
+    @MyComment("联系方式")
     private String contact;
 
+    @MyComment("地址")
     private String address;
 
+    @MyComment("备注")
     private String remark;
 
     /**
@@ -50,6 +57,7 @@ public class Supplier implements Serializable {
     @CreatedDate
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @JsonProperty("creationDate")
+    @MyComment("创建时间")
     private Date createTime;
 
     /**
@@ -58,5 +66,6 @@ public class Supplier implements Serializable {
     @LastModifiedDate
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @JsonProperty("updatedDate")
+    @MyComment("更新时间")
     private Date updateTime;
 }

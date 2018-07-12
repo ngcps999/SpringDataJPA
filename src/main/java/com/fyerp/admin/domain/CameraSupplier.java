@@ -1,6 +1,7 @@
 package com.fyerp.admin.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fyerp.admin.utils.MyComment;
 import lombok.Data;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -25,6 +26,7 @@ public class CameraSupplier extends Supplier {
 //    @JsonProperty("id")
 //    private Integer supplierId;
 
+    @MyComment("相机型号")
     private String cameraType;
 
 }

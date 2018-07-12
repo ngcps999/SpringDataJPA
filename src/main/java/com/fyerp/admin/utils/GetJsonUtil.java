@@ -112,12 +112,22 @@ public class GetJsonUtil {
         }
         if("class java.util.Date".equals(str)){
             map.put("type","datetime");
-            map.put("length","");
+            map.put("length",null);
             return map;
         }
         if("class java.lang.Long".equals(str)){
             map.put("type","bigint");
             map.put("length","20");
+            return map;
+        }
+        if("class java.lang.Double".equals(str)){
+            map.put("type","double");
+            map.put("length",null);
+            return map;
+        }
+        if("class java.lang.Boolean".equals(str)){
+            map.put("type","bit");
+            map.put("length","1");
             return map;
         }
         return null;

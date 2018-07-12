@@ -31,6 +31,7 @@ public class Customer implements Serializable {
     private Integer customerId;
 
     @JsonProperty(value = "name")
+    @MyComment("客户名称")
     private String  customerName;
 
     @Transient
@@ -38,14 +39,19 @@ public class Customer implements Serializable {
     @ApiModelProperty(allowableValues = "customer")
     private String type = "customer";
 
+    @MyComment("客户类型")
     private String customerType;
 
+    @MyComment("客户编号")
     private String code;
 
+    @MyComment("联系地址")
     private String address;
 
+    @MyComment("联系方式")
     private String contact;
 
+    @MyComment("联系人")
     private String linkman;
 
     /**
@@ -54,6 +60,7 @@ public class Customer implements Serializable {
     @CreatedDate
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @JsonProperty("creationDate")
+    @MyComment("创建时间")
     private Date createTime;
 
     /**

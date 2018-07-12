@@ -9,6 +9,7 @@ package com.fyerp.admin.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fyerp.admin.utils.MyComment;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.hibernate.annotations.DynamicInsert;
@@ -41,12 +42,14 @@ public class Department {
      * 部门名称
      */
     @JsonProperty("name")
+    @MyComment("部门名称")
     private String depName;
 
     /**
      * 部门描述
      */
     @JsonProperty("description")
+    @MyComment("部门描述")
     private String depDesc;
 
     @Transient
@@ -56,12 +59,14 @@ public class Department {
 
     //    @JsonIgnore
     @JsonProperty(value = "children")
+    @MyComment("部门用户")
     @ManyToMany(targetEntity = User.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)//立即从数据库中加载数据；
     @JoinTable(name = "DepartmentUser", joinColumns = {@JoinColumn(name = "departmentId")}, inverseJoinColumns = {@JoinColumn(name = "userId")})
     private Set<User> users = new HashSet<>();
 
     //    @JsonIgnore
     @JsonProperty(value = "tasks")
+    @MyComment("部门任务")
     @ManyToMany(targetEntity = Task.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinTable(name = "DepartmentTask", joinColumns = {@JoinColumn(name = "departmentId")}, inverseJoinColumns = {@JoinColumn(name = "taskId")})
     private Set<Task> tasks = new HashSet<>();
@@ -73,11 +78,13 @@ public class Department {
     @CreatedDate
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @JsonProperty("creationDate")
+    @MyComment("创建时间")
     private Date createTime;
 
     @LastModifiedDate
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @JsonProperty("updatedDate")
+    @MyComment("修改时间")
     private Date updateTime;
 
     public Department() {

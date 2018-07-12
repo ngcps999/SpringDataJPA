@@ -6,9 +6,12 @@
 
 package com.fyerp.admin.controller;
 
+import com.fyerp.admin.domain.FileInfo;
+import com.fyerp.admin.service.FileInfoService;
 import io.swagger.annotations.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -31,6 +34,9 @@ public class FileController {
     String fileName;// 文件名
 
     String path;
+
+    @Autowired
+    private FileInfoService fileInfoService;
 
 
     @PostMapping(value = "/upload")
@@ -55,6 +61,8 @@ public class FileController {
                 dest.getParentFile().mkdirs();// 新建文件夹
             }
             file.transferTo(dest);// 文件写入
+            FileInfo fileInfo = new FileInfo(filePath,fileName);
+            fileInfoService.save(fileInfo);
             return "上传成功";
         } catch (IllegalStateException e) {
             e.printStackTrace();
@@ -79,6 +87,7 @@ public class FileController {
                             new File(filePath + file.getOriginalFilename())));//设置文件路径及名字
                     stream.write(bytes);// 写入
                     stream.close();
+                    fileInfoService.save(new FileInfo(filePath,file.getOriginalFilename()));
                 } catch (Exception e) {
                     stream = null;
                     return "第 " + i + " 个文件上传失败 ==> "

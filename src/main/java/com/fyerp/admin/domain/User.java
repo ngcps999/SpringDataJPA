@@ -15,6 +15,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fyerp.admin.domain.base.BaseModel;
 import com.fyerp.admin.enums.DepartmentEnum;
+import com.fyerp.admin.utils.MyComment;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.hibernate.annotations.DynamicInsert;
@@ -59,12 +60,14 @@ public class User implements Serializable{
      * 用户账号
      */
 //    @NotBlank(message = "用户名必填")
+    @MyComment("用户帐号")
     private String username;
 
     /**
      * 姓名
      */
 //    @NotBlank(message = "姓名必填")
+    @MyComment("姓名")
     private String name;
 
     @Transient
@@ -76,18 +79,21 @@ public class User implements Serializable{
      * 性别
      */
 //    @NotBlank
+    @MyComment("性别")
     private String gender;
 
     /**
      * 密码
      */
 //    @NotBlank
+    @MyComment("密码")
     private String password;
 
     /**
      * 用户状态,0:用户未输入验证码, 1:正常状态,2：用户被锁定.
      */
     @JsonProperty("status")
+    @MyComment("状态")
     private Integer state;
 
     private Integer strategy;
@@ -117,7 +123,10 @@ public class User implements Serializable{
     @CreatedDate
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     @JsonProperty("creationDate")
+    @MyComment("创建时间")
     private Date createTime;
+
+    @MyComment("更新时间")
     @LastModifiedDate
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     @JsonProperty("updatedDate")

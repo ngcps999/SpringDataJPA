@@ -13,6 +13,7 @@ package com.fyerp.admin.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fyerp.admin.utils.MyComment;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 import org.hibernate.annotations.DynamicInsert;
@@ -51,6 +52,7 @@ public class Permission implements Serializable {
     /**
      * 权限名称
      */
+    @MyComment("权限名称")
     private String name;
 
 
@@ -62,17 +64,21 @@ public class Permission implements Serializable {
     /**
      * 授权链接
      */
+    @MyComment("授权链接")
     private String url;
 
     /**
      * 权限描述
      */
+    @MyComment("权限描述")
     private String permission;
 
     /**
      * 父节点Id
      */
+    @MyComment("父节点ID")
     private Integer parentId;
+
 
     private Integer strategy;
 
@@ -88,10 +94,14 @@ public class Permission implements Serializable {
     @CreatedDate
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     @JsonProperty("creationDate")
+    @MyComment("创建时间")
     private Date createTime;
+
+
     @LastModifiedDate
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     @JsonProperty("updatedDate")
+    @MyComment("修改时间")
     private Date updateTime;
 
 

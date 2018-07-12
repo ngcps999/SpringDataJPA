@@ -9,6 +9,7 @@ package com.fyerp.admin.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fyerp.admin.utils.MyComment;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
 import lombok.Data;
@@ -34,12 +35,17 @@ public class Plan implements Serializable {
     @JsonProperty(value = "id")
     private Integer planId;
     @JsonProperty("name")
+    @MyComment("计划名称")
     private String planName;
+
     @Transient
     @JsonProperty(defaultValue = "plan")
     @ApiModelProperty(allowableValues = "plan")
     private String type = "plan";
+
+
     @JsonProperty("content")
+    @MyComment("计划内容")
     private String planContent;
 
     /**
@@ -47,6 +53,7 @@ public class Plan implements Serializable {
      */
 //    @DateTimeFormat(pattern="yyyy-MM-dd")
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+    @MyComment("项目计划开始时间")
     private Date planStartDate;
 
     /**
@@ -54,6 +61,7 @@ public class Plan implements Serializable {
      */
 //    @DateTimeFormat(pattern="yyyy-MM-dd")
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+    @MyComment("项目计划完成时间")
     private Date planEndDate;
 
     /**
@@ -61,6 +69,7 @@ public class Plan implements Serializable {
      */
 //    @DateTimeFormat(pattern="yyyy-MM-dd")
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+    @MyComment("计划实际开始时间")
     private Date realStartDate;
 
     /**
@@ -68,6 +77,7 @@ public class Plan implements Serializable {
      */
 //    @DateTimeFormat(pattern="yyyy-MM-dd")
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
+    @MyComment("计划实际完成时间")
     private Date realEndDate;
 
 //    @JsonIgnore
@@ -76,13 +86,16 @@ public class Plan implements Serializable {
 //    private Task task;
 
     private Integer strategy;
+
+
     @CreatedDate
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     @JsonProperty("creationDate")
+    @MyComment("创建时间")
     private Date createTime;
     @LastModifiedDate
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
-    @JsonProperty("updatedDate")
+    @MyComment("更新时间")
     private Date updateTime;
 
 }

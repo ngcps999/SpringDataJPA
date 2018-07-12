@@ -12,6 +12,7 @@ package com.fyerp.admin.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fyerp.admin.utils.MyComment;
 import lombok.Data;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -39,18 +40,30 @@ public class Weekly {
     @Id
     @GeneratedValue
     private int id;
+
+    @MyComment("开始日期")
     private Date startDate;
+
+    @MyComment("结束日期")
     private Date endDate;
+
+    @MyComment("内容")
     private String content;
+
+    @MyComment("完整性")
     private String completeness;
+
+    @MyComment("批注")
     private String postil;
 
     @CreatedDate
     @JsonProperty("creationDate")
+    @MyComment("创建时间")
     private Date createTime;
 
     @LastModifiedDate
     @JsonProperty("updatedDate")
+    @MyComment("更新时间")
     private Date updateTime;
 
 }

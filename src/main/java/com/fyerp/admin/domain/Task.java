@@ -13,6 +13,7 @@ package com.fyerp.admin.domain;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fyerp.admin.utils.MyComment;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiParam;
 import lombok.Data;
@@ -44,28 +45,45 @@ public class Task implements Serializable {
     @GeneratedValue
     @JsonProperty(value = "id")
     private Long taskId;
+
     @JsonProperty("name")
+    @MyComment("任务名称")
     private String taskName;
+
     @Transient
     @JsonProperty(value = "type", defaultValue = "task")
     @ApiModelProperty(allowableValues = "task")
     private String type = "task";
+
+    @MyComment("任务描述")
     @JsonProperty("description")
     private String taskDesc;
+
+    @MyComment("任务状态")
     @JsonProperty("status")
     private Integer taskState;
+
+    @MyComment("任务计划开始时间")
     @JsonProperty("planStartDate")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date taskPlanStartDate;
+
+    @MyComment("任务实际开始时间")
     @JsonProperty("realStartDate")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date taskRealStartDate;
+
+    @MyComment("任务实际结束时间")
     @JsonProperty("realEndDate")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date taskRealEndDate;
+
+    @MyComment("任务计划结束时间")
     @JsonProperty("planEndDate")
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     private Date taskPlanEndDate;
+
+
     private Integer strategy;
 
 
@@ -90,7 +108,10 @@ public class Task implements Serializable {
     @CreatedDate
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     @JsonProperty("creationDate")
+    @MyComment("创建时间")
     private Date createTime;
+
+    @MyComment("更新时间")
     @LastModifiedDate
     @JsonFormat(pattern="yyyy-MM-dd",timezone="GMT+8")
     @JsonProperty("updatedDate")
