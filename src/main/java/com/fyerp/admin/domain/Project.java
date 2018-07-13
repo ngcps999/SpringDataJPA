@@ -258,6 +258,26 @@ public class Project implements Serializable {
     @JoinColumn(name = "customer_id")
     private Customer customer;
 
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "camera_supplier_id")
+    private CameraSupplier cameraSupplier;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "aircraft_lease_supplier_id")
+    private AircraftLeaseSupplier aircraftLeaseSupplier;
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "other_supplier_id")
+    private OtherSupplier otherSupplier;
+
+
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "quality_control_id")
+    private QualityControl qualityControl;
 
 
     public void setTasks(Set<Task> tasks) {

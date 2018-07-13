@@ -12,16 +12,16 @@ import java.util.List;
  * @Date:2018/7/10
  * @Time:17:31
  **/
-public interface OtherSupplierService {
-    OtherSupplier findOne(Integer id);
-
-    Page<OtherSupplier> findAll(Pageable page);
-
-    List<OtherSupplier> findAll();
-
-    List<OtherSupplier> findAll(Sort sort);
-
-    OtherSupplier save(OtherSupplier otherSupplier);
-
-    void delete(Integer id);
+public interface OtherSupplierService extends SupplierService{
+//    OtherSupplier findOne(Integer id);
+//
+//    Page<OtherSupplier> findAll(Pageable page);
+//
+//    List<OtherSupplier> findAll();
+//
+//    List<OtherSupplier> findAll(Sort sort);
+//
+//    OtherSupplier save(OtherSupplier otherSupplier);
+//
+//    void delete(Integer id);
 }

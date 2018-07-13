@@ -1,6 +1,7 @@
 package com.fyerp.admin.service.impl;
 
 import com.fyerp.admin.domain.OtherSupplier;
+import com.fyerp.admin.domain.Supplier;
 import com.fyerp.admin.respository.OtherSupplierRepository;
 import com.fyerp.admin.service.OtherSupplierService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,12 +24,12 @@ public class OtherSupplierServiceImpl implements OtherSupplierService {
     private OtherSupplierRepository repository;
 
     @Override
-    public OtherSupplier findOne(Integer id) {
+    public Supplier findOne(Integer id) {
         return repository.findOne(id);
     }
 
     @Override
-    public Page<OtherSupplier> findAll(Pageable page) {
+    public Page findAll(Pageable page) {
         return repository.findAll(page);
     }
 
@@ -43,8 +44,8 @@ public class OtherSupplierServiceImpl implements OtherSupplierService {
     }
 
     @Override
-    public OtherSupplier save(OtherSupplier otherSupplier) {
-        return repository.save(otherSupplier);
+    public Supplier save(Supplier supplier) {
+        return repository.save((OtherSupplier) supplier);
     }
 
     @Override

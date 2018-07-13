@@ -36,6 +36,10 @@ public class Supplier implements Serializable {
     @ApiModelProperty(allowableValues = "supplier")
     private String type;
 
+    // 1-相机供应商  2-飞机租赁供应商  3-其他
+    @Transient
+    private Integer supplierType;
+
     @MyComment("公司名")
     private String companyName;
 

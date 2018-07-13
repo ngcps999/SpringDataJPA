@@ -46,6 +46,23 @@ public class GetJsonUtil {
 //        }
         map.put("name",StringUtils.lowerCase(t.getSimpleName()));
         Field[] fields = t.getDeclaredFields();
+        Class t2 = t.getSuperclass();
+        List<MetaDataObj> list1 = getProperties(fields);
+        List<MetaDataObj> list2 = new ArrayList<>();
+        if(t2 != null){
+            list2 = getProperties(t2.getDeclaredFields());
+            list2.addAll(list1);
+            list1 = list2;
+        }
+        map.put("properties",list1);
+        return map;
+    }
+
+
+    private static List<MetaDataObj>  getProperties(Field[] fields){
+        if (fields == null || fields.length == 0){
+            return null;
+        }
         List<MetaDataObj> list = new ArrayList<>();
         for(Field field : fields){
             field.setAccessible(true);
@@ -93,10 +110,7 @@ public class GetJsonUtil {
             list.add(property);
 //            if(json)
         }
-        map.put("properties",list);
-
-
-        return map;
+        return list;
     }
 
 
