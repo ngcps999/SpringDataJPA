@@ -13,5 +13,5 @@ public class MetaDataObj {
     private String label;
     private boolean notNull;
     private String type;
-    private String length;
+    private Integer length;
 }

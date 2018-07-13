@@ -78,10 +78,16 @@ public class GetJsonUtil {
                 property.setLabel(commentAnno.value());
             }
 
-            Map<String,String> info = getColumnType(field.getGenericType().toString());
+            Map<String,Object> info = getColumnType(field.getGenericType().toString());
             if(info != null){
-                property.setType(info.get("type"));
-                property.setLength(info.get("length"));
+                Object obj = info.get("length");
+                if(obj != null){
+                    property.setLength((int)obj);
+                }else{
+                    property.setLength(null);
+                }
+                property.setType(info.get("type").toString());
+
             }
 
             list.add(property);
@@ -94,20 +100,20 @@ public class GetJsonUtil {
     }
 
 
-    private static Map<String,String> getColumnType(String str){
+    private static Map<String,Object> getColumnType(String str){
         if(StringUtils.isEmpty(str)){
             return null;
         }
         String result = "";
-        Map<String,String> map = new HashMap<>();
+        Map<String,Object> map = new HashMap<>();
         if("class java.lang.String".equals(str)){
             map.put("type","varchar");
-            map.put("length","255");
+            map.put("length",Integer.valueOf(255));
             return map;
         }
         if("class java.lang.Integer".equals(str)){
             map.put("type","int");
-            map.put("length","11");
+            map.put("length",Integer.valueOf(11));
             return map;
         }
         if("class java.util.Date".equals(str)){
@@ -117,7 +123,7 @@ public class GetJsonUtil {
         }
         if("class java.lang.Long".equals(str)){
             map.put("type","bigint");
-            map.put("length","20");
+            map.put("length",Integer.valueOf(20));
             return map;
         }
         if("class java.lang.Double".equals(str)){
@@ -127,7 +133,7 @@ public class GetJsonUtil {
         }
         if("class java.lang.Boolean".equals(str)){
             map.put("type","bit");
-            map.put("length","1");
+            map.put("length",Integer.valueOf(1));
             return map;
         }
         return null;
