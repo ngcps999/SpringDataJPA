@@ -64,7 +64,7 @@ public class GetJsonUtil {
             }
             OneToOne otoAnno = field.getAnnotation(OneToOne.class);
             if(otoAnno != null){
-                return null;
+                continue;
             }
             JsonProperty jsonPropertyAnno = field.getAnnotation(JsonProperty.class);
             if(jsonPropertyAnno != null && StringUtils.isNotEmpty(jsonPropertyAnno.value())){

@@ -75,7 +75,7 @@ public class PermissionController {
     @ApiOperation(value = "创建权限", notes = "根据permission对象创建权限")
     @RequestMapping(value = "/add", method = RequestMethod.POST)
     public Result addPermission(@RequestBody Permission permission) {
-        if (permission.getPermissionId()!=0) {
+        if (permission!= null && permission.getPermission() != null && permission.getPermissionId()!=0) {
             Permission permission1 = permissionService.findOne(permission.getPermissionId());
             UpdateUtil.copyNullProperties(permission1, permission);
         }
