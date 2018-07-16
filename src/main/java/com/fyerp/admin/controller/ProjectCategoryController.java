@@ -127,8 +127,8 @@ public class ProjectCategoryController {
      * @return
      */
     @ApiOperation(value = "更新项目", notes = "更新项目")
-    @PutMapping(value = "/update")
-    public Result updateProjectCategory(@RequestBody ProjectCategory projectCategory) {
+    @PutMapping(value = "/save")
+    public Result saveProjectCategory(@RequestBody ProjectCategory projectCategory) {
 
         if (projectCategory.getCategoryId() != 0) {
             ProjectCategory projectCategory1 = categoryService.findOne(projectCategory.getCategoryId());

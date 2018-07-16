@@ -88,8 +88,8 @@ public class PermissionController {
      * @return
      */
     @ApiOperation(value = "更新权限", notes = "根据权限的id来更新权限信息")
-    @RequestMapping(value = "/update", method = RequestMethod.PUT)
-    public Result updatePermission(@RequestBody Permission permission) {
+    @RequestMapping(value = "/save", method = RequestMethod.PUT)
+    public Result savePermission(@RequestBody Permission permission) {
         return ResultUtil.success(permissionService.save(permission));
     }
 

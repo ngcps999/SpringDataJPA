@@ -111,8 +111,8 @@ public class UserController {
      * @return
      */
     @ApiOperation(value = "更新用户及其关联的角色", notes = "根据用户的id来更新用户")
-    @RequestMapping(value = "/update", method = RequestMethod.PUT)
-    public Result updateUserRoles(@RequestBody User user){
+    @RequestMapping(value = "/save", method = RequestMethod.PUT)
+    public Result saveUserRoles(@RequestBody User user){
         if (user.getUserId() != 0) {
             User user1 = userService.findOne(user.getUserId());
             //获取project1里的taskIds

@@ -284,8 +284,8 @@ public class ProjectController {
 
 
     @ApiOperation(value = "更新项目2", notes = "更新项目2")
-    @PutMapping(value = "/update2")
-    public Result updateProject2(@RequestBody Project project){
+    @PutMapping(value = "/save")
+    public Result saveProject2(@RequestBody Project project){
         return  ResultUtil.success(projectService.save(project));
     }
 

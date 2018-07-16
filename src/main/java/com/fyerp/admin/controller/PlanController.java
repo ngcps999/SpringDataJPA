@@ -103,8 +103,8 @@ public class PlanController {
      * @return
      */
     @ApiOperation(value = "更新计划", notes = "根据计划的id来更新计划")
-    @PutMapping(value = "/update")
-    public Result updatePlan(@RequestBody Plan plan) {
+    @PutMapping(value = "/save")
+    public Result savePlan(@RequestBody Plan plan) {
         return ResultUtil.success(planService.save(plan));
 
     }

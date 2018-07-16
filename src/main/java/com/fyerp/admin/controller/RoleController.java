@@ -104,8 +104,8 @@ public class RoleController {
      * @return
      */
     @ApiOperation(value = "更新角色")
-    @RequestMapping(value = "/update", method = RequestMethod.PUT)
-    public Result updateRolePermissions(@RequestBody Role role) {
+    @RequestMapping(value = "/save", method = RequestMethod.PUT)
+    public Result saveRolePermissions(@RequestBody Role role) {
         if (role.getRoleId() != 0) {
             Role role1 = roleService.findOne(role.getRoleId());
             //获取project1里的taskIds

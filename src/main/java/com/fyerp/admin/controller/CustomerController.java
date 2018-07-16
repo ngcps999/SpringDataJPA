@@ -68,8 +68,8 @@ public class CustomerController {
      * @return
      */
     @ApiOperation(value = "更新客户", notes = "根据客户的id来更新客户信息")
-    @RequestMapping(value = "/update",method = RequestMethod.PUT)
-    public Result updateCustomer(@RequestBody Customer customer) {
+    @RequestMapping(value = "/save",method = RequestMethod.PUT)
+    public Result saveCustomer(@RequestBody Customer customer) {
         return ResultUtil.success(customerService.save(customer));
     }
 

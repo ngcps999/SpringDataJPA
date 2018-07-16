@@ -113,8 +113,8 @@ public class DepartmentController {
      * @return
      */
     @ApiOperation(value = "更新部门", notes = "根据部门的id来更新部门")
-    @PutMapping(value = "/update")
-    public Result updateDepartment(@RequestBody Department department) {
+    @PutMapping(value = "/save")
+    public Result saveDepartment(@RequestBody Department department) {
         return ResultUtil.success(departmentService.updateDepartment(department));
     }
 

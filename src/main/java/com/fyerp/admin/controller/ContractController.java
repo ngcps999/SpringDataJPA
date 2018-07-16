@@ -106,8 +106,8 @@ public class ContractController {
      * @return
      */
     @ApiOperation(value = "更新合同", notes = "根据合同的id来更新合同信息")
-    @RequestMapping(value = "/update",method = RequestMethod.PUT)
-    public Result updateProject(@RequestBody Contract contract) {
+    @RequestMapping(value = "/save",method = RequestMethod.PUT)
+    public Result saveProject(@RequestBody Contract contract) {
         return ResultUtil.success(contractService.save(contract));
     }
 

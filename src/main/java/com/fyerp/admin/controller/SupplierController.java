@@ -89,8 +89,8 @@ public class SupplierController {
 
 
     @ApiOperation(value = "更新供应商", notes = "根据id来更新供应商信息")
-    @RequestMapping(value = "/update", method = RequestMethod.PUT)
-    public Result updateSupplier(@RequestBody Supplier supplier) {
+    @RequestMapping(value = "/save", method = RequestMethod.PUT)
+    public Result saveSupplier(@RequestBody Supplier supplier) {
         return ResultUtil.success(SupplierServiceAdapter.getService(supplier.getSupplierType()).save(supplier));
     }
 

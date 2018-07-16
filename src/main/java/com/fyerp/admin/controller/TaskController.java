@@ -115,8 +115,8 @@ public class TaskController {
      * @return
      */
     @ApiOperation(value = "更新用户及其关联的角色", notes = "根据用户的id来更新用户")
-    @RequestMapping(value = "/update", method = RequestMethod.PUT)
-    public Result updateTaskPlans(@RequestBody Task task) {
+    @RequestMapping(value = "/save", method = RequestMethod.PUT)
+    public Result saveTaskPlans(@RequestBody Task task) {
         if (task.getTaskId() != 0) {
             Task task1 = taskService.findOne(task.getTaskId());
             //获取project1里的taskIds
