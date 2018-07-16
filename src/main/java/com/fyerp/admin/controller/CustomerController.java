@@ -79,8 +79,9 @@ public class CustomerController {
      */
     @ApiOperation(value = "删除客户", notes = "根据url的id来指定删除客户")
     @RequestMapping(value = "/delete",method = RequestMethod.DELETE)
-    public void deleteProject(@RequestParam("id") Integer customerId) {
+    public Result deleteProject(@RequestParam("id") Integer customerId) {
         customerService.delete(customerId);
+        return ResultUtil.success();
     }
 
 }
