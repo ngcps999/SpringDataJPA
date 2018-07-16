@@ -119,6 +119,9 @@ public class Task implements Serializable {
 
     private String airport;
 
+    @OneToMany(targetEntity = FileInfo.class,cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    private Set<FileInfo> files = new HashSet<>();
+
     public Task() {
     }
 }

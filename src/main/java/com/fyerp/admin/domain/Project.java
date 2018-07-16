@@ -29,6 +29,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.persistence.*;
+import java.io.File;
 import java.io.Serializable;
 import java.util.*;
 
@@ -231,6 +232,9 @@ public class Project implements Serializable {
     @JoinTable(name = "ProjectTask", joinColumns = {@JoinColumn(name = "projectId")}, inverseJoinColumns = {@JoinColumn(name = "taskId")})
     private Set<Task> tasks = new HashSet<>();
 
+    @OneToMany(targetEntity = FileInfo.class,cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    private Set<FileInfo> files = new HashSet<>();
+
     /**
      * 创建时间
      */
@@ -278,6 +282,7 @@ public class Project implements Serializable {
     @ManyToOne
     @JoinColumn(name = "quality_control_id")
     private QualityControl qualityControl;
+
 
 
     public void setTasks(Set<Task> tasks) {

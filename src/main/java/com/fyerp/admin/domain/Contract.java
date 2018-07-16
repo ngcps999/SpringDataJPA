@@ -25,7 +25,9 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 /**
  * 合同
@@ -80,7 +82,7 @@ public class Contract {
 
     @MyComment("总费用")
     @JsonProperty("totalAmount")
-    private String totalMoney;
+    private Double totalMoney;
 
     @MyComment("是否更改")
     @JsonProperty("isChanged")
@@ -120,5 +122,8 @@ public class Contract {
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @MyComment("更新时间")
     private Date updateTime;
+
+    @OneToMany(targetEntity = FileInfo.class,cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    private Set<FileInfo> files = new HashSet<>();
 
 }

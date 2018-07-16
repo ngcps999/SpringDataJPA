@@ -23,16 +23,15 @@ import java.io.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/upload")
+@RequestMapping("/file")
 @Api(value = "FileController", description = "文件上传下载Api")
 public class FileController {
     private static final Logger log = LoggerFactory.getLogger(FileController.class);
     @Value("${file.path}")
     String filePath;
-
-    @Value("${file.name}")
-    String fileName;// 文件名
-
+//
+//    @Value("${file.name}")
+//    String fileName;// 文件名
     String path;
 
     @Autowired
@@ -71,38 +70,39 @@ public class FileController {
         }
         return "上传失败";
     }
-
-    @PostMapping("/batch")
-    public String handleFileUpload(HttpServletRequest request) {
-        List<MultipartFile> files = ((MultipartHttpServletRequest) request).getFiles("file");
-        MultipartFile file = null;
-        BufferedOutputStream stream = null;
-        for (int i = 0; i < files.size(); ++i) {
-            file = files.get(i);
-//            String filePath = "/Users/xuda/Downloads/";
-            if (!file.isEmpty()) {
-                try {
-                    byte[] bytes = file.getBytes();
-                    stream = new BufferedOutputStream(new FileOutputStream(
-                            new File(filePath + file.getOriginalFilename())));//设置文件路径及名字
-                    stream.write(bytes);// 写入
-                    stream.close();
-                    fileInfoService.save(new FileInfo(filePath,file.getOriginalFilename()));
-                } catch (Exception e) {
-                    stream = null;
-                    return "第 " + i + " 个文件上传失败 ==> "
-                            + e.getMessage();
-                }
-            } else {
-                return "第 " + i
-                        + " 个文件上传失败因为文件为空";
-            }
-        }
-        return "上传成功";
-    }
+//
+//    @PostMapping("/batch")
+//    public String handleFileUpload(HttpServletRequest request) {
+//        List<MultipartFile> files = ((MultipartHttpServletRequest) request).getFiles("file");
+//        MultipartFile file = null;
+//        BufferedOutputStream stream = null;
+//        for (int i = 0; i < files.size(); ++i) {
+//            file = files.get(i);
+////            String filePath = "/Users/xuda/Downloads/";
+//            if (!file.isEmpty()) {
+//                try {
+//                    byte[] bytes = file.getBytes();
+//                    stream = new BufferedOutputStream(new FileOutputStream(
+//                            new File(filePath + file.getOriginalFilename())));//设置文件路径及名字
+//                    stream.write(bytes);// 写入
+//                    stream.close();
+//                    fileInfoService.save(new FileInfo(filePath,file.getOriginalFilename()));
+//                } catch (Exception e) {
+//                    stream = null;
+//                    return "第 " + i + " 个文件上传失败 ==> "
+//                            + e.getMessage();
+//                }
+//            } else {
+//                return "第 " + i
+//                        + " 个文件上传失败因为文件为空";
+//            }
+//        }
+//        return "上传成功";
+//    }
 
     @GetMapping("/download")
-    public String downloadFile(HttpServletRequest request, HttpServletResponse response) {
+    public String downloadFile(                               @RequestParam("fileName")String fileName,
+                               HttpServletResponse response) {
         if (fileName != null) {
             //设置文件路径
             File file = new File(filePath, fileName);

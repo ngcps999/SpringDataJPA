@@ -71,35 +71,8 @@ public class ContractController {
         logger.info("findOneDepartment");
         return ResultUtil.success(contractService.findOne(contractId));
     }
-    /**
-     * 上传合同文件
-     * @return
-     */
-    @ApiOperation(value = "上传合同文件", notes = "根据File上传合同")
-    @RequestMapping(value = "/add",method = RequestMethod.POST)
-    public Result addContract(@RequestParam("file") MultipartFile file,HttpServletRequest request) {
-        String contentType = file.getContentType();
-        String fileName = file.getOriginalFilename();
-        /*System.out.println("fileName-->" + fileName);
-        System.out.println("getContentType-->" + contentType);*/
-        String filePath = request.getSession().getServletContext().getRealPath("files/");
-        try {
-            FileUtil.uploadFile(file.getBytes(), filePath, fileName);
-        } catch (Exception e) {
-            // TODO: handle exception
-        }
-        //返回json
-        return ResultUtil.success("uploadimg success");
-    }
 
-    /**
-     * 下载合同
-     */
-    @ApiOperation(value = "下载合同", notes = "根据路径下载合同")
-    @GetMapping(value = "/download")
-    public void download(@RequestParam("合同id") String id) {
 
-    }
 
     /**
      * 更新一个合同
