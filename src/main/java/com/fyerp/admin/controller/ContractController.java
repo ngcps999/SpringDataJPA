@@ -90,8 +90,9 @@ public class ContractController {
      */
     @ApiOperation(value = "删除合同", notes = "根据url的id来指定删除合同")
     @RequestMapping(value = "/delete",method = RequestMethod.DELETE)
-    public void deleteProject(@RequestParam("id") Integer contractId) {
+    public Result deleteProject(@RequestParam("id") Integer contractId) {
         contractService.delete(contractId);
+        return ResultUtil.success();
     }
 
 }

@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class HelpController {
 
     @GetMapping("/getMeta")
-    @ApiOperation(value = "查询项目列表", notes = "查询项目列表(第几页，每页几条)")
     public Result getMetaByName(String type){
         Object result = GetJsonUtil.getJsonByClass(type);
         if(result == null){

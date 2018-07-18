@@ -127,7 +127,7 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public Department updateDepartment(Department department) {
         try {
-            if(department.getDepartmentId().intValue() != 0){
+            if(department.getDepartmentId() != null && department.getDepartmentId().intValue() != 0){
                 Department department1 = departmentRespository.findOne(department.getDepartmentId());
                 //处理task
                 Set<Task> department1Tasks = department1.getTasks();

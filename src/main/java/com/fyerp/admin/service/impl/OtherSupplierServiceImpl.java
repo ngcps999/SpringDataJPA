@@ -17,7 +17,7 @@ import java.util.List;
  * @Date:2018/7/12
  * @Time:9:51
  **/
-@Service
+@Service(value = "otherSupplierService")
 public class OtherSupplierServiceImpl implements OtherSupplierService {
 
     @Autowired

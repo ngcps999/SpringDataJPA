@@ -141,7 +141,8 @@ public class ProjectController {
             return ResultUtil.success(projectService.findAll(sort));
         } else {
             PageRequest request = new PageRequest(page - 1, size);
-            return ResultUtil.success(projectService.findAll(request).getContent());
+            List<Project> list = projectService.findAll(request).getContent();
+            return ResultUtil.success(list);
         }
 
     }

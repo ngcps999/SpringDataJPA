@@ -1,8 +1,8 @@
-package com.fyerp.admin.service;
+package com.fyerp.admin.controller;
 
-import com.fyerp.admin.domain.Customer;
 import com.fyerp.admin.domain.QualityControl;
 import com.fyerp.admin.domain.Result;
+import com.fyerp.admin.service.QualityControlService;
 import com.fyerp.admin.utils.ResultUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

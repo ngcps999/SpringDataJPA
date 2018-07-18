@@ -124,7 +124,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User save(User user) {
-        if(user.getUserId() != 0 && !StringUtils.isEmpty(user.getPassword())){
+        if(user != null && !StringUtils.isEmpty(user.getPassword())){
             user.setPassword(MD5Util.getMD5(user.getPassword()));
         }
 

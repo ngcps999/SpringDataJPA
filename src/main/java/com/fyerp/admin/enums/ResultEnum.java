@@ -33,7 +33,8 @@ public enum ResultEnum {
     DELETE_SUCCESS(30,"删除成功"),
     RESULT_FAILED(-1,"系统异常"),
     NEED_LOGIN(31,"请登录"),
-    UPLOAD_FAILED(32,"文件上传失败");
+    UPLOAD_FAILED(32,"文件上传失败"),
+    DOWNLOAD_FAILED(33,"文件下载失败");
 
     private Integer code;
     private String msg;

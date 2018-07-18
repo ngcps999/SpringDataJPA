@@ -1,9 +1,10 @@
 package com.fyerp.admin.controller;
 
-import com.fyerp.admin.domain.CameraSupplier;
-import com.fyerp.admin.domain.Customer;
-import com.fyerp.admin.domain.Result;
-import com.fyerp.admin.domain.Supplier;
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fyerp.admin.domain.*;
 import com.fyerp.admin.enums.ResultEnum;
 import com.fyerp.admin.service.AircraftLeaseSupplierService;
 import com.fyerp.admin.service.CameraSupplierService;
@@ -22,6 +23,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Map;
 
 /**
  * @author:xiasc
@@ -88,12 +91,34 @@ public class SupplierController {
     }
 
 
-    @ApiOperation(value = "更新供应商", notes = "根据id来更新供应商信息")
-    @RequestMapping(value = "/save", method = RequestMethod.PUT)
-    public Result saveSupplier(@RequestBody Supplier supplier) {
+//    @ApiOperation(value = "更新供应商", notes = "根据id来更新供应商信息")
+//    @RequestMapping(value = "/save", method = RequestMethod.PUT)
+//    public Result saveSupplier(@RequestBody Map supplier) throws JsonProcessingException {
+//        if(supplier.get("supplierType") != null && Integer.valueOf(supplier.get("supplierType").toString()) ==3){
+//            ObjectMapper om = new ObjectMapper();
+//            om.writeValueAsString(supplier);
+//            new ObjectMapper().readValue(supplier,OtherSupplier.class);
+//            return ResultUtil.success(SupplierServiceAdapter.getService(ot.getSupplierType()).save(ot));
+//        }
+//        return null;
+////        return ResultUtil.success(SupplierServiceAdapter.getService(ot.getSupplierType()).save(supplier));
+//    }
+
+
+    @RequestMapping(value = "/saveOtherSupplier", method = RequestMethod.PUT)
+    public Result saveOtherSupplier(@RequestBody OtherSupplier supplier){
         return ResultUtil.success(SupplierServiceAdapter.getService(supplier.getSupplierType()).save(supplier));
     }
 
+    @RequestMapping(value = "/saveAircraftSupplier", method = RequestMethod.PUT)
+    public Result saveAircraftSupplier(@RequestBody AircraftLeaseSupplier supplier){
+        return ResultUtil.success(SupplierServiceAdapter.getService(supplier.getSupplierType()).save(supplier));
+    }
+
+    @RequestMapping(value = "/saveCameraSupplier", method = RequestMethod.PUT)
+    public Result saveCameraSupplier(@RequestBody CameraSupplier supplier){
+        return ResultUtil.success(SupplierServiceAdapter.getService(supplier.getSupplierType()).save(supplier));
+    }
     /**
      * 删除供应商
      * @param supplierId

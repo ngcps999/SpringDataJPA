@@ -7,7 +7,10 @@
 package com.fyerp.admin.controller;
 
 import com.fyerp.admin.domain.FileInfo;
+import com.fyerp.admin.domain.Result;
+import com.fyerp.admin.enums.ResultEnum;
 import com.fyerp.admin.service.FileInfoService;
+import com.fyerp.admin.utils.ResultUtil;
 import io.swagger.annotations.Api;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,10 +42,10 @@ public class FileController {
 
 
     @PostMapping(value = "/upload")
-    public String upload(@RequestParam("file") MultipartFile file) {
+    public Result upload(@RequestParam("file") MultipartFile file) {
         try {
             if (file.isEmpty()) {
-                return "文件为空";
+                return ResultUtil.error(ResultEnum.PARAM_ERROR);
             }
             // 获取文件名
             String fileName = file.getOriginalFilename();
@@ -62,13 +65,13 @@ public class FileController {
             file.transferTo(dest);// 文件写入
             FileInfo fileInfo = new FileInfo(filePath,fileName);
             fileInfoService.save(fileInfo);
-            return "上传成功";
+            return ResultUtil.success(fileInfo);
         } catch (IllegalStateException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return "上传失败";
+        return ResultUtil.error(ResultEnum.PARAM_ERROR);
     }
 //
 //    @PostMapping("/batch")
@@ -101,7 +104,7 @@ public class FileController {
 //    }
 
     @GetMapping("/download")
-    public String downloadFile(                               @RequestParam("fileName")String fileName,
+    public Result downloadFile(                               @RequestParam("fileName")String fileName,
                                HttpServletResponse response) {
         if (fileName != null) {
             //设置文件路径
@@ -122,7 +125,7 @@ public class FileController {
                         i = bis.read(buffer);
                     }
                     log.info("路径："+file.getPath());
-                    return "下载成功";
+                    return ResultUtil.success();
                 } catch (Exception e) {
                     e.printStackTrace();
                 } finally {
@@ -143,6 +146,6 @@ public class FileController {
                 }
             }
         }
-        return "下载失败";
+        return ResultUtil.error(ResultEnum.DOWNLOAD_FAILED);
     }
 }

@@ -10,6 +10,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author:xiasc
@@ -36,9 +38,14 @@ public class QualityControl implements Serializable {
     @ApiModelProperty(allowableValues = "qualityControl")
     private String type = "qualityControl";
 
-    @MyComment("文件名")
-    private String fileName;
+//    @MyComment("文件名")
+//    private String fileName;
+//
+//    @MyComment("文件路径")
+//    private String filePath;
 
-    @MyComment("文件路径")
-    private String filePath;
+    @OneToMany(targetEntity = FileInfo.class,cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
+    private Set<FileInfo> files = new HashSet<>();
+
+
 }
