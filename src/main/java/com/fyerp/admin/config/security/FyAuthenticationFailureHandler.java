@@ -1,7 +1,9 @@
 package com.fyerp.admin.config.security;
 
 import com.alibaba.fastjson.JSONObject;
+import com.fyerp.admin.enums.ResultEnum;
 import com.fyerp.admin.utils.Constants;
+import com.fyerp.admin.utils.ResultUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.AuthenticationException;
@@ -21,6 +23,6 @@ public class FyAuthenticationFailureHandler implements AuthenticationFailureHand
     public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
         log.info(Constants.LOGIN_FAILURE);
         httpServletResponse.setContentType("application/json;charset=UTF-8");
-//        httpServletResponse.getWriter().write(JSONObject.toJSONString(httpServletResponse));
+        httpServletResponse.getWriter().write(JSONObject.toJSONString(ResultUtil.error(ResultEnum.LOGIN_FAILED)));
     }
 }

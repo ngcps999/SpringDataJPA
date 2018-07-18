@@ -7,17 +7,12 @@
 package com.fyerp.admin.controller;
 
 import com.fyerp.admin.domain.Result;
-import com.fyerp.admin.domain.SecurityUser;
-import com.fyerp.admin.enums.ResultEnum;
 import com.fyerp.admin.service.LoginService;
 import com.fyerp.admin.service.UserService;
 import com.fyerp.admin.utils.ResultUtil;
 import io.swagger.annotations.ApiOperation;
 import org.activiti.engine.impl.util.json.JSONObject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,8 +31,6 @@ public class LoginController {
 
     @Autowired
     private UserService userService;
-
-    private Logger logger = LoggerFactory.getLogger(LoginController.class);
 
 //    @GetMapping("/")
 //    @ApiImplicitParam(name = "username", value = "用户名", required = false, dataType = "String", paramType = "path")
@@ -121,26 +114,12 @@ public class LoginController {
 
     @GetMapping(value = "/unauth", produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public Result unauth() {
+    public Object unauth() {
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("code", "1000000");
         map.put("msg", "未登录");
-        return ResultUtil.error(ResultEnum.NEED_LOGIN);
-    }
-
-    @ApiOperation(value = "login", notes = "ajaxlogin")
-    @GetMapping(value = "/ajaxLogin", produces = "application/json;charset=UTF-8")
-    public Result ajaxLogin(@RequestParam(value = "username", required = false)String username,
-                            @RequestParam(value = "password", required = false)String password) {
-        SecurityUser user = (SecurityUser)SecurityContextHolder.getContext()
-                .getAuthentication().getPrincipal();
-        return ResultUtil.success(user.getUsername());
+        return map;
     }
 
 
-
-//    @GetMapping("connect")
-//    public String connected(){
-//        return "success !";
-//    }
 }
