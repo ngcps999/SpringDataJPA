@@ -144,6 +144,9 @@ public class RoleController {
             UpdateUtil.copyNullProperties(role1, save);
             return ResultUtil.success(save);
         }
+        if(role.getRoleId().longValue() == 0l){
+            return  ResultUtil.success(roleService.save(role));
+        }
         Result result = new Result("请传入Id");
         return result;
     }
