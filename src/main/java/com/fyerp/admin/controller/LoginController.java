@@ -7,12 +7,16 @@
 package com.fyerp.admin.controller;
 
 import com.fyerp.admin.domain.Result;
+import com.fyerp.admin.enums.ResultEnum;
 import com.fyerp.admin.service.LoginService;
 import com.fyerp.admin.service.UserService;
 import com.fyerp.admin.utils.ResultUtil;
 import io.swagger.annotations.ApiOperation;
 import org.activiti.engine.impl.util.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
@@ -114,11 +118,20 @@ public class LoginController {
 
     @GetMapping(value = "/unauth", produces = "application/json;charset=UTF-8")
     @ResponseBody
-    public Object unauth() {
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("code", "1000000");
-        map.put("msg", "未登录");
-        return map;
+    public Result unauth() {
+        return ResultUtil.error(ResultEnum.NEED_LOGIN);
+    }
+
+
+    @GetMapping(value="logout")
+    @ResponseBody
+    public Result logout(HttpServletRequest request,HttpServletResponse response) {
+
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+        return ResultUtil.success();
     }
 
 
