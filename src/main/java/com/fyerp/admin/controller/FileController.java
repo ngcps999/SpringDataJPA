@@ -57,7 +57,7 @@ public class FileController {
             fileName = this.getFileName(filePath,suffixName);
             // 设置文件存储路径
 //             = "/Users/xuda/Downloads/";
-            path = filePath + fileName;
+            path = filePath + fileName+suffixName;
             log.info("文件的路径为：" + path);
             File dest = new File(path);
             log.info(path+" 是否存在  "+dest.exists());
