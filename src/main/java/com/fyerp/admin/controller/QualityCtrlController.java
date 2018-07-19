@@ -67,7 +67,7 @@ public class QualityCtrlController {
      * @return
      */
     @ApiOperation(value = "更新质检信息", notes = "更新质检信息")
-    @RequestMapping(value = "/update",method = RequestMethod.PUT)
+    @PutMapping(value = "/update")
     public Result updateCustomer(@RequestBody QualityControl qualityControl) {
         return ResultUtil.success(qualityControlService.save(qualityControl));
     }
