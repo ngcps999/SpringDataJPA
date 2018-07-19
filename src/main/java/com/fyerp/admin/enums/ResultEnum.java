@@ -34,7 +34,8 @@ public enum ResultEnum {
     RESULT_FAILED(-1,"系统异常"),
     NEED_LOGIN(31,"请登录"),
     UPLOAD_FAILED(32,"文件上传失败"),
-    DOWNLOAD_FAILED(33,"文件下载失败");
+    DOWNLOAD_FAILED(33,"文件下载失败"),
+    USER_EXIST(34,"用户已存在");
 
     private Integer code;
     private String msg;

@@ -113,44 +113,7 @@ public class UserController {
     @ApiOperation(value = "更新用户及其关联的角色", notes = "根据用户的id来更新用户")
     @RequestMapping(value = "/save", method = RequestMethod.PUT)
     public Result saveUserRoles(@RequestBody User user){
-        if (user.getUserId() != 0) {
-            User user1 = userService.findOne(user.getUserId());
-            //获取project1里的taskIds
-            Set<Long> roleIds = new HashSet<>();
-            for (Role role : user1.getRoles()) {
-                Long roleId = role.getRoleId();
-                roleIds.add(roleId);
-            }
-            Set<Role> userRoles = user1.getRoles();
-            //根据taskIds查询task库里是否存在，如果不存在就绑定到project1里
-            //判断project1里是否包含task,有就继续，没有就添加
-            for (Role role : roleService.findAll(roleIds)) {
-                if (userRoles.contains(role)) {
-                    continue;
-                }
-                userRoles.add(role);
-
-            }
-
-            for (Role role : user.getRoles()) {
-                userRoles.add(roleService.save(role));
-            }
-
-            user.setRoles(new HashSet<>(userRoles));
-
-            User save = userService.save(user);
-            Set<Role> roles = save.getRoles();
-            Iterator<Role> iterator = roles.iterator();
-            while (iterator.hasNext()) {
-                Role role = iterator.next();
-                if (role.getStrategy() == 2) //strategy属性等于2时即删除task
-                    iterator.remove();
-            }
-            UpdateUtil.copyNullProperties(user1, save);
-            return ResultUtil.success(save);
-        }
-        Result result = new Result("请传入Id");
-        return result;
+        return ResultUtil.success(userService.saveUser(user));
     }
 
 //    /**

@@ -10,8 +10,10 @@ import com.fyerp.admin.domain.FileInfo;
 import com.fyerp.admin.domain.Result;
 import com.fyerp.admin.enums.ResultEnum;
 import com.fyerp.admin.service.FileInfoService;
+import com.fyerp.admin.utils.FileUtil;
 import com.fyerp.admin.utils.ResultUtil;
 import io.swagger.annotations.Api;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,21 +51,22 @@ public class FileController {
             }
             // 获取文件名
             String fileName = file.getOriginalFilename();
-            log.info("上传的文件名为：" + fileName);
             // 获取文件的后缀名
             String suffixName = fileName.substring(fileName.lastIndexOf("."));
             log.info("文件的后缀名为：" + suffixName);
+            fileName = this.getFileName(filePath,suffixName);
             // 设置文件存储路径
 //             = "/Users/xuda/Downloads/";
-            path = filePath + fileName;
+            path = filePath + fileName+suffixName;
             log.info("文件的路径为：" + path);
             File dest = new File(path);
+            log.info(path+" 是否存在  "+dest.exists());
             // 检测是否存在目录
             if (!dest.getParentFile().exists()) {
                 dest.getParentFile().mkdirs();// 新建文件夹
             }
             file.transferTo(dest);// 文件写入
-            FileInfo fileInfo = new FileInfo(filePath,fileName);
+            FileInfo fileInfo = new FileInfo(filePath,fileName+suffixName);
             fileInfoService.save(fileInfo);
             return ResultUtil.success(fileInfo);
         } catch (IllegalStateException e) {
@@ -104,11 +107,12 @@ public class FileController {
 //    }
 
     @GetMapping("/download")
-    public Result downloadFile(                               @RequestParam("fileName")String fileName,
+    public Result downloadFile(@RequestParam("path")String path,
+                               @RequestParam("fileName")String fileName,
                                HttpServletResponse response) {
         if (fileName != null) {
             //设置文件路径
-            File file = new File(filePath, fileName);
+            File file = new File(path, fileName);
             if (file.exists()) {
                 response.setContentType("application/force-download");// 设置强制下载不打开
                 response.addHeader("Content-Disposition", "attachment;fileName=" + fileName);// 设置文件名
@@ -148,4 +152,14 @@ public class FileController {
         }
         return ResultUtil.error(ResultEnum.DOWNLOAD_FAILED);
     }
+
+    private String getFileName(String path,String suffix){
+        String result = FileUtil.createFileName();
+        File file = new File(path+result+suffix);
+        if(file.exists()){
+            return getFileName(path,suffix);
+        }
+        return result;
+    }
+
 }
