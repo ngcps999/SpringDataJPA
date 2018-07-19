@@ -79,8 +79,9 @@ public class QualityCtrlController {
      */
     @ApiOperation(value = "删除质检信息", notes = "根据url的id来指定删除质检信息")
     @RequestMapping(value = "/delete",method = RequestMethod.DELETE)
-    public void deleteProject(@RequestParam("id") Integer qualityControlId) {
+    public Result deleteProject(@RequestParam("id") Integer qualityControlId) {
         qualityControlService.delete(qualityControlId);
+        return ResultUtil.success();
     }
 
 }
