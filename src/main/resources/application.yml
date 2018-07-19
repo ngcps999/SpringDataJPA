@@ -61,7 +61,7 @@ server:
 
 #文件上传路径
 file:
-  path: /Users/xuda/Downloads/
+  path: /data/tomcat/files/
   name: xxx.docx
 
 
