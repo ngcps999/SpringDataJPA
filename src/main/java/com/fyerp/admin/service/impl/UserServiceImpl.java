@@ -10,11 +10,17 @@
 
 package com.fyerp.admin.service.impl;
 
+import com.fyerp.admin.domain.Permission;
+import com.fyerp.admin.domain.Role;
+import com.fyerp.admin.domain.Task;
 import com.fyerp.admin.domain.User;
 import com.fyerp.admin.domain.dto.UserDTO;
+import com.fyerp.admin.enums.ResultEnum;
+import com.fyerp.admin.exception.UserException;
 import com.fyerp.admin.respository.UserRepository;
 import com.fyerp.admin.service.UserService;
 import com.fyerp.admin.utils.BeanUtils;
+import com.fyerp.admin.utils.Constants;
 import com.fyerp.admin.utils.MD5Util;
 import com.fyerp.admin.utils.convert.User2UserDTOConverter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,8 +31,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * @Author: xuda
@@ -125,9 +130,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public User save(User user) {
         if(user != null && !StringUtils.isEmpty(user.getPassword())){
-            user.setPassword(MD5Util.getMD5(user.getPassword()));
+            user.setPassword(MD5Util.securityPwd(user.getPassword()));
         }
-
+        if(user.getUserId() == null || user.getUserId().longValue() == 0L){
+            if(this.findByUsername(user.getUsername()) != null){
+                throw new UserException(ResultEnum.USER_EXIST);
+            }
+        }
         User save = userRepository.save(user);
         save.setPassword("");
         return save;
@@ -145,7 +154,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findUserByNameAndPwd(String userName, String password) {
-        List<BigInteger> ids = userRepository.findUserIdsByNameAndPwd(userName,MD5Util.getMD5(password));
+        List<BigInteger> ids = userRepository.findUserIdsByNameAndPwd(userName,MD5Util.securityPwd(password));
         if(ids != null && ids.size() > 0){
             return userRepository.findOne(ids.get(0).longValue());
         }
@@ -155,6 +164,108 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<Long> findDepartmentByUser(Long userId) {
         return userRepository.findDepartmentIdsByUser(userId);
+    }
+
+    @Override
+    public User saveUser(User user) {
+        try {
+            if(user.getUserId() != null && user.getUserId().intValue() > 0){
+                //更新
+                /*先将整个project整理出来，再整体入库*/
+                User user1 = userRepository.findOne(user.getUserId());
+//                1)整理task
+                Set<Role> userRoles = user1.getRoles();
+                if(user.getRoles() != null){
+                    //迭代传入参数中的task.如果不同则放入要更新对象中
+                    Set<Role> newRoles = new HashSet<>();
+                    for(Role role : user.getRoles()){
+                        //比较原先task与当前task的id，如果不同，插入
+                        boolean isInsert = true;
+                        Iterator<Role> roleIterator = userRoles.iterator();
+                        while (roleIterator.hasNext()){
+                            Role oldRole = roleIterator.next();
+                            if(oldRole.getRoleId().intValue() == role.getRoleId().intValue()){
+                                isInsert = false;
+                                roleIterator.remove();
+                                Role newRole = role;
+                                //对修改的和原先的两个task处理合并成一个,需要合并子对象plan
+                                if(newRole.getPermissions() != null){
+                                    Set<Permission> newPermissions = new HashSet<>();
+                                    for(Permission newPermission : newRole.getPermissions()){
+                                        Iterator<Permission> permissionIterator = oldRole.getPermissions().iterator();
+                                        boolean insertPlan = true;
+                                        while (permissionIterator.hasNext()){
+                                            Permission oldPermission = permissionIterator.next();
+                                            if(newPermission.getPermissionId().longValue() == oldPermission.getPermissionId().longValue()){
+                                                insertPlan = false;
+                                                permissionIterator.remove();
+                                                //替换
+                                                newPermissions.add(newPermission);
+
+                                                break;
+                                            }
+                                        }
+                                        if(insertPlan){
+                                            newPermissions.add(newPermission);
+                                        }
+                                    }
+                                    oldRole.getPermissions().addAll(newPermissions);
+                                    newRole.setPermissions(oldRole.getPermissions());
+                                }else{
+                                    newRole.setPermissions(oldRole.getPermissions());
+                                }
+                                newRoles.add(newRole);
+                                break;
+                            }
+                        }
+                        if(isInsert){
+                            if(role.getPermissions() != null){
+                                for(Permission permission : role.getPermissions()){
+                                    if(permission.getPermissionId().longValue() != 0L){
+                                        //新增task时，task中不允许带有已存在的plan
+                                        throw new UserException(ResultEnum.PARAM_ERROR);
+                                    }
+                                }
+                            }
+                            role.setCreateTime(new Date());
+                            newRoles.add(role);
+                        }
+                    }
+                    userRoles.addAll(newRoles);
+                }
+                user.setRoles(userRoles);
+
+                User save = userRepository.save(user);
+
+
+                //处理以删除元素不返回，strategy参数为2就是删除
+                if(save.getStrategy().intValue() == Constants.STRATEGY_DELETE){
+                    return null;
+                }else{
+                    Set<Role> roleSet = new LinkedHashSet<>();
+                    for(Role role : save.getRoles()){
+                        if(role.getStrategy().intValue() != Constants.STRATEGY_DELETE){
+                            Set<Permission> permissionSet = new LinkedHashSet<>();
+                            for(Permission permission : role.getPermissions()){
+                                if(permission.getStrategy() != Constants.STRATEGY_DELETE){
+                                    permissionSet.add(permission);
+                                }
+                            }
+                            role.setPermissions(permissionSet);
+                            roleSet.add(role);
+                        }
+                    }
+                    save.setRoles(roleSet);
+                }
+                save.setPassword("");
+                return save;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        User save = userRepository.save(user);
+        save.setPassword("");
+        return save;
     }
 
 }

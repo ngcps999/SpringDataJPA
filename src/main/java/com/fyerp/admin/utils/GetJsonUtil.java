@@ -49,7 +49,7 @@ public class GetJsonUtil {
         Class t2 = t.getSuperclass();
         List<MetaDataObj> list1 = getProperties(fields);
         List<MetaDataObj> list2 = new ArrayList<>();
-        if(t2 != null){
+        if(t2 != null && !"java.lang.Object".equals(t2.getName())){
             list2 = getProperties(t2.getDeclaredFields());
             list2.addAll(list1);
             list1 = list2;

@@ -78,4 +78,5 @@ public interface UserService {
 
 	List<Long> findDepartmentByUser(Long userId);
 
+	User saveUser(User user);
 }

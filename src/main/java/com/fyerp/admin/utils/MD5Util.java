@@ -1,5 +1,7 @@
 package com.fyerp.admin.utils;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
 import java.security.MessageDigest;
 
 public class MD5Util {
@@ -31,5 +33,10 @@ public class MD5Util {
             hexStr.append(Integer.toHexString(num));
         }
         return hexStr.toString().toUpperCase();
+    }
+
+    public static String securityPwd(String password){
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        return encoder.encode(password);
     }
 }
