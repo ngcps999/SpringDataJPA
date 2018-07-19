@@ -66,7 +66,7 @@ public class FileController {
                 dest.getParentFile().mkdirs();// 新建文件夹
             }
             file.transferTo(dest);// 文件写入
-            FileInfo fileInfo = new FileInfo(filePath,fileName);
+            FileInfo fileInfo = new FileInfo(filePath,fileName+suffixName);
             fileInfoService.save(fileInfo);
             return ResultUtil.success(fileInfo);
         } catch (IllegalStateException e) {
