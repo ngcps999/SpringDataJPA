@@ -7,6 +7,7 @@
 package com.fyerp.admin.utils;
 
 import com.fyerp.admin.domain.FileInfo;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,7 +18,10 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 public class FileUtil {
 
@@ -103,4 +107,21 @@ public class FileUtil {
         }
         return Constants.SUCCESS;
     }
+
+
+    public static String createFileName(){
+        SimpleDateFormat simpleDateFormat;
+
+        simpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
+
+        Date date = new Date();
+
+        String str = simpleDateFormat.format(date);
+
+        String rdm = RandomStringUtils.randomNumeric(3);
+
+        return str+rdm;
+    }
+
+
 }
