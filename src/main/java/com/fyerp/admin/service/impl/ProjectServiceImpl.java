@@ -133,10 +133,12 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public Project save(Project project) {
         try {
+
             if(project.getProjectId() != null && project.getProjectId().intValue() > 0){
                 //更新
                 /*先将整个project整理出来，再整体入库*/
                 Project project1 = respository.findOne(project.getProjectId());
+
 //                1)整理task
                 Set<Task> project1Task = project1.getTasks();
                 if(project.getTasks() != null){

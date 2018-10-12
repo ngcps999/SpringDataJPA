@@ -52,7 +52,7 @@ public class CustomerController {
     }
 
     /**
-     * 查询单个合同
+     * 查询单个客户
      * @return
      */
     @ApiOperation(value = "查询单个客户", notes = "查询单个客户")
@@ -64,7 +64,7 @@ public class CustomerController {
 
 
     /**
-     * 更新一个合同
+     * 更新一个客户
      * @return
      */
     @ApiOperation(value = "更新客户", notes = "根据客户的id来更新客户信息")
@@ -74,7 +74,7 @@ public class CustomerController {
     }
 
     /**
-     * 删除合同
+     * 删除客户
      * @param customerId
      */
     @ApiOperation(value = "删除客户", notes = "根据url的id来指定删除客户")

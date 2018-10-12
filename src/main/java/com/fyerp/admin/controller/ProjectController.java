@@ -53,8 +53,10 @@ import static org.activiti.engine.impl.event.logger.handler.Fields.PRIORITY;
 @Scope("prototype")
 public class ProjectController {
 
-    private final static Logger logger = LoggerFactory.getLogger(ProjectController.class);
 
+
+    private final static Logger logger = LoggerFactory.getLogger(ProjectController.class);
+    
     @Autowired
     private ProjectService projectService;
 

@@ -60,5 +60,6 @@ public class ContractServiceImpl implements ContractService {
         files.removeAll(files);
 
         contractRespository.delete(contractId);
+
     }
 }
